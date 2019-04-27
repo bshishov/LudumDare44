@@ -1,14 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-[SerializeField]
+[ExecuteInEditMode]
 public class CameraController : MonoBehaviour
 {
     public Transform target;
     public Vector3 lookAtOffset = Vector3.zero;
 
     public Vector3 offset = new Vector3(0, 10, - 20);
-    public Quaternion rotation;
 
     private PlayerController playerController;
 
