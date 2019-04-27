@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Data
 {
     [CreateAssetMenu(fileName = "Spell", menuName = "Mechanics/Spell")]
+    [Serializable]
     public class Spell : ScriptableObject
     {
         public string Name;
@@ -18,6 +18,7 @@ namespace Assets.Scripts.Data
         public float Cooldown;
 
         [Header("Buffs")]
+        [SerializeField]
         public Buff[] Buffs;
 
         // TODO: set later
