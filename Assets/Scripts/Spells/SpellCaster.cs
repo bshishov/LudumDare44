@@ -81,11 +81,11 @@ public class SpellCaster : MonoBehaviour
 
             case SpellTypes.Projectile:
             {
-                var maxDist = MaxSpellDistance;
+                float maxDist = MaxSpellDistance;
                 var ray = new Ray(_owner.transform.position, target.transform.position);
 
                 CharacterParams hitTarget = null;
-                foreach(var t in availibleTargets)
+                foreach (var t in availibleTargets)
                 {
                     var collider = t.GetComponent<Collider>();
                     if (collider == null)
@@ -140,11 +140,17 @@ public class SpellCaster : MonoBehaviour
             switch (area.Area)
             {
                 case AreaOfEffect.AreaType.Conus:
-                    break;
+                    var direction = position - _owner.transform.position;
+                    return characters.Where(t => Vector3.Angle(direction, (t.transform.position - _owner.transform.position)) < area.Size).ToArray();
+
                 case AreaOfEffect.AreaType.Sphere:
-                    break;
+                    return characters.Where(t => ((t.transform.position - position).magnitude < area.Size)).ToArray();
+
                 case AreaOfEffect.AreaType.Cylinder:
-                    break;
+                    var ray = new Ray(_owner.transform.position, position);
+                    return characters.Where(t => Vector3.Cross(ray.direction, t.transform.position - ray.origin)
+                        .magnitude < area.Size).ToArray();
+
                 default:
                     Debug.LogAssertion($"Unhandled AreaType {area.Area}");
                     break;
