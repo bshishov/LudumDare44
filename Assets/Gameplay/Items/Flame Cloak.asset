@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0306bcbca93430d46a2c6857746f9c76, type: 3}
-  m_Name: '!MeatSteak'
+  m_Name: Flame Cloak
   m_EditorClassIdentifier: 
-  Name: Meat steak
-  Cost: 0
+  Name: Flame Cloak
+  Cost: 20
   Buffs:
-  - {fileID: 11400000, guid: 8622aadd5423dbf49b5e58665641ec66, type: 2}
+  - {fileID: 11400000, guid: 97060b16eb90ce74a906cf555140bbb9, type: 2}

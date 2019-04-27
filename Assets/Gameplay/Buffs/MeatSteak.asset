@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3303e6a0239599a42a240593fc7c9ead, type: 3}
   m_Name: '!MeatSteak'
   m_EditorClassIdentifier: 
-  Name: 
-  ChangedProperty: 0
+  Name: MeatSteak(Size)
+  ChangedProperty: 7
   Addition: 0
-  Multiplier: 0
+  Multiplier: 1.05
   Radius: 0
   PerSecond: 0
-  Permanent: 0
-  Duration: 0
+  Permanent: 1
+  Duration: 1
   VisualEffect: {fileID: 0}

@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3303e6a0239599a42a240593fc7c9ead, type: 3}
-  m_Name: '!Flame_Aura'
+  m_Name: MeatSteak(Health)
   m_EditorClassIdentifier: 
-  Name: Flame_Aura
-  ChangedProperty: 8
-  Addition: 5
-  Multiplier: 0
-  Radius: 2
-  PerSecond: 1
+  Name: MeatSteak(Health)
+  ChangedProperty: 0
+  Addition: 0
+  Multiplier: 1.1
+  Radius: 0
+  PerSecond: 0
   Permanent: 1
   Duration: 1
   VisualEffect: {fileID: 0}
