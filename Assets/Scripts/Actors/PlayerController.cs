@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDirection = new Vector3();
 
     private Plane _ground;
+    private NavMeshAgent _agent;
 
     // Use this for initialization
     void Awake()
@@ -18,6 +20,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _ground = new Plane(Vector3.up, Vector3.zero);
+        _agent = GetComponent<NavMeshAgent>();
+        _agent.updateRotation = false;
     }
 
     void GetInput()
@@ -36,7 +40,10 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        transform.position += moveDirection.normalized * maxSpeed * Time.deltaTime;
+        var motionVector = moveDirection.normalized * maxSpeed * Time.deltaTime;
+
+        _agent.Move(motionVector);
+        _agent.SetDestination(transform.position + motionVector);
     }
 
     private void LookAt()
@@ -44,8 +51,12 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (_ground.Raycast(ray, out var enter))
         {
-            Vector3 hitPoint = ray.GetPoint(enter);
+            var hitPoint = ray.GetPoint(enter);
             transform.LookAt(hitPoint);
+
+            var q = transform.rotation;
+            q.eulerAngles = new Vector3(0, q.eulerAngles.y, q.eulerAngles.z);
+            transform.rotation = q;
         }
     }
 }
