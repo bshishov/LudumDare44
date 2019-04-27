@@ -16,11 +16,22 @@ namespace Assets.Scripts.Data
             Status
         };
 
+        [Serializable]
+        [Flags]
+        public enum SpellTargets : int
+        {
+            Self = 1 << 1,
+            Friend = 1 << 2,
+            Enemy = 1 << 3
+        };
+
         public string Name;       
 
         [Header("Characterisics")]
         [EnumMask]
         public SpellTypes SpellType;
+        [EnumFlag]
+        public SpellTargets SpellTargets;
         public float Damage = 1;
         public float AoeRadius = 0f;
         public int BloodCost = 0;
