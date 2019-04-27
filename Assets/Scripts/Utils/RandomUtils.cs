@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Utils
@@ -33,7 +34,7 @@ namespace Assets.Scripts.Utils
 
                 upTo += weights[i];
             }
-
+            
             return default(T);
         }
     }
