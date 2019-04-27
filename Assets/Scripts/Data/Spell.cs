@@ -17,6 +17,8 @@ namespace Assets.Scripts.Data
         public int BloodBack = 0;
         public float Cooldown;
 
+        public AreaOfEffect Area;
+
         [Header("Buffs")]
         [SerializeField]
         public Buff[] Buffs;

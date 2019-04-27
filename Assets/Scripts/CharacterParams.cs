@@ -6,18 +6,28 @@ using System.Linq;
 
 public class CharacterParams : MonoBehaviour
 {
+    public enum Team : int
+    {
+        Undefined = 0,
+        Player,
+        Enemies,
+        AgainstTheWorld
+    }
     public CharacterConfig character;
-    private float Health;    
-    private float Speed;
 
-    public float Damage;
-    private float DropRate;
-    private Spell[] DropSpells;
-    private Spell[] UseSpells;
+    [EnumMask]
+    public Team CurrentTeam = Team.Undefined;
+
+    public float Health { get; private set; }
+    public float Speed { get; private set; }
+
+
+    public float Damage { get; private set; }
+    public float DropRate { get; private set; }
+    public Spell[] DropSpells { get; private set; }
+    public Spell[] UseSpells { get; private set; }
 
     private Dictionary<Buff, float> BuffsOn;
-  
-
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +37,9 @@ public class CharacterParams : MonoBehaviour
         Damage = character.Damage;
         DropRate = character.DropRate;
         UseSpells = character.UseSpells;
+
+        if (CurrentTeam == Team.Undefined)
+            Debug.LogError("Teamm not setted!", this);
     }
 
     // Update is called once per frame
