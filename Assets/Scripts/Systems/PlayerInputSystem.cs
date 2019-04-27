@@ -5,7 +5,8 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
-public class InputSystem : JobComponentSystem
+[UpdateBefore(typeof(InputSystem))]
+public class PlayerInputSystem : JobComponentSystem
 {
     [BurstCompile]
     struct PlayerInputJob : IJobForEach<InputComponent, Translation>
