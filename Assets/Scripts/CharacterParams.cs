@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Data;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 public class CharacterParams : MonoBehaviour
 {
@@ -56,6 +57,10 @@ public class CharacterParams : MonoBehaviour
     {
         if (Health <= 0)
         {
+            if ((DropSpells.Count) > 0){                
+                Spell DroppedSpell = DropSpells[Mathf.FloorToInt(Random.value*DropSpells.Count)];      
+                // TODO: Drop spell
+            }
             Debug.Log("GG");
         }
     }
