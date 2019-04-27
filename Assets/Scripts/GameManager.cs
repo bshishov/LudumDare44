@@ -3,7 +3,6 @@ using UnityEngine;
 using Assets.Scripts.Utils;
 using Assets.Scripts.Utils.Debugger;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 
 namespace Assets.Scripts
 {

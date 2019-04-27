@@ -57,7 +57,7 @@ namespace Assets.Scripts.Data
 
         public bool CanSpawn(int level, ChunkType cType, float budgetRemaining)
         {
-            return budgetRemaining > BudgetConsume &&
+            return budgetRemaining >= BudgetConsume &&
                    cType == ChunkType && 
                    MatchesLevelCriteria(level);
         }

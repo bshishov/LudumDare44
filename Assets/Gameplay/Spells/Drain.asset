@@ -9,12 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
-  m_Name: Player
+  m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
+  m_Name: Drain
   m_EditorClassIdentifier: 
-  Health: 0
-  Damage: 0
-  Speed: 0
-  DropRate: 0
-  DropSpells: []
-  UseSpells: []
+  Name: 
+  SpellType: 0
+  Damage: 5
+  AoeRadius: 0
+  BloodCost: 10
+  BloodBack: 0
+  Cooldown: 3
+  Buffs: []
+  VisualEffect: {fileID: 0}
