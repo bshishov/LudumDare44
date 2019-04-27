@@ -22,5 +22,4 @@ MonoBehaviour:
     SpawnWeightPerLevel: 1
     ChunkType: 0
     BudgetConsume: 10
-    Prefab: {fileID: 7227298630346840165, guid: e3a826dc25e616643a08880b72da67ce,
-      type: 3}
+    Prefab: {fileID: 224904891531072623, guid: 573d271db33f6fd4aa4968f47a461e8e, type: 3}

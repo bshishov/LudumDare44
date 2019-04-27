@@ -72,7 +72,7 @@ namespace Assets.Scripts
                 return;
             }
 
-            var chunk = GameObject.Instantiate(chunkData.Prefab).GetComponent<MapChunk>();
+            var chunk = Instantiate(chunkData.Prefab).GetComponent<MapChunk>();
             if (chunk == null)
             {
                 Debug.LogWarning("Failed to instantiate next chunk");

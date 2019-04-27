@@ -88,12 +88,12 @@ namespace Assets.Scripts
             Gizmos.DrawLine(o, f);
         }
 
-        public void Spawn(GameObject enemy)
+        public void Spawn(GameObject enemyPrefab)
         {
             var offset = new Vector3(Random.value * 2f, 0, Random.value * 2f);
 
             // Todo: Modify spawn
-            GameObject.Instantiate(enemy, transform.position + offset, Quaternion.identity);
+            var enemy = Instantiate(enemyPrefab, transform.position + offset, Quaternion.identity);
         }
     }
 }
