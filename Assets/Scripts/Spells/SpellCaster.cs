@@ -153,7 +153,11 @@ public class SpellCaster : MonoBehaviour
         return null;
     }
 
-    private void ApplaySpell(Spell spell, CharacterParams[] availibleTargets) => Debug.Log("Applied spell");
+    private void ApplaySpell(Spell spell, CharacterParams[] availibleTargets)
+    {
+        foreach (var target in availibleTargets)
+            target.ApplaySpell(_owner, spell);
+    }
 
     private static CharacterParams[] GetAllCharacters()
     {

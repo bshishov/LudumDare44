@@ -4,6 +4,7 @@ using UnityEngine;
 using Assets.Scripts.Data;
 using System.Linq;
 using Random = UnityEngine.Random;
+using System;
 
 public class CharacterParams : MonoBehaviour
 {
@@ -87,6 +88,9 @@ public class CharacterParams : MonoBehaviour
             }
         }
     }
+    
+    //TODO: @artemy implement me
+    internal void ApplaySpell(CharacterParams owner, Spell spell) => throw new NotImplementedException();
 
     void CastBuff(Buff buff)
     {
