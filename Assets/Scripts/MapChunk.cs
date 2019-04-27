@@ -1,46 +1,27 @@
 ﻿using System;
 using Assets.Scripts.Utils;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts
 {
     public class MapChunk : MonoBehaviour
     {
         [Serializable]
-        public class EnemySpawnSettings
+        public class EnemySpawner
         {
             public Vector3 Position;
-            // More data will be here
-        }
-
-        [Serializable]
-        public class AdjacentChunkSettings
-        {
-            public GameObject Prefab;
-            public float Weight = 1f;
+            public float Radius;
         }
 
         public Bounds LocalSpaceBounds;
-        public EnemySpawnSettings[] EnemySpawns;
+        public EnemySpawner[] EnemySpawns;
         public Transform Entry;
         public Transform Exit;
-        public AdjacentChunkSettings[] AdjacentChunks;
         public bool DrawGizmos;
 
         public Vector3 WorldEntryLocation => Entry.position;
         public Vector3 WorldExitLocation => Exit.position;
-
-        public bool HasAdjacent
-        {
-            get
-            {
-                if (AdjacentChunks == null)
-                    return false;
-                if (AdjacentChunks.Length == 0)
-                    return false;
-                return true;
-            }
-        }
 
         void Start()
         {
@@ -55,46 +36,17 @@ namespace Assets.Scripts
                 LocalSpaceBounds.Encapsulate(r.bounds);
             }
         }
-
-        [ContextMenu("Spawn next chunk")]
-        public MapChunk SpawnNext()
-        {
-            if (AdjacentChunks == null)
-            {
-                Debug.LogWarning("Trying to generate next chunk, but there are no adjacent chunks set");
-                return null;
-            }
-            
-            var chunkSettings = RandomUtils.Choice(AdjacentChunks, c => c.Weight);
-            if (chunkSettings == null)
-            {
-                Debug.LogWarning("Undefined randomly selected chunk");
-                return null;
-            }
-
-            var chunk = Instantiate(chunkSettings.Prefab).GetComponent<MapChunk>();
-            if (chunk == null)
-            {
-                Debug.LogWarning("Failed to instantiate next chunk");
-                return null;
-            }
-
-            //chunk.name = $"Chunk: {chunkSettings.Prefab.name}";
-            chunk.name = "[Generated] Chunk";
-
-            // Move to match entry and exit
-            var offset = WorldExitLocation - chunk.WorldEntryLocation;
-            chunk.transform.position += offset;
-
-            return chunk;
-        }
-
+       
         void OnDrawGizmos()
         {
             if(!DrawGizmos)
                 return;
 
+            Gizmos.color = Color.red;
+            DrawGizmosTransform(Entry);
+
             Gizmos.color = Color.cyan;
+            DrawGizmosTransform(Exit);
 
             // Enemy spawns
             Gizmos.color = Color.red;
@@ -110,6 +62,29 @@ namespace Assets.Scripts
             // Todo: figure out local transformation (scale and rotation of BB)
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(transform.TransformPoint(LocalSpaceBounds.center), LocalSpaceBounds.size);
+        }
+
+        void DrawGizmosTransform(Transform t)
+        {
+            if(t == null)
+                return;
+
+            var o = t.position;
+            var f = o + t.forward * 2f;
+            var r = o + t.right;
+            var l = o - t.right;
+
+            Gizmos.DrawSphere(o, 0.2f);
+            Gizmos.DrawLine(l, r);
+            Gizmos.DrawLine(o, f);
+        }
+
+        public void Spawn(GameObject enemyPrefab)
+        {
+            var offset = new Vector3(Random.value * 2f, 0, Random.value * 2f);
+
+            // Todo: Modify spawn
+            var enemy = Instantiate(enemyPrefab, transform.position + offset, Quaternion.identity);
         }
     }
 }
