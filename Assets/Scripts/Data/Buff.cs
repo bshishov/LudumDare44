@@ -9,7 +9,7 @@ namespace Assets.Scripts.Data
     {
         [Header("Meta")]
         public string Name;        
-        public enum ChangedProperties { Speed, Damage, Power, HealthRegen, HealthCap, Evasion, InventoryBuff }
+        public enum ChangedProperties { Speed, Damage, Power, HealthRegen, HealthCap, Evasion, InventoryBuff, Size, Aura }
 
         [Header("Effect")]
         public ChangedProperties ChangedProperty;

@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Data;
+using UnityEngine;
 using Assets.Scripts.Utils;
+using Assets.Scripts.Utils.Debugger;
 using UnityEngine.AI;
 
 namespace Assets.Scripts
@@ -7,29 +9,39 @@ namespace Assets.Scripts
     [RequireComponent(typeof(NavMeshSurface))]
     public class GameManager : Singleton<GameManager>
     {
-        public MapChunk StartChunk;
+        public float CurrentLevelBudget => Level * BudgetPerLevel;
+
+        public MapChunkData StartChunk;
         public bool AutoSpawnChunks = true;
+        public float BudgetPerLevel = 100;
+        public int Level = 1;
 
         private MapChunk _lastChunk;
+        private MapChunkData _lastChunkData;
         private NavMeshSurface _surface;
         private GameObject _player;
+        private int _chunksSpawned = 0;
+        
+        void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
         void Start()
         {
-            if (StartChunk == null)
-            {
-                StartChunk = FindObjectOfType<MapChunk>();
-            }
-
-            _lastChunk = StartChunk;
             _surface = GetComponent<NavMeshSurface>();
-            _surface.BuildNavMesh();
             _player = GameObject.FindGameObjectWithTag(Tags.Player);
+
+            SpawnNextChunk();
         }
         
         void Update()
         {
-            if (AutoSpawnChunks && _player != null && _lastChunk != null && _lastChunk.HasAdjacent)
+            if (AutoSpawnChunks && 
+                _player != null && 
+                _lastChunk != null &&
+                _lastChunkData != null &&
+                _lastChunkData.HasAdjacent)
             {
                 var distanceToExit = Vector3.Distance(_lastChunk.Exit.position, _player.transform.position);
                 if (distanceToExit < 20f)
@@ -42,10 +54,65 @@ namespace Assets.Scripts
         [ContextMenu("Spawn Next Chunk")]
         public void SpawnNextChunk()
         {
+            if (_lastChunkData != null)
+            {
+                SpawnNextChunk(RandomUtils.Choice(_lastChunkData.Adjacent, cd => cd.Weight).Chunk);
+            }
+            else
+            {
+                SpawnNextChunk(StartChunk);
+            }
+        }
+
+        public void SpawnNextChunk(MapChunkData chunkData)
+        {
+            if (chunkData == null)
+            {
+                Debug.LogWarningFormat("Chunk is null");
+                return;
+            }
+
+            var chunk = Instantiate(chunkData.Prefab).GetComponent<MapChunk>();
+            if (chunk == null)
+            {
+                Debug.LogWarning("Failed to instantiate next chunk");
+                return;
+            }
+            
+            chunk.name = $"Chunk_{_chunksSpawned}";
+
             if (_lastChunk != null)
             {
-                _lastChunk = _lastChunk.SpawnNext();
-                _surface.BuildNavMesh();
+                var offset = _lastChunk.WorldExitLocation - chunk.WorldEntryLocation;
+                chunk.transform.position += offset;
+            }
+            
+            _lastChunk = chunk;
+            _lastChunkData = chunkData;
+            Debugger.Default.Display("Last chunk position", _lastChunk.transform.position.ToString());
+
+            _surface.BuildNavMesh();
+
+            SpawnEnemies(_lastChunkData, _lastChunk);
+            _chunksSpawned += 1;
+        }
+
+        void SpawnEnemies(MapChunkData chunkData, MapChunk chunk)
+        {
+            var budget = CurrentLevelBudget;
+            if (chunkData.Enemies != null)
+            {
+                while (budget > 0)
+                {
+                    var enemy = chunkData.Enemies.Sample(Level, chunkData.Type, budget);
+                    if (enemy == null)
+                    {
+                        Debug.LogWarning("Cant spawn more enemies");
+                        break;
+                    }
+                    chunk.Spawn(enemy.Prefab);
+                    budget -= enemy.BudgetConsume;
+                }
             }
         }
 

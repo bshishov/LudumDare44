@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0306bcbca93430d46a2c6857746f9c76, type: 3}
+  m_Name: Suspicious juice
+  m_EditorClassIdentifier: 
+  Name: Suspicious juice
+  Cost: 20
+  Buffs:
+  - {fileID: 11400000, guid: becfb68aee4562b4a91cdf4feb2e1868, type: 2}
