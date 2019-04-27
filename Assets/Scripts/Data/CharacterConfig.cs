@@ -9,15 +9,17 @@ namespace Assets.Scripts.Data
     {
         public float Health;
         public float Damage;
-        public float Speed;    
+        public float Speed;
+        public float Evasion = 0f;
+        public float Size = 1f;
 
         [Header("Drop Info")]
         public float DropRate;
         [SerializeField]
-        public Spell[] DropSpells;
+        public List<Spell> DropSpells;
 
         [Header("Spell Info")]
         [SerializeField]
-        public Spell[] UseSpells;
+        public List<Spell> UseSpells;
     }
 }
