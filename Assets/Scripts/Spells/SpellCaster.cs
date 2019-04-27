@@ -1,29 +1,28 @@
 ﻿using Assets.Scripts.Data;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Assets.Scripts.Data.Spell;
+using static CharacterParams;
 
 public class SpellCaster : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    private CharacterParams _owner;
+    public float MaxSpellDistance = 100.0f;
 
-    }
+    // Start is called before the first frame update
+    private void Start() => _owner = GetComponent<CharacterParams>();
 
 
     public void CastSpell(Spell spell, Vector3 targetPosition)
     {
         switch (spell.SpellType)
         {
-            case Spell.SpellTypes.Raycast:
-            case Spell.SpellTypes.Projectile:
-            case Spell.SpellTypes.Status:
-                CastTargetableSpell(spell, GetTarget(targetPosition));
+            case SpellTypes.Raycast:
+            case SpellTypes.Projectile:
+            case SpellTypes.Status:
+                CastTargetableSpell(spell, GetTarget(spell, targetPosition));
                 break;
-            case Spell.SpellTypes.Aoe:
+            case SpellTypes.Aoe:
                 CastAoeSpell(spell, targetPosition);
                 break;
             default:
@@ -36,12 +35,12 @@ public class SpellCaster : MonoBehaviour
     {
         switch (spell.SpellType)
         {
-            case Spell.SpellTypes.Raycast:
-            case Spell.SpellTypes.Projectile:
-            case Spell.SpellTypes.Status:
+            case SpellTypes.Raycast:
+            case SpellTypes.Projectile:
+            case SpellTypes.Status:
                 CastTargetableSpell(spell, target);
                 break;
-            case Spell.SpellTypes.Aoe:
+            case SpellTypes.Aoe:
                 CastAoeSpell(spell, target.transform.position);
                 break;
             default:
@@ -51,32 +50,81 @@ public class SpellCaster : MonoBehaviour
     }
 
 
-    private Transform GetTarget(Vector3 targetPosition)
+    private Transform GetTarget(Spell spell, Vector3 targetPosition)
     {
-        return null;
+        var availibleTargets = GetFilteredCharacters(_owner, spell.SpellTarget);
+        if (availibleTargets.Length == 0)
+            return null;
+
+        return availibleTargets.OrderBy(t => (t.transform.position - targetPosition).magnitude).First().transform;
     }
 
     private void CastTargetableSpell(Spell spell, Transform target)
     {
+        var availibleTargets = GetFilteredCharacters(_owner, spell.SpellTarget);
+
         switch (spell.SpellType)
         {
-            case Spell.SpellTypes.Raycast:
-            case Spell.SpellTypes.Projectile:
-            case Spell.SpellTypes.Status:
+            case SpellTypes.Raycast:
+            {
+                var ray = new Ray(_owner.transform.position, target.transform.position);
+                availibleTargets = availibleTargets.Where(t =>
+                {
+                    var collider = t.GetComponent<Collider>();
+                    if (collider == null)
+                        return false;
 
+                    return collider.Raycast(ray, out var hit, MaxSpellDistance);
+                }).ToArray();
+            }
+            break;
+
+            case SpellTypes.Projectile:
+            {
+                var maxDist = MaxSpellDistance;
+                var ray = new Ray(_owner.transform.position, target.transform.position);
+
+                CharacterParams hitTarget = null;
+                foreach(var t in availibleTargets)
+                {
+                    var collider = t.GetComponent<Collider>();
+                    if (collider == null)
+                        continue;
+
+                    if (!collider.Raycast(ray, out var hit, maxDist))
+                        continue;
+
+                    if (maxDist > hit.distance)
+                    {
+                        maxDist = hit.distance;
+                        hitTarget = t;
+                    }
+                }
+
+                availibleTargets = new[] { hitTarget };
+            }
+            break;
+
+            case SpellTypes.Status:
+                Debug.Assert(availibleTargets.Length <= 1);
                 break;
+
             default:
                 Debug.LogAssertion($"Invalid SpellType {spell.SpellType}");
-                break;
+                return;
         }
+
+        ApplaySpell(spell, availibleTargets);
     }
 
     private void CastAoeSpell(Spell spell, Vector3 targetPosition)
     {
         switch (spell.SpellType)
         {
-            case Spell.SpellTypes.Aoe:
-
+            case SpellTypes.Aoe:
+                var availibleTargets = GetFilteredCharacters(_owner, spell.SpellTarget);
+                availibleTargets = GetAllCharacterInArea(availibleTargets, targetPosition, spell.Area);
+                ApplaySpell(spell, availibleTargets);
                 break;
             default:
                 Debug.LogAssertion($"Invalid SpellType {spell.SpellType}");
@@ -105,9 +153,26 @@ public class SpellCaster : MonoBehaviour
         return null;
     }
 
-    private CharacterParams[] GetAllCharacters()
+    private void ApplaySpell(Spell spell, CharacterParams[] availibleTargets) => Debug.Log("Applied spell");
+
+    private static CharacterParams[] GetAllCharacters()
     {
         var actors = GameObject.FindGameObjectsWithTag("Actors");
         return actors.Select(a => a.GetComponent<CharacterParams>()).Where(a => a != null).ToArray();
     }
+
+    private static CharacterParams[] FilterCharacters(CharacterParams owner, CharacterParams[] characters, SpellTargets target) =>
+        characters.Where(c =>
+        {
+            bool sameTeam = c.CurrentTeam == owner.CurrentTeam && owner.CurrentTeam != Team.AgainstTheWorld;
+            var mask = sameTeam ? SpellTargets.Friend : SpellTargets.Enemy;
+            if (c == owner)
+                mask |= SpellTargets.Self;
+
+            return (mask & target) == target;
+        }).ToArray();
+
+
+    private static CharacterParams[] GetFilteredCharacters(CharacterParams owner, SpellTargets target) =>
+        FilterCharacters(owner, GetAllCharacters(), target);
 }
