@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
+  m_Name: Reaper
+  m_EditorClassIdentifier: 
+  Health: 75
+  Damage: 50
+  Speed: 2
+  Evasion: 0
+  Size: 1
+  DropRate: 1
+  DropSpells:
+  - {fileID: 11400000, guid: cbb202db97715574098b6fb94ece268d, type: 2}
+  UseSpells:
+  - {fileID: 11400000, guid: cbb202db97715574098b6fb94ece268d, type: 2}
+  - {fileID: 11400000, guid: 14abfc9ebb62e1244baeee3f568acc79, type: 2}
+  - {fileID: 11400000, guid: cd1226d6134a72f488e96355b1f30db0, type: 2}

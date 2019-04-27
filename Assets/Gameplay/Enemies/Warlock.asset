@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
+  m_Name: Warlock
+  m_EditorClassIdentifier: 
+  Health: 50
+  Damage: 20
+  Speed: 1
+  Evasion: 0
+  Size: 1
+  DropRate: 0
+  DropSpells:
+  - {fileID: 11400000, guid: 36ad5741d4cd2f94e91b033c45c2c979, type: 2}
+  UseSpells:
+  - {fileID: 11400000, guid: 61e66b9e1bf596a449221fa407b46204, type: 2}
+  - {fileID: 11400000, guid: 36ad5741d4cd2f94e91b033c45c2c979, type: 2}
+  - {fileID: 11400000, guid: ddaa59940f1de464e8cb63df3b4f9272, type: 2}

@@ -9,16 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
-  m_Name: Spike wave
+  m_Script: {fileID: 11500000, guid: 3303e6a0239599a42a240593fc7c9ead, type: 3}
+  m_Name: SpikeWave(Slow)
   m_EditorClassIdentifier: 
-  Name: Spike wave
-  SpellType: 2
-  Damage: 5
-  AoeRadius: 4
-  BloodCost: 9
-  BloodBack: 0
-  Cooldown: 0.5
-  Buffs:
-  - {fileID: 11400000, guid: c12a1958dc01f004b84c65f74ceaee81, type: 2}
+  Name: SpikeWave(Slow)
+  ChangedProperty: 0
+  Addition: 0
+  Multiplier: 0.95
+  Radius: 0
+  PerSecond: 1
+  Permanent: 0
+  Duration: 5
   VisualEffect: {fileID: 0}
