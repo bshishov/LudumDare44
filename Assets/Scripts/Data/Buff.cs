@@ -16,7 +16,10 @@ namespace Assets.Scripts.Data
         public float Addition;
         public float Multiplier;
         public float Radius = 0f;
-        public float Time;
+        public bool PerSecond;
+        public bool Permanent;
+        public float Duration;
+        
 
         // TODO: set later
         [Header("Visual Effects")]

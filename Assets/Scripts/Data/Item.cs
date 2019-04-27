@@ -11,6 +11,6 @@ namespace Assets.Scripts.Data
         public int Cost;
 
         [SerializeField]
-        public Buff[] buffs;
+        public Buff[] Buffs;
     }
 }

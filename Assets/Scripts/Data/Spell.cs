@@ -18,7 +18,7 @@ namespace Assets.Scripts.Data
         public float Cooldown;
 
         [Header("Buffs")]
-        public Buff[] buffs;
+        public Buff[] Buffs;
 
         // TODO: set later
         [Header("Visual Effects")]
