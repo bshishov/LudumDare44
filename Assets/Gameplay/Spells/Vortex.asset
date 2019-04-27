@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
+  m_Name: Vortex
+  m_EditorClassIdentifier: 
+  Name: Vortex
+  SpellType: 2
+  Damage: 3
+  AoeRadius: 5
+  BloodCost: 7
+  BloodBack: 0
+  Cooldown: 0.5
+  Buffs:
+  - {fileID: 11400000, guid: 90f72249b32c7cd46875f8fe8b1fb84d, type: 2}
+  VisualEffect: {fileID: 0}
