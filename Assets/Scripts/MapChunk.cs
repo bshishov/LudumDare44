@@ -22,15 +22,12 @@ namespace Assets.Scripts
 
         public Bounds LocalSpaceBounds;
         public EnemySpawnSettings[] EnemySpawns;
-        // Local entry location
-        public Vector3 EntryLocation;
-
-        // Local exit location
-        public Vector3 ExitLocation;
+        public Transform Entry;
+        public Transform Exit;
         public AdjacentChunkSettings[] AdjacentChunks;
 
-        public Vector3 WorldEntryLocation => transform.TransformPoint(EntryLocation);
-        public Vector3 WorldExitLocation => transform.TransformPoint(ExitLocation);
+        public Vector3 WorldEntryLocation => Entry.position;
+        public Vector3 WorldExitLocation => Exit.position;
 
         void Start()
         {
@@ -47,42 +44,51 @@ namespace Assets.Scripts
         }
 
         [ContextMenu("Spawn next chunk")]
-        public void SpawnNext()
+        public MapChunk SpawnNext()
         {
             if (AdjacentChunks == null)
             {
                 Debug.LogWarning("Trying to generate next chunk, but there are no adjacent chunks set");
-                return;
+                return null;
             }
             
             var chunkSettings = RandomUtils.Choice(AdjacentChunks, c => c.Weight);
             if (chunkSettings == null)
             {
                 Debug.LogWarning("Undefined randomly selected chunk");
-                return;
+                return null;
             }
 
             var chunk = Instantiate(chunkSettings.Prefab).GetComponent<MapChunk>();
             if (chunk == null)
             {
                 Debug.LogWarning("Failed to instantiate next chunk");
-                return;
+                return null;
             }
             
             // Move to match entry and exit
             var offset = WorldExitLocation - chunk.WorldEntryLocation;
             chunk.transform.position += offset;
+
+            return chunk;
         }
 
         void OnDrawGizmos()
         {
             // Entry location
-            Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(transform.TransformPoint(EntryLocation), .2f);
+            if (Entry != null)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawSphere(Entry.position, .2f);
+            }
 
             // Exit location
-            Gizmos.color = Color.black;
-            Gizmos.DrawSphere(transform.TransformPoint(ExitLocation), .2f);
+            if (Exit != null)
+            {
+                Gizmos.color = Color.black;
+                Gizmos.DrawSphere(Exit.position, .2f);
+            }
+            
 
             // Enemy spawns
             Gizmos.color = Color.red;
