@@ -120,6 +120,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &333522659 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3108578599091647241, guid: bef5b759681d39c42acc9b3aea650752,
+    type: 3}
+  m_PrefabInstance: {fileID: 498533885}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &498533885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -290,7 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 305d26f3bbf1437458b24270dc6254c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 333522659}
   lookAtOffset: {x: 0, y: 0, z: 0}
   offset: {x: 0, y: 10, z: -20}
   rotation: {x: 0, y: 0, z: 0, w: 0}
