@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Data;
 using UnityEngine;
 using Assets.Scripts.Utils;
+using Assets.Scripts.Utils.Debugger;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
@@ -89,6 +90,7 @@ namespace Assets.Scripts
             
             _lastChunk = chunk;
             _lastChunkData = chunkData;
+            Debugger.Default.Display("Last chunk position", _lastChunk.transform.position.ToString());
 
             _surface.BuildNavMesh();
 

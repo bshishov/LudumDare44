@@ -8,29 +8,20 @@ namespace Assets.Scripts
     public class MapChunk : MonoBehaviour
     {
         [Serializable]
-        public class EnemySpawnSettings
+        public class EnemySpawner
         {
             public Vector3 Position;
-            // More data will be here
-        }
-
-        [Serializable]
-        public class AdjacentChunkSettings
-        {
-            public GameObject Prefab;
-            public float Weight = 1f;
+            public float Radius;
         }
 
         public Bounds LocalSpaceBounds;
-        public EnemySpawnSettings[] EnemySpawns;
+        public EnemySpawner[] EnemySpawns;
         public Transform Entry;
         public Transform Exit;
         public bool DrawGizmos;
 
         public Vector3 WorldEntryLocation => Entry.position;
         public Vector3 WorldExitLocation => Exit.position;
-
-       
 
         void Start()
         {
