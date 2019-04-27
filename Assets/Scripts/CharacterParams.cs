@@ -33,8 +33,6 @@ public class CharacterParams : MonoBehaviour
 
     private float HealthRegen = 0;
 
-    private Dictionary<Buff, float> BuffsOn;
-
     // Start is called before the first frame update
     void Start()
     {

@@ -7,9 +7,19 @@ namespace Assets.Scripts.Data
     [Serializable]
     public class Spell : ScriptableObject
     {
-        public string Name;
-        public enum SpellTypes { Raycast, Projectile, Aoe, Status };
-        [Header("Characterisics")]        
+        [Serializable]
+        public enum SpellTypes : int
+        {
+            Raycast,
+            Projectile,
+            Aoe,
+            Status
+        };
+
+        public string Name;       
+
+        [Header("Characterisics")]
+        [EnumMask]
         public SpellTypes SpellType;
         public float Damage = 1;
         public float AoeRadius = 0f;
