@@ -33,6 +33,8 @@ namespace Assets.Scripts
             _player = GameObject.FindGameObjectWithTag(Tags.Player);
 
             SpawnNextChunk();
+
+            Debugger.Default.Display("GameManager/Next", SpawnNextChunk, "Spawn next chunk");
         }
         
         void Update()
@@ -113,14 +115,6 @@ namespace Assets.Scripts
                     chunk.Spawn(enemy.Prefab);
                     budget -= enemy.BudgetConsume;
                 }
-            }
-        }
-
-        void OnGUI()
-        {
-            if (GUI.Button(new Rect(10, 10, 200, 40), "NEXT"))
-            {
-                SpawnNextChunk();
             }
         }
     }

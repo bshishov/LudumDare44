@@ -221,6 +221,18 @@ namespace Assets.Scripts.Utils.Debugger
         {
             Display(GetOrCreateNode(path), size, drawAction);
         }
+        public void Display(string path, Action action, string buttonLabel = "Click!")
+        {
+            if(action == null)
+                return;
+            Display(GetOrCreateNode(path), new Vector2(200, 20f), rect =>
+            {
+                if (GUI.Button(rect, buttonLabel))
+                {
+                    action();
+                }
+            });
+        }
 
         public Logger GetLogger(string path)
         {
