@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Assets.Scripts.Data
 {
-    [CreateAssetMenu(fileName = "Character", menuName = "Mechanics/Character")]
-    public class Character : ScriptableObject
+    [CreateAssetMenu(fileName = "CharacterConfig", menuName = "Mechanics/CharacterConfig")]
+    public class CharacterConfig : ScriptableObject
     {
         public float Health;
         public float Damage;
