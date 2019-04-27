@@ -31,7 +31,7 @@ namespace Assets.Scripts.Data
         [EnumMask]
         public SpellTypes SpellType;
         [EnumFlag]
-        public SpellTargets SpellTargets;
+        public SpellTargets SpellTarget;
         public float Damage = 1;
         public float AoeRadius = 0f;
         public int BloodCost = 0;
