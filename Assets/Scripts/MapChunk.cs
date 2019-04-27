@@ -11,7 +11,11 @@ namespace Assets.Scripts
         public class EnemySpawner
         {
             public Vector3 Position;
-            public float Radius;
+
+            [Range(0.1f, 10f)]
+            public float Radius = 1f;
+
+            public float Weight = 1f;
         }
 
         public Bounds LocalSpaceBounds;
@@ -37,7 +41,7 @@ namespace Assets.Scripts
             }
         }
        
-        void OnDrawGizmos()
+        void OnDrawGizmosSelected()
         {
             if(!DrawGizmos)
                 return;
@@ -48,20 +52,22 @@ namespace Assets.Scripts
             Gizmos.color = Color.cyan;
             DrawGizmosTransform(Exit);
 
-            // Enemy spawns
-            Gizmos.color = Color.red;
-            if (EnemySpawns != null)
-            {
-                foreach (var spawn in EnemySpawns)
-                {
-                    Gizmos.DrawSphere(transform.TransformPoint(spawn.Position), .2f);
-                }
-            }
-
             // Bounds
             // Todo: figure out local transformation (scale and rotation of BB)
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(transform.TransformPoint(LocalSpaceBounds.center), LocalSpaceBounds.size);
+
+#if UNITY_EDITOR
+            if (EnemySpawns != null)
+            {
+                foreach (var enemySpawner in EnemySpawns)
+                {
+                    UnityEditor.Handles.color = Color.blue;
+                    UnityEditor.Handles.DrawWireDisc(transform.TransformPoint(enemySpawner.Position), Vector3.up,
+                        enemySpawner.Radius);
+                }
+            }
+#endif
         }
 
         void DrawGizmosTransform(Transform t)
@@ -81,10 +87,19 @@ namespace Assets.Scripts
 
         public void Spawn(GameObject enemyPrefab)
         {
-            var offset = new Vector3(Random.value * 2f, 0, Random.value * 2f);
+            if (EnemySpawns == null || EnemySpawns.Length == 0)
+            {
+                Debug.LogWarningFormat("Enemy Spawns is not set for: {0}", name);
+                return;
+            }
+
+            var spawner = RandomUtils.Choice(EnemySpawns, s => s.Weight);
+
+            var offset2d = Random.insideUnitCircle;
+            var offset = new Vector3(offset2d.x, 0, offset2d.y) * spawner.Radius;
 
             // Todo: Modify spawn
-            var enemy = Instantiate(enemyPrefab, transform.position + offset, Quaternion.identity);
+            var enemy = Instantiate(enemyPrefab, transform.TransformPoint(spawner.Position) + offset, Quaternion.identity);
         }
     }
 }
