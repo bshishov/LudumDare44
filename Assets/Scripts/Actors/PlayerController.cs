@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
 
-        CharacterUtils.ApplaySettings(_characterState, _agent, false);
+        CharacterUtils.ApplySettings(_characterState, _agent, false);
     }
 
     void GetInput()
