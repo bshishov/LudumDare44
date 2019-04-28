@@ -196,8 +196,8 @@ GameObject:
   - component: {fileID: 3108578599091647242}
   - component: {fileID: 2321425262694842623}
   - component: {fileID: 6653051804643184936}
-  - component: {fileID: 4092298827489681501}
   - component: {fileID: 202840518946414259}
+  - component: {fileID: 1441529443422904238}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -269,21 +269,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &4092298827489681501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3108578599091647244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 616d03a90a5abde439015d9b5702597a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentTeam: 0
-  character: {fileID: 11400000, guid: 81c55ce4783c6cc489e0738f2d136524, type: 2}
-  Damage: 0
 --- !u!114 &202840518946414259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,6 +282,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSpellDistance: 100
+--- !u!114 &1441529443422904238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3108578599091647244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 799cb9fab9084934582345ff002311d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentTeam: 1
+  character: {fileID: 11400000, guid: 81c55ce4783c6cc489e0738f2d136524, type: 2}
 --- !u!1 &3108578599397511057
 GameObject:
   m_ObjectHideFlags: 0
