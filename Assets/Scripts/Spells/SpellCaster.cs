@@ -306,6 +306,7 @@ public class SpellCaster : MonoBehaviour
                 {
                     SpawnProjectile(owner, context, subContext);
                 }
+                break;
 
             case SubSpell.SpellTargets.Location:
                 return availibleTargets;
