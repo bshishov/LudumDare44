@@ -474,6 +474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Animator: {fileID: 4857112221843758065}
   SpeedMultiplier: 1
+  DisableAnimationsAfterDeath: 1
   UseMaterialAnimations: 0
   DeathTrigger: Death
   TakeDamage: TakeDamage

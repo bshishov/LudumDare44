@@ -51,14 +51,24 @@ namespace Assets.Scripts.Utils.Debugger
             var headerRect = new Rect(x, context.Y, context.Style.HeaderColumn - x, context.Style.LineHeight);
             GUI.Label(headerRect, header, style);
 
-            // Widget
-            if (isExpanded && widget != null)
+            if (widget != null)
             {
-                var widgetSize = widget.GetSize(context.Style);
-                var payloadRect = new Rect(context.Style.HeaderColumn, context.Y, widgetSize.x, widgetSize.y);
-                GUI.Box(payloadRect, GUIContent.none, context.Style.ContentStyle);
-                widget.Draw(payloadRect, context.Style);
-                context.Y += Mathf.Max(widgetSize.y, context.Style.LineHeight) - context.Style.LineHeight;
+                if (context.Index == context.CursorIndex && 
+                    context.ActionRequested && 
+                    widget is IActionWidget )
+                {
+                    ((IActionWidget)widget).DoAction();
+                }
+
+                // Widget
+                if (isExpanded && widget != null)
+                {
+                    var widgetSize = widget.GetSize(context.Style);
+                    var payloadRect = new Rect(context.Style.HeaderColumn, context.Y, widgetSize.x, widgetSize.y);
+                    GUI.Box(payloadRect, GUIContent.none, context.Style.ContentStyle);
+                    widget.Draw(payloadRect, context.Style);
+                    context.Y += Mathf.Max(widgetSize.y, context.Style.LineHeight) - context.Style.LineHeight;
+                }
             }
 
             context.Y += context.Style.LineHeight;

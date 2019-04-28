@@ -14,7 +14,8 @@ namespace Assets.Scripts.Utils.Debugger
         public const char PathSeparator = '/';
 
         public KeyCode OpenKey = KeyCode.F3;
-        public KeyCode CollapseKey = KeyCode.F5;
+        public KeyCode CollapseKey = KeyCode.F4;
+        public KeyCode ActionKey = KeyCode.F5;
         public KeyCode NavigateUp = KeyCode.PageUp;
         public KeyCode NavigateDown = KeyCode.PageDown;
 
@@ -23,7 +24,7 @@ namespace Assets.Scripts.Utils.Debugger
         private readonly DebugNode _root = new DebugNode("Debug")
         {
             IsExpanded = true,
-            Widget = new StringWidget("F5 - Expand/Collapse, PageUp/PageDown - Navigation")
+            Widget = new StringWidget("F4 - Expand/Collapse, PageUp/PageDown - Navigation, F5 - Activate")
         };
 
         private Logger _defaultLog;
@@ -78,6 +79,9 @@ namespace Assets.Scripts.Utils.Debugger
 
                 if (Input.GetKeyDown(CollapseKey))
                     _context.CollapseRequested = true;
+
+                if (Input.GetKeyDown(ActionKey))
+                    _context.ActionRequested = true;
             }
         }
 
@@ -221,6 +225,24 @@ namespace Assets.Scripts.Utils.Debugger
         {
             Display(GetOrCreateNode(path), size, drawAction);
         }
+
+        public void Display(string path, Action action)
+        {
+            var node = GetOrCreateNode(path);
+            var payload = node.Widget as ActionWidget;
+            if (payload != null)
+            {
+                payload.SetValue(action);
+            }
+            else
+            {
+                // New payload
+                node.Widget = new ActionWidget(action);
+            }
+
+            node.Touch();
+        }
+
         public void Display(string path, Action action, string buttonLabel = "Click!")
         {
             if(action == null)
@@ -262,6 +284,7 @@ namespace Assets.Scripts.Utils.Debugger
 
             // Reset context
             _context.CollapseRequested = false;
+            _context.ActionRequested = false;
             _context.CursorIndex = Mathf.Clamp(_context.CursorIndex, 0, _context.Index - 1);
         }
     }
