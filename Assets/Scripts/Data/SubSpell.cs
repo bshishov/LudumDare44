@@ -21,49 +21,52 @@ namespace Assets.Scripts.Data
         public AffectedTargets AffectedTarget;
 
         [Serializable]
-        public enum SpellTargets : int
+        public enum SpellOrigin : int
         {
-            Undefined = 0,
-            Direction,
-            Location,
-            CastOnSelf,
-            CastOnClosest,
-        }
-
-        [EnumFlag]
-        public SpellTargets SpellTarget;
-
-        [Serializable]
-        [Flags]
-        public enum ProjectileType : int
-        {
-            Undefined = 0,
-
-            None = Undefined,
-
-            Raycast = 1 << 1,
-            Projectile = 1 << 2,
+            Self,
+            Cursor,
         };
 
         [EnumFlag]
-        public ProjectileType Projectile;
+        public SpellOrigin Origin;
+
+        [Serializable]
+        [Flags]
+        public enum SpellFlags : int
+        {
+            Undefined = 0,
+
+            HaveDirection = 1 << 1,
+
+            Raycast = 1 << 2,
+            Projectile = 1 << 3,
+
+            Special = 1 << 4,
+            SelfTarget,
+            ClosestTarget,
+            SpecialEnd = 1 << 5 - 1,
+        }
+
+        [EnumFlag]
+        public SpellFlags Flags;
+        
+        
         public float ProjectileSpeed;
 
         [Serializable]
         [Flags]
-        public enum ProjectileObstacles : int
+        public enum ObstacleHandling : int
         {
             Undefined = 0,
 
             None = Undefined,
 
-            Ignore = 1 << 1,
-            Activate = 1 << 2,
-            Break = 1 << 3,
+            Activate = 1 << 1,
+            Break = 1 << 2,
         };
 
         [EnumFlag]
-        public ProjectileObstacles Obstacles;
+        public ObstacleHandling Obstacles;
 
         public AreaOfEffect Area;
 

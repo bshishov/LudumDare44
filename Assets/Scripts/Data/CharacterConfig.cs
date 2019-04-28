@@ -12,6 +12,7 @@ namespace Assets.Scripts.Data
         public float Speed;
         public float Evasion = 0f;
         public float Size = 1f;
+        public float HealthModifier = 1f;
 
         public int IndifferenceDistance = 10;
         public int SpellRange = 0;
