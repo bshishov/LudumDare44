@@ -42,5 +42,16 @@ namespace Assets.Scripts.Data
         public float ChannelTime;
 
         public SubSpell[] SubSpells;
+
+        [Header("FX")]
+        public GameObject SpellEffect;
+
+        public ISpellEffect GetEffect()
+        {
+            if (SpellEffect == null)
+                return null;
+
+            return GameObject.Instantiate(SpellEffect).GetComponent<ISpellEffect>();
+        }
     }
 }

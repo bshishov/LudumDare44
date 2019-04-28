@@ -16,14 +16,6 @@ public struct SpellEmitterData
 
 public class SpellCaster : MonoBehaviour
 {
-    public enum ContextState
-    {
-        JistQueued = 0,
-        PreDelays,
-        Executing,
-        PostDelay,
-        Finishing,
-    }
 
     private class SubSpellContext
     {
@@ -39,11 +31,6 @@ public class SpellCaster : MonoBehaviour
         public object customData;
     }
 
-    private class SpellTargets
-    {
-        public CharacterState source;
-        public CharacterState[] destinations;
-    }
     private class SubSpellTargets
     {
         public List<SpellTargets> spellTargets;
@@ -157,7 +144,7 @@ public class SpellCaster : MonoBehaviour
 
                     context.subContext.subSpell = context.spell.SubSpells[context.currentSubspell];
                 }
-                while (ManageSubContext(context, context.subContext)) ;
+                while (ManageSubContext(context, context.subContext));
 
                 if (context.subContext.aborted == true)
                 {
