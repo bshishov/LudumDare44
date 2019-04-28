@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MeatSteak(Health)
   m_EditorClassIdentifier: 
   Name: MeatSteak(Health)
-  ChangedProperty: 0
+  ChangedProperty: 4
   Addition: 0
   Multiplier: 1.1
   Radius: 0

@@ -5,6 +5,8 @@ using Assets.Scripts.Data;
 using System.Linq;
 using Random = UnityEngine.Random;
 using System;
+using Assets.Scripts;
+using Assets.Scripts.Utils.Debugger;
 using UnityEngine.Assertions;
 
 public class CharacterState : MonoBehaviour
@@ -105,7 +107,8 @@ public class CharacterState : MonoBehaviour
             Debug.LogError("Team not setted!", this);
     }
 
-    // Update is called once per frame
+    private float _secondTickReminingTime = 1f;
+    
     void Update()
     {
         if (Health <= 0)
@@ -116,14 +119,42 @@ public class CharacterState : MonoBehaviour
             }
             Debug.Log("GG");
         }
+
+        _secondTickReminingTime -= Time.deltaTime;
+        if (_secondTickReminingTime < 0f)
+        {
+            SecondsUpdate();
+            _secondTickReminingTime = 1f;
+        }
+
+#if DEBUG
+        if(gameObject.CompareTag(Tags.Player))
+            DisplayState();
+#endif
+    }
+
+    void DisplayState()
+    {
+#if DEBUG
+        Debugger.Default.Display(gameObject.name + "/HP", Health);
+        Debugger.Default.Display(gameObject.name + "/MAX HP", MaxHealth);
+        Debugger.Default.Display(gameObject.name + "/HP REGEN", HealthRegen);
+        Debugger.Default.Display(gameObject.name + "/Speed", Speed);
+        Debugger.Default.Display(gameObject.name + "/Damage", Damage);
+        Debugger.Default.Display(gameObject.name + "/Evasion", Evasion);
+#endif
     }
 
     void SecondsUpdate()
     {        
-        foreach (Buff buff in BuffsOn.Keys.ToList())
+        foreach (var buff in BuffsOn.Keys.ToList())
         {
+#if DEBUG
+            Debugger.Default.Display(gameObject.name + "/Buffs/" + buff.name, BuffsOn[buff]);
+#endif
             BuffsOn[buff] -= 1f;
-            if (BuffsOn[buff] > 0)
+
+            if (BuffsOn[buff] >= 0)
             {
                 if (buff.PerSecond)
                 {
@@ -154,7 +185,7 @@ public class CharacterState : MonoBehaviour
     }
     
 
-    void CastBuff(Buff buff)
+    public void CastBuff(Buff buff)
     {
         if (BuffsOn.ContainsKey(buff))
         {
