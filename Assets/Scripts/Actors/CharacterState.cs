@@ -110,7 +110,7 @@ public class CharacterState : MonoBehaviour
     {
         if (Health <= 0)
         {
-            if ((DropSpells.Count) > 0){                
+            if ((DropSpells.Count) > 0){
                 Spell DroppedSpell = DropSpells[Mathf.FloorToInt(Random.value*DropSpells.Count)];      
                 // TODO: Drop spell
             }
@@ -142,18 +142,10 @@ public class CharacterState : MonoBehaviour
     }
 
     //TODO: @artemy implement me
-    internal void ApplySpell(CharacterState owner, Spell spell)
+    internal void ApplySpell(CharacterState owner, SubSpell spell)
     {
         if (owner.CurrentTeam != CurrentTeam)
         {
-            if (spell.Damage > 0)
-            {
-                Buff damageBuff = new Buff();
-                damageBuff.Addition = spell.Damage;
-                damageBuff.Permanent = true;
-                damageBuff.ChangedProperty = Buff.ChangedProperties.Damage;
-                CastBuff(damageBuff);
-            }
             foreach (Buff buff in spell.Buffs)
             {
                 CastBuff(buff);
@@ -247,8 +239,6 @@ public class CharacterState : MonoBehaviour
                 break;
         }
     }
-
-
-
+       
     internal void DrawSpellGizmos(int slot, Vector3 target) => SpellbookState.DrawSpellGizmos(slot, target);
 }

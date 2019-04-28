@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InventoryState : MonoBehaviour
 {
-    internal void Pickup(Spell spell)
+    internal void Pickup(SubSpell spell)
     {
 
     }

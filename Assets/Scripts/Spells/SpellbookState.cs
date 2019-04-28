@@ -81,7 +81,7 @@ public class SpellbookState : MonoBehaviour
     {
         Debug.Log($"Place spell {spell.Name}");
 
-        if(GetPickupOptions(spell) != PlaceOtions.Place)
+        if (GetPickupOptions(spell) != PlaceOtions.Place)
         {
             Assert.IsFalse(true);
             return;
@@ -125,6 +125,6 @@ public class SpellbookState : MonoBehaviour
 
     }
 
-    internal void DrawSpellGizmos(int slot, Vector3 target) =>
-        _spellCaster.DrawSpellGizmos(SpellSlots[slot].Spell, target);
+    internal void DrawSpellGizmos(int slot, Vector3 target) => Debug.Log("");
+    //    _spellCaster.DrawSpellGizmos(SpellSlots[slot].Spell, target);
 }
