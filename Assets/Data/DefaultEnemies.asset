@@ -21,5 +21,6 @@ MonoBehaviour:
     MaxSpawnWeight: 10000
     SpawnWeightPerLevel: 1
     ChunkType: 0
-    BudgetConsume: 20
-    Prefab: {fileID: 224904891531072623, guid: 573d271db33f6fd4aa4968f47a461e8e, type: 3}
+    BudgetConsume: 30
+    Prefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+      type: 3}
