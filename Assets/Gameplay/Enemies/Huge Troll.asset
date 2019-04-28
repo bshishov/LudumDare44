@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   Damage: 50
-  Speed: 0.8
+  Speed: 2
   Evasion: 0
   Size: 1
   IndifferenceDistance: 10
-  SpellRange: 5
-  FearRange: 0
+  SpellRange: 8
+  FearRange: 5
   DropRate: 1
   DropSpells:
   - {fileID: 0}
