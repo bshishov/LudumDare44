@@ -3,18 +3,18 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
+    private CharacterParams _characterParams;
     private NavMeshAgent _navMeshAgent;
-    public Transform Target;
 
-    public float speedDistorshen = 0.3f;
+    public Transform Target;
 
     // Start is called before the first frame update
     void Start()
     {
+        _characterParams = GetComponent<CharacterParams>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
 
-        var speedMultiplier = UnityEngine.Random.Range(1.0f - speedDistorshen, 1.0f + speedDistorshen);
-        _navMeshAgent.speed *= speedMultiplier;
+        CharacterUtils.ApplaySettings(_characterParams, _navMeshAgent, true);
     }
 
     // Update is called once per frame

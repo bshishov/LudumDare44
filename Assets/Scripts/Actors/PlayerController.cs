@@ -9,26 +9,25 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDirection = new Vector3();
 
     private Plane _ground;
+    private CharacterParams _characterParams;
     private NavMeshAgent _agent;
 
-    // Use this for initialization
-    void Awake()
-    {
-    }
-    
 
     void Start()
     {
         _ground = new Plane(Vector3.up, Vector3.zero);
+
+        _characterParams = GetComponent<CharacterParams>();
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
+
+        CharacterUtils.ApplaySettings(_characterParams, _agent, false);
     }
 
     void GetInput()
     {
         moveDirection.x = Input.GetAxis("Horizontal");
         moveDirection.z = Input.GetAxis("Vertical");
-
     }
 
     void Update()

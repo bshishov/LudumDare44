@@ -20,20 +20,22 @@ public class CharacterParams : MonoBehaviour
     public Team CurrentTeam = Team.Undefined;
 
     public CharacterConfig character;
-    private float MaxHealth;    
-    private float Health;
-    private float Speed;
-    private float Evasion;
-    private float Size;
 
-    public float Damage;
-    private float DropRate;
-    private List<Spell> DropSpells = new List<Spell>();
-    private List<Spell> UseSpells = new List<Spell>();
+    public float MaxHealth { get; private set; }    
+    public float Health { get; private set; }
+    public float Speed { get; private set; }
+    public float Evasion { get; private set; }
+    public float Size { get; private set; }
 
-    private Dictionary<Buff, float> BuffsOn = new Dictionary<Buff, float>();
+    public float Damage { get; private set; }
+    public float DropRate { get; private set; }
 
-    private float HealthRegen = 0;
+    public IReadOnlyList<Spell> DropSpells { get; private set; }
+    public IReadOnlyList<Spell> UseSpells { get; private set; }
+
+    public Dictionary<Buff, float> BuffsOn = new Dictionary<Buff, float>();
+
+    public float HealthRegen { get; private set; }
 
     // Start is called before the first frame update
     void Start()
