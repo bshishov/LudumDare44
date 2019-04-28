@@ -15,7 +15,7 @@ namespace Assets.Scripts.Spells
             Debug.Log("SubSpell state change");
         }
 
-        public void OnSubSpellStartCast(Spell spell, SubSpell subSpell, SpellTargets data)
+        public void OnSubSpellStartCast(Spell spell, SubSpell subSpell, SubSpellTargets data)
         {
             Debug.Log("SubSpell Start Cast");
         }

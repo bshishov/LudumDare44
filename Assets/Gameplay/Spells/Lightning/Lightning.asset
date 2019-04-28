@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: Lightning
   m_EditorClassIdentifier: 
   Name: Lightning
+  Icon: {fileID: 0}
   BloodCost: 0
   BloodBack: 2
   Cooldown: 1
-  CastingTime: 2
-  Delay: 0
+  CastingTime: 1
+  Flags: 2
   PreCastDelay: 0
   PostCastDelay: 0
   ChannelTime: 0
   SubSpells:
   - {fileID: 11400000, guid: 94474afc0958491479780fa636c55d39, type: 2}
-  - {fileID: 11400000, guid: e57d9a358a1594f4f8f64850aafd2390, type: 2}
-  - {fileID: 11400000, guid: e57d9a358a1594f4f8f64850aafd2390, type: 2}
+  - {fileID: 11400000, guid: 7cb1a87ff7d214c42997a267189ced7f, type: 2}
+  - {fileID: 11400000, guid: 7cb1a87ff7d214c42997a267189ced7f, type: 2}

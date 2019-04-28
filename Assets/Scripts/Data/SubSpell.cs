@@ -23,6 +23,7 @@ namespace Assets.Scripts.Data
         [Serializable]
         public enum SpellOrigin : int
         {
+            None = 0,
             Self,
             Cursor,
         };
@@ -48,8 +49,7 @@ namespace Assets.Scripts.Data
         }
 
         [EnumFlag]
-        public SpellFlags Flags;
-        
+        public SpellFlags Flags;        
         
         public float ProjectileSpeed;
 
