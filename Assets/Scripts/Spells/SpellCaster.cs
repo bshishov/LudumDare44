@@ -99,6 +99,16 @@ public class SpellCaster : MonoBehaviour
         _context.stateActiveTime += _context.frameTime;
 
         while (ManageContext(_context));
+
+        if (_context.aborted == true)
+        {
+            Debug.Log($"{_context.spell.Name} aborted");
+        }
+
+        if (_context.state != ContextState.Finishing)
+            return;
+
+        _context = null;
     }
 
     private static bool ManageContext(CastContext context)
