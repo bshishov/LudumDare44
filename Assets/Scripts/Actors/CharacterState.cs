@@ -5,6 +5,8 @@ using Assets.Scripts.Data;
 using System.Linq;
 using Random = UnityEngine.Random;
 using System;
+using Assets.Scripts;
+using Assets.Scripts.Utils.Debugger;
 using UnityEngine.Assertions;
 
 public class CharacterState : MonoBehaviour
@@ -30,7 +32,6 @@ public class CharacterState : MonoBehaviour
     public float Speed { get; private set; }
     public float Evasion { get; private set; }
     public float Size { get; private set; }
-
     public float Damage { get; private set; }
 
     internal void Pickup(Spell spell)
@@ -74,7 +75,10 @@ public class CharacterState : MonoBehaviour
 
     internal void Pickup(Item item)
     {
-
+        foreach (Buff buff in item.Buffs)
+        {
+            BuffPropertyNew(buff);
+        }
     }
 
     public float DropRate { get; private set; }
@@ -99,13 +103,14 @@ public class CharacterState : MonoBehaviour
         DropSpells = character.DropSpells;
         Evasion = character.Evasion;
         Size = character.Size;
-        InvokeRepeating("SecondsUpdate", 0.0f, 1.0f);
+        InvokeRepeating("SecondsUpdate", 1.0f, 1.0f);
 
         if (CurrentTeam == Team.Undefined)
             Debug.LogError("Team not setted!", this);
     }
 
-    // Update is called once per frame
+    private float _secondTickReminingTime = 1f;
+    
     void Update()
     {
         if (Health <= 0)
@@ -116,14 +121,44 @@ public class CharacterState : MonoBehaviour
             }
             Debug.Log("GG");
         }
+
+        /*
+        _secondTickReminingTime -= Time.deltaTime;
+        if (_secondTickReminingTime < 0f)
+        {
+            SecondsUpdate();
+            _secondTickReminingTime = 1f;
+        }*/
+
+#if DEBUG
+        if(gameObject.CompareTag(Tags.Player))
+            DisplayState();
+#endif
     }
+
+#if DEBUG
+    void DisplayState()
+    {
+
+        Debugger.Default.Display(gameObject.name + "/HP", Health);
+        Debugger.Default.Display(gameObject.name + "/MAX HP", MaxHealth);
+        Debugger.Default.Display(gameObject.name + "/HP REGEN", HealthRegen);
+        Debugger.Default.Display(gameObject.name + "/Speed", Speed);
+        Debugger.Default.Display(gameObject.name + "/Damage", Damage);
+        Debugger.Default.Display(gameObject.name + "/Evasion", Evasion);
+    }
+#endif
 
     void SecondsUpdate()
     {        
-        foreach (Buff buff in BuffsOn.Keys.ToList())
+        foreach (var buff in BuffsOn.Keys.ToList())
         {
+#if DEBUG
+            Debugger.Default.Display(gameObject.name + "/Buffs/" + buff.name, BuffsOn[buff]);
+#endif
             BuffsOn[buff] -= 1f;
-            if (BuffsOn[buff] > 0)
+
+            if (BuffsOn[buff] >= 0)
             {
                 if (buff.PerSecond)
                 {
@@ -139,6 +174,8 @@ public class CharacterState : MonoBehaviour
                 BuffsOn.Remove(buff);
             }
         }
+
+        Health = Mathf.Min(Health + HealthRegen, MaxHealth);
     }
 
     //TODO: @artemy implement me
@@ -148,16 +185,17 @@ public class CharacterState : MonoBehaviour
         {
             foreach (Buff buff in spell.Buffs)
             {
-                CastBuff(buff);
+                ApplyBuff(buff);
             }
         }
     }
     
 
-    void CastBuff(Buff buff)
+    public void ApplyBuff(Buff buff)
     {
         if (BuffsOn.ContainsKey(buff))
         {
+            // If there is a buff already exist just renew the cooldown
             BuffsOn[buff] = buff.Duration;
         }
         else
@@ -216,7 +254,7 @@ public class CharacterState : MonoBehaviour
                 Speed = Speed / buff.Multiplier - buff.Addition;
                 break;
             case Buff.ChangedProperties.Damage:
-                Health = Health / buff.Multiplier - buff.Addition; 
+                Health = Health / buff.Multiplier + buff.Addition; 
                 if (Health > MaxHealth)
                 {
                     Health = MaxHealth;

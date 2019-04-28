@@ -25,6 +25,7 @@ namespace Assets.Scripts.Data
         };
 
         public string Name;
+        public Sprite Icon;
 
         public int BloodCost = 0;
         public int BloodBack = 0;

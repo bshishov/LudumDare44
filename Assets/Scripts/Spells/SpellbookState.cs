@@ -104,11 +104,6 @@ public class SpellbookState : MonoBehaviour
         _spellCaster.CastSpell(status.Spell, data);
     }
 
-    internal void Pickup(Spell spell)
-    {
-
-    }
-
     private void AddSpell(int slot, Spell spell)
     {
         Debug.Log($"Spell {spell.Name} placed into slot {slot}");
