@@ -96,7 +96,7 @@ public class CharacterState : MonoBehaviour
         InventoryState = GetComponent<InventoryState>();
 
         MaxHealth = character.Health;
-        Health = character.Health;
+        Health = character.Health*character.HealthModifier;
         Speed = character.Speed;
         Damage = character.Damage;
         DropRate = character.DropRate;
