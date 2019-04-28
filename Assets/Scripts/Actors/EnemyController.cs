@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
 {
     private CharacterState _characterParams;
     private NavMeshAgent _navMeshAgent;
+
+    private int indifferenceDistance;
+    private int spellRange;
+    private int fearRange;
+    public float distance;
 
     public Transform Target;
 
@@ -13,6 +19,9 @@ public class EnemyController : MonoBehaviour
     {
         _characterParams = GetComponent<CharacterState>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        indifferenceDistance = _characterParams.character.IndifferenceDistance;
+        spellRange = _characterParams.character.SpellRange;
+        fearRange = _characterParams.character.FearRange;
 
         CharacterUtils.ApplySettings(_characterParams, _navMeshAgent, true);
     }
@@ -20,9 +29,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateTarget();
-        if (Target)
-            _navMeshAgent.SetDestination(Target.position);
+        UpdateTarget(); 
     }
 
     private void UpdateTarget()
@@ -32,19 +39,45 @@ public class EnemyController : MonoBehaviour
             return;
 
         GameObject selectedPlayer = null;
-        float minDistance = float.MaxValue;
-        foreach(var player in players)
+        // float minDistance = float.MaxValue;
+        foreach (var player in players)
         {
             var len = (player.transform.position - transform.position);
-            var distance = len.magnitude;
-
-            if(distance < minDistance)
-            {
-                minDistance = distance;
-                selectedPlayer = player;
+            distance = len.magnitude;
+            if (distance < indifferenceDistance) {
+                int spellCount = _characterParams.character.UseSpells.Count;
+                if (spellCount <= 0)
+                {
+                    selectedPlayer = player;
+                }
+                else
+                {
+                    if (distance > spellRange)
+                    {
+                        selectedPlayer = player;
+                        _navMeshAgent.isStopped = false;
+                        _navMeshAgent.SetDestination(selectedPlayer.transform.position);
+                    }
+                    else
+                    {
+                        if (distance > fearRange)
+                        {
+                            // TODO: Miktor fix firespell
+                            // _characterParams.FireSpell(Mathf.FloorToInt(Random.value * spellCount), player);
+                            selectedPlayer = null;
+                            _navMeshAgent.isStopped = true;
+                        }
+                        else
+                        {
+                            selectedPlayer = null;
+                            _navMeshAgent.isStopped = false;
+                            _navMeshAgent.SetDestination(transform.position - 5* len.normalized);
+                        }
+                    }
+                }
             }
         }
-
-        Target = selectedPlayer.transform;
+        
+            
     }
 }

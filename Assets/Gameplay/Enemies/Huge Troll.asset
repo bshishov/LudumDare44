@@ -17,6 +17,8 @@ MonoBehaviour:
   Speed: 0.8
   Evasion: 0
   Size: 1
+  IndifferenceDistance: 10
+  SpellRange: 5
   DropRate: 1
   DropSpells:
   - {fileID: 11400000, guid: 2fba0eb8545b1b049a59f0f71072fb04, type: 2}

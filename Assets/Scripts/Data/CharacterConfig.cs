@@ -13,6 +13,10 @@ namespace Assets.Scripts.Data
         public float Evasion = 0f;
         public float Size = 1f;
 
+        public int IndifferenceDistance = 10;
+        public int SpellRange = 0;
+        public int FearRange = 0;
+
         [Header("Drop Info")]
         public float DropRate;
         [SerializeField]
