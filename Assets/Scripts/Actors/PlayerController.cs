@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour
 
     private Plane _ground;
     private CharacterState _characterState;
+
     private NavMeshAgent _agent;
+    private AnimationController _animator;
 
 
     void Start()
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour
         _ground = new Plane(Vector3.up, Vector3.zero);
 
         _characterState = GetComponent<CharacterState>();
+        _animator = GetComponent<AnimationController>();
 
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
@@ -60,6 +63,8 @@ public class PlayerController : MonoBehaviour
 
         _agent.Move(motionVector);
         _agent.SetDestination(transform.position + motionVector);
+
+        _animator.SetSpeed(_agent.velocity.magnitude);
     }
 
     private void LookAt()

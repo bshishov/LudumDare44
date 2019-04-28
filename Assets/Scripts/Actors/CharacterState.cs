@@ -67,7 +67,7 @@ public class CharacterState : MonoBehaviour
         InvokeRepeating("SecondsUpdate", 0.0f, 1.0f);
 
         if (CurrentTeam == Team.Undefined)
-            Debug.LogError("Teamm not setted!", this);
+            Debug.LogError("Team not setted!", this);
     }
 
     // Update is called once per frame
