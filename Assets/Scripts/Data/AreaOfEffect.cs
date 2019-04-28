@@ -10,6 +10,7 @@ namespace Assets.Scripts.Data
         [Serializable]
         public enum AreaType : int
         {
+            Ray,
             Sphere,
             Cylinder,
             Conus
