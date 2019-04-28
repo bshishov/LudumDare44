@@ -37,5 +37,11 @@ namespace Assets.Scripts.Utils
             
             return default(T);
         }
+
+        public static T Choice<T>(IList<T> items)
+        {
+            var idx = Random.Range(0, items.Count);
+            return items[idx];
+        }
     }
 }

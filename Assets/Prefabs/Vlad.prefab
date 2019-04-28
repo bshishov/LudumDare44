@@ -382,6 +382,7 @@ GameObject:
   - component: {fileID: 4857112221843758065}
   - component: {fileID: 7536592401728111831}
   - component: {fileID: 7536592401728111824}
+  - component: {fileID: 6054796028390727987}
   m_Layer: 0
   m_Name: Vlad
   m_TagString: Player
@@ -459,6 +460,34 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6054796028390727987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996985578712122520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8dcfbb49a1cc4289fcfe9b9b27c5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 4857112221843758065}
+  SpeedMultiplier: 1
+  UseMaterialAnimations: 0
+  DeathTrigger: Death
+  TakeDamage: TakeDamage
+  SpeedVariable: Speed
+  CastAoE: CastAoE
+  CastTarget: CastTarget
+  CastProjectile: CastProjectile
+  Attack: CastTarget
+  DeathVariations:
+  - Death
+  - Death2
+  TakeDamageVariations:
+  - TakeDamage
+  - TakeDamage2
 --- !u!1 &2202749416782511908
 GameObject:
   m_ObjectHideFlags: 0
