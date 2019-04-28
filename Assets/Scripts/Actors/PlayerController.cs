@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDirection = new Vector3();
 
     private Plane _ground;
-    private CharacterParams _characterParams;
+    private CharacterState _characterState;
     private NavMeshAgent _agent;
 
 
@@ -17,18 +17,29 @@ public class PlayerController : MonoBehaviour
     {
         _ground = new Plane(Vector3.up, Vector3.zero);
 
-        _characterParams = GetComponent<CharacterParams>();
+        _characterState = GetComponent<CharacterState>();
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
 
-        CharacterUtils.ApplaySettings(_characterParams, _agent, false);
+        CharacterUtils.ApplaySettings(_characterState, _agent, false);
     }
 
     void GetInput()
     {
         moveDirection.x = Input.GetAxis("Horizontal");
         moveDirection.z = Input.GetAxis("Vertical");
+
+        if (Input.GetMouseButtonDown(0))
+            FireSpell();
+
+        if (Input.GetMouseButtonDown(1))
+            FireSpell();
+
+        if (Input.GetMouseButtonDown(1))
+            FireSpell();
     }
+
+    private void FireSpell() => throw new NotImplementedException();
 
     void Update()
     {

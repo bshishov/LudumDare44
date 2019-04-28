@@ -2,16 +2,15 @@
 using System.Linq;
 using UnityEngine;
 using static Assets.Scripts.Data.Spell;
-using static CharacterParams;
+using static CharacterState;
 
 public class SpellCaster : MonoBehaviour
 {
-    private CharacterParams _owner;
+    private CharacterState _owner;
     public float MaxSpellDistance = 100.0f;
 
     // Start is called before the first frame update
-    private void Start() => _owner = GetComponent<CharacterParams>();
-
+    private void Start() => _owner = GetComponent<CharacterState>();
 
     public void CastSpell(Spell spell, Vector3 targetPosition)
     {
@@ -84,7 +83,7 @@ public class SpellCaster : MonoBehaviour
                 float maxDist = MaxSpellDistance;
                 var ray = new Ray(_owner.transform.position, target.transform.position);
 
-                CharacterParams hitTarget = null;
+                CharacterState hitTarget = null;
                 foreach (var t in availibleTargets)
                 {
                     var collider = t.GetComponent<Collider>();
@@ -133,7 +132,7 @@ public class SpellCaster : MonoBehaviour
 
     }
 
-    public CharacterParams[] GetAllCharacterInArea(CharacterParams[] characters, Vector3 position, AreaOfEffect area)
+    public CharacterState[] GetAllCharacterInArea(CharacterState[] characters, Vector3 position, AreaOfEffect area)
     {
         foreach (var character in characters)
         {
@@ -159,19 +158,19 @@ public class SpellCaster : MonoBehaviour
         return null;
     }
 
-    private void ApplaySpell(Spell spell, CharacterParams[] availibleTargets)
+    private void ApplaySpell(Spell spell, CharacterState[] availibleTargets)
     {
         foreach (var target in availibleTargets)
             target.ApplaySpell(_owner, spell);
     }
 
-    private static CharacterParams[] GetAllCharacters()
+    private static CharacterState[] GetAllCharacters()
     {
         var actors = GameObject.FindGameObjectsWithTag("Actors");
-        return actors.Select(a => a.GetComponent<CharacterParams>()).Where(a => a != null).ToArray();
+        return actors.Select(a => a.GetComponent<CharacterState>()).Where(a => a != null).ToArray();
     }
 
-    private static CharacterParams[] FilterCharacters(CharacterParams owner, CharacterParams[] characters, SpellTargets target) =>
+    private static CharacterState[] FilterCharacters(CharacterState owner, CharacterState[] characters, SpellTargets target) =>
         characters.Where(c =>
         {
             bool sameTeam = c.CurrentTeam == owner.CurrentTeam && owner.CurrentTeam != Team.AgainstTheWorld;
@@ -183,6 +182,6 @@ public class SpellCaster : MonoBehaviour
         }).ToArray();
 
 
-    private static CharacterParams[] GetFilteredCharacters(CharacterParams owner, SpellTargets target) =>
+    private static CharacterState[] GetFilteredCharacters(CharacterState owner, SpellTargets target) =>
         FilterCharacters(owner, GetAllCharacters(), target);
 }

@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    private CharacterParams _characterParams;
+    private CharacterState _characterParams;
     private NavMeshAgent _navMeshAgent;
 
     public Transform Target;
@@ -11,7 +11,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _characterParams = GetComponent<CharacterParams>();
+        _characterParams = GetComponent<CharacterState>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
 
         CharacterUtils.ApplaySettings(_characterParams, _navMeshAgent, true);

@@ -6,7 +6,7 @@ using System.Linq;
 using Random = UnityEngine.Random;
 using System;
 
-public class CharacterParams : MonoBehaviour
+public class CharacterState : MonoBehaviour
 {
     public enum Team : int
     {
@@ -92,7 +92,7 @@ public class CharacterParams : MonoBehaviour
     }
     
     //TODO: @artemy implement me
-    internal void ApplaySpell(CharacterParams owner, Spell spell) => throw new NotImplementedException();
+    internal void ApplaySpell(CharacterState owner, Spell spell) => throw new NotImplementedException();
 
     void CastBuff(Buff buff)
     {
