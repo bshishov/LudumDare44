@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
         {
             var hitPoint = ray.GetPoint(enter);
 
-            var data = _emitters[0].GetData(gameObject, ray, hitPoint);
+            var data = _emitters[0].GetData(_characterState, ray, hitPoint);
 
             _characterState.FireSpell(index, data);
         }

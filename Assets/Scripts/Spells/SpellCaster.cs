@@ -1,12 +1,13 @@
 ﻿using Assets.Scripts.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public struct SpellEmitterData
 {
-    public GameObject owner;
+    public CharacterState owner;
     public SpellEmitter emitter;
     public Ray ray;
     public Vector3 floorIntercection;
@@ -33,6 +34,18 @@ public class SpellCaster : MonoBehaviour
 
         public SubSpell subSpell;
         public bool aborted;
+
+        public object customData;
+    }
+
+    private class SpellTargets
+    {
+        public CharacterState source;
+        public CharacterState destination;
+    }
+    private class SubSpellTargets
+    {
+        public List<SpellTargets> spellTargets;
     }
 
     private class CastContext
@@ -51,6 +64,8 @@ public class SpellCaster : MonoBehaviour
 
         public float frameTime;
         public bool aborted;
+
+        public SubSpellTargets[] spellTargets;
     }
 
     private CharacterState _owner;
@@ -75,7 +90,7 @@ public class SpellCaster : MonoBehaviour
         spell = spell,
         emitterData = data,
 
-        currentSubspell = 1,
+        currentSubspell = -1,
         subContext = null,
 
         startTime = Time.fixedTime,
@@ -98,7 +113,7 @@ public class SpellCaster : MonoBehaviour
         _context.activeTime += _context.frameTime;
         _context.stateActiveTime += _context.frameTime;
 
-        while (ManageContext(_context));
+        while (ManageContext(_context)) ;
 
         if (_context.aborted == true)
         {
@@ -135,7 +150,7 @@ public class SpellCaster : MonoBehaviour
                 return true;
 
             case ContextState.Executing:
-                if(context.subContext == null)
+                if (context.subContext == null)
                 {
                     context.subContext = CreateSubContext(context, context.spell.SubSpells[context.currentSubspell]);
                 }
@@ -145,7 +160,7 @@ public class SpellCaster : MonoBehaviour
 
                 if (context.subContext.aborted == true)
                 {
-                    if((context.spell.Flags & Spell.SpellFlags.BreakOnFailedTargeting)
+                    if ((context.spell.Flags & Spell.SpellFlags.BreakOnFailedTargeting)
                         == Spell.SpellFlags.BreakOnFailedTargeting)
                     {
                         context.aborted = true;
@@ -233,10 +248,88 @@ public class SpellCaster : MonoBehaviour
 
     private static bool Execute(CastContext context, SubSpellContext subContext)
     {
+        var currentTargets = context.spellTargets[context.currentSubspell];
+
+        foreach (var pair in currentTargets.spellTargets)
+        {
+            var owner = pair.source;
+
+            object[] targets = GetTargets(owner, context, subContext);
+            if (targets == null || targets.Length == 0)
+                return false;
+        }
+
         return true;
     }
 
-    private bool FindTarget(SubSpellContext subContext) => throw new NotImplementedException();
+    private static object[] GetTargets(CharacterState owner, CastContext context, SubSpellContext subContext)
+    {
+        var subSpell = subContext.subSpell;
+
+        if (subContext.subSpell.SpellTarget == SubSpell.SpellTargets.CastOnSelf)
+            return new[] { owner };
+
+        var availibleTargets = GetFilteredCharacters(owner, subSpell.AffectedTarget);
+        if (availibleTargets.Length == 0)
+            return null;
+
+        switch (subContext.subSpell.SpellTarget)
+        {
+            case SubSpell.SpellTargets.CastOnClosest:
+                return new[] {
+                    availibleTargets.OrderBy(t => (t.transform.position - owner.transform.position).magnitude).First()
+                    };
+
+            case SubSpell.SpellTargets.Direction:
+                Assert.IsTrue(context.currentSubspell == 0);
+
+                if (subSpell.ProjectileSpeed == 0) // instant
+                {
+                    availibleTargets = availibleTargets.Where(t =>
+                    {
+                        var collider = t.GetComponent<Collider>();
+                        if (collider == null)
+                            return false;
+
+                        return collider.Raycast(context.emitterData.ray, out var hit, 100);
+                    }).ToArray();
+
+                    if (availibleTargets.Length == 0)
+                        return null;
+
+                    if ((subSpell.Obstacles & SubSpell.ProjectileObstacles.Break) == SubSpell.ProjectileObstacles.Break)
+                        availibleTargets = new[] { availibleTargets[0]};
+
+                    return availibleTargets;
+                }
+                else
+                {
+                    SpawnProjectile(owner, context, subContext);
+                }
+
+            case SubSpell.SpellTargets.Location:
+                return availibleTargets;
+        }
+
+        return null;
+    }
+
+    private static void SpawnProjectile(CharacterState owner, CastContext context, SubSpellContext subContext) => throw new NotImplementedException();
+    private static CharacterState[] GetAllCharacters() => FindObjectsOfType<CharacterState>().ToArray();
+
+    private static CharacterState[] GetFilteredCharacters(CharacterState owner, SubSpell.AffectedTargets target) =>
+        FilterCharacters(owner, GetAllCharacters(), target);
+
+    private static CharacterState[] FilterCharacters(CharacterState owner, CharacterState[] characters, SubSpell.AffectedTargets target) =>
+        characters.Where(c =>
+        {
+            bool sameTeam = c.CurrentTeam == owner.CurrentTeam && owner.CurrentTeam != CharacterState.Team.AgainstTheWorld;
+            var mask = sameTeam ? SubSpell.AffectedTargets.Friend : SubSpell.AffectedTargets.Enemy;
+            if (c == owner)
+                mask |= SubSpell.AffectedTargets.Self;
+
+            return (mask & target) == target;
+        }).ToArray();
 
     //public void CastSpell(Spell spell, Vector3 targetPosition)
     //{
@@ -279,14 +372,6 @@ public class SpellCaster : MonoBehaviour
     //    }
     //}
 
-    //private Transform GetTarget(SubSpell spell, Vector3 targetPosition)
-    //{
-    //    var availibleTargets = GetFilteredCharacters(_owner, spell.AffectedTargets);
-    //    if (availibleTargets.Length == 0)
-    //        return null;
-
-    //    return availibleTargets.OrderBy(t => (t.transform.position - targetPosition).magnitude).First().transform;
-    //}
 
     //private void CastTargetableSpell(SubSpell spell, Transform target)
     //{
@@ -396,31 +481,4 @@ public class SpellCaster : MonoBehaviour
     //        }
     //    }
     //    return null;
-    //}
-
-    //private void ApplySpell(SubSpell spell, CharacterState[] availibleTargets)
-    //{
-    //    foreach (var target in availibleTargets)
-    //        target.ApplySpell(_owner, spell);
-    //}
-
-    //private static CharacterState[] GetAllCharacters()
-    //{
-    //    return FindObjectsOfType<CharacterState>().ToArray();
-    //}
-
-    //private static CharacterState[] FilterCharacters(CharacterState owner, CharacterState[] characters, SpellTargets target) =>
-    //    characters.Where(c =>
-    //    {
-    //        bool sameTeam = c.CurrentTeam == owner.CurrentTeam && owner.CurrentTeam != Team.AgainstTheWorld;
-    //        var mask = sameTeam ? SpellTargets.Friend : SpellTargets.Enemy;
-    //        if (c == owner)
-    //            mask |= SpellTargets.Self;
-
-    //        return (mask & target) == target;
-    //    }).ToArray();
-
-
-    //private static CharacterState[] GetFilteredCharacters(CharacterState owner, SpellTargets target) =>
-    //    FilterCharacters(owner, GetAllCharacters(), target);
 }
