@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using Assets.Scripts.Data;
 
 public class SpellState : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class SpellState : MonoBehaviour
     }
 
     internal void FireSpell(int index)
+    {
+
+    }
+
+    internal void Pickup(Spell spell)
     {
 
     }

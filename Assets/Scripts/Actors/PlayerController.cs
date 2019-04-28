@@ -42,8 +42,6 @@ public class PlayerController : MonoBehaviour
             _spellState.FireSpell(2);
     }
 
-    private void FireSpell() => throw new NotImplementedException();
-
     void Update()
     {
         GetInput();
