@@ -21,6 +21,9 @@ public class CharacterState : MonoBehaviour
 
     public CharacterConfig character;
 
+    public SpellbookState SpellbookState { get; private set; }
+    public InventoryState InventoryState { get; private set; }
+
     public float MaxHealth { get; private set; }    
     public float Health { get; private set; }
     public float Speed { get; private set; }
@@ -28,10 +31,20 @@ public class CharacterState : MonoBehaviour
     public float Size { get; private set; }
 
     public float Damage { get; private set; }
+
+    internal void Pickup(Spell spell)
+    {
+        SpellbookState.GetPickupOptions(spell);
+    }
+
+    internal void Pickup(Item item)
+    {
+
+    }
+
     public float DropRate { get; private set; }
 
     public IReadOnlyList<Spell> DropSpells { get; private set; }
-    public IReadOnlyList<Spell> UseSpells { get; private set; }
 
     public Dictionary<Buff, float> BuffsOn = new Dictionary<Buff, float>();
 
@@ -40,13 +53,15 @@ public class CharacterState : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SpellbookState = GetComponent<SpellbookState>();
+        InventoryState = GetComponent<InventoryState>();
+
         MaxHealth = character.Health;
         Health = character.Health;
         Speed = character.Speed;
         Damage = character.Damage;
         DropRate = character.DropRate;
         DropSpells = character.DropSpells;
-        UseSpells = character.UseSpells;
         Evasion = character.Evasion;
         Size = character.Size;
         InvokeRepeating("SecondsUpdate", 0.0f, 1.0f);

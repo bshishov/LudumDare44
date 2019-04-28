@@ -4,13 +4,11 @@ using Assets.Scripts.Data;
 
 public class ItemPickuper : MonoBehaviour
 {
-    private SpellState _spellState;
-    private InventoryState _inventoryState;
+    private CharacterState _character;
 
     void Start()
     {
-        _spellState = GetComponent<SpellState>();
-        _inventoryState = GetComponent<InventoryState>();
+        _character = GetComponent<CharacterState>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,11 +31,11 @@ public class ItemPickuper : MonoBehaviour
 
         if (spell != null)
         {
-            _spellState.Pickup(spell);
+            _character.Pickup(spell);
         }
         else if (item != null)
         {
-            _inventoryState.Pickup(spell);
+            _character.Pickup(item);
         }
     }
 }

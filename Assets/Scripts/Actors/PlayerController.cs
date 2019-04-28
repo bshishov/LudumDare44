@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
 
     private Plane _ground;
     private CharacterState _characterState;
-    private SpellState _spellState;
     private NavMeshAgent _agent;
 
 
@@ -19,7 +18,6 @@ public class PlayerController : MonoBehaviour
         _ground = new Plane(Vector3.up, Vector3.zero);
 
         _characterState = GetComponent<CharacterState>();
-        _spellState = GetComponent<SpellState>();
 
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
@@ -32,14 +30,21 @@ public class PlayerController : MonoBehaviour
         moveDirection.x = Input.GetAxis("Horizontal");
         moveDirection.z = Input.GetAxis("Vertical");
 
+        var spells = _characterState.SpellbookState;
+        if(spells == null)
+        {
+            Debug.LogError("No spell state!");
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
-            _spellState.FireSpell(0);
+            spells.FireSpell(0);
 
         if (Input.GetMouseButtonDown(1))
-            _spellState.FireSpell(1);
+            spells.FireSpell(1);
 
         if (Input.GetMouseButtonDown(1))
-            _spellState.FireSpell(2);
+            spells.FireSpell(2);
     }
 
     void Update()
