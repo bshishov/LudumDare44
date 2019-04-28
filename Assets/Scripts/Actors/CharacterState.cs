@@ -32,7 +32,6 @@ public class CharacterState : MonoBehaviour
     public float Speed { get; private set; }
     public float Evasion { get; private set; }
     public float Size { get; private set; }
-
     public float Damage { get; private set; }
 
     internal void Pickup(Spell spell)
@@ -101,7 +100,7 @@ public class CharacterState : MonoBehaviour
         DropSpells = character.DropSpells;
         Evasion = character.Evasion;
         Size = character.Size;
-        InvokeRepeating("SecondsUpdate", 0.0f, 1.0f);
+        InvokeRepeating("SecondsUpdate", 1.0f, 1.0f);
 
         if (CurrentTeam == Team.Undefined)
             Debug.LogError("Team not setted!", this);
@@ -120,12 +119,13 @@ public class CharacterState : MonoBehaviour
             Debug.Log("GG");
         }
 
+        /*
         _secondTickReminingTime -= Time.deltaTime;
         if (_secondTickReminingTime < 0f)
         {
             SecondsUpdate();
             _secondTickReminingTime = 1f;
-        }
+        }*/
 
 #if DEBUG
         if(gameObject.CompareTag(Tags.Player))
@@ -133,17 +133,18 @@ public class CharacterState : MonoBehaviour
 #endif
     }
 
+#if DEBUG
     void DisplayState()
     {
-#if DEBUG
+
         Debugger.Default.Display(gameObject.name + "/HP", Health);
         Debugger.Default.Display(gameObject.name + "/MAX HP", MaxHealth);
         Debugger.Default.Display(gameObject.name + "/HP REGEN", HealthRegen);
         Debugger.Default.Display(gameObject.name + "/Speed", Speed);
         Debugger.Default.Display(gameObject.name + "/Damage", Damage);
         Debugger.Default.Display(gameObject.name + "/Evasion", Evasion);
-#endif
     }
+#endif
 
     void SecondsUpdate()
     {        
@@ -170,6 +171,8 @@ public class CharacterState : MonoBehaviour
                 BuffsOn.Remove(buff);
             }
         }
+
+        Health = Mathf.Min(Health + HealthRegen, MaxHealth);
     }
 
     //TODO: @artemy implement me
@@ -179,16 +182,17 @@ public class CharacterState : MonoBehaviour
         {
             foreach (Buff buff in spell.Buffs)
             {
-                CastBuff(buff);
+                ApplyBuff(buff);
             }
         }
     }
     
 
-    public void CastBuff(Buff buff)
+    public void ApplyBuff(Buff buff)
     {
         if (BuffsOn.ContainsKey(buff))
         {
+            // If there is a buff already exist just renew the cooldown
             BuffsOn[buff] = buff.Duration;
         }
         else
@@ -247,7 +251,7 @@ public class CharacterState : MonoBehaviour
                 Speed = Speed / buff.Multiplier - buff.Addition;
                 break;
             case Buff.ChangedProperties.Damage:
-                Health = Health / buff.Multiplier - buff.Addition; 
+                Health = Health / buff.Multiplier + buff.Addition; 
                 if (Health > MaxHealth)
                 {
                     Health = MaxHealth;

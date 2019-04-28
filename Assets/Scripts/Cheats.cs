@@ -12,22 +12,57 @@ public class Cheats : MonoBehaviour
 {
     public Buff[] Buffs;
     public Spell[] Spells;
+    public Item[] Items;
 
     private PlayerController _playerController;
     private CharacterState _playerState;
+    private SpellbookState _playerSpellbookState;
 
     void Start()
     {
         _playerController = FindObjectOfType<PlayerController>();
         _playerState = _playerController.GetComponent<CharacterState>();
+        _playerSpellbookState = _playerController.GetComponent<SpellbookState>();
 
         foreach (var buff in Buffs)
         {
             Debugger.Default.Display(string.Format("Cheats/Apply Buffs/{0}", buff.name), () =>
             {
-                _playerState.CastBuff(buff);
+                _playerState.ApplyBuff(buff);
             });
         }
+
+        foreach (var spell in Spells)
+        {
+            Debugger.Default.Display(string.Format("Cheats/Pickup Spell/{0}", spell.name), () =>
+            {
+                _playerState.Pickup(spell);
+            });
+        }
+
+        foreach (var item in Items)
+        {
+            Debugger.Default.Display(string.Format("Cheats/Pickup Item/{0}", item.name), () =>
+            {
+                _playerState.Pickup(item);
+            });
+        }
+    }
+
+    void Update()
+    {
+#if DEBUG
+        var spellSlotIdx = 0;
+        foreach (var spellbookStateSpellSlot in _playerSpellbookState.SpellSlots)
+        {
+            var path = _playerController.gameObject.name + "/SpellbookState/Slot " + spellSlotIdx;
+            Debugger.Default.Display(path + "/RemainingCooldown", spellbookStateSpellSlot.RemainingCooldown);
+            Debugger.Default.Display(path + "/State", spellbookStateSpellSlot.State.ToString());
+            if(spellbookStateSpellSlot.Spell != null)
+                Debugger.Default.Display(path + "/Spell", spellbookStateSpellSlot.Spell.name);
+            spellSlotIdx++;
+        }
+#endif
     }
 
 #if UNITY_EDITOR
@@ -36,6 +71,7 @@ public class Cheats : MonoBehaviour
     {
         Buffs = FindAssetsByType<Buff>().ToArray();
         Spells = FindAssetsByType<Spell>().ToArray();
+        Items = FindAssetsByType<Item>().ToArray();
     }
 
     public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
