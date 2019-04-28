@@ -7,7 +7,7 @@ public static class CharacterUtils
 {
     public static float speedDistorshen = 0.3f;
 
-    internal static void ApplaySettings(CharacterState characterParams, NavMeshAgent navMeshAgent, bool randomize)
+    internal static void ApplySettings(CharacterState characterParams, NavMeshAgent navMeshAgent, bool randomize)
     {
         navMeshAgent.speed = navMeshAgent.speed;
         if(randomize)

@@ -14,7 +14,7 @@ public class EnemyController : MonoBehaviour
         _characterParams = GetComponent<CharacterState>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
 
-        CharacterUtils.ApplaySettings(_characterParams, _navMeshAgent, true);
+        CharacterUtils.ApplySettings(_characterParams, _navMeshAgent, true);
     }
 
     // Update is called once per frame

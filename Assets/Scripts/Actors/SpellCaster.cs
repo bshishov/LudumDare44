@@ -113,7 +113,7 @@ public class SpellCaster : MonoBehaviour
                 return;
         }
 
-        ApplaySpell(spell, availibleTargets);
+        ApplySpell(spell, availibleTargets);
     }
 
     private void CastAoeSpell(Spell spell, Vector3 targetPosition)
@@ -123,7 +123,7 @@ public class SpellCaster : MonoBehaviour
             case SpellTypes.Aoe:
                 var availibleTargets = GetFilteredCharacters(_owner, spell.SpellTarget);
                 availibleTargets = GetAllCharacterInArea(availibleTargets, targetPosition, spell.Area);
-                ApplaySpell(spell, availibleTargets);
+                ApplySpell(spell, availibleTargets);
                 break;
             default:
                 Debug.LogAssertion($"Invalid SpellType {spell.SpellType}");
@@ -158,10 +158,10 @@ public class SpellCaster : MonoBehaviour
         return null;
     }
 
-    private void ApplaySpell(Spell spell, CharacterState[] availibleTargets)
+    private void ApplySpell(Spell spell, CharacterState[] availibleTargets)
     {
         foreach (var target in availibleTargets)
-            target.ApplaySpell(_owner, spell);
+            target.ApplySpell(_owner, spell);
     }
 
     private static CharacterState[] GetAllCharacters()

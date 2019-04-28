@@ -107,7 +107,7 @@ public class CharacterState : MonoBehaviour
     }
     
     //TODO: @artemy implement me
-    internal void ApplaySpell(CharacterState owner, Spell spell) => throw new NotImplementedException();
+    internal void ApplySpell(CharacterState owner, Spell spell) => throw new NotImplementedException();
 
     void CastBuff(Buff buff)
     {
