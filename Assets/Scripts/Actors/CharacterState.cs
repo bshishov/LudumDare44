@@ -140,9 +140,27 @@ public class CharacterState : MonoBehaviour
             }
         }
     }
-    
+
     //TODO: @artemy implement me
-    internal void ApplySpell(CharacterState owner, Spell spell) => throw new NotImplementedException();
+    internal void ApplySpell(CharacterState owner, Spell spell)
+    {
+        if (owner.CurrentTeam != CurrentTeam)
+        {
+            if (spell.Damage > 0)
+            {
+                Buff damageBuff = new Buff();
+                damageBuff.Addition = spell.Damage;
+                damageBuff.Permanent = true;
+                damageBuff.ChangedProperty = Buff.ChangedProperties.Damage;
+                CastBuff(damageBuff);
+            }
+            foreach (Buff buff in spell.Buffs)
+            {
+                CastBuff(buff);
+            }
+        }
+    }
+    
 
     void CastBuff(Buff buff)
     {

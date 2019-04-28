@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
 
     public Vector3 offset = new Vector3(0, 10, - 20);
 
-    private PlayerController playerController;
+    private PlayerController _playerController;
 
     void Start()
     {
@@ -21,12 +21,13 @@ public class CameraController : MonoBehaviour
         if (t != null)
             return;
 
-        playerController = target.GetComponent<PlayerController>();
+        _playerController = target.GetComponent<PlayerController>();
     }
 
     void LateUpdate()
     {
-        Move();
+        if(target != null)
+            Move();
     }
 
     private void Move()

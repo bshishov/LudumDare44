@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Data
@@ -42,7 +43,7 @@ namespace Assets.Scripts.Data
 
         [Header("Buffs")]
         [SerializeField]
-        public Buff[] Buffs;
+        public List<Buff> Buffs;
 
         // TODO: set later
         [Header("Visual Effects")]
