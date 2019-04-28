@@ -5,6 +5,7 @@ using Assets.Scripts.Data;
 using System.Linq;
 using Random = UnityEngine.Random;
 using System;
+using UnityEngine.Assertions;
 
 public class CharacterState : MonoBehaviour
 {
@@ -34,7 +35,41 @@ public class CharacterState : MonoBehaviour
 
     internal void Pickup(Spell spell)
     {
-        SpellbookState.GetPickupOptions(spell);
+        Assert.IsNotNull(SpellbookState);
+        var option = SpellbookState.GetPickupOptions(spell);
+
+        switch (option)
+        {
+            case SpellbookState.PlaceOtions.Place:
+                SpellbookState.PlaceSpell(spell);
+                break;
+
+            default:
+                Debug.Log("Unhandled Pickup option");
+                break;
+        }
+    }
+
+    internal void FireSpell<T>(int index, T target)
+    {
+        Assert.IsNotNull(SpellbookState);
+
+        var status = SpellbookState.GetSpellSlotStatus(index);
+
+        switch(status.State)
+        {
+            case SpellbookState.SpellState.None:
+                Debug.Log("SpellSlot is empty");
+                break;
+
+            case SpellbookState.SpellState.Ready:
+                SpellbookState.FireSpell(index, target);
+                break;
+
+            default:
+                Debug.Log("Unhandled spell state");
+                break;
+        }
     }
 
     internal void Pickup(Item item)
@@ -194,4 +229,8 @@ public class CharacterState : MonoBehaviour
                 break;
         }
     }
+
+
+
+    internal void DrawSpellGizmos(int slot, Vector3 target) => SpellbookState.DrawSpellGizmos(slot, target);
 }

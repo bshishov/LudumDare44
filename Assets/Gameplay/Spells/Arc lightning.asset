@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Arc lightning
   SpellType: 0
+  SpellTarget: 8
   Damage: 1
   AoeRadius: 0
   BloodCost: 0
   BloodBack: 5
   Cooldown: 0
+  Area: {fileID: 0}
   Buffs: []
   VisualEffect: {fileID: 0}

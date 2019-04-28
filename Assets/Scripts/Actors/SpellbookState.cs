@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.Scripts.Data;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class SpellbookState : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class SpellbookState : MonoBehaviour
         public float RemainingCooldown;
     };
 
+    private SpellCaster _spellCaster;
     private CharacterState _characterState;
 
     public static readonly int SpellCount = 3;
@@ -35,7 +37,9 @@ public class SpellbookState : MonoBehaviour
 
     private void Start()
     {
+        _spellCaster = GetComponent<SpellCaster>();
         _characterState = GetComponent<CharacterState>();
+
         var initialSpells = _characterState.character.UseSpells;
         if (initialSpells.Count > 3)
         {
@@ -51,11 +55,7 @@ public class SpellbookState : MonoBehaviour
     internal PlaceOtions GetPickupOptions(Spell spell)
     {
         var slotIndex = GetSpellSlot(spell);
-        if(slotIndex == -1)
-        {
-            Debug.LogError($"No slot for spell {spell.Name}");
-            return PlaceOtions.None;
-        }
+        Assert.IsTrue(slotIndex >= 0 && slotIndex <= SpellCount);
 
         var slot = SpellSlots[slotIndex];
         if (slot.State == SpellState.None)
@@ -71,20 +71,37 @@ public class SpellbookState : MonoBehaviour
         return PlaceOtions.Replace;
     }
 
-    public int GetSpellSlot(Spell spell)
+    internal SpellSlotState GetSpellSlotStatus(int index)
+    {
+        Assert.IsTrue(index >= 0 && index <= SpellCount);
+        return SpellSlots[index];
+    }
+
+    internal void PlaceSpell(Spell spell)
+    {
+        Debug.Log($"Place spell {spell.Name}");
+
+        if(GetPickupOptions(spell) != PlaceOtions.Place)
+        {
+            Assert.IsFalse(true);
+            return;
+        }
+
+        AddSpell(GetSpellSlot(spell), spell);
+    }
+
+    public static int GetSpellSlot(Spell spell)
     {
         return 0;
     }
 
-    internal void FireSpell(int index)
+    internal void FireSpell<T>(int index, T target)
     {
-        if (index >= SpellCount)
-        {
-            Debug.LogWarning($"Index {index} is invalid to cast spell!");
-            return;
-        }
+        Assert.IsTrue(index >= 0 && index <= SpellCount);
+        var status = GetSpellSlotStatus(index);
+        Assert.IsTrue(status.State == SpellState.Ready);
 
-        CheckAndFireSpell(SpellSlots[index]);
+        _spellCaster.CastSpell(status.Spell, target);
     }
 
     internal void Pickup(Spell spell)
@@ -92,16 +109,22 @@ public class SpellbookState : MonoBehaviour
 
     }
 
-    private void AddSpell(int i, Spell spell) => 
-        SpellSlots[i] = new SpellSlotState
+    private void AddSpell(int slot, Spell spell)
+    {
+        Debug.Log($"Spell {spell.Name} placed into slot {slot}");
+        SpellSlots[slot] = new SpellSlotState
         {
             Spell = spell,
             State = SpellState.Ready,
             RemainingCooldown = 0.0f
         };
+    }
 
     private void CheckAndFireSpell(SpellSlotState spell)
     {
 
     }
+
+    internal void DrawSpellGizmos(int slot, Vector3 target) =>
+        _spellCaster.DrawSpellGizmos(SpellSlots[slot].Spell, target);
 }

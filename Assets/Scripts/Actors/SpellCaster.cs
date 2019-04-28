@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.Data;
+using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 using static Assets.Scripts.Data.Spell;
 using static CharacterState;
 
@@ -12,8 +14,22 @@ public class SpellCaster : MonoBehaviour
     // Start is called before the first frame update
     private void Start() => _owner = GetComponent<CharacterState>();
 
+    public void CastSpell(Spell spell, object target)
+    {
+        if(target is Vector3)
+        {
+            CastSpell(spell, (Vector3)target);
+        }
+        else
+        {
+            CastSpell(spell, target as Transform);
+        }
+
+    }
     public void CastSpell(Spell spell, Vector3 targetPosition)
     {
+        Assert.IsNotNull(spell);
+
         switch (spell.SpellType)
         {
             case SpellTypes.Raycast:
@@ -32,6 +48,9 @@ public class SpellCaster : MonoBehaviour
 
     public void CastSpell(Spell spell, Transform target)
     {
+        Assert.IsNotNull(spell);
+        Assert.IsNotNull(target);
+
         switch (spell.SpellType)
         {
             case SpellTypes.Raycast:
@@ -47,7 +66,6 @@ public class SpellCaster : MonoBehaviour
                 break;
         }
     }
-
 
     private Transform GetTarget(Spell spell, Vector3 targetPosition)
     {
@@ -116,6 +134,16 @@ public class SpellCaster : MonoBehaviour
         ApplySpell(spell, availibleTargets);
     }
 
+    internal void DrawSpellGizmos(Spell spell, Vector3 target)
+    {
+        Gizmos.DrawSphere(target, 0.2f);
+
+        var targetObject = GetTarget(spell, target);
+        if (targetObject == null)
+            return;
+        Gizmos.DrawWireCube(targetObject.transform.position, Vector3.one);
+    }
+
     private void CastAoeSpell(Spell spell, Vector3 targetPosition)
     {
         switch (spell.SpellType)
@@ -166,8 +194,7 @@ public class SpellCaster : MonoBehaviour
 
     private static CharacterState[] GetAllCharacters()
     {
-        var actors = GameObject.FindGameObjectsWithTag("Actors");
-        return actors.Select(a => a.GetComponent<CharacterState>()).Where(a => a != null).ToArray();
+        return FindObjectsOfType<CharacterState>().ToArray();
     }
 
     private static CharacterState[] FilterCharacters(CharacterState owner, CharacterState[] characters, SpellTargets target) =>

@@ -388,6 +388,7 @@ GameObject:
   - component: {fileID: 4220444930057774738}
   - component: {fileID: 2690621711745313145}
   - component: {fileID: 1451251245487624899}
+  - component: {fileID: 2677229216203359800}
   m_Layer: 8
   m_Name: Vlad
   m_TagString: Player
@@ -442,7 +443,7 @@ NavMeshAgent:
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 1
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
@@ -558,6 +559,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30b69a73d4509114488646454e86ae70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2677229216203359800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996985578712122520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 039599ff87e648846b1352f790928287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxSpellDistance: 100
 --- !u!1 &2202749416782511908
 GameObject:
   m_ObjectHideFlags: 0

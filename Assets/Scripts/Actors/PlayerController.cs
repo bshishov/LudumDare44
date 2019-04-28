@@ -33,21 +33,25 @@ public class PlayerController : MonoBehaviour
         moveDirection.x = Input.GetAxis("Horizontal");
         moveDirection.z = Input.GetAxis("Vertical");
 
-        var spells = _characterState.SpellbookState;
-        if(spells == null)
-        {
-            Debug.LogError("No spell state!");
-            return;
-        }
-
         if (Input.GetMouseButtonDown(0))
-            spells.FireSpell(0);
+            FireSpell(0);
 
         if (Input.GetMouseButtonDown(1))
-            spells.FireSpell(1);
+            FireSpell(1);
 
         if (Input.GetMouseButtonDown(1))
-            spells.FireSpell(2);
+            FireSpell(2);
+    }
+
+    private void FireSpell(int index)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(ray.origin, ray.direction * 100, Color.green, 2.0f);
+        if (_ground.Raycast(ray, out var enter))
+        {
+            var hitPoint = ray.GetPoint(enter);
+            _characterState.FireSpell(index, hitPoint);
+        }
     }
 
     void Update()
@@ -78,6 +82,28 @@ public class PlayerController : MonoBehaviour
             var q = transform.rotation;
             q.eulerAngles = new Vector3(0, q.eulerAngles.y, q.eulerAngles.z);
             transform.rotation = q;
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(1, 1, 0, 0.75F);
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Gizmos.DrawRay(ray);
+
+        if (_ground.Raycast(ray, out var enter))
+        {
+            var hitPoint = ray.GetPoint(enter);
+            Gizmos.DrawSphere(hitPoint, 0.2f);
+        }
+
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Gizmos.DrawRay(ray);
+        if (_ground.Raycast(ray, out enter))
+        {
+            var hitPoint = ray.GetPoint(enter);
+            _characterState.DrawSpellGizmos(0, hitPoint);
         }
     }
 }
