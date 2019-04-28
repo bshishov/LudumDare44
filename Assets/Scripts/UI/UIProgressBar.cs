@@ -22,7 +22,7 @@ namespace Assets.Scripts.UI
             _initialSize = FillTransform.sizeDelta;
             SetValue(Initial);
 
-            Debugger.Default.Display("Progress bar", () => { _target = Random.value; }, "Random");
+            Debugger.Default.Display("Progress bar/Random", () => { _target = Random.value; });
         }
 
         void Update()
