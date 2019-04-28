@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
         _agent.Move(motionVector);
         _agent.SetDestination(transform.position + motionVector);
 
-        _animator.SetSpeed(_agent.velocity.magnitude);
+        _animator.SetSpeed(_agent.velocity.magnitude / navMeshAgent.speed);
     }
 
     private void LookAt()
