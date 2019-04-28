@@ -536,6 +536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 7
+  _emitters: []
 --- !u!114 &2690621711745313145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -739,7 +740,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4192541368420370693}
-  - component: {fileID: 8093506015923175413}
+  - component: {fileID: 5190046810472248842}
   m_Layer: 8
   m_Name: Hand R
   m_TagString: Untagged
@@ -766,7 +767,7 @@ Transform:
   m_Father: {fileID: 4642753820035549302}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8093506015923175413
+--- !u!114 &5190046810472248842
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -775,7 +776,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3103157655396114023}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a71aa826c236a234bb48afd660e852e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 17afe97db212efb4595358c8e30cd7ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3307821672614440692

@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
     private NavMeshAgent _agent;
     private AnimationController _animator;
-    private SpellEmitter[] _emitters;
+    public SpellEmitter[] _emitters;
 
     void Start()
     {
