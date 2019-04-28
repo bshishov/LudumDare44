@@ -254,6 +254,8 @@ public class SpellCaster : MonoBehaviour
         var currentTargets = context.subSpellTargets[context.currentSubspell];
         var newTargets = new SubSpellTargets { targetData = new List<PerSourceTargets>()};
 
+        context.effect.OnSubSpellStartCast(context.spell, context.GetCurrentSubSpell(), currentTargets);
+
         foreach (var data in currentTargets.targetData)
         {
             if (data.destinations == null)
@@ -272,6 +274,7 @@ public class SpellCaster : MonoBehaviour
 
     private static bool Execute(CastContext context, SubSpellContext subContext)
     {
+        var anyTargetFound = false;
         var currentTargets = context.subSpellTargets[context.currentSubspell];
 
         foreach (var pair in currentTargets.targetData)
@@ -310,11 +313,12 @@ public class SpellCaster : MonoBehaviour
 
             if (targets != null && targets.Length != 0)
             {
+                anyTargetFound = true;
                 pair.destinations = targets;
             }
         }
 
-        return true;
+        return anyTargetFound;
     }
 
     private static Vector3 GetOrigin(CharacterState owner, CastContext context, SubSpellContext subContext)
