@@ -34,7 +34,7 @@ namespace Assets.Scripts
 
             SpawnNextChunk();
 
-            Debugger.Default.Display("GameManager/Next", SpawnNextChunk, "Spawn next chunk");
+            Debugger.Default.Display("GameManager/Spawn next chunk", SpawnNextChunk);
         }
         
         void Update()

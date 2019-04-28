@@ -20,6 +20,7 @@ public class AnimationController : MonoBehaviour
     public string CastTarget = "CastTarget";
     public string CastProjectile = "CastProjectile";
     public string Attack = "CastTarget";
+    public string Pickup = "Pickup";
 
     public string[] DeathVariations;
     public string[] TakeDamageVariations;
@@ -54,6 +55,7 @@ public class AnimationController : MonoBehaviour
         {
             PlayCastAnimation(Spell.SpellTypes.Raycast);
         });
+        Debugger.Default.Display("Animation/Force enable", () => { _disabled = false; });
     }
 
     public void PlayDeathAnimation()
@@ -118,5 +120,13 @@ public class AnimationController : MonoBehaviour
     public void SetSpeed(float speed)
     {
         Animator.SetFloat(SpeedVariable, speed * SpeedMultiplier);
+    }
+
+    public void PlayPickupAnimation()
+    {
+        if(_disabled)
+            return;
+
+        Animator.SetTrigger(Pickup);
     }
 }
