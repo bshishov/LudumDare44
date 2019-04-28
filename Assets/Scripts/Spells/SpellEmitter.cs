@@ -15,7 +15,7 @@ public class SpellEmitter : MonoBehaviour
 
     }
 
-    internal SpellEmitterData GetData(GameObject owner, Ray ray, Vector3 hitPoint) => 
+    internal SpellEmitterData GetData(CharacterState owner, Ray ray, Vector3 hitPoint) => 
         new SpellEmitterData {
             owner = owner,
             emitter = this,
