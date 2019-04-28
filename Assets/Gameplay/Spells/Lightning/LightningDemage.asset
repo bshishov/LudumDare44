@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
-  m_Name: Player
+  m_Script: {fileID: 11500000, guid: 3303e6a0239599a42a240593fc7c9ead, type: 3}
+  m_Name: LightningDemage
   m_EditorClassIdentifier: 
-  Health: 100
-  Damage: 0
-  Speed: 1.49
-  Evasion: 0
-  Size: 1
-  DropRate: 0
-  DropSpells: []
-  UseSpells:
-  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
+  Name: Lightning Demage
+  ChangedProperty: 1
+  Addition: 2
+  Multiplier: 0
+  Radius: 0
+  PerSecond: 0
+  Permanent: 0
+  Duration: 0
+  VisualEffect: {fileID: 0}

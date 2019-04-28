@@ -21,19 +21,35 @@ namespace Assets.Scripts.Data
         [Flags]
         public enum SpellTargets : int
         {
-            Self = 1 << 1,
-            Raycast = 1 << 2,
-            FirstHit = 1 << 3,
-            Closest = 1 << 3,
+            Direction = 1 << 1,
+            Target = 1 << 2,
+            CastOnSelf = 1 << 3,
+            CastOnClosest = 1 << 4,
+            DirectionCast = 1 << 5,
+            PointCast = 1 << 6,
+            TargetCast = 1 << 7,
+
+            Raycast = 1 << 8,
+            Projectile = 1 << 9,
+
+            FirstHit = 1 << 10,
+
+            RaycastToFirst = Raycast | FirstHit | DirectionCast,
+            RaycastToClosest = Raycast | FirstHit | CastOnClosest,
+
+            ProjectileToFirst = Projectile | FirstHit | DirectionCast,
         };
 
-        [EnumMask]
+        [EnumFlag]
         public SpellTargets SpellTarget;
 
         [EnumFlag]
         public AffectedTargets AffectedTarget;
 
         public AreaOfEffect Area;
+
+        public float PreCastDelay;
+        public float PostCastDelay;
 
         [Header("Buffs")]
         [SerializeField]

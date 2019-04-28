@@ -10,16 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
-  m_Name: Arc lightning
+  m_Name: SubLightning
   m_EditorClassIdentifier: 
-  Name: Arc lightning
-  SpellType: 0
-  SpellTarget: 8
-  Damage: 1
-  AoeRadius: 0
-  BloodCost: 0
-  BloodBack: 5
-  Cooldown: 0
+  SpellTarget: 1296
+  AffectedTarget: 8
   Area: {fileID: 0}
-  Buffs: []
+  Buffs:
+  - {fileID: 11400000, guid: 09cc6942754ec0d48b6ee2a1fb4a2069, type: 2}
   VisualEffect: {fileID: 0}

@@ -17,7 +17,7 @@ public class CharacterState : MonoBehaviour
         AgainstTheWorld
     }
 
-    [EnumMask]
+    [EnumFlag]
     public Team CurrentTeam = Team.Undefined;
 
     public CharacterConfig character;
@@ -50,7 +50,7 @@ public class CharacterState : MonoBehaviour
         }
     }
 
-    internal void FireSpell<T>(int index, T target)
+    internal void FireSpell(int index, SpellEmitterData data)
     {
         Assert.IsNotNull(SpellbookState);
 
@@ -63,7 +63,7 @@ public class CharacterState : MonoBehaviour
                 break;
 
             case SpellbookState.SpellState.Ready:
-                SpellbookState.FireSpell(index, target);
+                SpellbookState.FireSpell(index, data);
                 break;
 
             default:

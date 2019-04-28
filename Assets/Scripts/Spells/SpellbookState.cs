@@ -95,13 +95,13 @@ public class SpellbookState : MonoBehaviour
         return 0;
     }
 
-    internal void FireSpell<T>(int index, T target)
+    internal void FireSpell(int index, SpellEmitterData data)
     {
         Assert.IsTrue(index >= 0 && index <= SpellCount);
         var status = GetSpellSlotStatus(index);
         Assert.IsTrue(status.State == SpellState.Ready);
 
-        _spellCaster.CastSpell(status.Spell, target);
+        _spellCaster.CastSpell(status.Spell, data);
     }
 
     internal void Pickup(Spell spell)

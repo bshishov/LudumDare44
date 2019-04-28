@@ -1,30 +1,232 @@
 ﻿using Assets.Scripts.Data;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using static Assets.Scripts.Data.SubSpell;
-using static CharacterState;
+
+public struct SpellEmitterData
+{
+    public GameObject owner;
+    public SpellEmitter emitter;
+    public Ray ray;
+    public Vector3 floorIntercection;
+}
 
 public class SpellCaster : MonoBehaviour
 {
+    public enum ContextState
+    {
+        JistQueued = 0,
+        PreDelays,
+        Executing,
+        PostDelay,
+        Finishing,
+    }
+
+    private class SubSpellContext
+    {
+        public ContextState state;
+
+        public float startTime;
+        public float activeTime;
+        public float stateActiveTime;
+
+        public SubSpell subSpell;
+        public bool aborted;
+    }
+
+    private class CastContext
+    {
+        public ContextState state;
+
+        public Spell spell;
+        public SpellEmitterData emitterData;
+
+        public int currentSubspell;
+        public SubSpellContext subContext;
+
+        public float startTime;
+        public float activeTime;
+        public float stateActiveTime;
+
+        public float frameTime;
+        public bool aborted;
+    }
+
     private CharacterState _owner;
     public float MaxSpellDistance = 100.0f;
+    private CastContext _context;
 
     // Start is called before the first frame update
     private void Start() => _owner = GetComponent<CharacterState>();
 
-    public void CastSpell(Spell spell, object target)
+    public void CastSpell(Spell spell, SpellEmitterData data)
     {
-        if(target is Vector3)
+        if (_context != null)
         {
-            CastSpell(spell, (Vector3)target);
+            Debug.LogError($"spell cast aready casting, {_context.spell.Name}");
+            return;
         }
-        else
-        {
-            CastSpell(spell, target as Transform);
-        }
+        _context = CreateContext(spell, data);
     }
+
+    private static CastContext CreateContext(Spell spell, SpellEmitterData data) => new CastContext
+    {
+        spell = spell,
+        emitterData = data,
+
+        currentSubspell = 1,
+        subContext = null,
+
+        startTime = Time.fixedTime,
+        stateActiveTime = 0.0f
+    };
+
+    private static SubSpellContext CreateSubContext(CastContext conext, SubSpell subSpell) => new SubSpellContext
+    {
+        startTime = Time.fixedTime,
+        activeTime = 0.0f,
+        subSpell = subSpell
+    };
+
+    private void Update()
+    {
+        if (_context == null)
+            return;
+
+        _context.frameTime = Time.deltaTime;
+        _context.activeTime += _context.frameTime;
+        _context.stateActiveTime += _context.frameTime;
+
+        while (ManageContext(_context));
+    }
+
+    private static bool ManageContext(CastContext context)
+    {
+        void Advance()
+        {
+            ++context.state;
+            context.stateActiveTime = 0;
+        }
+
+        switch (context.state)
+        {
+            case ContextState.JistQueued:
+                Debug.Log($"{context.spell.Name} start spell cast");
+                Advance();
+                return true;
+
+            case ContextState.PreDelays:
+                if (context.stateActiveTime < context.spell.PreCastDelay)
+                    break;
+
+                Debug.Log($"{context.spell.Name} pre cast wait ended");
+                Advance();
+                return true;
+
+            case ContextState.Executing:
+                if(context.subContext == null)
+                {
+                    context.subContext = CreateSubContext(context, context.spell.SubSpells[context.currentSubspell]);
+                }
+
+                Debug.Log($"{context.spell.Name} cast sub spells");
+                while (ManageSubContext(context, context.subContext)) ;
+
+                if (context.subContext.aborted == true)
+                {
+                    if((context.spell.Flags & Spell.SpellFlags.BreakOnFailedTargeting)
+                        == Spell.SpellFlags.BreakOnFailedTargeting)
+                    {
+                        context.aborted = true;
+                        context.state = ContextState.PostDelay;
+
+                        return true;
+                    }
+                }
+
+                if (context.subContext.state != ContextState.Finishing)
+                    break;
+
+                context.subContext = null;
+                Advance();
+                return true;
+
+            case ContextState.PostDelay:
+                if (context.stateActiveTime < context.spell.PreCastDelay)
+                    break;
+
+                Debug.Log($"{context.spell.Name} pre cast wait ended");
+                Advance();
+                return true;
+
+            case ContextState.Finishing:
+                Debug.Log($"{context.spell.Name} finishing");
+                return false;
+        }
+
+        return false;
+    }
+
+    private static bool ManageSubContext(CastContext context, SubSpellContext subContext)
+    {
+        void Advance()
+        {
+            ++subContext.state;
+            subContext.stateActiveTime = 0;
+        }
+
+        switch (subContext.state)
+        {
+            case ContextState.JistQueued:
+                Debug.Log($"{context.spell.Name} start subspell cast {context.currentSubspell}");
+                Advance();
+                return true;
+
+            case ContextState.PreDelays:
+                if (subContext.activeTime < subContext.subSpell.PostCastDelay)
+                    break;
+
+                Debug.Log($"{context.spell.Name} subspell PreDelays ended {context.currentSubspell}");
+                Advance();
+                return true;
+
+            case ContextState.Executing:
+                if (!Execute(context, subContext))
+                {
+                    Debug.LogError($"{context.spell.Name} Failed to execute subspell {context.currentSubspell}");
+                    subContext.state = ContextState.Finishing;
+                    subContext.aborted = true;
+                }
+                else
+                {
+                    Debug.Log($"{context.spell.Name} Executed subspell {context.currentSubspell}");
+                    Advance();
+                }
+                return true;
+
+            case ContextState.PostDelay:
+                if (subContext.activeTime < subContext.subSpell.PostCastDelay)
+                    break;
+
+                Debug.Log($"{context.spell.Name} subspell PostDelay ended {context.currentSubspell}");
+                Advance();
+                return true;
+
+            case ContextState.Finishing:
+                Debug.Log($"{context.spell.Name} subspell finished {context.currentSubspell}");
+                return false;
+        }
+
+        return false;
+    }
+
+    private static bool Execute(CastContext context, SubSpellContext subContext)
+    {
+        return true;
+    }
+
+    private bool FindTarget(SubSpellContext subContext) => throw new NotImplementedException();
 
     //public void CastSpell(Spell spell, Vector3 targetPosition)
     //{
