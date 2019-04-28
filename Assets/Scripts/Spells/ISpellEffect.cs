@@ -25,6 +25,5 @@ public interface ISpellEffect
 {
     void OnSpellStateChange(Spell spell, ContextState newState);
     void OnSubSpellStateChange(Spell spell, SubSpell subspell, ContextState newSubState);
-
     void OnSubSpellStartCast(Spell spell, SubSpell subspell, SpellTargets data);
 }
