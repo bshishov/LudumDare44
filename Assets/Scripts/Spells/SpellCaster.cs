@@ -39,11 +39,6 @@ public class SpellCaster : MonoBehaviour
         public object customData;
     }
 
-    private class SpellTargets
-    {
-        public CharacterState source;
-        public CharacterState[] destinations;
-    }
     private class SubSpellTargets
     {
         public List<SpellTargets> spellTargets;
