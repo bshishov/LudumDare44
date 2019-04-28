@@ -19,10 +19,11 @@ MonoBehaviour:
   Size: 1
   IndifferenceDistance: 10
   SpellRange: 5
+  FearRange: 0
   DropRate: 1
   DropSpells:
-  - {fileID: 11400000, guid: 2fba0eb8545b1b049a59f0f71072fb04, type: 2}
+  - {fileID: 0}
   UseSpells:
-  - {fileID: 11400000, guid: 4e03c1c6a136f2c4786dd9c0aa49dd23, type: 2}
-  - {fileID: 11400000, guid: eb4b4624853cd29438ee7c6b50ba8532, type: 2}
-  - {fileID: 11400000, guid: 2fba0eb8545b1b049a59f0f71072fb04, type: 2}
+  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
