@@ -22,7 +22,7 @@ public class EnemyController : MonoBehaviour
         indifferenceDistance = _characterParams.character.IndifferenceDistance;
         spellRange = _characterParams.character.SpellRange;
         fearRange = _characterParams.character.FearRange;
-
+        _navMeshAgent.speed = _characterParams.Speed;
         CharacterUtils.ApplySettings(_characterParams, _navMeshAgent, true);
     }
 
@@ -48,12 +48,14 @@ public class EnemyController : MonoBehaviour
                 int spellCount = _characterParams.character.UseSpells.Count;
                 if (spellCount <= 0)
                 {
-                    selectedPlayer = player;
+                    
+                    _navMeshAgent.SetDestination(player.transform.position);
                 }
                 else
                 {
                     if (distance > spellRange)
                     {
+                        _navMeshAgent.speed = _characterParams.Speed;
                         selectedPlayer = player;
                         _navMeshAgent.isStopped = false;
                         _navMeshAgent.SetDestination(selectedPlayer.transform.position);
@@ -64,14 +66,17 @@ public class EnemyController : MonoBehaviour
                         {
                             // TODO: Miktor fix firespell
                             // _characterParams.FireSpell(Mathf.FloorToInt(Random.value * spellCount), player);
+                            
                             selectedPlayer = null;
                             _navMeshAgent.isStopped = true;
                         }
                         else
                         {
+                            _navMeshAgent.speed = 10* _characterParams.Speed;
                             selectedPlayer = null;
-                            _navMeshAgent.isStopped = false;
-                            _navMeshAgent.SetDestination(transform.position - 5* len.normalized);
+                            _navMeshAgent.isStopped = false;      
+                            
+                            _navMeshAgent.SetDestination(transform.position - fearRange * len.normalized);
                         }
                     }
                 }
