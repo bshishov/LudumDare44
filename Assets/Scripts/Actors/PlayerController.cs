@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
     private NavMeshAgent _agent;
     private AnimationController _animator;
-
+    private SpellEmitter[] _emitters;
 
     void Start()
     {
@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
 
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
+
+        _emitters = GetComponentsInChildren<SpellEmitter>();
 
         CharacterUtils.ApplySettings(_characterState, _agent, false);
     }
@@ -50,7 +52,10 @@ public class PlayerController : MonoBehaviour
         if (_ground.Raycast(ray, out var enter))
         {
             var hitPoint = ray.GetPoint(enter);
-            _characterState.FireSpell(index, hitPoint);
+
+            var data = _emitters[0].GetData(gameObject, ray, hitPoint);
+
+            _characterState.FireSpell(index, data);
         }
     }
 

@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
 
 namespace Assets.Scripts.Data
 {
@@ -9,44 +8,38 @@ namespace Assets.Scripts.Data
     public class Spell : ScriptableObject
     {
         [Serializable]
-        public enum SpellTypes : int
+        [Flags]
+        public enum CastType : int
         {
-            Raycast,
-            Projectile,
-            Aoe,
-            Status
+            Normal = 1 << 0,
+            Delayed = 1 << 1,
+            Channeling = 1 << 2
         };
 
         [Serializable]
         [Flags]
-        public enum SpellTargets : int
+        public enum SpellFlags : int
         {
-            Self = 1 << 1,
-            Friend = 1 << 2,
-            Enemy = 1 << 3
+            None = 1 << 0,
+            BreakOnFailedTargeting = 1 << 1
         };
 
-        public string Name;       
+        public string Name;
 
-        [Header("Characterisics")]
-        [EnumMask]
-        public SpellTypes SpellType;
-        [EnumFlag]
-        public SpellTargets SpellTarget;
-        public float Damage = 1;
-        public float AoeRadius = 0f;
         public int BloodCost = 0;
         public int BloodBack = 0;
+
         public float Cooldown;
 
-        public AreaOfEffect Area;
+        [EnumFlag]
+        public CastType CastingTime;
+        [EnumFlag]
+        public SpellFlags Flags;
 
-        [Header("Buffs")]
-        [SerializeField]
-        public List<Buff> Buffs;
+        public float PreCastDelay;
+        public float PostCastDelay;
+        public float ChannelTime;
 
-        // TODO: set later
-        [Header("Visual Effects")]
-        public GameObject VisualEffect;
+        public SubSpell[] SubSpells;
     }
 }

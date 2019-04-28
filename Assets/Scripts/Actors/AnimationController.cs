@@ -43,18 +43,18 @@ public class AnimationController : MonoBehaviour
 
         Debugger.Default.Display("Animation/Play Death", PlayDeathAnimation);
         Debugger.Default.Display("Animation/Play Attack", PlayAttackAnimation);
-        Debugger.Default.Display("Animation/Play Cast AoE", () =>
-        {
-            PlayCastAnimation(Spell.SpellTypes.Aoe);
-        });
-        Debugger.Default.Display("Animation/Play Cast Projectile", () =>
-        {
-            PlayCastAnimation(Spell.SpellTypes.Projectile);
-        });
-        Debugger.Default.Display("Animation/Play Cast Raycast", () =>
-        {
-            PlayCastAnimation(Spell.SpellTypes.Raycast);
-        });
+        //Debugger.Default.Display("Animation/Play Cast AoE", () =>
+        //{
+        //    PlayCastAnimation(SubSpell.SpellTypes.Aoe);
+        //});
+        //Debugger.Default.Display("Animation/Play Cast Projectile", () =>
+        //{
+        //    PlayCastAnimation(SubSpell.SpellTypes.Projectile);
+        //});
+        //Debugger.Default.Display("Animation/Play Cast Raycast", () =>
+        //{
+        //    PlayCastAnimation(SubSpell.SpellTypes.Raycast);
+        //});
         Debugger.Default.Display("Animation/Force enable", () => { _disabled = false; });
     }
 
@@ -83,24 +83,24 @@ public class AnimationController : MonoBehaviour
         Animator.SetTrigger(Attack);
     }
 
-    public void PlayCastAnimation(Spell.SpellTypes spellType = Spell.SpellTypes.Raycast)
-    {
-        if (_disabled)
-            return;
+    //public void PlayCastAnimation(Spell.SpellTypes spellType = SubSpell.SpellTypes.Raycast)
+    //{
+    //    if (_disabled)
+    //        return;
 
-        switch (spellType)
-        {
-            case Spell.SpellTypes.Raycast:
-                Animator.SetTrigger(CastTarget);
-                break;
-            case Spell.SpellTypes.Aoe:
-                Animator.SetTrigger(CastAoE);
-                break;
-            case Spell.SpellTypes.Projectile:
-                Animator.SetTrigger(CastProjectile);
-                break;
-        }
-    }
+    //    switch (spellType)
+    //    {
+    //        case SubSpell.SpellTypes.Raycast:
+    //            Animator.SetTrigger(CastTarget);
+    //            break;
+    //        case SubSpell.SpellTypes.Aoe:
+    //            Animator.SetTrigger(CastAoE);
+    //            break;
+    //        case SubSpell.SpellTypes.Projectile:
+    //            Animator.SetTrigger(CastProjectile);
+    //            break;
+    //    }
+    //}
 
     public void PlayHitImpactAnimation()
     {

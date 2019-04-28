@@ -7,7 +7,8 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("SpawnEnemmy", 1f, 1f);  //1s delay, repeat every 1s
+        for (int i = 0; i < 5; ++i)
+            SpawnEnemmy();
 
     }
 
