@@ -75,7 +75,10 @@ public class CharacterState : MonoBehaviour
 
     internal void Pickup(Item item)
     {
-
+        foreach (Buff buff in item.Buffs)
+        {
+            BuffPropertyNew(buff);
+        }
     }
 
     public float DropRate { get; private set; }
