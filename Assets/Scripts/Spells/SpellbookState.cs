@@ -147,7 +147,10 @@ namespace Spells
                     if (!target.Character.IsAlive)
                     {
                         target.Character = null;
-                        break;
+                    }
+                    else
+                    {
+                        target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
                     }
 
                     break;

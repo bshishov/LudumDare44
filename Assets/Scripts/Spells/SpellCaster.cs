@@ -32,8 +32,6 @@ namespace Spells
 
     public class SpellContext
     {
-        public CharacterState initialSource;
-
         public bool aborted;
         public float activeTime;
 
@@ -46,6 +44,7 @@ namespace Spells
         public CharacterState[] filteredTargets;
 
         public float frameTime;
+        public CharacterState initialSource;
 
         public Spell spell;
 
@@ -57,6 +56,7 @@ namespace Spells
         public SubSpellContext subContext;
 
         public List<SubSpellTargets> subSpellTargets;
+        public bool IsLastSubSpell => currentSubspell == spell.SubSpells.Length - 1;
 
         public SubSpell GetCurrentSubSpell()
         {
@@ -141,13 +141,23 @@ namespace Spells
             }
         }
 
-        private static bool ExecutteContext(SpellContext context)
+        private static bool ExecuteContext(SpellContext context)
         {
             context.frameTime = Time.deltaTime;
             context.activeTime += context.frameTime;
             context.stateActiveTime += context.frameTime;
 
-            while (ManageContext(context)) ;
+            try
+            {
+                while (ManageContext(context))
+                {
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                return true;
+            }
 
             if (context.aborted) Debug.Log($"{context.spell.Name} aborted");
 
@@ -159,13 +169,13 @@ namespace Spells
             if (_context == null)
                 return;
 
-            if (ExecutteContext(_context)) _context = null;
+            if (ExecuteContext(_context)) _context = null;
 
             lock (_nestedContexts)
             {
                 var newContexts = new List<SpellContext>(_nestedContexts.Count);
                 foreach (var context in _nestedContexts)
-                    if (!ExecutteContext(context))
+                    if (!ExecuteContext(context))
                         newContexts.Add(context);
 
                 _nestedContexts = newContexts;
@@ -244,16 +254,17 @@ namespace Spells
                     return true;
 
                 case ContextState.Executing:
-                    if (!Execute(context, subContext))
-                    {
-                        Debug.LogWarning($"{context.spell.Name} Failed to execute subspell {context.currentSubspell}");
-                        subContext.aborted = true;
-                    }
-                    else
+                    if (Execute(context, subContext))
                     {
                         ApplySubSpell(context, subContext);
                         Debug.Log($"{context.spell.Name} Executed subspell {context.currentSubspell}");
                     }
+                    else
+                    {
+                        Debug.LogWarning($"{context.spell.Name} Failed to execute subspell {context.currentSubspell}");
+                        subContext.aborted = true;
+                    }
+
 
                     Advance();
                     return true;
@@ -269,17 +280,17 @@ namespace Spells
                     ++context.currentSubspell;
                     subContext.state = ContextState.PreDelays;
 
-                    var doneCasting = !(context.currentSubspell < context.spell.SubSpells.Length
-                                        && subContext.aborted == false
-                                        && subContext.projectileSpawned == false);
+                    var casting = context.currentSubspell < context.spell.SubSpells.Length
+                                  && subContext.aborted == false
+                                  && subContext.projectileSpawned == false;
 
-                    if (!doneCasting)
+                    if (casting)
                     {
-                        subContext.state = ContextState.JustQueued;
+                        subContext.state = ContextState.PreDelays;
                         subContext.stateActiveTime = 0;
                     }
 
-                    return !doneCasting;
+                    return casting;
             }
 
             return false;
@@ -307,7 +318,8 @@ namespace Spells
                 {
                     destination.Character.ApplySpell(context.initialSource, context.GetCurrentSubSpell());
 
-                    newTargets.targetData.Add(new SpellTargets (destination));
+                    if (!context.IsLastSubSpell)
+                        newTargets.targetData.Add(new SpellTargets(destination));
                 }
             }
 
@@ -326,25 +338,29 @@ namespace Spells
             {
                 var source = castData.Source;
 
+                if ((context.spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == 0 || context.filteredTargets == null)
+                    context.filteredTargets = GetFilteredCharacters(context.initialSource,
+                        castData.Source.Character,
+                        context.GetCurrentSubSpell().AffectedTarget);
+
+                if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.SelfTarget) ==
+                    SubSpell.SpellFlags.SelfTarget)
+                    castData.Destinations = new[] {source};
+                else if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.ClosestTarget) ==
+                         SubSpell.SpellFlags.ClosestTarget)
+                    castData.Destinations = new[]
+                    {
+                        TargetInfo.Create(context.filteredTargets
+                            .OrderBy(t => (t.transform.position - source.Position.Value).magnitude)
+                            .FirstOrDefault())
+                    };
+
                 foreach (var target in castData.Destinations)
                 {
-                    if ((context.spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == 0 ||
-                        context.filteredTargets == null)
-                        context.filteredTargets = GetFilteredCharacters(context.initialSource,
-                            castData.Source.Character,
-                            context.GetCurrentSubSpell().AffectedTarget);
-
                     if ((context.GetCurrentSubSpell().Targeting & SubSpell.SpellTargeting.Target) ==
                         SubSpell.SpellTargeting.Target)
                     {
-                        if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.SelfTarget) ==
-                            SubSpell.SpellFlags.SelfTarget)
-                            target.Character = source.Character;
-                        else if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.ClosestTarget) ==
-                                 SubSpell.SpellFlags.ClosestTarget)
-                            target.Character = context.filteredTargets
-                                .OrderBy(t => (t.transform.position - source.Position.Value).magnitude)
-                                .FirstOrDefault();
+
                     }
 
                     if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.Projectile) ==
@@ -354,12 +370,11 @@ namespace Spells
                         return true;
                     }
 
-
                     if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.Raycast) ==
                         SubSpell.SpellFlags.Raycast)
                     {
                         var dst = GetAllCharacterInArea(context.filteredTargets, source, target, context);
-                        if(dst != null && dst.Length > 0)
+                        if (dst != null && dst.Length > 0)
                             targets.AddRange(dst);
                     }
                 }
@@ -372,12 +387,13 @@ namespace Spells
 
                 if ((context.spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) ==
                     Spell.SpellFlags.AffectsOnlyOnce)
-                    context.filteredTargets = context.filteredTargets.Where(f => !targets.Any(t => t.Character)).ToArray();
-            }  
+                    context.filteredTargets =
+                        context.filteredTargets.Where(f => !targets.Any(t => t.Character == f)).ToArray();
+            }
 
             return anyTargetFound;
         }
- 
+
 
         private static void SpawnProjectile(TargetInfo source, TargetInfo target, SpellContext context)
         {
@@ -401,7 +417,7 @@ namespace Spells
 
             context.subContext.projectileSpawned = true;
         }
-        
+
         private static CharacterState[] GetAllCharacters()
         {
             return FindObjectsOfType<CharacterState>().ToArray();
@@ -438,9 +454,9 @@ namespace Spells
         }
 
         private static TargetInfo[] GetAllCharacterInArea(
-            CharacterState[] avalibleTargets, 
-            TargetInfo source, 
-            TargetInfo target, 
+            CharacterState[] avalibleTargets,
+            TargetInfo source,
+            TargetInfo target,
             SpellContext context)
 
         {
@@ -449,9 +465,9 @@ namespace Spells
                 {
                     case AreaOfEffect.AreaType.Ray:
                     {
-                        if(target.Character != null)
+                        if (target.Character != null)
                             if (context.GetCurrentSubSpell().Obstacles == SubSpell.ObstacleHandling.Break)
-                                return new[] { target };
+                                return new[] {target};
 
                         //Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10, Color.green, 2);
 
@@ -499,7 +515,7 @@ namespace Spells
                         Debug.LogAssertion($"Unhandled AreaType {context.GetCurrentSubSpell().Area.Area}");
                         break;
                 }
-            return new TargetInfo[]{};
+            return null;
         }
 
         //internal void DrawSpellGizmos(SubSpell spell, Vector3 target)
