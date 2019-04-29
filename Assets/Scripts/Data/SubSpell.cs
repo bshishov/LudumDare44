@@ -25,9 +25,9 @@ namespace Assets.Scripts.Data
 
             None = Undefined,
 
-            Activate = 1 << 1,
+            ExecuteSpellSequence = 1 << 1,
             Break = 1 << 2,
-            ContinueOnMaxDistance = 1 << 3
+            ExecuteSpellSequenceOnMaxDistance = 1 << 3
         }
 
         [Serializable]

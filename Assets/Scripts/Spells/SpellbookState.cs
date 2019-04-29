@@ -119,46 +119,44 @@ namespace Spells
             return (int)spell.DefaultSlot;
         }
 
-        private void FireSpell(int index, SpellEmitterData data)
+        private void FireSpell(int index, SpellTargets targets)
         {
             Assert.IsTrue(index >= 0 && index <= SpellCount);
             var status = GetSpellSlotState(index);
             Assert.IsTrue(status.State == SpellState.Ready);
 
-            _spellCaster.CastSpell(status.Spell, data);
+            _spellCaster.CastSpell(status.Spell, targets);
         }
 
         public void TryFireSpellToPoint(int slotIndex, Vector3 targetPosition)
         {
-            CharacterState targetCharacter = null;
+            var targetCharacter = new TargetInfo();
 
             // Try locate target character located in target position
             var results = Physics.OverlapSphere(targetPosition, 1f, LayerMask.GetMask("Actors"));
             foreach (var result in results)
             {
-                targetCharacter = result.GetComponent<CharacterState>();
-                if(targetCharacter != null)
+                targetCharacter.Character = result.GetComponent<CharacterState>();
+                if (targetCharacter.Character != null)
+                {
+                    targetCharacter.Transform =
+                        targetCharacter.Character.GetNodeTransform(CharacterState.NodeRole.SpellEmitter);
+                    targetCharacter.Position = targetCharacter.Transform.position;
                     break;
+                }
             }
 
-            var data = SpellEmitterData.Create(_characterState,
-                targetCharacter,
-                targetPosition,
-                _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter)
-            );
+            var data = new SpellTargets(
+                TargetInfo.Create(_characterState), targetCharacter
+                );
 
+            data.Destinations[0].Position = targetPosition;
             FireSpell(slotIndex, data);
         }
 
         public void TryFireSpellToTarget(int slotIndex, CharacterState target)
         {
-            var data = new SpellEmitterData
-            {
-                TargetPosition = target.GetNodeTransform(CharacterState.CharacterNode.NodeRole.Chest).position,
-                SourceTransform = _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter),
-                SourceCharacter = _characterState,
-                TargetCharacter = target
-            };
+            var data = new SpellTargets(TargetInfo.Create(_characterState), TargetInfo.Create(target));
 
             FireSpell(slotIndex, data);
         }

@@ -13,17 +13,17 @@ using UnityEngine.Assertions;
 public class CharacterState : MonoBehaviour
 {
     [Serializable]
+    public enum NodeRole
+    {
+        Default = 0,
+        SpellEmitter = 1,
+        Head = 2,
+        Chest = 3
+    }
+
+    [Serializable]
     public class CharacterNode
     {
-        [Serializable]
-        public enum NodeRole
-        {
-            Default = 0,
-            SpellEmitter = 1,
-            Head = 2,
-            Chest = 3
-        }
-
         public Transform Transform;
         public NodeRole Role;
     }
@@ -317,7 +317,7 @@ public class CharacterState : MonoBehaviour
         }
     }
        
-    public Transform GetNodeTransform(CharacterNode.NodeRole role = CharacterNode.NodeRole.Default)
+    public Transform GetNodeTransform(NodeRole role = NodeRole.Default)
     {
         if (Nodes == null || Nodes.Length == 0)
             return transform;
