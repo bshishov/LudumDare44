@@ -40,7 +40,7 @@ public class CharacterState : MonoBehaviour
     public SpellbookState SpellbookState { get; private set; }
     public InventoryState InventoryState { get; private set; }
     public float MaxHealth { get; private set; }    
-    public float Health { get; private set; }
+    public float Health { get; set; }
     public float Speed { get; private set; }
     public float Evasion { get; private set; }
     public float Size { get; private set; }
@@ -56,6 +56,24 @@ public class CharacterState : MonoBehaviour
         {
             MaxHealth = Mathf.Max(1, value);
             Health = Mathf.Min(Health, MaxHealth);
+        }
+    }
+
+    private float TimeBeforeNextAttack;
+
+    public bool IsAlive { get { return (Health > 0); }}
+
+    public bool DealMeleeDamage()
+    {
+        if (TimeBeforeNextAttack > character.MeleeCooldown)
+        {
+            // Health -= damage;
+            TimeBeforeNextAttack = 0f;
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -124,6 +142,7 @@ public class CharacterState : MonoBehaviour
 
         if (CurrentTeam == Team.Undefined)
             Debug.LogError("Team not setted!", this);
+        TimeBeforeNextAttack = 0f;
     }
 
     public bool SpendCurrency(float amount)
@@ -140,13 +159,16 @@ public class CharacterState : MonoBehaviour
     
     void Update()
     {
+        TimeBeforeNextAttack += Time.deltaTime;
         if (Health <= 0)
         {
             if ((DropSpells.Count) > 0){
                 var DroppedSpell = DropSpells[Mathf.FloorToInt(Random.value*DropSpells.Count)];      
                 // TODO: Drop spell
             }
-            Debug.Log("GG");
+            GetComponent<AnimationController>().PlayDeathAnimation();
+            Debug.Log("I am dead");
+
         }
 
 #if DEBUG

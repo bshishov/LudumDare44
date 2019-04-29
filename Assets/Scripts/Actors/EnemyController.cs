@@ -7,10 +7,11 @@ public class EnemyController : MonoBehaviour
     private CharacterState _characterParams;
     private NavMeshAgent _navMeshAgent;
 
-    private int indifferenceDistance;
-    private int spellRange;
-    private int fearRange;
+    private float indifferenceDistance;
+    private float spellRange;
+    private float fearRange;
     public float distance;
+    public float MeleeRange;
 
     public Transform Target;
 
@@ -22,6 +23,7 @@ public class EnemyController : MonoBehaviour
         indifferenceDistance = _characterParams.character.IndifferenceDistance;
         spellRange = _characterParams.character.SpellRange;
         fearRange = _characterParams.character.FearRange;
+        MeleeRange = _characterParams.character.MeleeRange;
         _navMeshAgent.speed = _characterParams.Speed;
         CharacterUtils.ApplySettings(_characterParams, _navMeshAgent, true);
     }
@@ -48,8 +50,22 @@ public class EnemyController : MonoBehaviour
                 int spellCount = _characterParams.character.UseSpells.Count;
                 if (spellCount <= 0)
                 {
-                    
-                    _navMeshAgent.SetDestination(player.transform.position);
+                    if (distance > MeleeRange)
+                    {
+                        _navMeshAgent.isStopped = false;
+                        _navMeshAgent.SetDestination(player.transform.position);
+                    }
+                    else
+                    {
+                        if (_characterParams.DealMeleeDamage())
+                        {
+                            _navMeshAgent.isStopped = true;
+                            player.GetComponent<CharacterState>().Health -= _characterParams.character.Damage;
+                            _characterParams.GetComponent<AnimationController>().PlayAttackAnimation();
+                            player.GetComponent<AnimationController>().PlayHitImpactAnimation();
+                        }
+                                                
+                    }
                 }
                 else
                 {
@@ -65,8 +81,7 @@ public class EnemyController : MonoBehaviour
                         if (distance > fearRange)
                         {
                             // TODO: Miktor fix firespell
-                            // _characterParams.FireSpell(Mathf.FloorToInt(Random.value * spellCount), player);
-                            
+                            // _characterParams.FireSpell(Mathf.FloorToInt(Random.value * spellCount), player);                            
                             selectedPlayer = null;
                             _navMeshAgent.isStopped = true;
                         }
