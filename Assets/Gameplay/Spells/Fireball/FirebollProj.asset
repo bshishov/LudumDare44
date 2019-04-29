@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
   m_Name: FirebollProj
   m_EditorClassIdentifier: 
-  Origin: 0
+  Origin: 1
   PostCastDelay: 0
   PreCastDelay: 0
-  Flags: 0
+  Flags: 10
   AffectedTarget: 8
-  Obstacles: 0
+  Obstacles: 4
   Targeting: -1
   Area: {fileID: 0}
   Projectile: {fileID: 11400000, guid: 68e80e8896f3eb444ac6fa47990c4eba, type: 2}

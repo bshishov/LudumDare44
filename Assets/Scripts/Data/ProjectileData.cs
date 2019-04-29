@@ -16,7 +16,7 @@ public interface IProjectileTrajectory
 [CreateAssetMenu(fileName = "ProjectileData", menuName = "Spells/Projectile")]
 public class ProjectileData : ScriptableObject
 {
-    [NotNull] public Transform ProjectilePrefab;
+    [NotNull] public GameObject ProjectilePrefab;
 
     public float Speed;
 

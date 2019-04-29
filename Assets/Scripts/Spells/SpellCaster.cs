@@ -15,13 +15,68 @@ namespace Spells
         public Vector3 floorIntercection;
         public RaycastHit hitInfo;
     }
+    public class SubSpellContext
+    {
+        public bool aborted;
+        public bool projectileSpawned;
+
+        public float activeTime;
+
+        public object customData;
+
+        public float startTime;
+        public ContextState state;
+        public float stateActiveTime;
+    }
+
+    public class SpellContext
+    {
+        public bool aborted;
+        public float activeTime;
+
+        public int currentSubspell;
+        public ISpellEffect effect;
+        public SpellEmitterData emitterData;
+
+        public CharacterState[] filteredTargets;
+
+        public float frameTime;
+
+        public Spell spell;
+
+        public float startTime;
+        public ContextState state;
+        public float stateActiveTime;
+        public SubSpellContext subContext;
+
+        public List<SubSpellTargets> subSpellTargets;
+
+        public SubSpell GetCurrentSubSpell()
+        {
+            return spell.SubSpells[currentSubspell];
+        }
+    }
+
+    public class ProjectileContext
+    {
+        public SpellContext spellContext;
+        public TargetingData targeting;
+    }
+
+    public struct TargetingData
+    {
+        public CharacterState owner;
+        public Vector3 origin;
+        public Vector3? targetLocation;
+        public CharacterState targetCharacter;
+    }
 
     public class SpellCaster : MonoBehaviour
     {
         private SpellContext _context;
 
         private CharacterState _owner;
-        private List<ProjectileContext> _projectileContext = null;
+        private List<ProjectileContext> _projectileContexts = null;
         public float MaxSpellDistance = 100.0f;
 
         // Start is called before the first frame update
@@ -207,7 +262,8 @@ namespace Spells
                     subContext.state = ContextState.PreDelays;
 
                     var doneCasting = !(context.currentSubspell < context.spell.SubSpells.Length
-                                        && subContext.aborted == false);
+                                        && subContext.aborted == false
+                                        && subContext.projectileSpawned == false);
 
                     if (!doneCasting)
                     {
@@ -286,7 +342,7 @@ namespace Spells
 
                 if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.Projectile) == SubSpell.SpellFlags.Projectile)
                 {
-                    SpawnProjectile(targeting, context, subContext);
+                    SpawnProjectile(targeting, context);
                     return true;
                 }
 
@@ -307,8 +363,17 @@ namespace Spells
             return anyTargetFound;
         }
 
-        private static void SpawnProjectile(TargetingData targeting, SpellContext context, SubSpellContext subContext)
+        private static void SpawnProjectile(TargetingData targeting, SpellContext context)
         {
+            var projectilePrefab = Instantiate(context.GetCurrentSubSpell().Projectile.ProjectilePrefab, targeting.origin, Quaternion.identity);
+            var projectileData = projectilePrefab.AddComponent<ProjectileBehaviour>();
+            projectileData.Conext = new ProjectileContext
+            {
+                spellContext = context,
+                targeting = targeting
+            };
+
+            context.subContext.projectileSpawned = true;
         }
 
         private static Vector3 GetOrigin(CharacterState owner, SpellContext context, SubSpellContext subContext)
@@ -430,60 +495,7 @@ namespace Spells
                 }
             return null;
         }
-
-        private class SubSpellContext
-        {
-            public bool aborted;
-            public float activeTime;
-
-            public object customData;
-
-            public float startTime;
-            public ContextState state;
-            public float stateActiveTime;
-        }
-
-        private class SpellContext
-        {
-            public bool aborted;
-            public float activeTime;
-
-            public int currentSubspell;
-            public ISpellEffect effect;
-            public SpellEmitterData emitterData;
-
-            public CharacterState[] filteredTargets;
-
-            public float frameTime;
-
-            public Spell spell;
-
-            public float startTime;
-            public ContextState state;
-            public float stateActiveTime;
-            public SubSpellContext subContext;
-
-            public List<SubSpellTargets> subSpellTargets;
-
-            public SubSpell GetCurrentSubSpell()
-            {
-                return spell.SubSpells[currentSubspell];
-            }
-        }
-
-        private class ProjectileContext
-        {
-            public SpellContext spellContext;
-        }
-
-        private struct TargetingData
-        {
-            public CharacterState owner;
-            public Vector3 origin;
-            public Vector3? targetLocation;
-            public CharacterState targetCharacter;
-        }
-
+        
         //internal void DrawSpellGizmos(SubSpell spell, Vector3 target)
         //{
         //    Gizmos.DrawSphere(target, 0.2f);
