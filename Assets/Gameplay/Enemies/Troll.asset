@@ -17,9 +17,13 @@ MonoBehaviour:
   Speed: 0.7
   Evasion: 0
   Size: 1
+  HealthModifier: 1
+  IndifferenceDistance: 20
+  SpellRange: 0
+  FearRange: 0
   DropRate: 5
   DropSpells:
-  - {fileID: 11400000, guid: 4e03c1c6a136f2c4786dd9c0aa49dd23, type: 2}
-  - {fileID: 11400000, guid: ddaa59940f1de464e8cb63df3b4f9272, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   UseSpells:
-  - {fileID: 11400000, guid: 4e03c1c6a136f2c4786dd9c0aa49dd23, type: 2}
+  - {fileID: 0}
