@@ -307,7 +307,7 @@ public class SpellCaster : MonoBehaviour
                 {
                     targeting.targetCharacter = targets.OrderBy(t => (t.transform.position - targeting.origin).magnitude).FirstOrDefault();
                 }
-                else
+                else if (context.emitterData.hitInfo.collider != null)
                     targeting.targetCharacter = context.emitterData.hitInfo.collider.GetComponent<CharacterState>();
             }
 
