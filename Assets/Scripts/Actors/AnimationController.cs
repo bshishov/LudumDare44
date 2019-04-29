@@ -13,6 +13,8 @@ public class AnimationController : MonoBehaviour
     public bool UseMaterialAnimations;
     public bool AutoTrackSpeed = true;
     public float SmoothTime = 0.1f;
+    public bool SeparateLegs = true;
+
 
     [Header("Animator configuration")]
     public string DeathTrigger = "Death";
@@ -150,8 +152,13 @@ public class AnimationController : MonoBehaviour
 
             _moveDir = Vector2.SmoothDamp(_moveDir, dir2d, ref _dirVelocity, SmoothTime);
 
-            Animator.SetFloat("SpeedX", _moveDir.x);
-            Animator.SetFloat("SpeedZ", _moveDir.y);
+            if (SeparateLegs)
+            {
+                Animator.SetFloat("SpeedX", _moveDir.x);
+                Animator.SetFloat("SpeedZ", _moveDir.y);
+            }
+
+            Animator.SetFloat("Speed", _moveDir.magnitude);
 
             _lastPosition = transform.position;
         }

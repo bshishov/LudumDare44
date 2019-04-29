@@ -481,11 +481,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 4857112221843758065}
-  SpeedMultiplier: 0.3
+  SpeedMultiplier: 10
   DisableAnimationsAfterDeath: 1
   UseMaterialAnimations: 0
   AutoTrackSpeed: 1
   SmoothTime: 0.1
+  SeparateLegs: 1
   DeathTrigger: Death
   TakeDamage: TakeDamage
   SpeedVariable: Speed
