@@ -123,13 +123,14 @@ namespace Spells
         {
             Assert.IsTrue(index >= 0 && index <= SpellCount);
             var slotState = GetSpellSlotState(index);
-            Assert.IsTrue(slotState.State == SpellState.Ready);
+            if (slotState.State == SpellState.Ready)
+            {
+                _spellCaster.CastSpell(slotState.Spell, data);
 
-            _spellCaster.CastSpell(slotState.Spell, data);
-
-            // Start cooldown
-            SpellSlots[index].State = SpellState.Recharging;
-            SpellSlots[index].RemainingCooldown = slotState.Spell.Cooldown;
+                // Start cooldown
+                SpellSlots[index].State = SpellState.Recharging;
+                SpellSlots[index].RemainingCooldown = slotState.Spell.Cooldown;
+            }
         }
 
         public void TryFireSpellToPoint(int slotIndex, Vector3 targetPosition)
