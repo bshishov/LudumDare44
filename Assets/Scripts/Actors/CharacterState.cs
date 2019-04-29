@@ -62,7 +62,6 @@ public class CharacterState : MonoBehaviour
             Health = Mathf.Min(Health, MaxHealth);
         }
     }
-
     public bool IsAlive { get { return (Health > 0); }}
 
     private float _timeBeforeNextAttack;
@@ -165,7 +164,7 @@ public class CharacterState : MonoBehaviour
     void Update()
     {
         _timeBeforeNextAttack += Time.deltaTime;
-        if (Health <= 0)
+        if (!IsAlive)
         {
            OnDeath();
         }

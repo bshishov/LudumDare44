@@ -30,7 +30,9 @@ namespace Spells.Effects
                 foreach (var dst in tgt.destinations)
                 {
                     var lObj = GameObject.Instantiate(LightningPrefab, transform);
-                    lObj.GetComponent<Lightning>().SetupLine(tgt.source.transform.position, dst.transform.position);
+                    lObj.GetComponent<Lightning>().SetupLine(
+                        tgt.source.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter).position, 
+                        dst.GetNodeTransform(CharacterState.CharacterNode.NodeRole.Chest).position);
                 }
             }
         }

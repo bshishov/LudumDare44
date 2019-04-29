@@ -45,11 +45,12 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            if (!_navMeshAgent.isStopped)
+            /*
+            if (_navMeshAgent.enabled && !_navMeshAgent.isStopped)
             {
                 _navMeshAgent.isStopped = true;
                 _navMeshAgent.enabled = false;
-            }
+            }*/
         }
     }
 
