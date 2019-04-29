@@ -91,14 +91,10 @@ public class CharacterState : MonoBehaviour
 
     public bool CanDealDamage()
     {
-<<<<<<< HEAD
         if (!IsAlive)
             return false;
 
-        if (_timeBeforeNextAttack > character.MeleeCooldown)
-=======
         if (_timeBeforeNextAttack > character.AttackCooldown)
->>>>>>> b22440fd20ae492feb9d0a2e85d5aea5422c7b63
         {
             _timeBeforeNextAttack = 0f;
             return true;
