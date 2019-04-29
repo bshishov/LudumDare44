@@ -9,14 +9,17 @@ public class AnimationController : MonoBehaviour
     public Animator Animator;
     public float SpeedMultiplier = 1f;
 
+    [Header("Material configuration")]
+    public float ImpactDecayTime = 0.1f;
+    public float DissolveTime = 1f;
+    public Renderer[] Renderers;
+
+    [Header("Animator configuration")]
     public bool DisableAnimationsAfterDeath = true;
     public bool UseMaterialAnimations;
     public bool AutoTrackSpeed = true;
     public float SmoothTime = 0.1f;
     public bool SeparateLegs = true;
-
-
-    [Header("Animator configuration")]
     public string DeathTrigger = "Death";
     public string TakeDamage = "TakeDamage";
     public string SpeedVariable = "Speed";
@@ -35,7 +38,7 @@ public class AnimationController : MonoBehaviour
     private Vector3 _lastPosition;
     private Vector2 _dirVelocity;
     private Vector2 _moveDir;
-
+    private float _impactTime;
 
     void Start()
     {
@@ -117,6 +120,7 @@ public class AnimationController : MonoBehaviour
         if (_disabled)
             return;
 
+        _impactTime = ImpactDecayTime;
         if (TakeDamageVariations == null || TakeDamageVariations.Length == 0)
         {
             Animator.SetTrigger(TakeDamage);
@@ -140,8 +144,18 @@ public class AnimationController : MonoBehaviour
         Animator.SetTrigger(Pickup);
     }
 
-    void Update()
+    private void Update()
     {
+        _impactTime = Mathf.Max(_impactTime - Time.deltaTime, 0);
+        if (Renderers != null)
+        {
+            var impactVal = _impactTime / ImpactDecayTime;
+            foreach (var rndr in Renderers)
+            {
+                rndr.material.SetFloat("_TintMultiplier", impactVal);
+            }
+        }
+
         if (AutoTrackSpeed)
         {
             var moveDirection = transform.position - _lastPosition;

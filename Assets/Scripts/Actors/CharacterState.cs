@@ -18,7 +18,10 @@ public class CharacterState : MonoBehaviour
         [Serializable]
         public enum NodeRole
         {
-            Default
+            Default = 0,
+            SpellEmitter = 1,
+            Head = 2,
+            Chest = 3
         }
 
         public Transform Transform;
@@ -298,10 +301,14 @@ public class CharacterState : MonoBehaviour
        
     internal void DrawSpellGizmos(int slot, Vector3 target) => SpellbookState.DrawSpellGizmos(slot, target);
 
-    public Transform GetDefaultNodeTransform()
+    public Transform GetNodeTransform(CharacterNode.NodeRole role = CharacterNode.NodeRole.Default)
     {
         if (Nodes == null || Nodes.Length == 0)
             return transform;
+
+        var node = Nodes.FirstOrDefault(n => n.Role == role);
+        if (node != null)
+            return node.Transform;
 
         return Nodes[0].Transform;
     }
