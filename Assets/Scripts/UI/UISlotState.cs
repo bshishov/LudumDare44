@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Scripts.Data;
+using Spells;
 using UnityEngine;
 using UnityEngine.UI;
 

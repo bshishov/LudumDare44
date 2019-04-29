@@ -1,26 +1,28 @@
 ﻿using UnityEngine;
 
-
-public class SpellEmitter : MonoBehaviour
+namespace Spells
 {
-    // Start is called before the first frame update
-    private void Start()
+    public class SpellEmitter : MonoBehaviour
     {
+        // Start is called before the first frame update
+        private void Start()
+        {
 
+        }
+
+        // Update is called once per frame
+        private void Update()
+        {
+
+        }
+
+        internal SpellEmitterData GetData(CharacterState owner, Ray ray, Vector3 hitPoint, RaycastHit hitInfo) => 
+            new SpellEmitterData {
+                owner = owner,
+                emitter = this,
+                ray = ray,
+                floorIntercection = hitPoint,
+                hitInfo = hitInfo
+            };
     }
-
-    // Update is called once per frame
-    private void Update()
-    {
-
-    }
-
-    internal SpellEmitterData GetData(CharacterState owner, Ray ray, Vector3 hitPoint, RaycastHit hitInfo) => 
-        new SpellEmitterData {
-            owner = owner,
-            emitter = this,
-            ray = ray,
-            floorIntercection = hitPoint,
-            hitInfo = hitInfo
-        };
 }

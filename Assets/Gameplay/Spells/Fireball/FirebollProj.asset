@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
-  m_Name: Fireball
+  m_Name: FirebollProj
   m_EditorClassIdentifier: 
-  Name: Fireball
-  SpellType: 1
-  Damage: 1
-  AoeRadius: 1
-  BloodCost: 0
-  BloodBack: 5
-  Cooldown: 0
+  Origin: 0
+  PostCastDelay: 0
+  PreCastDelay: 0
+  Flags: 0
+  AffectedTarget: 8
+  Obstacles: 0
+  Targeting: -1
+  Area: {fileID: 0}
+  Projectile: {fileID: 11400000, guid: 68e80e8896f3eb444ac6fa47990c4eba, type: 2}
   Buffs: []
-  VisualEffect: {fileID: 0}

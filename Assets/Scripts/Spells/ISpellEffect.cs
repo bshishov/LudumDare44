@@ -1,35 +1,38 @@
-﻿using Assets.Scripts.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Assets.Scripts.Data;
 using UnityEngine;
 
-public enum ContextState
+namespace Spells
 {
-    JustQueued = 0,
-    PreDelays,
-    Executing,
-    PostDelay,
-    Finishing,
+    public enum ContextState
+    {
+        JustQueued = 0,
+        PreDelays,
+        Executing,
+        PostDelay,
+        Finishing,
 
-    Projectile,
-}
+        Projectile,
+    }
 
-public class PerSourceTargets
-{
-    public CharacterState source;
-    public CharacterState[] destinations;
-}
+    public class PerSourceTargets
+    {
+        public CharacterState source;
+        public CharacterState[] destinations;
+    }
 
-public class SubSpellTargets
-{
-    public Vector3 origin;
-    public Vector3 direction;
+    public class SubSpellTargets
+    {
+        public Vector3 origin;
+        public Vector3 direction;
 
-    public List<PerSourceTargets> targetData;
-}
+        public List<PerSourceTargets> targetData;
+    }
 
-public interface ISpellEffect
-{
-    void OnSpellStateChange(Spell spell, ContextState newState);
-    void OnSubSpellStateChange(Spell spell, SubSpell subspell, ContextState newSubState);
-    void OnSubSpellStartCast(Spell spell, SubSpell subspell, SubSpellTargets data);
+    public interface ISpellEffect
+    {
+        void OnSpellStateChange(Spell spell, ContextState newState);
+        void OnSubSpellStateChange(Spell spell, SubSpell subspell, ContextState newSubState);
+        void OnSubSpellStartCast(Spell spell, SubSpell subspell, SubSpellTargets data);
+    }
 }

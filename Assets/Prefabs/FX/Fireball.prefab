@@ -14370,6 +14370,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 609536328053573851}
+  - component: {fileID: 4159607665082516117}
   m_Layer: 0
   m_Name: Fireball
   m_TagString: Untagged
@@ -14394,3 +14395,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &4159607665082516117
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2905237645726948510}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

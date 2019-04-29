@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System;
+using Spells;
 
 namespace Assets.Scripts.Data
 {
-    [CreateAssetMenu(fileName = "Spell", menuName = "Mechanics/Spell")]
+    [CreateAssetMenu(fileName = "Spell", menuName = "Spells/Spell")]
     [Serializable]
     public class Spell : ScriptableObject
     {
