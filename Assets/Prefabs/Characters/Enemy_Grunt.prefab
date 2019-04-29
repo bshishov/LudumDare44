@@ -2069,6 +2069,8 @@ GameObject:
   - component: {fileID: 7732389861530871124}
   - component: {fileID: 7661275501719446556}
   - component: {fileID: 2805373213057678178}
+  - component: {fileID: 5765074902293039123}
+  - component: {fileID: 284663270069053068}
   m_Layer: 8
   m_Name: Enemy_Grunt
   m_TagString: Untagged
@@ -2169,7 +2171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 5601020330370002313}
-  SpeedMultiplier: 0.2
+  SpeedMultiplier: 40
   ImpactDecayTime: 0.1
   DissolveTime: 1
   Renderers:
@@ -2178,14 +2180,14 @@ MonoBehaviour:
   UseMaterialAnimations: 1
   AutoTrackSpeed: 1
   SmoothTime: 0.1
-  SeparateLegs: 1
+  SeparateLegs: 0
   DeathTrigger: Death
   TakeDamage: TakeDamage
   SpeedVariable: Speed
-  CastAoE: CastAoE
-  CastTarget: CastTarget
-  CastProjectile: CastProjectile
-  Attack: CastTarget
+  CastAoE: Attack
+  CastTarget: Attack
+  CastProjectile: Attack
+  Attack: Attack
   Pickup: Pickup
   DeathVariations: []
   TakeDamageVariations: []
@@ -2215,6 +2217,31 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &5765074902293039123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8494352879362307199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d836b9bd76543249a07951f44490ee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &284663270069053068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8494352879362307199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 039599ff87e648846b1352f790928287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxSpellDistance: 100
 --- !u!1 &8603995454659070595
 GameObject:
   m_ObjectHideFlags: 0
