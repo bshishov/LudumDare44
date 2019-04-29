@@ -19,6 +19,24 @@ namespace Spells
             _context = context;
             transform.LookAt(_context.target);
 
+            var sphere = gameObject.AddComponent<Rigidbody>();
+            sphere.isKinematic = false;
+            sphere.useGravity = false;
+
+            switch (_context.projectileData.Trajectory)
+            {
+                case ProjectileTrajectory.Line:
+                    break;
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("Particle Collision");
+        }
+
+        void Update()
+        {
             switch (_context.projectileData.Trajectory)
             {
                 case ProjectileTrajectory.Line:
@@ -31,16 +49,6 @@ namespace Spells
             if (_context.projectileData.MaxDistance > 0 && _trevaledDistance > _context.projectileData.MaxDistance)
             {
                 Destroy(gameObject);
-            }
-        }
-
-        void Update()
-        {
-            switch (_context.projectileData.Trajectory)
-            {
-                case ProjectileTrajectory.Line:
-                    transform.position += transform.forward * _context.projectileData.Speed;
-                    break;
             }
         }
     }

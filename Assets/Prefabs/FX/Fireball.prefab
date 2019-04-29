@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1120358405194362335}
   - component: {fileID: 1120358405194362332}
   - component: {fileID: 3816616570182919136}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trail Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4868,7 +4868,7 @@ GameObject:
   - component: {fileID: 1120358405923993553}
   - component: {fileID: 1120358405923993566}
   - component: {fileID: 1120358405923993567}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Particle System (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9620,7 +9620,7 @@ GameObject:
   - component: {fileID: 1120358406482313853}
   - component: {fileID: 1120358406482313850}
   - component: {fileID: 1120358406482313851}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Particle System (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14371,7 +14371,7 @@ GameObject:
   m_Component:
   - component: {fileID: 609536328053573851}
   - component: {fileID: 4159607665082516117}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fireball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14405,7 +14405,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 1.24
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
