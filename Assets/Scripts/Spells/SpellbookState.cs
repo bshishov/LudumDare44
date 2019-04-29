@@ -142,8 +142,16 @@ namespace Spells
             foreach (var result in results)
             {
                 targetCharacter = result.GetComponent<CharacterState>();
-                if(targetCharacter != null)
+                if (targetCharacter != null)
+                {
+                    if (!targetCharacter.IsAlive)
+                    {
+                        targetCharacter = null;
+                        break;
+                    }
+
                     break;
+                }
             }
 
             var data = SpellEmitterData.Create(_characterState,
