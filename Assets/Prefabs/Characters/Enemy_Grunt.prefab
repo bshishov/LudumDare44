@@ -2147,7 +2147,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentTeam: 2
   character: {fileID: 11400000, guid: 0c51becd8c73094408b636f82ad49df5, type: 2}
-  Nodes: []
+  Nodes:
+  - Transform: {fileID: 5940929338766483706}
+    Role: 0
+  - Transform: {fileID: 4154414111163523373}
+    Role: 1
+  - Transform: {fileID: 5263999003561173677}
+    Role: 3
+  - Transform: {fileID: 4154414111163523373}
+    Role: 2
 --- !u!114 &7732389861530871124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2193,9 +2201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcaa80e656cb41d488f97698485f16a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 0
-  MeleeRange: 0
-  Target: {fileID: 0}
 --- !u!136 &2805373213057678178
 CapsuleCollider:
   m_ObjectHideFlags: 0
