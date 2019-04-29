@@ -12,15 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
   m_Name: Huge Troll
   m_EditorClassIdentifier: 
-  Health: 100
+  Health: 75
   Damage: 50
   Speed: 2
   Evasion: 0
   Size: 1
   HealthModifier: 1
   IndifferenceDistance: 30
-  SpellRange: 5
+  SpellRange: 10
   FearRange: 0
+  MeleeRange: 5
+  AttackCooldown: 4
   DropRate: 1
   DropSpells:
   - {fileID: 0}

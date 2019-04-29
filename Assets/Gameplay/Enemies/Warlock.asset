@@ -21,8 +21,8 @@ MonoBehaviour:
   IndifferenceDistance: 30
   SpellRange: 10
   FearRange: 5
-  MeleeRange: 0
-  MeleeCooldown: 1
+  MeleeRange: 1
+  AttackCooldown: 4
   DropRate: 0
   DropSpells:
   - {fileID: 0}

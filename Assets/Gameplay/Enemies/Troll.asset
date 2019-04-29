@@ -19,8 +19,10 @@ MonoBehaviour:
   Size: 1
   HealthModifier: 1
   IndifferenceDistance: 20
-  SpellRange: 0
+  SpellRange: 5
   FearRange: 0
+  MeleeRange: 3
+  AttackCooldown: 5
   DropRate: 5
   DropSpells:
   - {fileID: 0}
