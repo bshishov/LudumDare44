@@ -122,10 +122,14 @@ namespace Spells
         private void FireSpell(int index, SpellEmitterData data)
         {
             Assert.IsTrue(index >= 0 && index <= SpellCount);
-            var status = GetSpellSlotState(index);
-            Assert.IsTrue(status.State == SpellState.Ready);
+            var slotState = GetSpellSlotState(index);
+            Assert.IsTrue(slotState.State == SpellState.Ready);
 
-            _spellCaster.CastSpell(status.Spell, data);
+            _spellCaster.CastSpell(slotState.Spell, data);
+
+            // Start cooldown
+            SpellSlots[index].State = SpellState.Recharging;
+            SpellSlots[index].RemainingCooldown = slotState.Spell.Cooldown;
         }
 
         public void TryFireSpellToPoint(int slotIndex, Vector3 targetPosition)
@@ -181,11 +185,21 @@ namespace Spells
             SpellSlots[slotIndex].NumStacks = slotState.NumStacks + 1;
         }
 
-        private void CheckAndFireSpell(SpellSlotState spell)
+        void Update()
         {
+            // Update cooldowns
+            for (var slotIndex = 0; slotIndex < SpellSlots.Length; slotIndex++)
+            {
+                var slotState = SpellSlots[slotIndex];
+                if (slotState.State == SpellState.Recharging)
+                {
+                    SpellSlots[slotIndex].RemainingCooldown = slotState.RemainingCooldown - Time.deltaTime;
+                    if (slotState.RemainingCooldown <= 0f)
+                    {
+                        SpellSlots[slotIndex].State = SpellState.Ready;
+                    }
+                }
+            }
         }
-
-        internal void DrawSpellGizmos(int slot, Vector3 target) => Debug.Log("");
-        //    _spellCaster.DrawSpellGizmos(SpellSlots[slotIndex].Spell, target);
     }
 }
