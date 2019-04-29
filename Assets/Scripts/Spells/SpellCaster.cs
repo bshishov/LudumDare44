@@ -393,8 +393,9 @@ namespace Spells
                 origin = targeting.origin
             };
 
-            var projectilePrefab = Instantiate(context.GetCurrentSubSpell().Projectile.ProjectilePrefab, targeting.origin, Quaternion.identity);
+            var projectilePrefab = Instantiate(new GameObject(), targeting.origin, Quaternion.identity);
             var projectileData = projectilePrefab.AddComponent<ProjectileBehaviour>();
+            Instantiate(context.GetCurrentSubSpell().Projectile.ProjectilePrefab, projectilePrefab.transform);
 
             projectileData.Initialize(projectileContext);
 
