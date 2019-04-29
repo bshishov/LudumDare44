@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MapChunk
   - Shop
+  - Interactable
   layers:
   - Default
   - TransparentFX

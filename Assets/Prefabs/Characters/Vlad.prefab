@@ -384,10 +384,8 @@ GameObject:
   - component: {fileID: 7831678246583470376}
   - component: {fileID: 6054796028390727987}
   - component: {fileID: 2201879389249409274}
-  - component: {fileID: 3797182427664632051}
   - component: {fileID: 4220444930057774738}
   - component: {fileID: 2690621711745313145}
-  - component: {fileID: 1451251245487624899}
   - component: {fileID: 2677229216203359800}
   m_Layer: 8
   m_Name: Vlad
@@ -529,18 +527,6 @@ MonoBehaviour:
     Role: 3
   - Transform: {fileID: 9162014847719878198}
     Role: 2
---- !u!114 &3797182427664632051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1996985578712122520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 296d6c006bdc53046b5de5f93862e7da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4220444930057774738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,18 +550,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6d836b9bd76543249a07951f44490ee5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1451251245487624899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1996985578712122520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30b69a73d4509114488646454e86ae70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2677229216203359800
@@ -2467,32 +2441,32 @@ PrefabInstance:
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Center.x
-      value: 0.026729465
+      value: 0.027660549
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Center.y
-      value: -0.8046464
+      value: -0.80108786
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Center.z
-      value: -0.21721268
+      value: -0.2164917
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Extent.x
-      value: 0.5053179
+      value: 0.506128
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Extent.y
-      value: 0.8551944
+      value: 0.85175025
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Extent.z
-      value: 0.2611853
+      value: 0.26142147
       objectReference: {fileID: 0}
     - target: {fileID: 4526798630084876583, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
