@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts;
 using Assets.Scripts.Data;
 using Spells;
 using UnityEngine.AI;
@@ -31,7 +34,7 @@ public class PlayerController : MonoBehaviour
         CharacterUtils.ApplySettings(_characterState, _agent, false);
     }
 
-    void GetInput()
+    void HandleInput()
     {
         moveDirection.x = Input.GetAxis("Horizontal");
         moveDirection.z = Input.GetAxis("Vertical");
@@ -42,8 +45,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
             FireSpell((int)Spell.Slot.RMB);
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Ult"))
             FireSpell((int)Spell.Slot.ULT);
+
+        if (Input.GetButtonDown("Use"))
+            TryInteract((Interaction)0);
+
+        if (Input.GetButtonDown("Use2"))
+            TryInteract((Interaction)1);
     }
 
     private void FireSpell(int slotIndex)
@@ -61,14 +70,38 @@ public class PlayerController : MonoBehaviour
             groundPoint = ray.GetPoint(enter);
         }
 
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, LayerMask.GetMask("Actors")))
+        {
+            var tgtCharacter = hit.transform.GetComponent<CharacterState>();
+            if(tgtCharacter != null)
+                _spellbook.TryFireSpellToTarget(slotIndex, tgtCharacter);
+            return;
+        }
+        
         _spellbook.TryFireSpellToPoint(slotIndex, groundPoint);
+    }
+
+    private void TryInteract(Interaction interaction)
+    {
+        foreach (var interactable in GetUsableItemsInRange())
+        {
+            interactable.Interact(_characterState, interaction);
+        }
+    }
+
+    private IEnumerable<IInteractable> GetUsableItemsInRange()
+    {
+        return Physics.OverlapSphere(transform.position, 1f)
+            .Select(c => c.GetComponent<IInteractable>())
+            .Where(i => i != null);
     }
 
     void Update()
     {
         if (_characterState.IsAlive)
         {
-            GetInput();
+            HandleInput();
             Move();
             LookAt();
         }

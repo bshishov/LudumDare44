@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Name: Skull
+  m_EditorClassIdentifier: 
+  Name: 
+  Icon: {fileID: 0}
+  BloodCost: 0
+  BloodBack: 0
+  DefaultSlot: 0
+  Cooldown: 0
+  CastingTime: 1
+  Flags: 1
+  PreCastDelay: 0
+  PostCastDelay: 0
+  ChannelTime: 0
+  SubSpells:
+  - {fileID: 11400000, guid: bf4761a310970764db7e2f20a20ac097, type: 2}
+  - {fileID: 11400000, guid: 47fb4be650084304ab33e27529fa9cec, type: 2}
+  SpellEffect: {fileID: 0}

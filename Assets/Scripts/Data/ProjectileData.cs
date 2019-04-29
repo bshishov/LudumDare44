@@ -5,7 +5,8 @@ using UnityEngine;
 public enum ProjectileTrajectory
 {
     None = 0,
-    Line
+    Line,
+    Folow
 }
 
 public interface IProjectileTrajectory
