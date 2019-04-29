@@ -18,7 +18,7 @@ MonoBehaviour:
   BloodBack: 0
   DefaultSlot: 0
   Cooldown: 0
-  CastingTime: 0
+  CastingTime: 1
   Flags: 0
   PreCastDelay: 0
   PostCastDelay: 0

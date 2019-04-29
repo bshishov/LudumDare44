@@ -350,4 +350,15 @@ public class CharacterState : MonoBehaviour
 
         return Nodes[0].Transform;
     }
+
+    void OnDrawGizmos()
+    {
+        var tSpell = GetNodeTransform(NodeRole.SpellEmitter);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(tSpell.position, .1f);
+
+        var tDefault = GetNodeTransform(NodeRole.Default);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(tDefault.position, .1f);
+    }
 }
