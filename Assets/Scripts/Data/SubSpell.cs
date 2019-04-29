@@ -27,7 +27,7 @@ namespace Assets.Scripts.Data
 
             Activate = 1 << 1,
             Break = 1 << 2,
-            ActivateOnMaxDistance = 1 << 3
+            ContinueOnMaxDistance = 1 << 3
         }
 
         [Serializable]
