@@ -297,7 +297,7 @@ public class SpellCaster : MonoBehaviour
             if ((context.GetCurrentSubSpell().Targeting & SpellTargeting.Location) == SpellTargeting.Location)
                 targeting.targetLocation = context.emitterData.floorIntercection;
 
-            CharacterState[] targets = GetFilteredCharacters(targeting.owner, context.GetCurrentSubSpell().AffectedTarget);
+            CharacterState[] targets = GetFilteredCharacters(targeting.owner, targeting.owner, context.GetCurrentSubSpell().AffectedTarget);
 
             if ((context.GetCurrentSubSpell().Targeting & SpellTargeting.Target) == SpellTargeting.Target)
             {
@@ -337,7 +337,10 @@ public class SpellCaster : MonoBehaviour
         return anyTargetFound;
     }
 
-    private static void SpawnProjectile(TargetingData targeting, CastContext context, SubSpellContext subContext) => throw new NotImplementedException();
+    private static void SpawnProjectile(TargetingData targeting, CastContext context, SubSpellContext subContext)
+    {
+
+    }
 
     private static Vector3 GetOrigin(CharacterState owner, CastContext context, SubSpellContext subContext)
     {
@@ -372,9 +375,16 @@ public class SpellCaster : MonoBehaviour
 
     private static CharacterState[] GetAllCharacters() => FindObjectsOfType<CharacterState>().ToArray();
 
-    private static CharacterState[] GetFilteredCharacters(CharacterState owner, SubSpell.AffectedTargets target) =>
-        FilterCharacters(owner, GetAllCharacters(), target);
+    private static CharacterState[] GetFilteredCharacters(CharacterState owner, CharacterState source, AffectedTargets target)
+    {
+        var characters = FilterCharacters(owner, GetAllCharacters(), target);
+        if((target & AffectedTargets.Self) == 0)
+        {
+            characters = characters.Where(t => t != source).ToArray();
+        }
 
+        return characters;
+    }
     private static CharacterState[] FilterCharacters(CharacterState owner, CharacterState[] characters, SubSpell.AffectedTargets target) =>
         characters.Where(c =>
         {
