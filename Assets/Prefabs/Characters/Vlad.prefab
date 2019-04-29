@@ -482,6 +482,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Animator: {fileID: 4857112221843758065}
   SpeedMultiplier: 10
+  ImpactDecayTime: 0.1
+  DissolveTime: 1
+  Renderers:
+  - {fileID: 2446400465233612501}
   DisableAnimationsAfterDeath: 1
   UseMaterialAnimations: 0
   AutoTrackSpeed: 1
@@ -515,6 +519,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentTeam: 1
   character: {fileID: 11400000, guid: 81c55ce4783c6cc489e0738f2d136524, type: 2}
+  Nodes:
+  - Transform: {fileID: 6100629683077966315}
+    Role: 0
+  - Transform: {fileID: 4192541368420370693}
+    Role: 1
+  - Transform: {fileID: 4343821218395547726}
+    Role: 3
+  - Transform: {fileID: 9162014847719878198}
+    Role: 2
 --- !u!114 &3797182427664632051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2464,26 +2477,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_AABB.m_Center.y
-      value: -0.80108786
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_AABB.m_Center.z
-      value: -0.2164917
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_AABB.m_Extent.y
-      value: 0.85175025
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_AABB.m_Extent.z
-      value: 0.26142147
-      objectReference: {fileID: 0}
     - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
       propertyPath: m_BendingStiffness
       value: 0.5
@@ -2719,6 +2712,26 @@ PrefabInstance:
     - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
       propertyPath: m_Coefficients.Array.data[55].collisionSphereDistance
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: -0.80108786
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: -0.2164917
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.85175025
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.26142147
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9761731baf7c024888ce0342953b503, type: 3}

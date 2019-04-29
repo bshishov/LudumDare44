@@ -17,7 +17,7 @@ MonoBehaviour:
   Speed: 1.49
   Evasion: 0
   Size: 1
-  HealthModifier: 1
+  HealthModifier: 0.5
   IndifferenceDistance: 10
   SpellRange: 0
   FearRange: 0

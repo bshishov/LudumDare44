@@ -18,7 +18,10 @@ public class CharacterState : MonoBehaviour
         [Serializable]
         public enum NodeRole
         {
-            Default
+            Default = 0,
+            SpellEmitter = 1,
+            Head = 2,
+            Chest = 3
         }
 
         public Transform Transform;
@@ -41,7 +44,7 @@ public class CharacterState : MonoBehaviour
     public SpellbookState SpellbookState { get; private set; }
     public InventoryState InventoryState { get; private set; }
     public float MaxHealth { get; private set; }    
-    public float Health { get; private set; }
+    public float Health { get; set; }
     public float Speed { get; private set; }
     public float Evasion { get; private set; }
     public float Size { get; private set; }
@@ -57,6 +60,24 @@ public class CharacterState : MonoBehaviour
         {
             MaxHealth = Mathf.Max(1, value);
             Health = Mathf.Min(Health, MaxHealth);
+        }
+    }
+
+    private float TimeBeforeNextAttack;
+
+    public bool IsAlive { get { return (Health > 0); }}
+
+    public bool DealMeleeDamage()
+    {
+        if (TimeBeforeNextAttack > character.MeleeCooldown)
+        {
+            // Health -= damage;
+            TimeBeforeNextAttack = 0f;
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -125,6 +146,7 @@ public class CharacterState : MonoBehaviour
 
         if (CurrentTeam == Team.Undefined)
             Debug.LogError("Team not setted!", this);
+        TimeBeforeNextAttack = 0f;
     }
 
     public bool SpendCurrency(float amount)
@@ -141,13 +163,16 @@ public class CharacterState : MonoBehaviour
     
     void Update()
     {
+        TimeBeforeNextAttack += Time.deltaTime;
         if (Health <= 0)
         {
             if ((DropSpells.Count) > 0){
                 var DroppedSpell = DropSpells[Mathf.FloorToInt(Random.value*DropSpells.Count)];      
                 // TODO: Drop spell
             }
-            Debug.Log("GG");
+            GetComponent<AnimationController>().PlayDeathAnimation();
+            Debug.Log("I am dead");
+
         }
 
 #if DEBUG
@@ -298,10 +323,14 @@ public class CharacterState : MonoBehaviour
        
     internal void DrawSpellGizmos(int slot, Vector3 target) => SpellbookState.DrawSpellGizmos(slot, target);
 
-    public Transform GetDefaultNodeTransform()
+    public Transform GetNodeTransform(CharacterNode.NodeRole role = CharacterNode.NodeRole.Default)
     {
         if (Nodes == null || Nodes.Length == 0)
             return transform;
+
+        var node = Nodes.FirstOrDefault(n => n.Role == role);
+        if (node != null)
+            return node.Transform;
 
         return Nodes[0].Transform;
     }
