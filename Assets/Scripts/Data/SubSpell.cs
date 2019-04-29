@@ -25,7 +25,8 @@ namespace Assets.Scripts.Data
 
             ExecuteSpellSequence = 1 << 1,
             Break = 1 << 2,
-            ExecuteSpellSequenceOnMaxDistance = 1 << 3
+            ExecuteSpellSequenceOnMaxDistance = 1 << 3,
+            IgnoreButTarget = 1 << 4
         }
 
         [Serializable]

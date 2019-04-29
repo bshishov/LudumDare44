@@ -31,6 +31,9 @@ namespace Spells
 
         private Vector3 _direction;
 
+        private static SubSpell.ObstacleHandling _requireCollisionMask =
+            SubSpell.ObstacleHandling.ExecuteSpellSequence | SubSpell.ObstacleHandling.Break | SubSpell.ObstacleHandling.IgnoreButTarget;
+
 
         public void Initialize(ProjectileContext context, SpellCaster caster)
         {
@@ -47,13 +50,18 @@ namespace Spells
             _direction = _context.target.Position.Value - transform.position;
             _direction = _direction.normalized;
 
-            var sphere = gameObject.AddComponent<Rigidbody>();
-            sphere.isKinematic = false;
-            sphere.useGravity = false;
+            if ((_requireCollisionMask & _context.GetProjectileSubSpell().Obstacles) != 0)
+            {
+                var sphere = gameObject.AddComponent<Rigidbody>();
+                sphere.isKinematic = false;
+                sphere.useGravity = false;
+            }
 
             switch (_context.projectileData.Trajectory)
             {
                 case ProjectileTrajectory.Line:
+                    break;
+                case ProjectileTrajectory.Folow:
                     break;
             }
         }
@@ -72,7 +80,10 @@ namespace Spells
                 return;
             }
 
-            if (!SpellCaster.IsEnemy(_context.owner, character, _context.GetProjectileSubSpell().AffectedTarget))
+            bool ignoreEnemyCheck = ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.IgnoreButTarget) ==
+                SubSpell.ObstacleHandling.IgnoreButTarget) && character == _context.target.Character;
+
+            if (!ignoreEnemyCheck && !SpellCaster.IsEnemy(_context.owner, character, _context.GetProjectileSubSpell().AffectedTarget))
                 return;
 
             if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.ExecuteSpellSequence) ==
@@ -107,12 +118,18 @@ namespace Spells
             if (_destroying)
                 return;
 
+            var moveDistance = _context.projectileData.Speed * Time.deltaTime;
+
             switch (_context.projectileData.Trajectory)
             {
                 case ProjectileTrajectory.Line:
-                    var moveDistance = _context.projectileData.Speed * Time.deltaTime;
                     _trevaledDistance += moveDistance;
                     transform.position += _direction * moveDistance;
+                    break;
+
+                case ProjectileTrajectory.Folow:
+                    _trevaledDistance += moveDistance;
+                    transform.position += (_context.target.Transform.position - transform.position).normalized * moveDistance;
                     break;
             }
 
