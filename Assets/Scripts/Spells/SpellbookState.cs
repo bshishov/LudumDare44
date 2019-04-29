@@ -105,18 +105,32 @@ namespace Spells
             }
         }
 
+        public bool IsSpellReady(int slotIndex)
+        {
+            var slotState = GetSpellSlotState(slotIndex).State;
+            if (slotState == SpellbookState.SpellState.Ready)
+                return true;
+
+            return false;
+        }
+
         public static int GetSpellSlot(Spell spell)
         {
             return (int)spell.DefaultSlot;
         }
 
-        internal void FireSpell(int index, SpellEmitterData data)
+        public void FireSpell(int index, SpellEmitterData data)
         {
             Assert.IsTrue(index >= 0 && index <= SpellCount);
             var status = GetSpellSlotState(index);
             Assert.IsTrue(status.State == SpellState.Ready);
 
             _spellCaster.CastSpell(status.Spell, data);
+        }
+
+        public void TryFireSpellToPoint(int slotIndex, Vector3 targetPosition)
+        {
+            /**/
         }
 
         private void AddSpellToSlot(int slotIndex, Spell spell)

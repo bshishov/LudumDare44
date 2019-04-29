@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 
     private Plane _ground;
     private CharacterState _characterState;
+    private SpellbookState _spellbook;
 
     private NavMeshAgent _agent;
     private AnimationController _animator;
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
         _characterState = GetComponent<CharacterState>();
         _animator = GetComponent<AnimationController>();
+        _spellbook = GetComponent<SpellbookState>();
 
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
@@ -46,7 +48,13 @@ public class PlayerController : MonoBehaviour
 
     private void FireSpell(int index)
     {
-        Vector3 groundPoint = Vector3.zero;
+        if (!_spellbook.IsSpellReady(index))
+        {
+            // Spell is not ready or missing - just exit
+            return;
+        }
+
+        var groundPoint = Vector3.zero;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (_ground.Raycast(ray, out var enter))
         {
@@ -68,8 +76,8 @@ public class PlayerController : MonoBehaviour
             owner = _characterState,
             ray = ray
         };
-        
-        _characterState.FireSpell(index, data);
+
+        _spellbook.FireSpell(index, data);
     }
 
     void Update()
