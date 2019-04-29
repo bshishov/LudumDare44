@@ -486,6 +486,7 @@ MonoBehaviour:
   DissolveTime: 1
   Renderers:
   - {fileID: 2446400465233612501}
+  - {fileID: 5844071593621202287}
   DisableAnimationsAfterDeath: 1
   UseMaterialAnimations: 0
   AutoTrackSpeed: 1
@@ -683,21 +684,6 @@ Transform:
   m_Father: {fileID: 8137837697406182137}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4526798630084876583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4367799398628534860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56a8cd03e1749b74cb8af1a6851e01dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Target: {fileID: 7019640288374360038}
-  PositionOffset: {x: 0, y: -0.024020076, z: 0.112540245}
-  RotationOffset: {x: 0.081133924, y: 0.00000012046286, z: 5.968762e-10, w: 0.9967034}
 --- !u!1 &2775581198009088355
 GameObject:
   m_ObjectHideFlags: 0
@@ -2478,277 +2464,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_BendingStiffness
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[0].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[1].maxDistance
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[1].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[2].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[3].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[4].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[5].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[6].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[7].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[8].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[9].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[10].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[11].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[12].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[13].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[14].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[15].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[16].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[17].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[18].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[19].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[20].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[21].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[22].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[23].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[24].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[25].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[26].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[27].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[28].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[29].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[30].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[31].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[32].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[33].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[34].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[35].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[36].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[37].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[38].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[39].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[40].maxDistance
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[40].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[41].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[42].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[43].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[44].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[45].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[46].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[47].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[48].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[49].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[50].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[51].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[52].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[53].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[54].collisionSphereDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
-      propertyPath: m_Coefficients.Array.data[55].collisionSphereDistance
-      value: 0
+    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: 0.026729465
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Center.y
-      value: -0.80487144
+      value: -0.8046464
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Center.z
-      value: -0.21722221
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_AABB.m_Extent.y
-      value: 0.8554174
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_AABB.m_Extent.z
-      value: 0.26120389
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_AABB.m_Center.x
-      value: 0.026714325
+      value: -0.21721268
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Extent.x
-      value: 0.5053262
+      value: 0.5053179
       objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.8551944
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.2611853
+      objectReference: {fileID: 0}
+    - target: {fileID: 4526798630084876583, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: Target
+      value: 
+      objectReference: {fileID: 7019640288374360038}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9761731baf7c024888ce0342953b503, type: 3}
---- !u!1 &4367799398628534860 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1812588461452642572, guid: c9761731baf7c024888ce0342953b503,
+--- !u!137 &5844071593621202287 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
     type: 3}
   m_PrefabInstance: {fileID: 2718505062554952512}
   m_PrefabAsset: {fileID: 0}

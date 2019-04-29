@@ -5,25 +5,23 @@ namespace Spells.Effects
 {
     public class FireballSpellEffect : MonoBehaviour, ISpellEffect
     {
-        public GameObject LightningPrefab;
+        public GameObject ExplosionPrefab;
 
-        void Start()
-        {
-        }
 
         public void OnSpellStateChange(Spell spell, ContextState newState)
         {
-            Debug.Log("Spell state change");
         }
 
         public void OnSubSpellStateChange(Spell spell, SubSpell subSpell, ContextState newSubState)
         {
-            Debug.Log("SubSpell state change");
         }
 
         public void OnSubSpellStartCast(Spell spell, SubSpell subSpell, SubSpellTargets data)
         {
-            Debug.Log("SubSpell Start Cast");
+            foreach (var target in data.targetData)
+            {
+                Destroy(Instantiate(ExplosionPrefab, target.Source.Position.Value, Quaternion.identity), 2);
+            }
         }
     }
 }

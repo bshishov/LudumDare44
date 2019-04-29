@@ -14,7 +14,7 @@ namespace Spells
 
         public TargetInfo origin;
         public TargetInfo target;
-        
+
         public SubSpell GetProjectileSubSpell()
         {
             return spell.SubSpells[startSubContext];
@@ -29,6 +29,8 @@ namespace Spells
         private bool _destroying;
         private float _trevaledDistance;
 
+        private Vector3 _direction;
+
 
         public void Initialize(ProjectileContext context, SpellCaster caster)
         {
@@ -40,7 +42,10 @@ namespace Spells
 
             _caster = caster;
             _context = context;
+
             transform.LookAt(_context.target.Position.Value);
+            _direction = _context.target.Position.Value - transform.position;
+            _direction = _direction.normalized;
 
             var sphere = gameObject.AddComponent<Rigidbody>();
             sphere.isKinematic = false;
@@ -55,6 +60,8 @@ namespace Spells
 
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log($"OnTriggerEnter");
+
             if (_destroying)
                 return;
 
@@ -91,7 +98,7 @@ namespace Spells
             _caster.ContinueCastSpell(_context.spell,
                 new SpellTargets(
                     TargetInfo.Create(_context.owner, transform),
-                    TargetInfo.Create(target)
+                    target != null ? TargetInfo.Create(target) : new TargetInfo {Position = transform.position}
                 ), _context.startSubContext + 1);
         }
 
@@ -105,7 +112,7 @@ namespace Spells
                 case ProjectileTrajectory.Line:
                     var moveDistance = _context.projectileData.Speed * Time.deltaTime;
                     _trevaledDistance += moveDistance;
-                    transform.position += transform.forward * moveDistance;
+                    transform.position += _direction * moveDistance;
                     break;
             }
 
@@ -115,8 +122,8 @@ namespace Spells
                      SubSpell.ObstacleHandling.ExecuteSpellSequenceOnMaxDistance) ==
                     SubSpell.ObstacleHandling.ExecuteSpellSequenceOnMaxDistance)
                     ContinueSpellSequence(null);
-                else
-                    DestroyParticle();
+
+                DestroyParticle();
             }
         }
 
@@ -124,6 +131,13 @@ namespace Spells
         {
             if (_destroying)
                 return;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(_context.origin.Position.Value, _context.target.Position.Value);
+
         }
     }
 }
