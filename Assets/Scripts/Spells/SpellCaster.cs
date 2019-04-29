@@ -11,10 +11,38 @@ namespace Spells
     {
         public CharacterState SourceCharacter;
         public Transform SourceTransform;
+        public Vector3 SourcePosition;
+
         public Vector3 TargetPosition;
+        public Transform TargetTransform;
         public CharacterState TargetCharacter;
 
         public Vector3 Direction => TargetPosition - SourceTransform.position;
+
+        public static SpellEmitterData Create(
+            CharacterState source,
+            CharacterState target,
+            Vector3 targetPosition, 
+            Transform sourceEmitter = null)
+        {
+            if (sourceEmitter == null)
+                sourceEmitter = source.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter);
+
+            return new SpellEmitterData
+            {
+                SourceCharacter = source,
+                SourceTransform = sourceEmitter,
+                SourcePosition = sourceEmitter.position,
+
+                TargetCharacter = target,
+                TargetTransform = source.GetNodeTransform(),
+                TargetPosition = targetPosition
+            };
+        }
+
+        public static SpellEmitterData Create(CharacterState source, CharacterState target,
+            Transform sourceEmitter = null)
+            => Create(source, target, target.transform.position, sourceEmitter);
     }
 
     public class SubSpellContext
@@ -108,8 +136,18 @@ namespace Spells
         {
             _owner = GetComponent<CharacterState>();
         }
-        
-        public void CastSpell(Spell spell, SpellEmitterData data, int subSpellStartIndex = 0, bool ignoreQueue = false)
+
+        public void CastSpell(Spell spell, SpellEmitterData data)
+        {
+            if (_context != null)
+            {
+                Debug.LogError($"spell cast aready casting, {_context.spell.Name}");
+                return;
+            }
+
+            _context = SpellContext.Create(spell, data, 0);
+        }
+        internal void ContinueCastSpell(Spell spell, SpellEmitterData data, int subSpellStartIndex = 0)
         {
             if (_context != null)
             {
@@ -119,7 +157,7 @@ namespace Spells
 
             _context = SpellContext.Create(spell, data, subSpellStartIndex);
         }
-
+        
         private void Update()
         {
             if (_context == null)
