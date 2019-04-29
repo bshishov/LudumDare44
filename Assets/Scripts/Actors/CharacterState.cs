@@ -89,9 +89,9 @@ public class CharacterState : MonoBehaviour
     }
 
 
-    public bool CanDealMeleeDamage()
+    public bool CanDealDamage()
     {
-        if (_timeBeforeNextAttack > character.MeleeCooldown)
+        if (_timeBeforeNextAttack > character.AttackCooldown)
         {
             _timeBeforeNextAttack = 0f;
             return true;
