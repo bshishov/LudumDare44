@@ -159,7 +159,6 @@ namespace Spells
                 targetPosition,
                 _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter)
             );
-
             FireSpell(slotIndex, data);
         }
 
