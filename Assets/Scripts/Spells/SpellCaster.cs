@@ -66,6 +66,8 @@ namespace Spells
         public static SpellContext Create(SpellCaster caster, Spell spell, SpellTargets targets,
             int subSpellStartIndex)
         {
+            Debug.Log(targets);
+
             var context = new SpellContext
             {
                 initialSource = targets.Source.Character,

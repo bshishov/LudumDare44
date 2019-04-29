@@ -97,7 +97,7 @@ namespace Spells
 
             _caster.ContinueCastSpell(_context.spell,
                 new SpellTargets(
-                    TargetInfo.Create(_context.owner, transform),
+                    TargetInfo.Create(_context.owner, transform, transform.position),
                     target != null ? TargetInfo.Create(target) : new TargetInfo {Position = transform.position}
                 ), _context.startSubContext + 1);
         }
