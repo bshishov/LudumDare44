@@ -21,6 +21,21 @@ namespace Spells
 
         public static SpellEmitterData Create(
             CharacterState source,
+            Transform sourceEmitter)
+        {
+            return new SpellEmitterData
+            {
+                SourceCharacter = source,
+                SourceTransform = sourceEmitter,
+                SourcePosition = sourceEmitter.position,
+
+                TargetCharacter = null,
+                TargetTransform = null
+            };
+        }
+
+        public static SpellEmitterData Create(
+            CharacterState source,
             CharacterState target,
             Vector3 targetPosition, 
             Transform sourceEmitter = null)
@@ -431,7 +446,7 @@ namespace Spells
             switch (context.GetCurrentSubSpell().Origin)
             {
                 case SubSpell.SpellOrigin.Self:
-                    return context.emitterData.SourceTransform.position;
+                    return context.emitterData.SourcePosition;
                 case SubSpell.SpellOrigin.Cursor:
                     Assert.IsTrue(context.currentSubspell == 0);
                     return context.emitterData.TargetPosition;

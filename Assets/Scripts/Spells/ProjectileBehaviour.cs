@@ -73,12 +73,10 @@ namespace Spells
 
         private void ContinueSpellSequence()
         {
-            _caster.ContinueCastSpell(_context.spell, new SpellEmitterData
-                {
-                    SourceCharacter = _context.owner,
-                    SourceTransform = transform,
-                    SourcePosition = transform.position
-            },
+            _caster.ContinueCastSpell(_context.spell, SpellEmitterData.Create(
+                    _context.owner,
+                    transform
+                ),
                 ++_context.startSubContext);
 
             DestroyParticle();
