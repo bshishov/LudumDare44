@@ -153,12 +153,12 @@ namespace Spells
                     break;
                 }
             }
+            target.Position = targetPosition;
 
             var data = new SpellTargets(
                 TargetInfo.Create(_characterState, _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter)),
                 target);
 
-            target.Position = targetPosition;
 
             FireSpell(slotIndex, data);
         }

@@ -339,7 +339,7 @@ namespace Spells
                     {
                         if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.SelfTarget) ==
                             SubSpell.SpellFlags.SelfTarget)
-                            target.Character= source.Character;
+                            target.Character = source.Character;
                         else if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.ClosestTarget) ==
                                  SubSpell.SpellFlags.ClosestTarget)
                             target.Character = context.filteredTargets
@@ -362,7 +362,6 @@ namespace Spells
                         if(dst != null && dst.Length > 0)
                             targets.AddRange(dst);
                     }
-
                 }
 
                 if (targets.Count == 0)
@@ -374,8 +373,7 @@ namespace Spells
                 if ((context.spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) ==
                     Spell.SpellFlags.AffectsOnlyOnce)
                     context.filteredTargets = context.filteredTargets.Where(f => !targets.Any(t => t.Character)).ToArray();
-            }
-
+            }  
 
             return anyTargetFound;
         }
