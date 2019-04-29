@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2390720600796782207}
-  - component: {fileID: 7988811572824585799}
   - component: {fileID: 5368322929813480138}
+  - component: {fileID: 7988811572824585799}
   m_Layer: 0
   m_Name: Lightning
   m_TagString: Untagged
@@ -32,18 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7988811572824585799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4477401157512331031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fdf33ade4cc78d4eb447be063a1d2b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!120 &5368322929813480138
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -61,7 +49,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e062f34ee1b836a49b29ae0f5ae34654, type: 2}
+  - {fileID: 2100000, guid: 61bf45c092c92324eb4f873e68e98a9a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -139,3 +127,16 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &7988811572824585799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4477401157512331031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fdf33ade4cc78d4eb447be063a1d2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Points: 10
