@@ -313,6 +313,7 @@ GameObject:
   - component: {fileID: 455322280629526545}
   - component: {fileID: 6155620627999202536}
   - component: {fileID: 8869557728133594917}
+  - component: {fileID: 6111149713815160640}
   m_Layer: 0
   m_Name: mesh_Dagger
   m_TagString: Untagged
@@ -402,6 +403,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!136 &6111149713815160640
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5571513852147247156}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.14718717
+  m_Height: 1.0377747
+  m_Direction: 1
+  m_Center: {x: -0.0000000014155899, y: -0.21600033, z: 0.0000000020688262}
 --- !u!1 &8329142908447375752
 GameObject:
   m_ObjectHideFlags: 0

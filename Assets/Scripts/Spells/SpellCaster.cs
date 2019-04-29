@@ -66,6 +66,8 @@ namespace Spells
         public static SpellContext Create(SpellCaster caster, Spell spell, SpellTargets targets,
             int subSpellStartIndex)
         {
+            Debug.Log(targets);
+
             var context = new SpellContext
             {
                 initialSource = targets.Source.Character,
@@ -306,7 +308,8 @@ namespace Spells
             var currentTargets = context.GetCurrentSubSpellTargets();
             var newTargets = new SubSpellTargets {targetData = new List<SpellTargets>()};
 
-            context.effect.OnSubSpellStartCast(context.spell, context.GetCurrentSubSpell(), currentTargets);
+            if(context.effect != null)
+                context.effect.OnSubSpellStartCast(context.spell, context.GetCurrentSubSpell(), currentTargets);
 
             foreach (var targets in currentTargets.targetData)
             {
@@ -496,6 +499,7 @@ namespace Spells
                     //    }
                     //}
 
+                    Debug.LogWarning("Not Implemented Ray Option Combo");
                     return null;
                 }
 
@@ -514,6 +518,7 @@ namespace Spells
                 //        .magnitude < area.Size).ToArray();
 
                 default:
+                    Debug.LogWarning("Not Implemented Area");
                     break;
             }
 

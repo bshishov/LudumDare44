@@ -28,8 +28,8 @@ namespace Assets.Scripts
         public TextMeshPro Text;
         public float CurrentPrice { get; private set; }
         public Transform PlaceTransform;
-
         public ItemEntry[] ItemPool;
+        public GameObject BuyEffect;
 
         private GameObject _itemObject;
 
@@ -82,6 +82,10 @@ namespace Assets.Scripts
             {
                 character.Pickup(ActiveItem);
                 RemoveItemAndClose();
+
+                if (BuyEffect != null)
+                    GameObject.Instantiate(BuyEffect, PlaceTransform);
+
                 var shopGroup = GetComponentInParent<ShopGroup>();
                 if(shopGroup != null)
                     shopGroup.CloseAll();
