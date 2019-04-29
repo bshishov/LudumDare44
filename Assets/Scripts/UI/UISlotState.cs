@@ -27,6 +27,9 @@ namespace Assets.Scripts.UI
                     Debug.LogWarning("PlayerState not found");
                 }
             }
+
+            StacksText.text = String.Empty;
+            CooldownText.text = String.Empty;
         }
         
         void Update()
@@ -37,7 +40,11 @@ namespace Assets.Scripts.UI
             {
                 SpellIcon.sprite = slotState.Spell.Icon;
                 CooldownOverlay.fillAmount = slotState.RemainingCooldown / slotState.Spell.Cooldown;
-                CooldownText.text = string.Format("{0:#.#}", slotState.RemainingCooldown);
+
+                if(slotState.RemainingCooldown > 0)
+                    CooldownText.text = string.Format("{0:0.#}", slotState.RemainingCooldown);
+                else
+                    CooldownText.text = String.Empty;
 
                 if (slotState.NumStacks > 1)
                 {

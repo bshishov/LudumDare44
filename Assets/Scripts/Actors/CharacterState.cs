@@ -43,7 +43,7 @@ public class CharacterState : MonoBehaviour
     public CharacterNode[] Nodes;
     public InventoryState InventoryState { get; private set; }
     public float MaxHealth { get; private set; }    
-    public float Health { get; set; }
+    public float Health { get; private set; }
     public float Speed { get; private set; }
     public float Evasion { get; private set; }
     public float Size { get; private set; }
@@ -61,7 +61,7 @@ public class CharacterState : MonoBehaviour
             Health = Mathf.Min(Health, MaxHealth);
         }
     }
-    public bool IsAlive { get { return (Health > 0); }}
+    public bool IsAlive => Health > 0;
 
     private float _timeBeforeNextAttack;
     private AnimationController _animationController;
@@ -89,9 +89,12 @@ public class CharacterState : MonoBehaviour
     }
 
 
-    public bool CanDealMeleeDamage()
+    public bool CanDealDamage()
     {
-        if (_timeBeforeNextAttack > character.MeleeCooldown)
+        if (!IsAlive)
+            return false;
+
+        if (_timeBeforeNextAttack > character.AttackCooldown)
         {
             _timeBeforeNextAttack = 0f;
             return true;
@@ -102,6 +105,9 @@ public class CharacterState : MonoBehaviour
 
     internal void Pickup(Spell spell)
     {
+        if (!IsAlive)
+            return;
+
         Assert.IsNotNull(_spellbook);
         var option = _spellbook.GetPickupOptions(spell);
 
@@ -119,6 +125,9 @@ public class CharacterState : MonoBehaviour
 
     public void Pickup(Item item)
     {
+        if (!IsAlive)
+            return;
+
         // Todo: track picked items and their stats
         foreach (var buff in item.Buffs)
         {
@@ -129,6 +138,9 @@ public class CharacterState : MonoBehaviour
 
     public bool SpendCurrency(float amount)
     {
+        if (!IsAlive)
+            return false;
+
         if (amount < Currency)
         {
             Debug.LogWarningFormat("Cant spend currency. Currency={0}, Trying to spend = {1}", Currency, amount);
@@ -141,12 +153,11 @@ public class CharacterState : MonoBehaviour
     
     void Update()
     {
-        _timeBeforeNextAttack += Time.deltaTime;
-        if (!IsAlive)
+        if (IsAlive)
         {
-           OnDeath();
+            _timeBeforeNextAttack += Time.deltaTime;
         }
-
+        
 #if DEBUG
         if(gameObject.CompareTag(Tags.Player))
             DisplayState();
@@ -165,7 +176,7 @@ public class CharacterState : MonoBehaviour
     }
 #endif
 
-    void OnDeath()
+    void HandleDeath()
     {
         if (DropSpells.Count > 0)
         {
@@ -173,15 +184,16 @@ public class CharacterState : MonoBehaviour
             // TODO: Drop spell
         }
 
+        AppliedBuffs.Clear();
         _animationController.PlayDeathAnimation();
         Debug.LogFormat("{0} died", gameObject.name);
-
-        // Disable itself
-        this.enabled = false;
     }
 
     void UpdatePerSecond()
-    {        
+    {
+        if (!IsAlive)
+            return;
+
         foreach (var buff in AppliedBuffs.Keys.ToList())
         {
 #if DEBUG
@@ -211,12 +223,27 @@ public class CharacterState : MonoBehaviour
 
     public void ReceiveDamage(float amount)
     {
-        Health -= amount;
-        _animationController.PlayHitImpactAnimation();
+        if (IsAlive)
+        {
+            Health -= Mathf.Abs(amount);
+        }
+
+        // Because health changed
+        if (Health <= 0)
+        {
+            HandleDeath();
+        }
+        else
+        {
+            _animationController.PlayHitImpactAnimation();
+        }
     }
     
     internal void ApplySpell(CharacterState owner, SubSpell spell)
     {
+        if(!IsAlive)
+            return;
+
         if (owner.CurrentTeam != CurrentTeam)
         {
             foreach (var buff in spell.Buffs)
@@ -228,6 +255,9 @@ public class CharacterState : MonoBehaviour
 
     public void ApplyBuff(Buff buff)
     {
+        if (!IsAlive)
+            return;
+
         if (AppliedBuffs.ContainsKey(buff))
         {
             // If there is a buff already exist just renew the cooldown
@@ -257,15 +287,7 @@ public class CharacterState : MonoBehaviour
                 Speed = (Speed + buff.Addition) * buff.Multiplier;
                 break;
             case Buff.ChangedProperties.Damage:
-                Health = (Health - buff.Addition) * buff.Multiplier;
-
-                if (buff.Addition > 0 || buff.Multiplier < 1f)
-                    _animationController.PlayHitImpactAnimation();
-
-                if (Health > MaxHealth)
-                {
-                    Health = MaxHealth;
-                }
+                ReceiveDamage(buff.Addition * buff.Multiplier);
                 break;
             case Buff.ChangedProperties.Power:
                 Damage = (Damage + buff.Addition) * buff.Multiplier;
