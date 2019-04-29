@@ -63,22 +63,42 @@ public class CharacterState : MonoBehaviour
         }
     }
 
-    private float TimeBeforeNextAttack;
-
     public bool IsAlive { get { return (Health > 0); }}
 
-    public bool DealMeleeDamage()
+    private float _timeBeforeNextAttack;
+    private AnimationController _animationController;
+
+    void Start()
     {
-        if (TimeBeforeNextAttack > character.MeleeCooldown)
+        SpellbookState = GetComponent<SpellbookState>();
+        InventoryState = GetComponent<InventoryState>();
+        _animationController = GetComponent<AnimationController>();
+
+        MaxHealth = character.Health;
+        Health = character.Health * character.HealthModifier;
+        Speed = character.Speed;
+        Damage = character.Damage;
+        DropRate = character.DropRate;
+        DropSpells = character.DropSpells;
+        Evasion = character.Evasion;
+        Size = character.Size;
+        InvokeRepeating("UpdatePerSecond", 1.0f, 1.0f);
+
+        if (CurrentTeam == Team.Undefined)
+            Debug.LogError("Team not setted!", this);
+        _timeBeforeNextAttack = 0f;
+    }
+
+
+    public bool CanDealMeleeDamage()
+    {
+        if (_timeBeforeNextAttack > character.MeleeCooldown)
         {
-            // Health -= damage;
-            TimeBeforeNextAttack = 0f;
+            _timeBeforeNextAttack = 0f;
             return true;
         }
-        else
-        {
-            return false;
-        }
+        
+        return false;
     }
 
     internal void Pickup(Spell spell)
@@ -129,25 +149,6 @@ public class CharacterState : MonoBehaviour
         }
     }
     
-    void Start()
-    {
-        SpellbookState = GetComponent<SpellbookState>();
-        InventoryState = GetComponent<InventoryState>();
-
-        MaxHealth = character.Health;
-        Health = character.Health*character.HealthModifier;
-        Speed = character.Speed;
-        Damage = character.Damage;
-        DropRate = character.DropRate;
-        DropSpells = character.DropSpells;
-        Evasion = character.Evasion;
-        Size = character.Size;
-        InvokeRepeating("UpdatePerSecond", 1.0f, 1.0f);
-
-        if (CurrentTeam == Team.Undefined)
-            Debug.LogError("Team not setted!", this);
-        TimeBeforeNextAttack = 0f;
-    }
 
     public bool SpendCurrency(float amount)
     {
@@ -163,16 +164,10 @@ public class CharacterState : MonoBehaviour
     
     void Update()
     {
-        TimeBeforeNextAttack += Time.deltaTime;
+        _timeBeforeNextAttack += Time.deltaTime;
         if (Health <= 0)
         {
-            if ((DropSpells.Count) > 0){
-                var DroppedSpell = DropSpells[Mathf.FloorToInt(Random.value*DropSpells.Count)];      
-                // TODO: Drop spell
-            }
-            GetComponent<AnimationController>().PlayDeathAnimation();
-            Debug.Log("I am dead");
-
+           OnDeath();
         }
 
 #if DEBUG
@@ -184,7 +179,6 @@ public class CharacterState : MonoBehaviour
 #if DEBUG
     void DisplayState()
     {
-
         Debugger.Default.Display(gameObject.name + "/HP", Health);
         Debugger.Default.Display(gameObject.name + "/MAX HP", MaxHealth);
         Debugger.Default.Display(gameObject.name + "/HP REGEN", HealthRegen);
@@ -193,6 +187,21 @@ public class CharacterState : MonoBehaviour
         Debugger.Default.Display(gameObject.name + "/Evasion", Evasion);
     }
 #endif
+
+    void OnDeath()
+    {
+        if (DropSpells.Count > 0)
+        {
+            var DroppedSpell = DropSpells[Mathf.FloorToInt(Random.value * DropSpells.Count)];
+            // TODO: Drop spell
+        }
+
+        _animationController.PlayDeathAnimation();
+        Debug.LogFormat("{0} died", gameObject.name);
+
+        // Disable itself
+        this.enabled = false;
+    }
 
     void UpdatePerSecond()
     {        
@@ -221,6 +230,12 @@ public class CharacterState : MonoBehaviour
         }
 
         Health = Mathf.Min(Health + HealthRegen, MaxHealth);
+    }
+
+    public void ReceiveDamage(float amount)
+    {
+        Health -= amount;
+        _animationController.PlayHitImpactAnimation();
     }
     
     internal void ApplySpell(CharacterState owner, SubSpell spell)
@@ -266,6 +281,10 @@ public class CharacterState : MonoBehaviour
                 break;
             case Buff.ChangedProperties.Damage:
                 Health = (Health - buff.Addition) * buff.Multiplier;
+
+                if (buff.Addition > 0 || buff.Multiplier < 1f)
+                    _animationController.PlayHitImpactAnimation();
+
                 if (Health > MaxHealth)
                 {
                     Health = MaxHealth;

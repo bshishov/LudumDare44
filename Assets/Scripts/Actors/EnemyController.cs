@@ -1,103 +1,107 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using Assets.Scripts;
+using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
+
+[RequireComponent(typeof(AnimationController))]
+[RequireComponent(typeof(CharacterState))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
 {
-    private CharacterState _characterParams;
+    private float _indifferenceDistance;
+    private float _spellRange;
+    private float _fearRange;
+    private float _meleeRange;
+
+    private CharacterState _characterState;
     private NavMeshAgent _navMeshAgent;
+    private AnimationController _animationController;
+    private CharacterState[] _players;
+    private float _distance;
 
-    private float indifferenceDistance;
-    private float spellRange;
-    private float fearRange;
-    public float distance;
-    public float MeleeRange;
-
-    public Transform Target;
-
-    // Start is called before the first frame update
     void Start()
     {
-        _characterParams = GetComponent<CharacterState>();
+        _animationController = GetComponent<AnimationController>();
+        _characterState = GetComponent<CharacterState>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
-        indifferenceDistance = _characterParams.character.IndifferenceDistance;
-        spellRange = _characterParams.character.SpellRange;
-        fearRange = _characterParams.character.FearRange;
-        MeleeRange = _characterParams.character.MeleeRange;
-        _navMeshAgent.speed = _characterParams.Speed;
-        CharacterUtils.ApplySettings(_characterParams, _navMeshAgent, true);
-    }
 
-    // Update is called once per frame
+        _indifferenceDistance = _characterState.character.IndifferenceDistance;
+        _spellRange = _characterState.character.SpellRange;
+        _fearRange = _characterState.character.FearRange;
+        _meleeRange = _characterState.character.MeleeRange;
+        _navMeshAgent.speed = _characterState.Speed;
+        CharacterUtils.ApplySettings(_characterState, _navMeshAgent, true);
+
+        _players = GameObject.FindGameObjectsWithTag(Tags.Player).Select(o => o.GetComponent<CharacterState>()).ToArray();
+    }
+    
     void Update()
     {
-        UpdateTarget(); 
+        if(_characterState.IsAlive)
+            UpdateTarget();
+        else
+            _navMeshAgent.isStopped = true;
     }
 
     private void UpdateTarget()
     {
-        var players = GameObject.FindGameObjectsWithTag("Player");
-        if (players == null)
-            return;
-
-        GameObject selectedPlayer = null;
+        CharacterState selectedPlayer;
         // float minDistance = float.MaxValue;
-        foreach (var player in players)
+        foreach (var player in _players)
         {
-            var len = (player.transform.position - transform.position);
-            distance = len.magnitude;
-            if (distance < indifferenceDistance) {
-                int spellCount = _characterParams.character.UseSpells.Count;
+            var len = player.transform.position - transform.position;
+            _distance = len.magnitude;
+            if (_distance < _indifferenceDistance)
+            {
+                var spellCount = _characterState.character.UseSpells.Count;
                 if (spellCount <= 0)
                 {
-                    if (distance > MeleeRange)
+                    if (_distance > _meleeRange)
                     {
                         _navMeshAgent.isStopped = false;
                         _navMeshAgent.SetDestination(player.transform.position);
                     }
                     else
                     {
-                        if (_characterParams.DealMeleeDamage())
+                        if (_characterState.CanDealMeleeDamage())
                         {
                             _navMeshAgent.isStopped = true;
-                            player.GetComponent<CharacterState>().Health -= _characterParams.character.Damage;
-                            _characterParams.GetComponent<AnimationController>().PlayAttackAnimation();
-                            player.GetComponent<AnimationController>().PlayHitImpactAnimation();
+                            player.ReceiveDamage(_characterState.character.Damage);
+                            _characterState.GetComponent<AnimationController>().PlayAttackAnimation();
                         }
-                                                
                     }
                 }
                 else
                 {
-                    if (distance > spellRange)
+                    if (_distance > _spellRange)
                     {
-                        _navMeshAgent.speed = _characterParams.Speed;
+                        _navMeshAgent.speed = _characterState.Speed;
                         selectedPlayer = player;
                         _navMeshAgent.isStopped = false;
                         _navMeshAgent.SetDestination(selectedPlayer.transform.position);
                     }
                     else
                     {
-                        if (distance > fearRange)
+                        if (_distance > _fearRange)
                         {
                             // TODO: Miktor fix firespell
-                            // _characterParams.FireSpell(Mathf.FloorToInt(Random.value * spellCount), player);                            
+                            // _characterState.FireSpell(Mathf.FloorToInt(Random.value * spellCount), player);                            
                             selectedPlayer = null;
                             _navMeshAgent.isStopped = true;
                         }
                         else
                         {
-                            _navMeshAgent.speed = 10* _characterParams.Speed;
+                            _navMeshAgent.speed = 10* _characterState.Speed;
                             selectedPlayer = null;
                             _navMeshAgent.isStopped = false;      
                             
-                            _navMeshAgent.SetDestination(transform.position - fearRange * len.normalized);
+                            _navMeshAgent.SetDestination(transform.position - _fearRange * len.normalized);
                         }
                     }
                 }
             }
         }
-        
-            
     }
 }

@@ -2160,10 +2160,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8dcfbb49a1cc4289fcfe9b9b27c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 0}
+  Animator: {fileID: 5601020330370002313}
   SpeedMultiplier: 0.2
+  ImpactDecayTime: 0.1
+  DissolveTime: 1
+  Renderers:
+  - {fileID: 273288331308870586}
   DisableAnimationsAfterDeath: 1
-  UseMaterialAnimations: 0
+  UseMaterialAnimations: 1
   AutoTrackSpeed: 1
   SmoothTime: 0.1
   SeparateLegs: 1
@@ -2190,6 +2194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distance: 0
+  MeleeRange: 0
   Target: {fileID: 0}
 --- !u!136 &2805373213057678178
 CapsuleCollider:

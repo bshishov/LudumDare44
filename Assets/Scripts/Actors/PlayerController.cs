@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using Assets.Scripts.Data;
 using Spells;
 using UnityEngine.AI;
 
@@ -37,13 +38,13 @@ public class PlayerController : MonoBehaviour
         moveDirection.z = Input.GetAxis("Vertical");
 
         if (Input.GetMouseButtonDown(0))
-            FireSpell(0);
+            FireSpell((int)Spell.Slot.LMB);
 
         if (Input.GetMouseButtonDown(1))
-            FireSpell(1);
+            FireSpell((int)Spell.Slot.RMB);
 
-        if (Input.GetMouseButtonDown(1))
-            FireSpell(2);
+        if (Input.GetButtonDown("Jump"))
+            FireSpell((int)Spell.Slot.ULT);
     }
 
     private void FireSpell(int index)
