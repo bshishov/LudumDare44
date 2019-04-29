@@ -6,12 +6,14 @@ namespace Assets.Scripts.Spells
     public class Lightning : MonoBehaviour
     {
         public int Points = 10;
+        public float Lifetime = 0.2f;
         private LineRenderer _renderer;
 
         public void Start()
         {
             _renderer = GetComponent<LineRenderer>();
-            Destroy(gameObject, 1f);
+            _renderer.material.SetFloat("_TargetTime", Time.time + Lifetime);
+            Destroy(gameObject, Lifetime);
         }
 
         public void SetupLine(Vector3 from, Vector3 to)

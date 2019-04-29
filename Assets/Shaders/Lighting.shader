@@ -18,17 +18,16 @@
 
             CGPROGRAM
             #pragma vertex vert
-            #pragma fragment frag
-            // make fog work
+            #pragma fragment frag            
             #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
-
 
             struct appdata
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+				float4 normal : NORMAL;
             };
 
             struct v2f
@@ -43,16 +42,17 @@
 			half _MaxOffset;
 			float4 _Color;
 			half _Frequency;
+			float _TargetTime;
 
             v2f vert (appdata v)
             {
                 v2f o;
 
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+				o.uv = TRANSFORM_TEX(v.uv, _MainTex);				
 
 				half k = 2 * (o.uv.x - 0.5);
 				half displacementImpactCap = _MaxOffset * (1 - k * k);
-				v.vertex.x += displacementImpactCap * sin(_Time.w * _Frequency + o.uv.x * _Frequency);
+				v.vertex += v.normal * displacementImpactCap * sin(_Time.w * _Frequency + o.uv.x * _Frequency);
 				//v.vertex.y += displacementImpactCap * sin(_Time.w * 100 + o.uv.x * 100);
 				//v.vertex.z += displacementImpactCap * sin(_Time.w * 100 + o.uv.x * 100);
 
@@ -72,8 +72,8 @@
 				
 				half k = 2 * (i.uv.x - 0.5);
 
-
-                return col * _Color;
+				float ttl = saturate(_TargetTime - _Time.y);				
+                return col * _Color * ttl;
             }
             ENDCG
         }

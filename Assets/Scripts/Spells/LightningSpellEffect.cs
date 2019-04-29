@@ -7,6 +7,11 @@ namespace Assets.Scripts.Spells
     {
         public GameObject LightningPrefab;
 
+        void Start()
+        {
+            Destroy(gameObject, 1f);
+        } 
+
         public void OnSpellStateChange(Spell spell, ContextState newState)
         {
             Debug.Log("Spell state change");
@@ -29,7 +34,5 @@ namespace Assets.Scripts.Spells
                 }
             }
         }
-
-        
     }
 }
