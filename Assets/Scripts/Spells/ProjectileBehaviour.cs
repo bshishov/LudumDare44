@@ -1,33 +1,33 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Data;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Spells
 {
-
     public class ProjectileContext
     {
+        public Vector3 origin;
         public CharacterState owner;
         public ProjectileData projectileData;
 
         public Spell spell;
         public int startSubContext;
-
-        public CharacterState targetCharacter;
-        public Vector3 origin;
         public Vector3 target;
 
-        public SubSpell GetProjectileSubSpell() => spell.SubSpells[startSubContext];
+        public CharacterState targetCharacter;
+
+        public SubSpell GetProjectileSubSpell()
+        {
+            return spell.SubSpells[startSubContext];
+        }
     }
 
     public class ProjectileBehaviour : MonoBehaviour
     {
-        private ProjectileContext _context;
-        private float _trevaledDistance;
-
         private List<SpellContext> _activationContexts = new List<SpellContext>();
         private SpellCaster _caster;
+        private ProjectileContext _context;
+        private float _trevaledDistance;
 
         public void Initialize(ProjectileContext context, SpellCaster caster)
         {
@@ -59,7 +59,7 @@ namespace Spells
                 ActivateSpell();
 
             if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.Break) ==
-                                     SubSpell.ObstacleHandling.Break)
+                SubSpell.ObstacleHandling.Break)
                 DestroyParticle();
         }
 
@@ -70,15 +70,15 @@ namespace Spells
 
         private void ActivateSpell()
         {
-            _caster.CastSpell(_context.spell, new SpellEmitterData()
+            _caster.CastSpell(_context.spell, new SpellEmitterData
                 {
-                    emitter = null
-
+                    owner = _context.owner,
+                    SourceTransform = transform
                 },
                 _context.startSubContext, true);
         }
 
-        void Update()
+        private void Update()
         {
             switch (_context.projectileData.Trajectory)
             {
