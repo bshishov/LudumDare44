@@ -152,7 +152,6 @@ namespace Spells
                     if (context.stateActiveTime < context.spell.PreCastDelay)
                         break;
 
-                    Debug.Log($"{context.spell.Name} pre cast wait ended");
                     Advance();
                     return true;
 
@@ -169,8 +168,6 @@ namespace Spells
                         }
                     });
                     context.subContext = SubSpellContext.Create(context);
-
-                    Debug.Log($"{context.spell.Name} cast sub spells");
 
                     while (ManageSubContext(context, context.subContext)) ;
 
@@ -192,7 +189,6 @@ namespace Spells
                     if (context.stateActiveTime < context.spell.PreCastDelay)
                         break;
 
-                    Debug.Log($"{context.spell.Name} pre cast wait ended");
                     Advance();
                     return true;
 
@@ -215,7 +211,6 @@ namespace Spells
             switch (subContext.state)
             {
                 case ContextState.JustQueued:
-                    Debug.Log($"{context.spell.Name} start subspell cast {context.currentSubspell}");
                     Advance();
                     return true;
 
@@ -223,7 +218,6 @@ namespace Spells
                     if (subContext.activeTime < context.GetCurrentSubSpell().PostCastDelay)
                         break;
 
-                    Debug.Log($"{context.spell.Name} subspell PreDelays ended {context.currentSubspell}");
                     Advance();
                     return true;
 
@@ -246,13 +240,10 @@ namespace Spells
                     if (subContext.activeTime < context.GetCurrentSubSpell().PostCastDelay)
                         break;
 
-                    Debug.Log($"{context.spell.Name} subspell PostDelay ended {context.currentSubspell}");
                     Advance();
                     return true;
 
                 case ContextState.Finishing:
-                    Debug.Log($"{context.spell.Name} subspell finished {context.currentSubspell}");
-
                     ++context.currentSubspell;
                     subContext.state = ContextState.PreDelays;
 
