@@ -59,6 +59,7 @@ public class CharacterState : MonoBehaviour
         {
             MaxHealth = Mathf.Max(1, value);
             Health = Mathf.Min(Health, MaxHealth);
+            _animationController.PlayHitImpactAnimation();
         }
     }
     public bool IsAlive => Health > 0;
@@ -141,7 +142,7 @@ public class CharacterState : MonoBehaviour
         if (!IsAlive)
             return false;
 
-        if (amount < Currency)
+        if (amount > Currency)
         {
             Debug.LogWarningFormat("Cant spend currency. Currency={0}, Trying to spend = {1}", Currency, amount);
             return false;
