@@ -18,6 +18,6 @@ MonoBehaviour:
   Multiplier: 0
   Radius: 2
   PerSecond: 1
-  Permanent: 1
+  Permanent: 0
   Duration: 1
   VisualEffect: {fileID: 0}
