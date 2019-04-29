@@ -107,8 +107,18 @@ namespace Spells
         {
             _owner = GetComponent<CharacterState>();
         }
-        
-        public void CastSpell(Spell spell, SpellEmitterData data, int subSpellStartIndex = 0, bool ignoreQueue = false)
+
+        public void CastSpell(Spell spell, SpellEmitterData data)
+        {
+            if (_context != null)
+            {
+                Debug.LogError($"spell cast aready casting, {_context.spell.Name}");
+                return;
+            }
+
+            _context = SpellContext.Create(spell, data, 0);
+        }
+        internal void ContinueCastSpell(Spell spell, SpellEmitterData data, int subSpellStartIndex = 0)
         {
             if (_context != null)
             {
@@ -118,7 +128,7 @@ namespace Spells
 
             _context = SpellContext.Create(spell, data, subSpellStartIndex);
         }
-
+        
         private void Update()
         {
             if (_context == null)
