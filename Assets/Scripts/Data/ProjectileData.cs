@@ -18,7 +18,8 @@ public class ProjectileData : ScriptableObject
 {
     [NotNull] public GameObject ProjectilePrefab;
 
-    public float Speed;
+    public float Speed = 10;
+    public float MaxDistance = 100;
 
     public ProjectileTrajectory Trajectory;
 }

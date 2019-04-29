@@ -15,6 +15,7 @@ namespace Spells
         public Vector3 floorIntercection;
         public RaycastHit hitInfo;
     }
+
     public class SubSpellContext
     {
         public bool aborted;
@@ -59,8 +60,12 @@ namespace Spells
 
     public class ProjectileContext
     {
+        public ProjectileData projectileData;
+
         public SpellContext spellContext;
-        public TargetingData targeting;
+        public CharacterState targetCharacter;
+        public Vector3 origin;
+        public Vector3 target;
     }
 
     public struct TargetingData
@@ -76,7 +81,6 @@ namespace Spells
         private SpellContext _context;
 
         private CharacterState _owner;
-        private List<ProjectileContext> _projectileContexts = null;
         public float MaxSpellDistance = 100.0f;
 
         // Start is called before the first frame update
@@ -365,13 +369,34 @@ namespace Spells
 
         private static void SpawnProjectile(TargetingData targeting, SpellContext context)
         {
+            Vector3 target = Vector3.one;
+            if (targeting.targetCharacter != null)
+            {
+                target = targeting.targetCharacter.transform.position;
+            }
+            else if (targeting.targetLocation.HasValue)
+            {
+                target = targeting.targetLocation.Value;
+            }
+            else
+            {
+                Debug.Log("NO target for particle");
+                return;
+            }
+
+            var projectileContext = new ProjectileContext
+            {
+                projectileData = context.GetCurrentSubSpell().Projectile,
+                spellContext = context,
+                targetCharacter = targeting.targetCharacter,
+                target = target,
+                origin = targeting.origin
+            };
+
             var projectilePrefab = Instantiate(context.GetCurrentSubSpell().Projectile.ProjectilePrefab, targeting.origin, Quaternion.identity);
             var projectileData = projectilePrefab.AddComponent<ProjectileBehaviour>();
-            projectileData.Conext = new ProjectileContext
-            {
-                spellContext = context,
-                targeting = targeting
-            };
+
+            projectileData.Initialize(projectileContext);
 
             context.subContext.projectileSpawned = true;
         }
