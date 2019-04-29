@@ -75,8 +75,8 @@ namespace Spells
         {
             _caster.ContinueCastSpell(_context.spell, new SpellEmitterData
                 {
-                    owner = _context.owner,
-                    sourceTransform = transform
+                    SourceCharacter = _context.owner,
+                    SourceTransform = transform
                 },
                 ++_context.startSubContext);
 
