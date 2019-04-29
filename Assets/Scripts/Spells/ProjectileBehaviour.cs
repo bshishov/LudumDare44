@@ -6,12 +6,13 @@ namespace Spells
 {
     public class ProjectileContext
     {
-        public TargetInfo origin;
         public CharacterState owner;
         public ProjectileData projectileData;
 
         public Spell spell;
         public int startSubContext;
+
+        public TargetInfo origin;
         public TargetInfo target;
 
         public SubSpell GetProjectileSubSpell()
@@ -28,6 +29,8 @@ namespace Spells
         private bool _destroying;
         private float _trevaledDistance;
 
+        private Vector3 _direction;
+
 
         public void Initialize(ProjectileContext context, SpellCaster caster)
         {
@@ -39,7 +42,10 @@ namespace Spells
 
             _caster = caster;
             _context = context;
+
             transform.LookAt(_context.target.Position.Value);
+            _direction = _context.target.Position.Value - transform.position;
+            _direction = _direction.normalized;
 
             var sphere = gameObject.AddComponent<Rigidbody>();
             sphere.isKinematic = false;
@@ -106,7 +112,7 @@ namespace Spells
                 case ProjectileTrajectory.Line:
                     var moveDistance = _context.projectileData.Speed * Time.deltaTime;
                     _trevaledDistance += moveDistance;
-                    transform.position += transform.forward * moveDistance;
+                    transform.position += _direction * moveDistance;
                     break;
             }
 
@@ -125,6 +131,13 @@ namespace Spells
         {
             if (_destroying)
                 return;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(_context.origin.Position.Value, _context.target.Position.Value);
+
         }
     }
 }

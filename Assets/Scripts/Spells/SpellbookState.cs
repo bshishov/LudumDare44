@@ -170,7 +170,7 @@ namespace Spells
         {
             var data = new SpellTargets(
                 TargetInfo.Create(_characterState, _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter)), 
-                TargetInfo.Create(target, _characterState.GetNodeTransform(CharacterState.NodeRole.Chest)));
+                TargetInfo.Create(target, target.GetNodeTransform(CharacterState.NodeRole.Chest)));
 
             FireSpell(slotIndex, data);
         }
