@@ -46,38 +46,22 @@ public class PlayerController : MonoBehaviour
             FireSpell((int)Spell.Slot.ULT);
     }
 
-    private void FireSpell(int index)
+    private void FireSpell(int slotIndex)
     {
-        if (!_spellbook.IsSpellReady(index))
+        if (!_spellbook.IsSpellReady(slotIndex))
         {
             // Spell is not ready or missing - just exit
             return;
         }
 
         var groundPoint = Vector3.zero;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (_ground.Raycast(ray, out var enter))
         {
             groundPoint = ray.GetPoint(enter);
         }
 
-        RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo, 100, LayerMask.GetMask("Actors")))
-        {
-        }
-
-        Debug.DrawRay(ray.origin, ray.direction, Color.green);
-
-        var data = new SpellEmitterData
-        {
-            floorIntercection = groundPoint,
-            hitInfo = hitInfo,
-            sourceTransform = _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter),
-            owner = _characterState,
-            ray = ray
-        };
-
-        _spellbook.FireSpell(index, data);
+        _spellbook.TryFireSpellToPoint(slotIndex, groundPoint);
     }
 
     void Update()

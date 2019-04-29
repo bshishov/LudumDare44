@@ -9,11 +9,12 @@ namespace Spells
 {
     public struct SpellEmitterData
     {
-        public CharacterState owner;
-        public Transform sourceTransform;
-        public Ray ray;
-        public Vector3 floorIntercection;
-        public RaycastHit hitInfo;
+        public CharacterState SourceCharacter;
+        public Transform SourceTransform;
+        public Vector3 TargetPosition;
+        public CharacterState TargetCharacter;
+
+        public Vector3 Direction => TargetPosition - SourceTransform.position;
     }
 
     public class SubSpellContext
@@ -163,7 +164,7 @@ namespace Spells
                         {
                             new PerSourceTargets
                             {
-                                source = context.emitterData.owner
+                                source = context.emitterData.SourceCharacter
                             }
                         }
                     });
@@ -291,7 +292,7 @@ namespace Spells
 
                 foreach (var src in data.destinations)
                 {
-                    src.ApplySpell(context.emitterData.owner, context.GetCurrentSubSpell());
+                    src.ApplySpell(context.emitterData.SourceCharacter, context.GetCurrentSubSpell());
 
                     newTargets.targetData.Add(new PerSourceTargets {source = src});
                 }
@@ -314,10 +315,10 @@ namespace Spells
                 };
 
                 if ((context.GetCurrentSubSpell().Targeting & SubSpell.SpellTargeting.Location) == SubSpell.SpellTargeting.Location)
-                    targeting.targetLocation = context.emitterData.floorIntercection;
+                    targeting.targetLocation = context.emitterData.TargetPosition;
 
                 if ((context.spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == 0 || context.filteredTargets == null)
-                    context.filteredTargets = GetFilteredCharacters(context.emitterData.owner, targeting.owner,
+                    context.filteredTargets = GetFilteredCharacters(context.emitterData.SourceCharacter, targeting.owner,
                         context.GetCurrentSubSpell().AffectedTarget);
 
                 if ((context.GetCurrentSubSpell().Targeting & SubSpell.SpellTargeting.Target) == SubSpell.SpellTargeting.Target)
@@ -327,8 +328,8 @@ namespace Spells
                     else if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.ClosestTarget) == SubSpell.SpellFlags.ClosestTarget)
                         targeting.targetCharacter = context.filteredTargets
                             .OrderBy(t => (t.transform.position - targeting.origin).magnitude).FirstOrDefault();
-                    else if (context.emitterData.hitInfo.collider != null)
-                        targeting.targetCharacter = context.emitterData.hitInfo.collider.GetComponent<CharacterState>();
+                    else if (context.emitterData.TargetCharacter != null)
+                        targeting.targetCharacter = context.emitterData.TargetCharacter;
                 }
 
                 if (targeting.targetCharacter == null && targeting.targetLocation == null)
@@ -376,7 +377,7 @@ namespace Spells
 
             var projectileContext = new ProjectileContext
             {
-                owner = context.emitterData.owner,
+                owner = context.emitterData.SourceCharacter,
                 projectileData = context.GetCurrentSubSpell().Projectile,
 
                 spell = context.spell,
@@ -401,10 +402,10 @@ namespace Spells
             switch (context.GetCurrentSubSpell().Origin)
             {
                 case SubSpell.SpellOrigin.Self:
-                    return context.emitterData.sourceTransform.position;
+                    return context.emitterData.SourceTransform.position;
                 case SubSpell.SpellOrigin.Cursor:
                     Assert.IsTrue(context.currentSubspell == 0);
-                    return context.emitterData.floorIntercection;
+                    return context.emitterData.TargetPosition;
             }
 
             throw new InvalidOperationException("GetOrigin unhandled!");
@@ -415,7 +416,7 @@ namespace Spells
             if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.HaveDirection) == SubSpell.SpellFlags.HaveDirection)
             {
                 if (context.currentSubspell == 0)
-                    return context.emitterData.ray.direction;
+                    return context.emitterData.Direction;
                 return owner.transform.forward;
             }
 

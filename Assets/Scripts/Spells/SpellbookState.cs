@@ -130,7 +130,26 @@ namespace Spells
 
         public void TryFireSpellToPoint(int slotIndex, Vector3 targetPosition)
         {
-            /**/
+            CharacterState targetCharacter = null;
+
+            // Try locate target character
+            var results = Physics.OverlapSphere(targetPosition, 0.2f, LayerMask.GetMask("Actors"));
+            foreach (var result in results)
+            {
+                targetCharacter = result.GetComponent<CharacterState>();
+                if(targetCharacter != null)
+                    break;
+            }
+
+            var data = new SpellEmitterData
+            {
+                TargetPosition = targetPosition,
+                SourceTransform = _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter),
+                SourceCharacter = _characterState,
+                TargetCharacter = targetCharacter
+            };
+
+            FireSpell(slotIndex, data);
         }
 
         private void AddSpellToSlot(int slotIndex, Spell spell)
