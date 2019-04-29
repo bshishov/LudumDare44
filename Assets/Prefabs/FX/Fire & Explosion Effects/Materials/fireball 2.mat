@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: fireball
+  m_Name: fireball 2
   m_Shader: {fileID: -6465566751694194690, guid: 486140b6cc7ebe54588d4ee19e31f020,
     type: 3}
   m_ShaderKeywords: _EMISSION _FADING_ON _FLIPBOOKBLENDING_ON _RECEIVE_SHADOWS_OFF
@@ -36,7 +36,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_3C83D30F:
-        m_Texture: {fileID: 2800000, guid: 99dacc52646712a459be9b6c50a0bcc1, type: 3}
+        m_Texture: {fileID: 2800000, guid: cad0d6e5999de2d49999cfde46997cc4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -80,7 +80,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_D57CE2EF: 30
+    - Vector1_D57CE2EF: 50
     - _AlphaClip: 0
     - _Blend: 0
     - _BlendOp: 0
@@ -120,7 +120,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 0
     m_Colors:
-    - Color_511C6EB3: {r: 2.0644803, g: 2.0644803, b: 2.0644803, a: 0}
+    - Color_511C6EB3: {r: 0.09785916, g: 0, b: 2.6701572, a: 0}
     - _BaseColor: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}
     - _BaseColorAddSubDiff: {r: -1, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
