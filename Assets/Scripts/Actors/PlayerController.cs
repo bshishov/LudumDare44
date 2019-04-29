@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
 
     private NavMeshAgent _agent;
     private AnimationController _animator;
-    public SpellEmitter[] _emitters;
 
     void Start()
     {
@@ -26,8 +25,6 @@ public class PlayerController : MonoBehaviour
 
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
-
-        _emitters = GetComponentsInChildren<SpellEmitter>();
 
         CharacterUtils.ApplySettings(_characterState, _agent, false);
     }
@@ -63,7 +60,15 @@ public class PlayerController : MonoBehaviour
 
         Debug.DrawRay(ray.origin, ray.direction, Color.green);
 
-        var data = _emitters[0].GetData(_characterState, ray, groundPoint, hitInfo);
+        var data = new SpellEmitterData
+        {
+            floorIntercection = groundPoint,
+            hitInfo = hitInfo,
+            SourceTransform = _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter),
+            owner = _characterState,
+            ray = ray
+        };
+        
         _characterState.FireSpell(index, data);
     }
 

@@ -10,7 +10,7 @@ namespace Spells
     public struct SpellEmitterData
     {
         public CharacterState owner;
-        public SpellEmitter emitter;
+        public Transform SourceTransform;
         public Ray ray;
         public Vector3 floorIntercection;
         public RaycastHit hitInfo;
