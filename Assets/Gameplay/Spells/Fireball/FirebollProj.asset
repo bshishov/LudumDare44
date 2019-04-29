@@ -17,7 +17,7 @@ MonoBehaviour:
   PreCastDelay: 0
   Flags: 10
   AffectedTarget: 8
-  Obstacles: 4
+  Obstacles: -1
   Targeting: -1
   Area: {fileID: 0}
   Projectile: {fileID: 11400000, guid: 68e80e8896f3eb444ac6fa47990c4eba, type: 2}

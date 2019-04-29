@@ -28,6 +28,15 @@ namespace Spells
         public float startTime;
         public ContextState state;
         public float stateActiveTime;
+
+        public static SubSpellContext Create(SpellContext conext)
+        {
+            return new SubSpellContext
+            {
+                startTime = Time.fixedTime,
+                activeTime = 0.0f
+            };
+        }
     }
 
     public class SpellContext
@@ -56,16 +65,26 @@ namespace Spells
         {
             return spell.SubSpells[currentSubspell];
         }
-    }
 
-    public class ProjectileContext
-    {
-        public ProjectileData projectileData;
+        public static SpellContext Create(Spell spell, SpellEmitterData data, int subSpellStartIndex)
+        {
+            var context = new SpellContext
+            {
+                spell = spell,
+                emitterData = data,
 
-        public SpellContext spellContext;
-        public CharacterState targetCharacter;
-        public Vector3 origin;
-        public Vector3 target;
+                currentSubspell = 0,
+                subContext = null,
+
+                startTime = Time.fixedTime,
+                stateActiveTime = 0.0f,
+
+                subSpellTargets = new List<SubSpellTargets>(spell.SubSpells.Length),
+                effect = spell.GetEffect()
+            };
+
+            return context;
+        }
     }
 
     public struct TargetingData
@@ -88,8 +107,8 @@ namespace Spells
         {
             _owner = GetComponent<CharacterState>();
         }
-
-        public void CastSpell(Spell spell, SpellEmitterData data)
+        
+        public void CastSpell(Spell spell, SpellEmitterData data, int subSpellStartIndex = 0, bool ignoreQueue = false)
         {
             if (_context != null)
             {
@@ -97,36 +116,7 @@ namespace Spells
                 return;
             }
 
-            _context = CreateContext(spell, data);
-        }
-
-        private static SpellContext CreateContext(Spell spell, SpellEmitterData data)
-        {
-            var context = new SpellContext
-            {
-                spell = spell,
-                emitterData = data,
-
-                currentSubspell = 0,
-                subContext = null,
-
-                startTime = Time.fixedTime,
-                stateActiveTime = 0.0f,
-
-                subSpellTargets = new List<SubSpellTargets>(spell.SubSpells.Length),
-                effect = spell.GetEffect()
-            };
-
-            return context;
-        }
-
-        private static SubSpellContext CreateSubContext(SpellContext conext)
-        {
-            return new SubSpellContext
-            {
-                startTime = Time.fixedTime,
-                activeTime = 0.0f
-            };
+            _context = SpellContext.Create(spell, data, subSpellStartIndex);
         }
 
         private void Update()
@@ -148,7 +138,7 @@ namespace Spells
             _context = null;
         }
 
-        private static bool ManageContext(SpellContext context)
+        private bool ManageContext(SpellContext context)
         {
             switch (context.state)
             {
@@ -177,7 +167,7 @@ namespace Spells
                             }
                         }
                     });
-                    context.subContext = CreateSubContext(context);
+                    context.subContext = SubSpellContext.Create(context);
 
                     Debug.Log($"{context.spell.Name} cast sub spells");
 
@@ -219,7 +209,7 @@ namespace Spells
             }
         }
 
-        private static bool ManageSubContext(SpellContext context, SubSpellContext subContext)
+        private bool ManageSubContext(SpellContext context, SubSpellContext subContext)
         {
             switch (subContext.state)
             {
@@ -310,7 +300,7 @@ namespace Spells
             context.subSpellTargets.Add(newTargets);
         }
 
-        private static bool Execute(SpellContext context, SubSpellContext subContext)
+        private bool Execute(SpellContext context, SubSpellContext subContext)
         {
             var anyTargetFound = false;
             var currentTargets = context.subSpellTargets[context.currentSubspell];
@@ -367,7 +357,7 @@ namespace Spells
             return anyTargetFound;
         }
 
-        private static void SpawnProjectile(TargetingData targeting, SpellContext context)
+        private void SpawnProjectile(TargetingData targeting, SpellContext context)
         {
             Vector3 target = Vector3.one;
             if (targeting.targetCharacter != null)
@@ -386,8 +376,12 @@ namespace Spells
 
             var projectileContext = new ProjectileContext
             {
+                owner = context.emitterData.owner,
                 projectileData = context.GetCurrentSubSpell().Projectile,
-                spellContext = context,
+
+                spell = context.spell,
+                startSubContext = context.currentSubspell,
+
                 targetCharacter = targeting.targetCharacter,
                 target = target,
                 origin = targeting.origin
@@ -397,7 +391,7 @@ namespace Spells
             var projectileData = projectilePrefab.AddComponent<ProjectileBehaviour>();
             Instantiate(context.GetCurrentSubSpell().Projectile.ProjectilePrefab, projectilePrefab.transform);
 
-            projectileData.Initialize(projectileContext);
+            projectileData.Initialize(projectileContext, this);
 
             context.subContext.projectileSpawned = true;
         }
@@ -426,10 +420,6 @@ namespace Spells
             }
 
             return Vector3.one;
-        }
-
-        private static void SpawnProjectile(CharacterState owner, SpellContext context, SubSpellContext subContext)
-        {
         }
 
         private static CharacterState[] GetAllCharacters()
