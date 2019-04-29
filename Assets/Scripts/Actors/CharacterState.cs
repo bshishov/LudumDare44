@@ -23,16 +23,18 @@ public class CharacterState : MonoBehaviour
     public Team CurrentTeam = Team.Undefined;
 
     public CharacterConfig character;
-
     public SpellbookState SpellbookState { get; private set; }
     public InventoryState InventoryState { get; private set; }
-
     public float MaxHealth { get; private set; }    
     public float Health { get; private set; }
     public float Speed { get; private set; }
     public float Evasion { get; private set; }
     public float Size { get; private set; }
     public float Damage { get; private set; }
+    public float DropRate { get; private set; }
+    public IReadOnlyList<Spell> DropSpells { get; private set; }
+    public Dictionary<Buff, float> AppliedBuffs = new Dictionary<Buff, float>();
+    public float HealthRegen { get; private set; }
 
     internal void Pickup(Spell spell)
     {
@@ -81,13 +83,6 @@ public class CharacterState : MonoBehaviour
         }
     }
 
-    public float DropRate { get; private set; }
-
-    public IReadOnlyList<Spell> DropSpells { get; private set; }
-
-    public Dictionary<Buff, float> BuffsOn = new Dictionary<Buff, float>();
-
-    public float HealthRegen { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -103,7 +98,7 @@ public class CharacterState : MonoBehaviour
         DropSpells = character.DropSpells;
         Evasion = character.Evasion;
         Size = character.Size;
-        InvokeRepeating("SecondsUpdate", 1.0f, 1.0f);
+        InvokeRepeating("UpdatePerSecond", 1.0f, 1.0f);
 
         if (CurrentTeam == Team.Undefined)
             Debug.LogError("Team not setted!", this);
@@ -139,16 +134,16 @@ public class CharacterState : MonoBehaviour
     }
 #endif
 
-    void SecondsUpdate()
+    void UpdatePerSecond()
     {        
-        foreach (var buff in BuffsOn.Keys.ToList())
+        foreach (var buff in AppliedBuffs.Keys.ToList())
         {
 #if DEBUG
-            Debugger.Default.Display(gameObject.name + "/Buffs/" + buff.name, BuffsOn[buff]);
+            Debugger.Default.Display(gameObject.name + "/Buffs/" + buff.name, AppliedBuffs[buff]);
 #endif
-            BuffsOn[buff] -= 1f;
+            AppliedBuffs[buff] -= 1f;
 
-            if (BuffsOn[buff] >= 0)
+            if (AppliedBuffs[buff] >= 0)
             {
                 if (buff.PerSecond)
                 {
@@ -161,7 +156,7 @@ public class CharacterState : MonoBehaviour
                 {
                     BuffPropertyReturn(buff);
                 }
-                BuffsOn.Remove(buff);
+                AppliedBuffs.Remove(buff);
             }
         }
 
@@ -183,10 +178,10 @@ public class CharacterState : MonoBehaviour
 
     public void ApplyBuff(Buff buff)
     {
-        if (BuffsOn.ContainsKey(buff))
+        if (AppliedBuffs.ContainsKey(buff))
         {
             // If there is a buff already exist just renew the cooldown
-            BuffsOn[buff] = buff.Duration;
+            AppliedBuffs[buff] = buff.Duration;
         }
         else
         {
@@ -199,7 +194,7 @@ public class CharacterState : MonoBehaviour
                 {
                     BuffPropertyNew(buff);
                 }
-                BuffsOn.Add(buff, buff.Duration);
+                AppliedBuffs.Add(buff, buff.Duration);
             }            
         }
     }
