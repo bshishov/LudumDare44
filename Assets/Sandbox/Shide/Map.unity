@@ -97,7 +97,7 @@ LightmapSettings:
     m_ShowResolutionOverlay: 1
     m_ExportTrainingData: 0
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -330,7 +330,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &723290740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 723290739}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a33e9737a3e9a546b4529a9030754a0, type: 3}
   m_Name: 
@@ -924,66 +924,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_AABB.m_Center.x
-      value: 0.02766049
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_AABB.m_Center.z
-      value: -0.21649194
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_AABB.m_Extent.x
-      value: 0.5061281
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_AABB.m_Extent.z
-      value: 0.1374067
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_Coefficients.Array.data[14].maxDistance
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_Coefficients.Array.data[16].maxDistance
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_Coefficients.Array.data[23].maxDistance
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_Coefficients.Array.data[28].maxDistance
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_Coefficients.Array.data[29].maxDistance
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_Coefficients.Array.data[10].maxDistance
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_Coefficients.Array.data[12].maxDistance
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
-        type: 3}
-      propertyPath: m_Coefficients.Array.data[13].maxDistance
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
       propertyPath: m_Coefficients.Array.size
@@ -1788,6 +1728,66 @@ PrefabInstance:
     - target: {fileID: 1789985741, guid: c9761731baf7c024888ce0342953b503, type: 3}
       propertyPath: m_Coefficients.Array.data[127].collisionSphereDistance
       value: 3.4028235e+38
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: 0.02766049
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: -0.21649194
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 0.5061281
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0.1374067
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_Coefficients.Array.data[14].maxDistance
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_Coefficients.Array.data[16].maxDistance
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_Coefficients.Array.data[23].maxDistance
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_Coefficients.Array.data[28].maxDistance
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_Coefficients.Array.data[29].maxDistance
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_Coefficients.Array.data[10].maxDistance
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_Coefficients.Array.data[12].maxDistance
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403789291214226990, guid: c9761731baf7c024888ce0342953b503,
+        type: 3}
+      propertyPath: m_Coefficients.Array.data[13].maxDistance
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9761731baf7c024888ce0342953b503, type: 3}

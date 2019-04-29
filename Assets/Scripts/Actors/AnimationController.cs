@@ -152,6 +152,7 @@ public class AnimationController : MonoBehaviour
             var impactVal = _impactTime / ImpactDecayTime;
             foreach (var rndr in Renderers)
             {
+                Debug.Log(impactVal);
                 rndr.material.SetFloat("_TintMultiplier", impactVal);
             }
         }
