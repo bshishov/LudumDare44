@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AffectedTarget: 8
   Origin: 1
+  Targeting: 2
   Flags: 22
   ProjectileSpeed: 0
-  Obstacles: -1
+  Obstacles: 4
   Area: {fileID: 11400000, guid: 34e14946de751714fb0cf7c8383eb436, type: 2}
   PreCastDelay: 0.2
   PostCastDelay: 0

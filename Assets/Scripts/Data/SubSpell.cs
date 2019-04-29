@@ -35,8 +35,8 @@ namespace Assets.Scripts.Data
         public enum SpellTargeting : int
         {
             None = 0,
-            Target,
-            Location,
+            Target = 1 << 1,
+            Location = 1 << 2,
         };
 
         [EnumFlag]

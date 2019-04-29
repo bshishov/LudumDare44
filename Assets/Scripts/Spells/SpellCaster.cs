@@ -273,6 +273,14 @@ public class SpellCaster : MonoBehaviour
         context.subSpellTargets.Add(newTargets);
     }
 
+    struct TargetingData
+    {
+        public CharacterState owner;
+        public Vector3 origin;
+        public Vector3? targetLocation;
+        public CharacterState targetCharacter;
+    }
+
     private static bool Execute(CastContext context, SubSpellContext subContext)
     {
         var anyTargetFound = false;
@@ -280,36 +288,43 @@ public class SpellCaster : MonoBehaviour
 
         foreach (var pair in currentTargets.targetData)
         {
-            var owner = pair.source;
-
-            var origin = GetOrigin(owner, context, subContext);
-            var direction = GetDirection(owner, context, subContext);
-
-            if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.Projectile) == SubSpell.SpellFlags.Projectile)
+            TargetingData targeting = new TargetingData
             {
-                SpawnProjectile(owner, context, subContext);
+                owner = pair.source,
+                origin = GetOrigin(pair.source, context, subContext),
+            };
+
+            if ((context.GetCurrentSubSpell().Targeting & SpellTargeting.Location) == SpellTargeting.Location)
+                targeting.targetLocation = context.emitterData.floorIntercection;
+
+            CharacterState[] targets = GetFilteredCharacters(targeting.owner, context.GetCurrentSubSpell().AffectedTarget);
+
+            if ((context.GetCurrentSubSpell().Targeting & SpellTargeting.Target) == SpellTargeting.Target)
+            {
+                if ((context.GetCurrentSubSpell().Flags & SpellFlags.SelfTarget) == SpellFlags.SelfTarget)
+                    targeting.targetCharacter = targeting.owner;
+                else if ((context.GetCurrentSubSpell().Flags & SpellFlags.ClosestTarget) == SpellFlags.ClosestTarget)
+                {
+                    targeting.targetCharacter = targets.OrderBy(t => (t.transform.position - targeting.origin).magnitude).FirstOrDefault();
+                }
+                else
+                    targeting.targetCharacter = context.emitterData.hitInfo.collider.GetComponent<CharacterState>();
+            }
+
+            if(targeting.targetCharacter == null && targeting.targetLocation == null)
+            {
+                Debug.LogError("No targets for spell!");
+            }
+
+            if ((context.GetCurrentSubSpell().Flags & SpellFlags.Projectile) == SpellFlags.Projectile)
+            {
+                SpawnProjectile(targeting, context, subContext);
                 return true;
             }
 
-            CharacterState[] targets = null;
-
-            if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.Raycast) == SubSpell.SpellFlags.Raycast)
+            if ((context.GetCurrentSubSpell().Flags & SpellFlags.Raycast) == SpellFlags.Raycast)
             {
-                if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.SelfTarget) == SubSpell.SpellFlags.SelfTarget)
-                    targets = new[] { owner };
-                else if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.SelfTarget) == SubSpell.SpellFlags.ClosestTarget)
-                {
-                    targets = GetFilteredCharacters(owner, context.GetCurrentSubSpell().AffectedTarget);
-
-                    if (targets.Length != 0)
-                        targets = new[] { targets.OrderBy(t => (t.transform.position - origin).magnitude).First() };
-                }
-            }
-
-            if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.Raycast) == SubSpell.SpellFlags.Raycast)
-            {
-                targets = GetFilteredCharacters(owner, context.GetCurrentSubSpell().AffectedTarget);
-                targets = GetAllCharacterInArea(targets, context.GetCurrentSubSpell().Area, new Ray(origin, direction), context.GetCurrentSubSpell().Obstacles);
+                targets = GetAllCharacterInArea(targets, targeting, context.GetCurrentSubSpell().Area, context.GetCurrentSubSpell().Obstacles);
             }
 
             if (targets != null && targets.Length != 0)
@@ -321,6 +336,8 @@ public class SpellCaster : MonoBehaviour
 
         return anyTargetFound;
     }
+
+    private static void SpawnProjectile(TargetingData targeting, CastContext context, SubSpellContext subContext) => throw new NotImplementedException();
 
     private static Vector3 GetOrigin(CharacterState owner, CastContext context, SubSpellContext subContext)
     {
@@ -335,6 +352,7 @@ public class SpellCaster : MonoBehaviour
 
         throw new InvalidOperationException("GetOrigin unhandled!");
     }
+
     private static Vector3 GetDirection(CharacterState owner, CastContext context, SubSpellContext subContext)
     {
         if ((context.GetCurrentSubSpell().Flags & SpellFlags.HaveDirection) == SpellFlags.HaveDirection)
@@ -368,7 +386,7 @@ public class SpellCaster : MonoBehaviour
             return (mask & target) == target;
         }).ToArray();
 
-    private static CharacterState[] GetAllCharacterInArea(CharacterState[] characters, AreaOfEffect area, Ray ray, ObstacleHandling obstacles)
+    private static CharacterState[] GetAllCharacterInArea(CharacterState[] characters, TargetingData targeting, AreaOfEffect area, ObstacleHandling obstacles)
     {
         float maxSpellDistance = 100;
 
@@ -378,51 +396,55 @@ public class SpellCaster : MonoBehaviour
             {
                 case AreaOfEffect.AreaType.Ray:
                 {
-                    Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10, Color.green, 2);
-
-                    CharacterState closest = null;
-                    float minDist = float.MaxValue;
-                    var hitedTargets = new List<CharacterState>(characters.Length / 5);
-
-                    foreach (var target in characters)
+                    if(targeting.targetCharacter != null)
                     {
-                        var collider = target.GetComponent<Collider>();
-                        if (collider == null)
-                            continue;
-
-                        if (collider.Raycast(ray, out var hit, maxSpellDistance))
+                        if (obstacles == ObstacleHandling.Break)
                         {
-                            if (obstacles == ObstacleHandling.Break)
-                            {
-                                if (hit.distance < minDist)
-                                {
-                                    minDist = hit.distance;
-                                    closest = target;
-                                }
-                            }
-                            else
-                            {
-                                hitedTargets.Add(target);
-                            }
+                            return new[] { targeting.targetCharacter };
                         }
                     }
 
-                    if (obstacles == ObstacleHandling.Break)
-                    {
-                        return closest == null ? null : new[] { closest };
-                    }
-                    return hitedTargets.ToArray();
+                    //Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10, Color.green, 2);
+
+                    //CharacterState closest = null;
+                    //float minDist = float.MaxValue;
+                    //var hitedTargets = new List<CharacterState>(characters.Length / 5);
+
+                    //foreach (var target in characters)
+                    //{
+                    //    var collider = target.GetComponent<Collider>();
+                    //    if (collider == null)
+                    //        continue;
+
+                    //    if (collider.Raycast(ray, out var hit, maxSpellDistance))
+                    //    {
+                    //        if (obstacles == ObstacleHandling.Break)
+                    //        {
+                    //            if (hit.distance < minDist)
+                    //            {
+                    //                minDist = hit.distance;
+                    //                closest = target;
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            hitedTargets.Add(target);
+                    //        }
+                    //    }
+                    //}
+
+                    return null;
                 }
 
-                case AreaOfEffect.AreaType.Cone:
-                    return characters.Where(t => Vector3.Angle(ray.direction, (t.transform.position - ray.origin)) < area.Size).ToArray();
+                //case AreaOfEffect.AreaType.Cone:
+                //    return characters.Where(t => Vector3.Angle(ray.direction, (t.transform.position - ray.origin)) < area.Size).ToArray();
 
-                case AreaOfEffect.AreaType.Sphere:
-                    return characters.Where(t => ((t.transform.position - ray.origin).magnitude < area.Size)).ToArray();
+                //case AreaOfEffect.AreaType.Sphere:
+                //    return characters.Where(t => ((t.transform.position - ray.origin).magnitude < area.Size)).ToArray();
 
-                case AreaOfEffect.AreaType.Cylinder:
-                    return characters.Where(t => Vector3.Cross(ray.direction, t.transform.position - ray.origin)
-                        .magnitude < area.Size).ToArray();
+                //case AreaOfEffect.AreaType.Cylinder:
+                //    return characters.Where(t => Vector3.Cross(ray.direction, t.transform.position - ray.origin)
+                //        .magnitude < area.Size).ToArray();
 
                 default:
                     Debug.LogAssertion($"Unhandled AreaType {area.Area}");

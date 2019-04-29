@@ -16,6 +16,7 @@ MonoBehaviour:
   Icon: {fileID: 0}
   BloodCost: 0
   BloodBack: 2
+  DefaultSlot: 0
   Cooldown: 1
   CastingTime: 1
   Flags: 2
@@ -24,7 +25,7 @@ MonoBehaviour:
   ChannelTime: 0
   SubSpells:
   - {fileID: 11400000, guid: 94474afc0958491479780fa636c55d39, type: 2}
-  - {fileID: 11400000, guid: 7cb1a87ff7d214c42997a267189ced7f, type: 2}
-  - {fileID: 11400000, guid: 7cb1a87ff7d214c42997a267189ced7f, type: 2}
+  - {fileID: 11400000, guid: 4cb3d184c6ea43d42a389a862c9449ad, type: 2}
+  - {fileID: 11400000, guid: 4cb3d184c6ea43d42a389a862c9449ad, type: 2}
   SpellEffect: {fileID: 4477401157512331031, guid: a52b1681e8a4c2848b5284adc9f9217a,
     type: 3}
