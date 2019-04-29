@@ -21,9 +21,7 @@ namespace Assets.Scripts.Data
         [Flags]
         public enum ObstacleHandling
         {
-            Undefined = 0,
-
-            None = Undefined,
+            None = 0,
 
             ExecuteSpellSequence = 1 << 1,
             Break = 1 << 2,
