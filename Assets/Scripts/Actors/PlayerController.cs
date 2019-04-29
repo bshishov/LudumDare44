@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerable<IInteractable> GetUsableItemsInRange()
     {
-        return Physics.OverlapSphere(transform.position, 0.5f)
+        return Physics.OverlapSphere(transform.position, 1f)
             .Select(c => c.GetComponent<IInteractable>())
             .Where(i => i != null);
     }
