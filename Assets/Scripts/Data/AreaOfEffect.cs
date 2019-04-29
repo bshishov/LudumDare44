@@ -13,7 +13,7 @@ namespace Assets.Scripts.Data
             Ray,
             Sphere,
             Cylinder,
-            Conus
+            Cone
         }
 
         public float Size = 0.0f;

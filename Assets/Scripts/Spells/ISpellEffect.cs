@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ContextState
 {
-    JistQueued = 0,
+    JustQueued = 0,
     PreDelays,
     Executing,
     PostDelay,

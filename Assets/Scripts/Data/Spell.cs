@@ -8,6 +8,14 @@ namespace Assets.Scripts.Data
     public class Spell : ScriptableObject
     {
         [Serializable]
+        public enum Slot: int
+        {
+            LMB = 0,
+            RMB = 1,
+            ULT = 2,
+        }
+
+        [Serializable]
         [Flags]
         public enum CastType : int
         {
@@ -30,6 +38,7 @@ namespace Assets.Scripts.Data
         public int BloodCost = 0;
         public int BloodBack = 0;
 
+        public Slot DefaultSlot;
         public float Cooldown;
 
         [EnumFlag]

@@ -41,7 +41,7 @@ public class CharacterState : MonoBehaviour
 
         switch (option)
         {
-            case SpellbookState.PlaceOtions.Place:
+            case SpellbookState.PlaceOptions.Place:
                 SpellbookState.PlaceSpell(spell);
                 break;
 
@@ -51,11 +51,11 @@ public class CharacterState : MonoBehaviour
         }
     }
 
-    internal void FireSpell(int index, SpellEmitterData data)
+    public void FireSpell(int slotIndex, SpellEmitterData data)
     {
         Assert.IsNotNull(SpellbookState);
 
-        var status = SpellbookState.GetSpellSlotStatus(index);
+        var status = SpellbookState.GetSpellSlotState(slotIndex);
 
         switch(status.State)
         {
@@ -64,7 +64,7 @@ public class CharacterState : MonoBehaviour
                 break;
 
             case SpellbookState.SpellState.Ready:
-                SpellbookState.FireSpell(index, data);
+                SpellbookState.FireSpell(slotIndex, data);
                 break;
 
             default:
@@ -73,7 +73,7 @@ public class CharacterState : MonoBehaviour
         }
     }
 
-    internal void Pickup(Item item)
+    public void Pickup(Item item)
     {
         foreach (Buff buff in item.Buffs)
         {
@@ -108,8 +108,6 @@ public class CharacterState : MonoBehaviour
         if (CurrentTeam == Team.Undefined)
             Debug.LogError("Team not setted!", this);
     }
-
-    private float _secondTickReminingTime = 1f;
     
     void Update()
     {
@@ -121,14 +119,6 @@ public class CharacterState : MonoBehaviour
             }
             Debug.Log("GG");
         }
-
-        /*
-        _secondTickReminingTime -= Time.deltaTime;
-        if (_secondTickReminingTime < 0f)
-        {
-            SecondsUpdate();
-            _secondTickReminingTime = 1f;
-        }*/
 
 #if DEBUG
         if(gameObject.CompareTag(Tags.Player))

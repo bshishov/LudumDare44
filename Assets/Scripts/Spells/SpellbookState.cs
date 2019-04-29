@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 
 public class SpellbookState : MonoBehaviour
 {
-    public enum PlaceOtions : int
+    public enum PlaceOptions : int
     {
         None = 0,
         Place,
@@ -17,7 +17,7 @@ public class SpellbookState : MonoBehaviour
     {
         None = 0,
         Recharging,
-        Chaneling,
+        Channeling,
         Ready
     }
 
@@ -26,6 +26,7 @@ public class SpellbookState : MonoBehaviour
         public Spell Spell;
         public SpellState State;
         public float RemainingCooldown;
+        public int NumStacks;
     };
 
     private SpellCaster _spellCaster;
@@ -46,80 +47,105 @@ public class SpellbookState : MonoBehaviour
             Debug.LogWarning("To much spells!");
         }
 
-        for (int i = 0; i < SpellCount && i < initialSpells.Count; ++i)
+        for (var i = 0; i < SpellCount && i < initialSpells.Count; ++i)
         {
-            AddSpell(i, initialSpells[i]);
+            AddSpellToSlot(i, initialSpells[i]);
         }
     }
 
-    internal PlaceOtions GetPickupOptions(Spell spell)
+    internal PlaceOptions GetPickupOptions(Spell spell)
     {
-        var slotIndex = GetSpellSlot(spell);
-        Assert.IsTrue(slotIndex >= 0 && slotIndex <= SpellCount);
+        var slot = GetSpellSlotState(GetSpellSlot(spell));
 
-        var slot = SpellSlots[slotIndex];
+        // If slot state is empty, should just add spell to a slot
         if (slot.State == SpellState.None)
-            return PlaceOtions.Place;
+            return PlaceOptions.Place;
 
-        if (slot.Spell.Name == spell.Name)
+        // If same spell - should upgrade
+        if (slot.Spell.Equals(spell))
         {
             Debug.Log($"Upgrade spell {spell.Name}");
-            return PlaceOtions.Upgrade;
+            return PlaceOptions.Upgrade;
         }
 
+        // Replace existing slot with a picked up one
         Debug.Log($"Replace spell {slot.Spell.Name}");
-        return PlaceOtions.Replace;
+        return PlaceOptions.Replace;
     }
 
-    internal SpellSlotState GetSpellSlotStatus(int index)
+    public SpellSlotState GetSpellSlotState(int slotIndex)
     {
-        Assert.IsTrue(index >= 0 && index <= SpellCount);
-        return SpellSlots[index];
+        Assert.IsTrue(slotIndex >= 0 && slotIndex <= SpellCount);
+        return SpellSlots[slotIndex];
     }
 
-    internal void PlaceSpell(Spell spell)
+    public void PlaceSpell(Spell spell)
     {
-        Debug.Log($"Place spell {spell.Name}");
+        var slot = GetSpellSlot(spell);
+        var pickupOptions = GetPickupOptions(spell);
+        Debug.Log($"Placing spell {spell.Name} into slot {slot}. PlaceMode = {pickupOptions}");
 
-        if (GetPickupOptions(spell) != PlaceOtions.Place)
+        switch (pickupOptions)
         {
-            Assert.IsFalse(true);
-            return;
-        }
+            case PlaceOptions.Place:
+                AddSpellToSlot(GetSpellSlot(spell), spell);
+                break;
 
-        AddSpell(GetSpellSlot(spell), spell);
+            case PlaceOptions.Upgrade:
+                // Upgrade is just a stack count increase
+                UpgradeSpellInSlot(slot);
+                break;
+
+            case PlaceOptions.Replace:
+                // Current spell is dropped
+                // Todo: Check!
+                AddSpellToSlot(GetSpellSlot(spell), spell);
+                break;
+        }
     }
 
     public static int GetSpellSlot(Spell spell)
     {
-        return 0;
+        return (int)spell.DefaultSlot;
     }
 
     internal void FireSpell(int index, SpellEmitterData data)
     {
         Assert.IsTrue(index >= 0 && index <= SpellCount);
-        var status = GetSpellSlotStatus(index);
+        var status = GetSpellSlotState(index);
         Assert.IsTrue(status.State == SpellState.Ready);
 
         _spellCaster.CastSpell(status.Spell, data);
     }
 
-    private void AddSpell(int slot, Spell spell)
+    private void AddSpellToSlot(int slotIndex, Spell spell)
     {
-        Debug.Log($"Spell {spell.Name} placed into slot {slot}");
-        SpellSlots[slot] = new SpellSlotState
+        Debug.Log($"Spell {spell.Name} placed into slot {slotIndex}");
+        SpellSlots[slotIndex] = new SpellSlotState
         {
             Spell = spell,
             State = SpellState.Ready,
-            RemainingCooldown = 0.0f
+            RemainingCooldown = 0.0f,
+            NumStacks = 1
+        };
+    }
+
+    private void UpgradeSpellInSlot(int slotIndex)
+    {
+        var slotState = GetSpellSlotState(slotIndex);
+        SpellSlots[slotIndex] = new SpellSlotState
+        {
+            Spell = slotState.Spell,
+            State = slotState.State,
+            RemainingCooldown = slotState.RemainingCooldown,
+            NumStacks = slotState.NumStacks + 1
         };
     }
 
     private void CheckAndFireSpell(SpellSlotState spell)
     {
-
     }
 
     internal void DrawSpellGizmos(int slot, Vector3 target) => Debug.Log("");
-    //    _spellCaster.DrawSpellGizmos(SpellSlots[slot].Spell, target);
+    //    _spellCaster.DrawSpellGizmos(SpellSlots[slotIndex].Spell, target);
 }

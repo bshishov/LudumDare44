@@ -122,7 +122,7 @@ public class SpellCaster : MonoBehaviour
     {
         switch (context.state)
         {
-            case ContextState.JistQueued:
+            case ContextState.JustQueued:
                 Debug.Log($"{context.spell.Name} start spell cast");
                 Advance();
                 return true;
@@ -202,7 +202,7 @@ public class SpellCaster : MonoBehaviour
 
         switch (subContext.state)
         {
-            case ContextState.JistQueued:
+            case ContextState.JustQueued:
                 Debug.Log($"{context.spell.Name} start subspell cast {context.currentSubspell}");
                 Advance();
                 return true;
@@ -411,7 +411,7 @@ public class SpellCaster : MonoBehaviour
                     return hitedTargets.ToArray();
                 }
 
-                case AreaOfEffect.AreaType.Conus:
+                case AreaOfEffect.AreaType.Cone:
                     return characters.Where(t => Vector3.Angle(ray.direction, (t.transform.position - ray.origin)) < area.Size).ToArray();
 
                 case AreaOfEffect.AreaType.Sphere:
