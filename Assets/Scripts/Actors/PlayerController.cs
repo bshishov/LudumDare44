@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
         {
             floorIntercection = groundPoint,
             hitInfo = hitInfo,
-            SourceTransform = _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter),
+            sourceTransform = _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter),
             owner = _characterState,
             ray = ray
         };

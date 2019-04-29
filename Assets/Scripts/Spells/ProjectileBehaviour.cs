@@ -54,9 +54,12 @@ namespace Spells
 
         private void OnTriggerEnter(Collider other)
         {
+            if(!SpellCaster.IsEnemy(_context.owner, other.gameObject.GetComponent<CharacterState>(), _context.GetProjectileSubSpell().AffectedTarget))
+                return;
+
             if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.Activate) ==
                 SubSpell.ObstacleHandling.Activate)
-                ActivateSpell();
+                ContinueSpellSequence();
 
             if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.Break) ==
                 SubSpell.ObstacleHandling.Break)
@@ -68,14 +71,16 @@ namespace Spells
             Destroy(gameObject);
         }
 
-        private void ActivateSpell()
+        private void ContinueSpellSequence()
         {
             _caster.CastSpell(_context.spell, new SpellEmitterData
                 {
                     owner = _context.owner,
-                    SourceTransform = transform
+                    sourceTransform = transform
                 },
                 _context.startSubContext, true);
+
+            DestroyParticle();
         }
 
         private void Update()
@@ -91,12 +96,16 @@ namespace Spells
 
             if (_context.projectileData.MaxDistance > 0 && _trevaledDistance > _context.projectileData.MaxDistance)
             {
-                if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.ActivateOnMaxDistance) ==
-                    SubSpell.ObstacleHandling.ActivateOnMaxDistance)
-                    ActivateSpell();
-
-                DestroyParticle();
+                if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.ContinueOnMaxDistance) ==
+                    SubSpell.ObstacleHandling.ContinueOnMaxDistance)
+                    ActivateProjectilePayload();
+                else
+                    DestroyParticle();
             }
+        }
+
+        private void ActivateProjectilePayload()
+        {
         }
     }
 }

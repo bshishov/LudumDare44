@@ -10,7 +10,7 @@ namespace Spells
     public struct SpellEmitterData
     {
         public CharacterState owner;
-        public Transform SourceTransform;
+        public Transform sourceTransform;
         public Ray ray;
         public Vector3 floorIntercection;
         public RaycastHit hitInfo;
@@ -401,7 +401,7 @@ namespace Spells
             switch (context.GetCurrentSubSpell().Origin)
             {
                 case SubSpell.SpellOrigin.Self:
-                    return owner.transform.position;
+                    return context.emitterData.sourceTransform.position;
                 case SubSpell.SpellOrigin.Cursor:
                     Assert.IsTrue(context.currentSubspell == 0);
                     return context.emitterData.floorIntercection;
@@ -436,19 +436,21 @@ namespace Spells
             return characters;
         }
 
+        public static bool IsEnemy(CharacterState owner, CharacterState otherTharacter, SubSpell.AffectedTargets target)
+        {
+            var sameTeam = otherTharacter.CurrentTeam == owner.CurrentTeam &&
+                           owner.CurrentTeam != CharacterState.Team.AgainstTheWorld;
+            var mask = sameTeam ? SubSpell.AffectedTargets.Friend : SubSpell.AffectedTargets.Enemy;
+            if (otherTharacter == owner)
+                mask |= SubSpell.AffectedTargets.Self;
+
+            return (mask & target) == target;
+        }
+
         private static CharacterState[] FilterCharacters(CharacterState owner, CharacterState[] characters,
             SubSpell.AffectedTargets target)
         {
-            return characters.Where(c =>
-            {
-                var sameTeam = c.CurrentTeam == owner.CurrentTeam &&
-                               owner.CurrentTeam != CharacterState.Team.AgainstTheWorld;
-                var mask = sameTeam ? SubSpell.AffectedTargets.Friend : SubSpell.AffectedTargets.Enemy;
-                if (c == owner)
-                    mask |= SubSpell.AffectedTargets.Self;
-
-                return (mask & target) == target;
-            }).ToArray();
+            return characters.Where(c => IsEnemy(c, owner, target)).ToArray();
         }
 
         private static CharacterState[] GetAllCharacterInArea(CharacterState[] characters, TargetingData targeting,
