@@ -17,7 +17,6 @@ public struct SpellEmitterData
 
 public class SpellCaster : MonoBehaviour
 {
-
     private class SubSpellContext
     {
         public ContextState state;
@@ -31,7 +30,7 @@ public class SpellCaster : MonoBehaviour
         public object customData;
     }
 
-    private class CastContext
+    private class SpellContext
     {
         public ContextState state;
 
@@ -48,15 +47,23 @@ public class SpellCaster : MonoBehaviour
         public float frameTime;
         public bool aborted;
 
+        public CharacterState[] filteredTargets;
+
         public List<SubSpellTargets> subSpellTargets;
         public ISpellEffect effect;
 
         public SubSpell GetCurrentSubSpell() => spell.SubSpells[currentSubspell];
     }
 
+    private class ProjectileContext
+    {
+        public SpellContext spellContext;
+    }
+
     private CharacterState _owner;
     public float MaxSpellDistance = 100.0f;
-    private CastContext _context = null;
+    private SpellContext _context = null;
+    private List<ProjectileContext> _projectileContext = null;
 
     // Start is called before the first frame update
     private void Start() => _owner = GetComponent<CharacterState>();
@@ -71,9 +78,9 @@ public class SpellCaster : MonoBehaviour
         _context = CreateContext(spell, data);
     }
 
-    private static CastContext CreateContext(Spell spell, SpellEmitterData data)
+    private static SpellContext CreateContext(Spell spell, SpellEmitterData data)
     {
-        var context = new CastContext
+        var context = new SpellContext
         {
             spell = spell,
             emitterData = data,
@@ -91,7 +98,7 @@ public class SpellCaster : MonoBehaviour
         return context;
     }
 
-    private static SubSpellContext CreateSubContext(CastContext conext) => new SubSpellContext
+    private static SubSpellContext CreateSubContext(SpellContext conext) => new SubSpellContext
     {
         startTime = Time.fixedTime,
         activeTime = 0.0f
@@ -119,7 +126,7 @@ public class SpellCaster : MonoBehaviour
         _context = null;
     }
 
-    private static bool ManageContext(CastContext context)
+    private static bool ManageContext(SpellContext context)
     {
         switch (context.state)
         {
@@ -163,9 +170,6 @@ public class SpellCaster : MonoBehaviour
                     }
                 }
 
-                if (context.subContext.state != ContextState.Finishing)
-                    break;
-
                 context.subContext = null;
                 Advance();
                 return true;
@@ -193,14 +197,8 @@ public class SpellCaster : MonoBehaviour
 
     }
 
-    private static bool ManageSubContext(CastContext context, SubSpellContext subContext)
+    private static bool ManageSubContext(SpellContext context, SubSpellContext subContext)
     {
-        void Advance()
-        {
-            ++subContext.state;
-            subContext.stateActiveTime = 0;
-        }
-
         switch (subContext.state)
         {
             case ContextState.JustQueued:
@@ -243,16 +241,31 @@ public class SpellCaster : MonoBehaviour
                 Debug.Log($"{context.spell.Name} subspell finished {context.currentSubspell}");
 
                 ++context.currentSubspell;
-                Advance();
                 subContext.state = ContextState.PreDelays;
-                return context.currentSubspell < context.spell.SubSpells.Length 
-                    && subContext.aborted == false;
+
+                bool doneCasting = (!(context.currentSubspell < context.spell.SubSpells.Length
+                    && subContext.aborted == false));
+                
+                if(!doneCasting)
+                {
+                    subContext.state = ContextState.JustQueued;
+                    subContext.stateActiveTime = 0;
+                }
+
+                return !doneCasting;
         }
 
         return false;
+
+        void Advance()
+        {
+            ++subContext.state;
+            subContext.stateActiveTime = 0;
+        }
+
     }
 
-    private static void ApplySubSpell(CastContext context, SubSpellContext subContext)
+    private static void ApplySubSpell(SpellContext context, SubSpellContext subContext)
     {
         var currentTargets = context.subSpellTargets[context.currentSubspell];
         var newTargets = new SubSpellTargets { targetData = new List<PerSourceTargets>()};
@@ -283,7 +296,7 @@ public class SpellCaster : MonoBehaviour
         public CharacterState targetCharacter;
     }
 
-    private static bool Execute(CastContext context, SubSpellContext subContext)
+    private static bool Execute(SpellContext context, SubSpellContext subContext)
     {
         var anyTargetFound = false;
         var currentTargets = context.subSpellTargets[context.currentSubspell];
@@ -299,7 +312,10 @@ public class SpellCaster : MonoBehaviour
             if ((context.GetCurrentSubSpell().Targeting & SpellTargeting.Location) == SpellTargeting.Location)
                 targeting.targetLocation = context.emitterData.floorIntercection;
 
-            CharacterState[] targets = GetFilteredCharacters(context.emitterData.owner, targeting.owner, context.GetCurrentSubSpell().AffectedTarget);
+            if((context.spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == 0 || context.filteredTargets == null)
+            {
+                context.filteredTargets = GetFilteredCharacters(context.emitterData.owner, targeting.owner, context.GetCurrentSubSpell().AffectedTarget);
+            }
 
             if ((context.GetCurrentSubSpell().Targeting & SpellTargeting.Target) == SpellTargeting.Target)
             {
@@ -307,7 +323,7 @@ public class SpellCaster : MonoBehaviour
                     targeting.targetCharacter = targeting.owner;
                 else if ((context.GetCurrentSubSpell().Flags & SpellFlags.ClosestTarget) == SpellFlags.ClosestTarget)
                 {
-                    targeting.targetCharacter = targets.OrderBy(t => (t.transform.position - targeting.origin).magnitude).FirstOrDefault();
+                    targeting.targetCharacter = context.filteredTargets.OrderBy(t => (t.transform.position - targeting.origin).magnitude).FirstOrDefault();
                 }
                 else if (context.emitterData.hitInfo.collider != null)
                     targeting.targetCharacter = context.emitterData.hitInfo.collider.GetComponent<CharacterState>();
@@ -324,27 +340,33 @@ public class SpellCaster : MonoBehaviour
                 return true;
             }
 
+            CharacterState[] targets = null;
             if ((context.GetCurrentSubSpell().Flags & SpellFlags.Raycast) == SpellFlags.Raycast)
             {
-                targets = GetAllCharacterInArea(targets, targeting, context);
+                targets = GetAllCharacterInArea(context.filteredTargets, targeting, context);
             }
 
             if (targets != null && targets.Length != 0)
             {
                 anyTargetFound = true;
                 pair.destinations = targets;
+
+                if ((context.spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce)
+                {
+                    context.filteredTargets = context.filteredTargets.Except(targets).ToArray();
+                }
             }
         }
 
         return anyTargetFound;
     }
 
-    private static void SpawnProjectile(TargetingData targeting, CastContext context, SubSpellContext subContext)
+    private static void SpawnProjectile(TargetingData targeting, SpellContext context, SubSpellContext subContext)
     {
 
     }
 
-    private static Vector3 GetOrigin(CharacterState owner, CastContext context, SubSpellContext subContext)
+    private static Vector3 GetOrigin(CharacterState owner, SpellContext context, SubSpellContext subContext)
     {
         switch (context.GetCurrentSubSpell().Origin)
         {
@@ -358,7 +380,7 @@ public class SpellCaster : MonoBehaviour
         throw new InvalidOperationException("GetOrigin unhandled!");
     }
 
-    private static Vector3 GetDirection(CharacterState owner, CastContext context, SubSpellContext subContext)
+    private static Vector3 GetDirection(CharacterState owner, SpellContext context, SubSpellContext subContext)
     {
         if ((context.GetCurrentSubSpell().Flags & SpellFlags.HaveDirection) == SpellFlags.HaveDirection)
         {
@@ -370,7 +392,7 @@ public class SpellCaster : MonoBehaviour
         return Vector3.one;
     }
 
-    private static void SpawnProjectile(CharacterState owner, CastContext context, SubSpellContext subContext)
+    private static void SpawnProjectile(CharacterState owner, SpellContext context, SubSpellContext subContext)
     {
 
     }
@@ -387,6 +409,7 @@ public class SpellCaster : MonoBehaviour
 
         return characters;
     }
+
     private static CharacterState[] FilterCharacters(CharacterState owner, CharacterState[] characters, SubSpell.AffectedTargets target) =>
         characters.Where(c =>
         {
@@ -398,10 +421,8 @@ public class SpellCaster : MonoBehaviour
             return (mask & target) == target;
         }).ToArray();
 
-    private static CharacterState[] GetAllCharacterInArea(CharacterState[] characters, TargetingData targeting, CastContext context)
+    private static CharacterState[] GetAllCharacterInArea(CharacterState[] characters, TargetingData targeting, SpellContext context)
     {
-        float maxSpellDistance = 100;
-
         foreach (var character in characters)
         {
             switch (context.GetCurrentSubSpell().Area.Area)

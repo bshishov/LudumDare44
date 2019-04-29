@@ -9,6 +9,8 @@ public enum ContextState
     Executing,
     PostDelay,
     Finishing,
+
+    Projectile,
 }
 
 public class PerSourceTargets

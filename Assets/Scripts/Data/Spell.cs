@@ -29,7 +29,8 @@ namespace Assets.Scripts.Data
         public enum SpellFlags : int
         {
             None = 1 << 0,
-            BreakOnFailedTargeting = 1 << 1
+            BreakOnFailedTargeting = 1 << 1,
+            AffectsOnlyOnce = 1 << 2,
         };
 
         public string Name;
