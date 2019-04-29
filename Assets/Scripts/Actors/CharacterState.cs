@@ -41,7 +41,6 @@ public class CharacterState : MonoBehaviour
 
     public CharacterConfig character;
     public CharacterNode[] Nodes;
-    public SpellbookState SpellbookState { get; private set; }
     public InventoryState InventoryState { get; private set; }
     public float MaxHealth { get; private set; }    
     public float Health { get; set; }
@@ -66,10 +65,11 @@ public class CharacterState : MonoBehaviour
 
     private float _timeBeforeNextAttack;
     private AnimationController _animationController;
+    private SpellbookState _spellbook;
 
     void Start()
     {
-        SpellbookState = GetComponent<SpellbookState>();
+        _spellbook = GetComponent<SpellbookState>();
         InventoryState = GetComponent<InventoryState>();
         _animationController = GetComponent<AnimationController>();
 
@@ -102,39 +102,17 @@ public class CharacterState : MonoBehaviour
 
     internal void Pickup(Spell spell)
     {
-        Assert.IsNotNull(SpellbookState);
-        var option = SpellbookState.GetPickupOptions(spell);
+        Assert.IsNotNull(_spellbook);
+        var option = _spellbook.GetPickupOptions(spell);
 
         switch (option)
         {
             case SpellbookState.PlaceOptions.Place:
-                SpellbookState.PlaceSpell(spell);
+                _spellbook.PlaceSpell(spell);
                 break;
 
             default:
                 Debug.Log("Unhandled Pickup option");
-                break;
-        }
-    }
-
-    public void FireSpell(int slotIndex, SpellEmitterData data)
-    {
-        Assert.IsNotNull(SpellbookState);
-
-        var status = SpellbookState.GetSpellSlotState(slotIndex);
-
-        switch(status.State)
-        {
-            case SpellbookState.SpellState.None:
-                Debug.Log("SpellSlot is empty");
-                break;
-
-            case SpellbookState.SpellState.Ready:
-                SpellbookState.FireSpell(slotIndex, data);
-                break;
-
-            default:
-                Debug.Log("Unhandled spell state");
                 break;
         }
     }
@@ -339,8 +317,6 @@ public class CharacterState : MonoBehaviour
         }
     }
        
-    internal void DrawSpellGizmos(int slot, Vector3 target) => SpellbookState.DrawSpellGizmos(slot, target);
-
     public Transform GetNodeTransform(CharacterNode.NodeRole role = CharacterNode.NodeRole.Default)
     {
         if (Nodes == null || Nodes.Length == 0)
