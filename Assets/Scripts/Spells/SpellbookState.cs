@@ -168,7 +168,9 @@ namespace Spells
 
         public void TryFireSpellToTarget(int slotIndex, CharacterState target)
         {
-            var data = new SpellTargets(TargetInfo.Create(_characterState), TargetInfo.Create(target));
+            var data = new SpellTargets(
+                TargetInfo.Create(_characterState, _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter)), 
+                TargetInfo.Create(target, _characterState.GetNodeTransform(CharacterState.NodeRole.Chest)));
 
             FireSpell(slotIndex, data);
         }
