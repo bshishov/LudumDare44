@@ -125,7 +125,7 @@ namespace Spells
             var slotState = GetSpellSlotState(index);
             if (slotState.State == SpellState.Ready)
             {
-                _spellCaster.CastSpell(slotState.Spell, data);
+                _spellCaster.CastSpell(slotState.Spell, targets);
 
                 // Start cooldown
                 SpellSlots[index].State = SpellState.Recharging;
@@ -135,18 +135,18 @@ namespace Spells
 
         public void TryFireSpellToPoint(int slotIndex, Vector3 targetPosition)
         {
-            var targetCharacter = new TargetInfo();
+            var target = new TargetInfo();
 
             // Try locate target character located in target position
             var results = Physics.OverlapSphere(targetPosition, 1f, LayerMask.GetMask("Actors"));
             foreach (var result in results)
             {
-                targetCharacter = result.GetComponent<CharacterState>();
-                if (targetCharacter != null)
+                target.Character = result.GetComponent<CharacterState>();
+                if (target.Character != null)
                 {
-                    if (!targetCharacter.IsAlive)
+                    if (!target.Character.IsAlive)
                     {
-                        targetCharacter = null;
+                        target.Character = null;
                         break;
                     }
 
@@ -154,13 +154,12 @@ namespace Spells
                 }
             }
 
-            var data = SpellEmitterData.Create(_characterState,
-                targetCharacter,
-                targetPosition,
-                _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter)
-            );
+            var data = new SpellTargets(
+                TargetInfo.Create(_characterState, _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter)),
+                target);
 
-            data.Destinations[0].Position = targetPosition;
+            target.Position = targetPosition;
+
             FireSpell(slotIndex, data);
         }
 
