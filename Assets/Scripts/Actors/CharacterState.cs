@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 using System;
 using Assets.Scripts;
 using Assets.Scripts.Utils.Debugger;
+using Spells;
 using UnityEngine.Assertions;
 
 public class CharacterState : MonoBehaviour

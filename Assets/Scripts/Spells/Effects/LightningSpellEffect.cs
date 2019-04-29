@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Data;
 using UnityEngine;
 
-namespace Assets.Scripts.Spells
+namespace Spells.Effects
 {
     public class LightningSpellEffect : MonoBehaviour, ISpellEffect
     {

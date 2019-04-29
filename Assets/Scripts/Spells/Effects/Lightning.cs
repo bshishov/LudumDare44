@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Spells
+namespace Spells.Effects
 {
     [RequireComponent(typeof(LineRenderer))]
     public class Lightning : MonoBehaviour

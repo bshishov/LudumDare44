@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using Spells;
 using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour

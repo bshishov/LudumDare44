@@ -17,7 +17,7 @@ MonoBehaviour:
   Addition: 0
   Multiplier: 0.8
   Radius: 5
-  PerSecond: 1
+  PerSecond: 0
   Permanent: 0
   Duration: 3
   VisualEffect: {fileID: 0}

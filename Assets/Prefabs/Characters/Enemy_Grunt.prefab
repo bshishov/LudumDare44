@@ -2068,6 +2068,7 @@ GameObject:
   - component: {fileID: -6449959264491417217}
   - component: {fileID: 7732389861530871124}
   - component: {fileID: 7661275501719446556}
+  - component: {fileID: 2805373213057678178}
   m_Layer: 8
   m_Name: Enemy_Grunt
   m_TagString: Untagged
@@ -2146,6 +2147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentTeam: 2
   character: {fileID: 11400000, guid: 0c51becd8c73094408b636f82ad49df5, type: 2}
+  Nodes: []
 --- !u!114 &7732389861530871124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2164,6 +2166,7 @@ MonoBehaviour:
   UseMaterialAnimations: 0
   AutoTrackSpeed: 1
   SmoothTime: 0.1
+  SeparateLegs: 1
   DeathTrigger: Death
   TakeDamage: TakeDamage
   SpeedVariable: Speed
@@ -2188,6 +2191,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distance: 0
   Target: {fileID: 0}
+--- !u!136 &2805373213057678178
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8494352879362307199}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &8603995454659070595
 GameObject:
   m_ObjectHideFlags: 0

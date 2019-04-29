@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System;
+using Spells;
 
 namespace Assets.Scripts.Data
 {
-    [CreateAssetMenu(fileName = "Spell", menuName = "Mechanics/Spell")]
+    [CreateAssetMenu(fileName = "Spell", menuName = "Spells/Spell")]
     [Serializable]
     public class Spell : ScriptableObject
     {
@@ -29,7 +30,8 @@ namespace Assets.Scripts.Data
         public enum SpellFlags : int
         {
             None = 1 << 0,
-            BreakOnFailedTargeting = 1 << 1
+            BreakOnFailedTargeting = 1 << 1,
+            AffectsOnlyOnce = 1 << 2,
         };
 
         public string Name;
@@ -60,7 +62,7 @@ namespace Assets.Scripts.Data
             if (SpellEffect == null)
                 return null;
 
-            return GameObject.Instantiate(SpellEffect).GetComponent<ISpellEffect>();
+            return Instantiate(SpellEffect).GetComponent<ISpellEffect>();
         }
     }
 }
