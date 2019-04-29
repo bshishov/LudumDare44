@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Assets.Scripts;
+using Spells;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -18,6 +19,8 @@ public class EnemyController : MonoBehaviour
     private CharacterState _characterState;
     private NavMeshAgent _navMeshAgent;
     private AnimationController _animationController;
+    private SpellbookState _spellbookState;
+
     private CharacterState[] _players;
     private float _distance;
 
@@ -26,6 +29,7 @@ public class EnemyController : MonoBehaviour
         _animationController = GetComponent<AnimationController>();
         _characterState = GetComponent<CharacterState>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _spellbookState = GetComponent<SpellbookState>();
 
         _indifferenceDistance = _characterState.character.IndifferenceDistance;
         _spellRange = _characterState.character.SpellRange;
@@ -95,17 +99,13 @@ public class EnemyController : MonoBehaviour
                     {
                         if (_distance > _fearRange)
                         {
-                            // TODO: Miktor fix firespell
-                            // _characterState.FireSpell(Mathf.FloorToInt(Random.value * spellCount), player);                            
-                            selectedPlayer = null;
+                            _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player);
                             _navMeshAgent.isStopped = true;
                         }
                         else
                         {
-                            _navMeshAgent.speed = 10* _characterState.Speed;
-                            selectedPlayer = null;
+                            _navMeshAgent.speed = 10 * _characterState.Speed;
                             _navMeshAgent.isStopped = false;      
-                            
                             _navMeshAgent.SetDestination(transform.position - _fearRange * len.normalized);
                         }
                     }

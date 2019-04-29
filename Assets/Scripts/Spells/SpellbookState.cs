@@ -119,7 +119,7 @@ namespace Spells
             return (int)spell.DefaultSlot;
         }
 
-        public void FireSpell(int index, SpellEmitterData data)
+        private void FireSpell(int index, SpellEmitterData data)
         {
             Assert.IsTrue(index >= 0 && index <= SpellCount);
             var status = GetSpellSlotState(index);
@@ -132,7 +132,7 @@ namespace Spells
         {
             CharacterState targetCharacter = null;
 
-            // Try locate target character
+            // Try locate target character located in target position
             var results = Physics.OverlapSphere(targetPosition, 0.2f, LayerMask.GetMask("Actors"));
             foreach (var result in results)
             {
@@ -147,6 +147,19 @@ namespace Spells
                 SourceTransform = _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter),
                 SourceCharacter = _characterState,
                 TargetCharacter = targetCharacter
+            };
+
+            FireSpell(slotIndex, data);
+        }
+
+        public void TryFireSpellToTarget(int slotIndex, CharacterState target)
+        {
+            var data = new SpellEmitterData
+            {
+                TargetPosition = target.GetNodeTransform(CharacterState.CharacterNode.NodeRole.Chest).position,
+                SourceTransform = _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter),
+                SourceCharacter = _characterState,
+                TargetCharacter = target
             };
 
             FireSpell(slotIndex, data);
