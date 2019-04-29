@@ -166,10 +166,7 @@ namespace Spells
 
         private void Update()
         {
-            if (_context == null)
-                return;
-
-            if (ExecuteContext(_context)) _context = null;
+            if (_context != null && ExecuteContext(_context)) _context = null;
 
             lock (_nestedContexts)
             {
@@ -462,61 +459,64 @@ namespace Spells
             SpellContext context)
 
         {
-            foreach (var character in avalibleTargets)
-                switch (context.GetCurrentSubSpell().Area.Area)
+            switch (context.GetCurrentSubSpell().Area.Area)
+            {
+                case AreaOfEffect.AreaType.Ray:
                 {
-                    case AreaOfEffect.AreaType.Ray:
-                    {
-                        if (target.Character != null)
-                            if (context.GetCurrentSubSpell().Obstacles == SubSpell.ObstacleHandling.Break)
-                                return new[] {target};
+                    if (target.Character != null)
+                        if (context.GetCurrentSubSpell().Obstacles == SubSpell.ObstacleHandling.Break)
+                            return new[] {target};
 
-                        //Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10, Color.green, 2);
+                    //Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10, Color.green, 2);
 
-                        //CharacterState closest = null;
-                        //float minDist = float.MaxValue;
-                        //var hitedTargets = new List<CharacterState>(characters.Length / 5);
+                    //CharacterState closest = null;
+                    //float minDist = float.MaxValue;
+                    //var hitedTargets = new List<CharacterState>(characters.Length / 5);
 
-                        //foreach (var target in characters)
-                        //{
-                        //    var collider = target.GetComponent<Collider>();
-                        //    if (collider == null)
-                        //        continue;
+                    //foreach (var target in characters)
+                    //{
+                    //    var collider = target.GetComponent<Collider>();
+                    //    if (collider == null)
+                    //        continue;
 
-                        //    if (collider.Raycast(ray, out var hit, maxSpellDistance))
-                        //    {
-                        //        if (obstacles == ObstacleHandling.Break)
-                        //        {
-                        //            if (hit.distance < minDist)
-                        //            {
-                        //                minDist = hit.distance;
-                        //                closest = target;
-                        //            }
-                        //        }
-                        //        else
-                        //        {
-                        //            hitedTargets.Add(target);
-                        //        }
-                        //    }
-                        //}
+                    //    if (collider.Raycast(ray, out var hit, maxSpellDistance))
+                    //    {
+                    //        if (obstacles == ObstacleHandling.Break)
+                    //        {
+                    //            if (hit.distance < minDist)
+                    //            {
+                    //                minDist = hit.distance;
+                    //                closest = target;
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            hitedTargets.Add(target);
+                    //        }
+                    //    }
+                    //}
 
-                        return null;
-                    }
-
-                    //case AreaOfEffect.AreaType.Cone:
-                    //    return characters.Where(t => Vector3.Angle(ray.direction, (t.transform.position - ray.origin)) < area.Size).ToArray();
-
-                    //case AreaOfEffect.AreaType.Sphere:
-                    //    return characters.Where(t => ((t.transform.position - ray.origin).magnitude < area.Size)).ToArray();
-
-                    //case AreaOfEffect.AreaType.Cylinder:
-                    //    return characters.Where(t => Vector3.Cross(ray.direction, t.transform.position - ray.origin)
-                    //        .magnitude < area.Size).ToArray();
-
-                    default:
-a
-                        break;
+                    return null;
                 }
+
+                //case AreaOfEffect.AreaType.Cone:
+                //    return characters.Where(t => Vector3.Angle(ray.direction, (t.transform.position - ray.origin)) < area.Size).ToArray();
+
+                case AreaOfEffect.AreaType.Sphere:
+                    Assert.IsTrue(target.Position.HasValue);
+                    var pos = target.Position.Value;
+                    return avalibleTargets.Where(t =>
+                            ((t.transform.position - pos).magnitude < context.GetCurrentSubSpell().Area.Size))
+                        .Select(TargetInfo.Create).ToArray();
+
+                //case AreaOfEffect.AreaType.Cylinder:
+                //    return characters.Where(t => Vector3.Cross(ray.direction, t.transform.position - ray.origin)
+                //        .magnitude < area.Size).ToArray();
+
+                default:
+                    break;
+            }
+
             return null;
         }
 
