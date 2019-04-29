@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2390720600796782207}
   - component: {fileID: 5368322929813480138}
-  - component: {fileID: 7988811572824585799}
+  - component: {fileID: 2105581775103642630}
   m_Layer: 0
   m_Name: Lightning
   m_TagString: Untagged
@@ -72,6 +72,14 @@ LineRenderer:
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 2}
+  - {x: 0, y: 0, z: 3}
+  - {x: 0, y: 0, z: 4}
+  - {x: 0, y: 0, z: 5}
+  - {x: 0, y: 0, z: 6}
+  - {x: 0, y: 0, z: 7}
+  - {x: 0, y: 0, z: 8}
+  - {x: 0, y: 0, z: 9}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -125,9 +133,9 @@ LineRenderer:
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0
-  m_UseWorldSpace: 1
+  m_UseWorldSpace: 0
   m_Loop: 0
---- !u!114 &7988811572824585799
+--- !u!114 &2105581775103642630
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,7 +144,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4477401157512331031}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fdf33ade4cc78d4eb447be063a1d2b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 289bc324d5b47e04c80ba1a2db50a265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Points: 10
