@@ -256,15 +256,17 @@ namespace Spells
                 case ContextState.Executing:
                     if (Execute(context, subContext))
                     {
-                        ApplySubSpell(context, subContext);
-                        Debug.Log($"{context.spell.Name} Executed subspell {context.currentSubspell}");
+                        if (!context.subContext.projectileSpawned)
+                        {
+                            ApplySubSpell(context, subContext);
+                            Debug.Log($"{context.spell.Name} Executed subspell {context.currentSubspell}");
+                        }
                     }
                     else
                     {
                         Debug.LogWarning($"{context.spell.Name} Failed to execute subspell {context.currentSubspell}");
                         subContext.aborted = true;
                     }
-
 
                     Advance();
                     return true;
@@ -330,7 +332,6 @@ namespace Spells
         {
             var anyTargetFound = false;
             var currentTargets = context.GetCurrentSubSpellTargets();
-
 
             var targets = new List<TargetInfo>();
 
@@ -410,6 +411,7 @@ namespace Spells
             };
 
             var projectilePrefab = Instantiate(new GameObject(), source.Position.Value, Quaternion.identity);
+
             var projectileData = projectilePrefab.AddComponent<ProjectileBehaviour>();
             Instantiate(context.GetCurrentSubSpell().Projectile.ProjectilePrefab, projectilePrefab.transform);
 
@@ -444,7 +446,7 @@ namespace Spells
             if (otherTharacter == owner)
                 mask |= SubSpell.AffectedTargets.Self;
 
-            return (mask & target) == target;
+            return (mask & target) != 0;
         }
 
         private static CharacterState[] FilterCharacters(CharacterState owner, CharacterState[] characters,
@@ -512,7 +514,7 @@ namespace Spells
                     //        .magnitude < area.Size).ToArray();
 
                     default:
-                        Debug.LogAssertion($"Unhandled AreaType {context.GetCurrentSubSpell().Area.Area}");
+a
                         break;
                 }
             return null;

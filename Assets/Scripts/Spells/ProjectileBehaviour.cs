@@ -6,15 +6,14 @@ namespace Spells
 {
     public class ProjectileContext
     {
+        public TargetInfo origin;
         public CharacterState owner;
         public ProjectileData projectileData;
 
         public Spell spell;
         public int startSubContext;
-
-        public TargetInfo origin;
         public TargetInfo target;
-        
+
         public SubSpell GetProjectileSubSpell()
         {
             return spell.SubSpells[startSubContext];
@@ -55,6 +54,8 @@ namespace Spells
 
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log($"OnTriggerEnter");
+
             if (_destroying)
                 return;
 
@@ -91,7 +92,7 @@ namespace Spells
             _caster.ContinueCastSpell(_context.spell,
                 new SpellTargets(
                     TargetInfo.Create(_context.owner, transform),
-                    TargetInfo.Create(target)
+                    target != null ? TargetInfo.Create(target) : new TargetInfo {Position = transform.position}
                 ), _context.startSubContext + 1);
         }
 
@@ -115,8 +116,8 @@ namespace Spells
                      SubSpell.ObstacleHandling.ExecuteSpellSequenceOnMaxDistance) ==
                     SubSpell.ObstacleHandling.ExecuteSpellSequenceOnMaxDistance)
                     ContinueSpellSequence(null);
-                else
-                    DestroyParticle();
+
+                DestroyParticle();
             }
         }
 
