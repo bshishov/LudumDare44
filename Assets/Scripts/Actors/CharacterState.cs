@@ -35,6 +35,15 @@ public class CharacterState : MonoBehaviour
     public IReadOnlyList<Spell> DropSpells { get; private set; }
     public Dictionary<Buff, float> AppliedBuffs = new Dictionary<Buff, float>();
     public float HealthRegen { get; private set; }
+    public float Currency
+    {
+        get { return MaxHealth; }
+        set
+        {
+            MaxHealth = Mathf.Max(1, value);
+            Health = Mathf.Min(Health, MaxHealth);
+        }
+    }
 
     internal void Pickup(Spell spell)
     {
@@ -77,14 +86,13 @@ public class CharacterState : MonoBehaviour
 
     public void Pickup(Item item)
     {
-        foreach (Buff buff in item.Buffs)
+        // Todo: track picked items and their stats
+        foreach (var buff in item.Buffs)
         {
             BuffPropertyNew(buff);
         }
     }
-
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         SpellbookState = GetComponent<SpellbookState>();
@@ -103,13 +111,25 @@ public class CharacterState : MonoBehaviour
         if (CurrentTeam == Team.Undefined)
             Debug.LogError("Team not setted!", this);
     }
+
+    public bool SpendCurrency(float amount)
+    {
+        if (amount < Currency)
+        {
+            Debug.LogWarningFormat("Cant spend currency. Currency={0}, Trying to spend = {1}", Currency, amount);
+            return false;
+        }
+
+        Currency -= amount;
+        return true;
+    }
     
     void Update()
     {
         if (Health <= 0)
         {
             if ((DropSpells.Count) > 0){
-                Spell DroppedSpell = DropSpells[Mathf.FloorToInt(Random.value*DropSpells.Count)];      
+                var DroppedSpell = DropSpells[Mathf.FloorToInt(Random.value*DropSpells.Count)];      
                 // TODO: Drop spell
             }
             Debug.Log("GG");
@@ -162,19 +182,17 @@ public class CharacterState : MonoBehaviour
 
         Health = Mathf.Min(Health + HealthRegen, MaxHealth);
     }
-
-    //TODO: @artemy implement me
+    
     internal void ApplySpell(CharacterState owner, SubSpell spell)
     {
         if (owner.CurrentTeam != CurrentTeam)
         {
-            foreach (Buff buff in spell.Buffs)
+            foreach (var buff in spell.Buffs)
             {
                 ApplyBuff(buff);
             }
         }
     }
-    
 
     public void ApplyBuff(Buff buff)
     {

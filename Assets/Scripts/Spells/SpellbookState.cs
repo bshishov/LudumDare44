@@ -133,13 +133,7 @@ public class SpellbookState : MonoBehaviour
     private void UpgradeSpellInSlot(int slotIndex)
     {
         var slotState = GetSpellSlotState(slotIndex);
-        SpellSlots[slotIndex] = new SpellSlotState
-        {
-            Spell = slotState.Spell,
-            State = slotState.State,
-            RemainingCooldown = slotState.RemainingCooldown,
-            NumStacks = slotState.NumStacks + 1
-        };
+        SpellSlots[slotIndex].NumStacks = slotState.NumStacks + 1;
     }
 
     private void CheckAndFireSpell(SpellSlotState spell)

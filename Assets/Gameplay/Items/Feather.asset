@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Feather
   Cost: 5
+  Icon: {fileID: 0}
   Buffs:
   - {fileID: 11400000, guid: fa98faae1705eef46be86214dd02f1b4, type: 2}
+  Prefab: {fileID: 2459877085728243655, guid: f24dd6d493ef1f042a3ea62c2ec6e270, type: 3}
