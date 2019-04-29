@@ -76,8 +76,9 @@ namespace Spells
             _caster.ContinueCastSpell(_context.spell, new SpellEmitterData
                 {
                     SourceCharacter = _context.owner,
-                    SourceTransform = transform
-                },
+                    SourceTransform = transform,
+                    SourcePosition = transform.position
+            },
                 ++_context.startSubContext);
 
             DestroyParticle();

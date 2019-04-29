@@ -141,13 +141,11 @@ namespace Spells
                     break;
             }
 
-            var data = new SpellEmitterData
-            {
-                TargetPosition = targetPosition,
-                SourceTransform = _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter),
-                SourceCharacter = _characterState,
-                TargetCharacter = targetCharacter
-            };
+            var data = SpellEmitterData.Create(_characterState,
+                targetCharacter,
+                targetPosition,
+                _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter)
+            );
 
             FireSpell(slotIndex, data);
         }
