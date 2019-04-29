@@ -11,6 +11,19 @@ using UnityEngine.Assertions;
 
 public class CharacterState : MonoBehaviour
 {
+    [Serializable]
+    public class CharacterNode
+    {
+        [Serializable]
+        public enum NodeRole
+        {
+            Default
+        }
+
+        public Transform Transform;
+        public NodeRole Role;
+    }
+
     public enum Team : int
     {
         Undefined = 0,
@@ -23,6 +36,7 @@ public class CharacterState : MonoBehaviour
     public Team CurrentTeam = Team.Undefined;
 
     public CharacterConfig character;
+    public CharacterNode[] Nodes;
     public SpellbookState SpellbookState { get; private set; }
     public InventoryState InventoryState { get; private set; }
     public float MaxHealth { get; private set; }    
@@ -282,4 +296,12 @@ public class CharacterState : MonoBehaviour
     }
        
     internal void DrawSpellGizmos(int slot, Vector3 target) => SpellbookState.DrawSpellGizmos(slot, target);
+
+    public Transform GetDefaultNodeTransform()
+    {
+        if (Nodes == null || Nodes.Length == 0)
+            return transform;
+
+        return Nodes[0].Transform;
+    }
 }
