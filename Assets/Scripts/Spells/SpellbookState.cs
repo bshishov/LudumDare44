@@ -133,7 +133,7 @@ namespace Spells
             CharacterState targetCharacter = null;
 
             // Try locate target character located in target position
-            var results = Physics.OverlapSphere(targetPosition, 0.2f, LayerMask.GetMask("Actors"));
+            var results = Physics.OverlapSphere(targetPosition, 1f, LayerMask.GetMask("Actors"));
             foreach (var result in results)
             {
                 targetCharacter = result.GetComponent<CharacterState>();
