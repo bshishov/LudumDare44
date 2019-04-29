@@ -39,10 +39,18 @@ public class EnemyController : MonoBehaviour
     
     void Update()
     {
-        if(_characterState.IsAlive)
+        if (_characterState.IsAlive)
+        {
             UpdateTarget();
+        }
         else
-            _navMeshAgent.isStopped = true;
+        {
+            if (!_navMeshAgent.isStopped)
+            {
+                _navMeshAgent.isStopped = true;
+                _navMeshAgent.enabled = false;
+            }
+        }
     }
 
     private void UpdateTarget()

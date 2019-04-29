@@ -14,6 +14,7 @@ public class Cheats : MonoBehaviour
     public Buff[] Buffs;
     public Spell[] Spells;
     public Item[] Items;
+    public GameObject[] Enemies;
 
     private PlayerController _playerController;
     private CharacterState _playerState;
@@ -47,6 +48,14 @@ public class Cheats : MonoBehaviour
             {
                 _playerState.Pickup(item);
             });
+        }
+
+        foreach (var enemy in Enemies)
+        {
+            Debugger.Default.Display(string.Format("Cheats/Spawn Enemy/{0}", enemy.name), () =>
+                {
+                    GameObject.Instantiate(enemy, _playerState.transform.position, Quaternion.identity);
+                });
         }
     }
 
