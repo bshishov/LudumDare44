@@ -61,6 +61,15 @@ public class PlayerController : MonoBehaviour
             groundPoint = ray.GetPoint(enter);
         }
 
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, LayerMask.GetMask("Actors")))
+        {
+            var tgtCharacter = hit.transform.GetComponent<CharacterState>();
+            if(tgtCharacter != null)
+                _spellbook.TryFireSpellToTarget(slotIndex, tgtCharacter);
+            return;
+        }
+        
         _spellbook.TryFireSpellToPoint(slotIndex, groundPoint);
     }
 
