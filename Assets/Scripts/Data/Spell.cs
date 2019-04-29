@@ -60,7 +60,7 @@ namespace Assets.Scripts.Data
             if (SpellEffect == null)
                 return null;
 
-            return GameObject.Instantiate(SpellEffect).GetComponent<ISpellEffect>();
+            return Instantiate(SpellEffect).GetComponent<ISpellEffect>();
         }
     }
 }

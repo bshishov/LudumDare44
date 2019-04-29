@@ -28,7 +28,6 @@ namespace Assets.Scripts.Data
             Cursor,
         };
 
-        [EnumFlag]
         public SpellOrigin Origin;
 
         [Serializable]

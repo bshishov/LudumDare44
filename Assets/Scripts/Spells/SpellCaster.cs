@@ -220,15 +220,15 @@ public class SpellCaster : MonoBehaviour
                 if (!Execute(context, subContext))
                 {
                     Debug.LogWarning($"{context.spell.Name} Failed to execute subspell {context.currentSubspell}");
-                    subContext.state = ContextState.Finishing;
                     subContext.aborted = true;
                 }
                 else
                 {
                     ApplySubSpell(context, subContext);
                     Debug.Log($"{context.spell.Name} Executed subspell {context.currentSubspell}");
-                    Advance();
                 }
+
+                Advance();
                 return true;
 
             case ContextState.PostDelay:
@@ -243,6 +243,8 @@ public class SpellCaster : MonoBehaviour
                 Debug.Log($"{context.spell.Name} subspell finished {context.currentSubspell}");
 
                 ++context.currentSubspell;
+                Advance();
+                subContext.state = ContextState.PreDelays;
                 return context.currentSubspell < context.spell.SubSpells.Length 
                     && subContext.aborted == false;
         }
@@ -297,7 +299,7 @@ public class SpellCaster : MonoBehaviour
             if ((context.GetCurrentSubSpell().Targeting & SpellTargeting.Location) == SpellTargeting.Location)
                 targeting.targetLocation = context.emitterData.floorIntercection;
 
-            CharacterState[] targets = GetFilteredCharacters(targeting.owner, targeting.owner, context.GetCurrentSubSpell().AffectedTarget);
+            CharacterState[] targets = GetFilteredCharacters(context.emitterData.owner, targeting.owner, context.GetCurrentSubSpell().AffectedTarget);
 
             if ((context.GetCurrentSubSpell().Targeting & SpellTargeting.Target) == SpellTargeting.Target)
             {
@@ -324,7 +326,7 @@ public class SpellCaster : MonoBehaviour
 
             if ((context.GetCurrentSubSpell().Flags & SpellFlags.Raycast) == SpellFlags.Raycast)
             {
-                targets = GetAllCharacterInArea(targets, targeting, context.GetCurrentSubSpell().Area, context.GetCurrentSubSpell().Obstacles);
+                targets = GetAllCharacterInArea(targets, targeting, context);
             }
 
             if (targets != null && targets.Length != 0)
@@ -396,19 +398,19 @@ public class SpellCaster : MonoBehaviour
             return (mask & target) == target;
         }).ToArray();
 
-    private static CharacterState[] GetAllCharacterInArea(CharacterState[] characters, TargetingData targeting, AreaOfEffect area, ObstacleHandling obstacles)
+    private static CharacterState[] GetAllCharacterInArea(CharacterState[] characters, TargetingData targeting, CastContext context)
     {
         float maxSpellDistance = 100;
 
         foreach (var character in characters)
         {
-            switch (area.Area)
+            switch (context.GetCurrentSubSpell().Area.Area)
             {
                 case AreaOfEffect.AreaType.Ray:
                 {
                     if(targeting.targetCharacter != null)
                     {
-                        if (obstacles == ObstacleHandling.Break)
+                        if (context.GetCurrentSubSpell().Obstacles == ObstacleHandling.Break)
                         {
                             return new[] { targeting.targetCharacter };
                         }
@@ -457,7 +459,7 @@ public class SpellCaster : MonoBehaviour
                 //        .magnitude < area.Size).ToArray();
 
                 default:
-                    Debug.LogAssertion($"Unhandled AreaType {area.Area}");
+                    Debug.LogAssertion($"Unhandled AreaType {context.GetCurrentSubSpell().Area.Area}");
                     break;
             }
         }
