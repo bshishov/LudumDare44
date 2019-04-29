@@ -11,6 +11,8 @@ public class AnimationController : MonoBehaviour
 
     public bool DisableAnimationsAfterDeath = true;
     public bool UseMaterialAnimations;
+    public bool AutoTrackSpeed = true;
+    public float SmoothTime = 0.1f;
 
     [Header("Animator configuration")]
     public string DeathTrigger = "Death";
@@ -28,6 +30,10 @@ public class AnimationController : MonoBehaviour
     // TODO: IK ?
 
     private bool _disabled = false;
+    private Vector3 _lastPosition;
+    private Vector2 _dirVelocity;
+    private Vector2 _moveDir;
+
 
     void Start()
     {
@@ -56,6 +62,8 @@ public class AnimationController : MonoBehaviour
         //    PlayCastAnimation(SubSpell.SpellTypes.Raycast);
         //});
         Debugger.Default.Display("Animation/Force enable", () => { _disabled = false; });
+
+        _lastPosition = transform.position;
     }
 
     public void PlayDeathAnimation()
@@ -128,5 +136,24 @@ public class AnimationController : MonoBehaviour
             return;
 
         Animator.SetTrigger(Pickup);
+    }
+
+    void Update()
+    {
+        if (AutoTrackSpeed)
+        {
+            var moveDirection = transform.position - _lastPosition;
+            moveDirection.y = 0;
+            var speed = moveDirection.magnitude / Time.deltaTime;
+            var dir = transform.InverseTransformDirection(moveDirection);
+            var dir2d = new Vector2(dir.x, dir.z) * SpeedMultiplier * speed;
+
+            _moveDir = Vector2.SmoothDamp(_moveDir, dir2d, ref _dirVelocity, SmoothTime);
+
+            Animator.SetFloat("SpeedX", _moveDir.x);
+            Animator.SetFloat("SpeedZ", _moveDir.y);
+
+            _lastPosition = transform.position;
+        }
     }
 }

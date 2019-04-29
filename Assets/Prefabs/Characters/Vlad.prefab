@@ -449,9 +449,9 @@ NavMeshAgent:
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
-  m_AutoRepath: 1
+  m_AutoRepath: 0
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: -0.13
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!136 &7831678246583470376
@@ -481,9 +481,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 4857112221843758065}
-  SpeedMultiplier: 1
+  SpeedMultiplier: 0.3
   DisableAnimationsAfterDeath: 1
   UseMaterialAnimations: 0
+  AutoTrackSpeed: 1
+  SmoothTime: 0.1
   DeathTrigger: Death
   TakeDamage: TakeDamage
   SpeedVariable: Speed

@@ -2159,9 +2159,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 0}
-  SpeedMultiplier: 5
+  SpeedMultiplier: 0.2
   DisableAnimationsAfterDeath: 1
   UseMaterialAnimations: 0
+  AutoTrackSpeed: 1
+  SmoothTime: 0.1
   DeathTrigger: Death
   TakeDamage: TakeDamage
   SpeedVariable: Speed
@@ -2184,6 +2186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcaa80e656cb41d488f97698485f16a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distance: 0
   Target: {fileID: 0}
 --- !u!1 &8603995454659070595
 GameObject:
