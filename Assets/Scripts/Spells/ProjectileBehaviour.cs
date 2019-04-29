@@ -1,21 +1,43 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Assets.Scripts.Data;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Spells
 {
+
+    public class ProjectileContext
+    {
+        public CharacterState owner;
+        public ProjectileData projectileData;
+
+        public Spell spell;
+        public int startSubContext;
+
+        public CharacterState targetCharacter;
+        public Vector3 origin;
+        public Vector3 target;
+
+        public SubSpell GetProjectileSubSpell() => spell.SubSpells[startSubContext];
+    }
+
     public class ProjectileBehaviour : MonoBehaviour
     {
         private ProjectileContext _context;
         private float _trevaledDistance;
 
-        public void Initialize(ProjectileContext context)
+        private List<SpellContext> _activationContexts = new List<SpellContext>();
+        private SpellCaster _caster;
+
+        public void Initialize(ProjectileContext context, SpellCaster caster)
         {
             if (context == null)
             {
-                Destroy(gameObject);
+                DestroyParticle();
                 return;
             }
 
+            _caster = caster;
             _context = context;
             transform.LookAt(_context.target);
 
@@ -32,7 +54,28 @@ namespace Spells
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Particle Collision");
+            if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.Activate) ==
+                SubSpell.ObstacleHandling.Activate)
+                ActivateSpell();
+
+            if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.Break) ==
+                                     SubSpell.ObstacleHandling.Break)
+                DestroyParticle();
+        }
+
+        private void DestroyParticle()
+        {
+            Destroy(gameObject);
+        }
+
+        private void ActivateSpell()
+        {
+            _caster.CastSpell(_context.spell, new SpellEmitterData()
+                {
+                    emitter = null
+
+                },
+                _context.startSubContext, true);
         }
 
         void Update()
@@ -48,7 +91,11 @@ namespace Spells
 
             if (_context.projectileData.MaxDistance > 0 && _trevaledDistance > _context.projectileData.MaxDistance)
             {
-                Destroy(gameObject);
+                if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.ActivateOnMaxDistance) ==
+                    SubSpell.ObstacleHandling.ActivateOnMaxDistance)
+                    ActivateSpell();
+
+                DestroyParticle();
             }
         }
     }

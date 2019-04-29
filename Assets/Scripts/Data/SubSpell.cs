@@ -26,7 +26,8 @@ namespace Assets.Scripts.Data
             None = Undefined,
 
             Activate = 1 << 1,
-            Break = 1 << 2
+            Break = 1 << 2,
+            ActivateOnMaxDistance = 1 << 3
         }
 
         [Serializable]
