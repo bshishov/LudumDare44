@@ -18,7 +18,7 @@ namespace Assets.Scripts.Data
         public float SpellRange = 0f;
         public float FearRange = 0f;
         public float MeleeRange = 0f;
-        public float MeleeCooldown = 1f;        
+        public float AttackCooldown = 1f;        
 
         [Header("Drop Info")]
         public float DropRate;

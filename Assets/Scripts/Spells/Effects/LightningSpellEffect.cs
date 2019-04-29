@@ -25,14 +25,13 @@ namespace Spells.Effects
         public void OnSubSpellStartCast(Spell spell, SubSpell subSpell, SubSpellTargets data)
         {
             Debug.Log("SubSpell Start Cast");
-            foreach (var tgt in data.targetData)
+            foreach (var targetData in data.targetData)
             {
-                foreach (var dst in tgt.destinations)
+                foreach (var dst in targetData.Destinations)
                 {
                     var lObj = GameObject.Instantiate(LightningPrefab, transform);
                     lObj.GetComponent<Lightning>().SetupLine(
-                        tgt.source.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter).position, 
-                        dst.GetNodeTransform(CharacterState.CharacterNode.NodeRole.Chest).position);
+                        targetData.Source.Position.Value, dst.Position.Value);
                 }
             }
         }

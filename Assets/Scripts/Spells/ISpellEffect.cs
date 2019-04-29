@@ -15,10 +15,43 @@ namespace Spells
         Projectile,
     }
 
-    public class PerSourceTargets
+    public class TargetInfo
     {
-        public CharacterState source;
-        public CharacterState[] destinations;
+        public CharacterState Character;
+        public Transform Transform;
+        public Vector3? Position;
+
+        public static TargetInfo Create(CharacterState character, Transform transform, Vector3 position)
+            => new TargetInfo
+            {
+                Character = character,
+                Transform = transform,
+                Position = position
+            };
+
+        public static TargetInfo Create(CharacterState character, Transform transform)
+            => Create(character, transform, transform.position);
+
+        public static TargetInfo Create(CharacterState character)
+            => Create(character, character.GetNodeTransform());
+    }
+
+    public class SpellTargets
+    {
+        public TargetInfo Source;
+        public TargetInfo[] Destinations;
+
+        public SpellTargets(TargetInfo source)
+        {
+            Source = source;
+            Destinations = new TargetInfo[0];
+        }
+
+        public  SpellTargets(TargetInfo source, TargetInfo target)
+        {
+            Source = source;
+            Destinations = new []{ target };
+        }
     }
 
     public class SubSpellTargets
@@ -26,7 +59,7 @@ namespace Spells
         public Vector3 origin;
         public Vector3 direction;
 
-        public List<PerSourceTargets> targetData;
+        public List<SpellTargets> targetData;
     }
 
     public interface ISpellEffect

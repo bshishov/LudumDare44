@@ -66,9 +66,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        GetInput();
-        Move();
-        LookAt();
+        if (_characterState.IsAlive)
+        {
+            GetInput();
+            Move();
+            LookAt();
+        }
     }
 
     void Move()

@@ -119,50 +119,56 @@ namespace Spells
             return (int)spell.DefaultSlot;
         }
 
-        private void FireSpell(int index, SpellEmitterData data)
+        private void FireSpell(int index, SpellTargets targets)
         {
             Assert.IsTrue(index >= 0 && index <= SpellCount);
             var slotState = GetSpellSlotState(index);
-            Assert.IsTrue(slotState.State == SpellState.Ready);
+            if (slotState.State == SpellState.Ready)
+            {
+                _spellCaster.CastSpell(slotState.Spell, targets);
 
-            _spellCaster.CastSpell(slotState.Spell, data);
-
-            // Start cooldown
-            SpellSlots[index].State = SpellState.Recharging;
-            SpellSlots[index].RemainingCooldown = slotState.Spell.Cooldown;
+                // Start cooldown
+                SpellSlots[index].State = SpellState.Recharging;
+                SpellSlots[index].RemainingCooldown = slotState.Spell.Cooldown;
+            }
         }
 
         public void TryFireSpellToPoint(int slotIndex, Vector3 targetPosition)
         {
-            CharacterState targetCharacter = null;
+            var target = new TargetInfo();
 
             // Try locate target character located in target position
             var results = Physics.OverlapSphere(targetPosition, 1f, LayerMask.GetMask("Actors"));
             foreach (var result in results)
             {
-                targetCharacter = result.GetComponent<CharacterState>();
-                if(targetCharacter != null)
-                    break;
-            }
+                target.Character = result.GetComponent<CharacterState>();
+                if (target.Character != null)
+                {
+                    if (!target.Character.IsAlive)
+                    {
+                        target.Character = null;
+                    }
+                    else
+                    {
+                        target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
+                    }
 
-            var data = SpellEmitterData.Create(_characterState,
-                targetCharacter,
-                targetPosition,
-                _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter)
-            );
+                    break;
+                }
+            }
+            target.Position = targetPosition;
+
+            var data = new SpellTargets(
+                TargetInfo.Create(_characterState, _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter)),
+                target);
+
 
             FireSpell(slotIndex, data);
         }
 
         public void TryFireSpellToTarget(int slotIndex, CharacterState target)
         {
-            var data = new SpellEmitterData
-            {
-                TargetPosition = target.GetNodeTransform(CharacterState.CharacterNode.NodeRole.Chest).position,
-                SourceTransform = _characterState.GetNodeTransform(CharacterState.CharacterNode.NodeRole.SpellEmitter),
-                SourceCharacter = _characterState,
-                TargetCharacter = target
-            };
+            var data = new SpellTargets(TargetInfo.Create(_characterState), TargetInfo.Create(target));
 
             FireSpell(slotIndex, data);
         }

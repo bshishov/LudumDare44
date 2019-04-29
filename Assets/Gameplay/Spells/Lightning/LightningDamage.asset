@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3303e6a0239599a42a240593fc7c9ead, type: 3}
-  m_Name: LightningDemage
+  m_Name: LightningDamage
   m_EditorClassIdentifier: 
-  Name: Lightning Demage
+  Name: Lightning Damage
   ChangedProperty: 1
   Addition: 2
-  Multiplier: 0
+  Multiplier: 1
   Radius: 0
   PerSecond: 0
-  Permanent: 0
+  Permanent: 1
   Duration: 0
   VisualEffect: {fileID: 0}

@@ -6,16 +6,15 @@ namespace Spells
 {
     public class ProjectileContext
     {
-        public Vector3 origin;
         public CharacterState owner;
         public ProjectileData projectileData;
 
         public Spell spell;
         public int startSubContext;
-        public Vector3 target;
 
-        public CharacterState targetCharacter;
-
+        public TargetInfo origin;
+        public TargetInfo target;
+        
         public SubSpell GetProjectileSubSpell()
         {
             return spell.SubSpells[startSubContext];
@@ -27,7 +26,9 @@ namespace Spells
         private List<SpellContext> _activationContexts = new List<SpellContext>();
         private SpellCaster _caster;
         private ProjectileContext _context;
+        private bool _destroying;
         private float _trevaledDistance;
+
 
         public void Initialize(ProjectileContext context, SpellCaster caster)
         {
@@ -39,7 +40,7 @@ namespace Spells
 
             _caster = caster;
             _context = context;
-            transform.LookAt(_context.target);
+            transform.LookAt(_context.target.Position.Value);
 
             var sphere = gameObject.AddComponent<Rigidbody>();
             sphere.isKinematic = false;
@@ -54,12 +55,22 @@ namespace Spells
 
         private void OnTriggerEnter(Collider other)
         {
-            if(!SpellCaster.IsEnemy(_context.owner, other.gameObject.GetComponent<CharacterState>(), _context.GetProjectileSubSpell().AffectedTarget))
+            if (_destroying)
                 return;
 
-            if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.Activate) ==
-                SubSpell.ObstacleHandling.Activate)
-                ContinueSpellSequence();
+            var character = other.gameObject.GetComponent<CharacterState>();
+            if (character == null)
+            {
+                Debug.LogWarning($"Invalid colision target {other.gameObject.name}");
+                return;
+            }
+
+            if (!SpellCaster.IsEnemy(_context.owner, character, _context.GetProjectileSubSpell().AffectedTarget))
+                return;
+
+            if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.ExecuteSpellSequence) ==
+                SubSpell.ObstacleHandling.ExecuteSpellSequence)
+                ContinueSpellSequence(character);
 
             if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.Break) ==
                 SubSpell.ObstacleHandling.Break)
@@ -68,22 +79,27 @@ namespace Spells
 
         private void DestroyParticle()
         {
+            _destroying = true;
             Destroy(gameObject);
         }
 
-        private void ContinueSpellSequence()
+        private void ContinueSpellSequence(CharacterState target)
         {
-            _caster.ContinueCastSpell(_context.spell, SpellEmitterData.Create(
-                    _context.owner,
-                    transform
-                ),
-                ++_context.startSubContext);
+            if (_destroying)
+                return;
 
-            DestroyParticle();
+            _caster.ContinueCastSpell(_context.spell,
+                new SpellTargets(
+                    TargetInfo.Create(_context.owner, transform),
+                    TargetInfo.Create(target)
+                ), _context.startSubContext + 1);
         }
 
         private void Update()
         {
+            if (_destroying)
+                return;
+
             switch (_context.projectileData.Trajectory)
             {
                 case ProjectileTrajectory.Line:
@@ -95,9 +111,10 @@ namespace Spells
 
             if (_context.projectileData.MaxDistance > 0 && _trevaledDistance > _context.projectileData.MaxDistance)
             {
-                if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.ContinueOnMaxDistance) ==
-                    SubSpell.ObstacleHandling.ContinueOnMaxDistance)
-                    ActivateProjectilePayload();
+                if ((_context.GetProjectileSubSpell().Obstacles &
+                     SubSpell.ObstacleHandling.ExecuteSpellSequenceOnMaxDistance) ==
+                    SubSpell.ObstacleHandling.ExecuteSpellSequenceOnMaxDistance)
+                    ContinueSpellSequence(null);
                 else
                     DestroyParticle();
             }
@@ -105,6 +122,8 @@ namespace Spells
 
         private void ActivateProjectilePayload()
         {
+            if (_destroying)
+                return;
         }
     }
 }
