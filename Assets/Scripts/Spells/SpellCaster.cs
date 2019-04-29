@@ -12,6 +12,7 @@ public struct SpellEmitterData
     public SpellEmitter emitter;
     public Ray ray;
     public Vector3 floorIntercection;
+    public RaycastHit hitInfo;
 }
 
 public class SpellCaster : MonoBehaviour
@@ -218,7 +219,7 @@ public class SpellCaster : MonoBehaviour
             case ContextState.Executing:
                 if (!Execute(context, subContext))
                 {
-                    Debug.LogError($"{context.spell.Name} Failed to execute subspell {context.currentSubspell}");
+                    Debug.LogWarning($"{context.spell.Name} Failed to execute subspell {context.currentSubspell}");
                     subContext.state = ContextState.Finishing;
                     subContext.aborted = true;
                 }
@@ -377,6 +378,8 @@ public class SpellCaster : MonoBehaviour
             {
                 case AreaOfEffect.AreaType.Ray:
                 {
+                    Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10, Color.green, 2);
+
                     CharacterState closest = null;
                     float minDist = float.MaxValue;
                     var hitedTargets = new List<CharacterState>(characters.Length / 5);

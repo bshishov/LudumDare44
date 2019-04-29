@@ -47,16 +47,22 @@ public class PlayerController : MonoBehaviour
 
     private void FireSpell(int index)
     {
+        Vector3 groundPoint = Vector3.zero;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(ray.origin, ray.direction * 100, Color.green, 2.0f);
         if (_ground.Raycast(ray, out var enter))
         {
-            var hitPoint = ray.GetPoint(enter);
-
-            var data = _emitters[0].GetData(_characterState, ray, hitPoint);
-
-            _characterState.FireSpell(index, data);
+            groundPoint = ray.GetPoint(enter);
         }
+
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo, 100, LayerMask.GetMask("Actors")))
+        {
+        }
+
+        Debug.DrawRay(ray.origin, ray.direction, Color.green);
+
+        var data = _emitters[0].GetData(_characterState, ray, groundPoint, hitInfo);
+        _characterState.FireSpell(index, data);
     }
 
     void Update()
@@ -101,12 +107,10 @@ public class PlayerController : MonoBehaviour
             Gizmos.DrawSphere(hitPoint, 0.2f);
         }
 
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Gizmos.DrawRay(ray);
-        if (_ground.Raycast(ray, out enter))
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo, 100, LayerMask.GetMask("Actors")))
         {
-            var hitPoint = ray.GetPoint(enter);
-            _characterState.DrawSpellGizmos(0, hitPoint);
+            Gizmos.DrawWireCube(hitInfo.transform.position, Vector3.one);
         }
     }
 }

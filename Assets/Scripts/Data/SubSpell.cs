@@ -32,6 +32,17 @@ namespace Assets.Scripts.Data
         public SpellOrigin Origin;
 
         [Serializable]
+        public enum SpellTargeting : int
+        {
+            None = 0,
+            Target,
+            Location,
+        };
+
+        [EnumFlag]
+        public SpellTargeting Targeting;
+
+        [Serializable]
         [Flags]
         public enum SpellFlags : int
         {
