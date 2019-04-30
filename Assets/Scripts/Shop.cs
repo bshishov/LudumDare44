@@ -54,6 +54,7 @@ namespace Assets.Scripts
             if (ActiveItem != null && ActiveItem.Prefab != null)
             {
                 _itemObject = GameObject.Instantiate(ActiveItem.Prefab, PlaceTransform);
+                _itemObject.transform.SetParent(PlaceTransform, worldPositionStays:false);
             }
         }
     
@@ -89,6 +90,8 @@ namespace Assets.Scripts
                 var shopGroup = GetComponentInParent<ShopGroup>();
                 if(shopGroup != null)
                     shopGroup.CloseAll();
+
+                CameraController.Instance.Shake(0.4f);
             }
             else
             {

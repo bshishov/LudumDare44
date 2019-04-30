@@ -17,4 +17,4 @@ MonoBehaviour:
   Icon: {fileID: 0}
   Buffs:
   - {fileID: 11400000, guid: 1a722beffa13e044a92c8e0ab172b5de, type: 2}
-  Prefab: {fileID: 2459877085728243655, guid: f24dd6d493ef1f042a3ea62c2ec6e270, type: 3}
+  Prefab: {fileID: 7619096980188076982, guid: ac49a2b98fec57b4f89e9d3d6fa3e51c, type: 3}

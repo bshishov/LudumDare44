@@ -1,0 +1,553 @@
+fileFormatVersion: 2
+guid: 31ec042ca000c8346a1fbbc8cbdd9b6f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2659369684134734925
+    second: ui_spell_icons_0
+  - first:
+      213: -7458869824323955035
+    second: ui_spell_icons_1
+  - first:
+      213: 7698805923673104258
+    second: ui_spell_icons_2
+  - first:
+      213: 3539012942689375787
+    second: ui_spell_icons_3
+  - first:
+      213: 733340276709332002
+    second: ui_spell_icons_4
+  - first:
+      213: -9074871311299428028
+    second: ui_spell_icons_5
+  - first:
+      213: -4265729288768952931
+    second: ui_spell_icons_6
+  - first:
+      213: -1300457039401400286
+    second: ui_spell_icons_7
+  - first:
+      213: 3005979228707336925
+    second: ui_spell_icons_8
+  - first:
+      213: -3896968065645551719
+    second: ui_spell_icons_9
+  - first:
+      213: -4398554660853359821
+    second: ui_spell_icons_10
+  - first:
+      213: 1408298003986395356
+    second: ui_spell_icons_11
+  - first:
+      213: 2348461027337570567
+    second: ui_spell_icons_12
+  - first:
+      213: 6752807209149359651
+    second: ui_spell_icons_13
+  - first:
+      213: -1399479756892252895
+    second: ui_spell_icons_14
+  - first:
+      213: -76186862110632785
+    second: ui_spell_icons_15
+  - first:
+      213: -1433655142265228489
+    second: ui_spell_icons_16
+  - first:
+      213: -4961896677364571264
+    second: ui_spell_icons_17
+  - first:
+      213: -3824216954202617696
+    second: ui_spell_icons_18
+  - first:
+      213: 6640104503332920153
+    second: ui_spell_icons_19
+  - first:
+      213: 7282942031133800303
+    second: ui_spell_icons_20
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ui_spell_icons_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 414.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 187197c6bdafcb74887fd5e3038e1b3c
+      internalID: 2659369684134734925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_1
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 414.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d3044c6d2eaf5d49870842218078113
+      internalID: -7458869824323955035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_2
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 414.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5dd08b68cb5d4b41b147260448b87af
+      internalID: 7698805923673104258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_3
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 414.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3835eee41ac530341b2da658fac0fbe6
+      internalID: 3539012942689375787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_4
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 414.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1027c61e0fdf884e88bbb5f85d4c7f4
+      internalID: 733340276709332002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 312.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09050c22cb8b7bc4f806e0dcf4d25547
+      internalID: -9074871311299428028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_6
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 312.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7611a891c656bc4a88ca6fb8735a0e2
+      internalID: -4265729288768952931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_7
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 312.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb4992c813f776e4890048485cc15089
+      internalID: -1300457039401400286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_8
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 312.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e813f34d9cbd1244f9f4ca0280588511
+      internalID: 3005979228707336925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_9
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 312.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c491ca64c8a31b44b4ea21d005cf3d1
+      internalID: -3896968065645551719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 210.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58d367c295f22a841b640b1e298a8dbb
+      internalID: -4398554660853359821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 108.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 777cd8a65c5ace44f90d3b5035471fbe
+      internalID: 1408298003986395356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_12
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 108.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81de5b1727d3b6b4dab466893768ba0b
+      internalID: 2348461027337570567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_13
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 108.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6ad794abd94cbb4fb6d27d7a5f69754
+      internalID: 6752807209149359651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_14
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 108.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 794dc3b63ee0f47429f9d7c9570efcf8
+      internalID: -1399479756892252895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_15
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 108.6
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b267fa7bc787b91439bb25912e886d92
+      internalID: -76186862110632785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6.5999985
+        width: 97.4
+        height: 97.4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c20994eed612bc84cace2a23e1bca37c
+      internalID: -1433655142265228489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_spell_icons_19
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 2
+        width: 97
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adc6d12b38e0eae479500d02eaa14090
+      internalID: 6640104503332920153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: a0f39abeeb5fb2d41ae38be364bf8e05
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

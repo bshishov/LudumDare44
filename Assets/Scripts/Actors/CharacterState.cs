@@ -5,7 +5,9 @@ using Assets.Scripts.Data;
 using System.Linq;
 using Random = UnityEngine.Random;
 using System;
+using Actors;
 using Assets.Scripts;
+using Assets.Scripts.Utils;
 using Assets.Scripts.Utils.Debugger;
 using Spells;
 using UnityEngine.Assertions;
@@ -169,8 +171,16 @@ public class CharacterState : MonoBehaviour
     {
         if (DropSpells.Count > 0)
         {
-            var DroppedSpell = DropSpells[Mathf.FloorToInt(Random.value * DropSpells.Count)];
-            // TODO: Drop spell
+            var spell = RandomUtils.Choice((IList<Spell>)DropSpells);
+            if (spell != null && spell.DropItem)
+            {
+                var dropSpellObj = (GameObject)GameObject.Instantiate(spell.DropItem, GetNodeTransform(NodeRole.Chest).position, Quaternion.identity);
+                var dropSpell = dropSpellObj.GetComponent<DroppedSpell>();
+                if (dropSpell != null)
+                {
+                    dropSpell.Setup(spell);
+                }
+            }
         }
 
         AppliedBuffs.Clear();

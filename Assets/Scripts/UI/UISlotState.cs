@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.Scripts.Data;
 using Spells;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +12,8 @@ namespace Assets.Scripts.UI
         public Spell.Slot Slot;
         public Image SpellIcon;
         public Image CooldownOverlay;
-        public Text CooldownText;
-        public Text StacksText;
+        public TextMeshProUGUI CooldownText;
+        public TextMeshProUGUI StacksText;
 
         private SpellbookState _spellBookState;
 

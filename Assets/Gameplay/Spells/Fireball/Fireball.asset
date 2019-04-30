@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fireball
   m_EditorClassIdentifier: 
   Name: 
-  Icon: {fileID: 0}
+  Icon: {fileID: -7458869824323955035, guid: 31ec042ca000c8346a1fbbc8cbdd9b6f, type: 3}
   BloodCost: 0
   BloodBack: 0
   DefaultSlot: 0
@@ -27,4 +27,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 361bc15459e16b542b14a6e3816aebe9, type: 2}
   - {fileID: 11400000, guid: ca3e5e747de70ed468afc936eb770826, type: 2}
   SpellEffect: {fileID: 1349204274574646620, guid: a55be5abd6fc4954e81a606e64d716c3,
+    type: 3}
+  DropItem: {fileID: 1505186117477699395, guid: 881112f11abc5bf45bc9a3a385e42f40,
     type: 3}

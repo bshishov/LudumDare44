@@ -92,7 +92,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerable<IInteractable> GetUsableItemsInRange()
     {
-        return Physics.OverlapSphere(transform.position, 1f)
+        var pos = _characterState.GetNodeTransform(CharacterState.NodeRole.Chest).position;
+        return Physics.OverlapSphere(pos, 1f)
             .Select(c => c.GetComponent<IInteractable>())
             .Where(i => i != null);
     }

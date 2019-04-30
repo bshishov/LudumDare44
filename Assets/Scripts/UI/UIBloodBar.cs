@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,7 @@ namespace Assets.Scripts.UI
     public class UIBloodBar : MonoBehaviour
     {
         public UIProgressBar ProgressBar;
-        public Text Text;
+        public TextMeshProUGUI Text;
 
         private CharacterState _playerState;
         private const string HpBarFormat = "{0:#} / {1:#}";

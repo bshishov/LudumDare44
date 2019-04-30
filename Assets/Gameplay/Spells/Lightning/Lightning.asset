@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Lightning
   m_EditorClassIdentifier: 
   Name: Lightning
-  Icon: {fileID: 0}
+  Icon: {fileID: 2659369684134734925, guid: 31ec042ca000c8346a1fbbc8cbdd9b6f, type: 3}
   BloodCost: 0
   BloodBack: 2
   DefaultSlot: 0
@@ -28,4 +28,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f3451bb833b2dc4abc651b8e5f9a55e, type: 2}
   - {fileID: 11400000, guid: 3f3451bb833b2dc4abc651b8e5f9a55e, type: 2}
   SpellEffect: {fileID: 1349204274574646620, guid: 97b50922a392d41499e890a3452714e0,
+    type: 3}
+  DropItem: {fileID: 1505186117477699395, guid: 881112f11abc5bf45bc9a3a385e42f40,
     type: 3}
