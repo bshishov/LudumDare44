@@ -19,7 +19,10 @@ namespace Spells.Effects
         {
             foreach (var target in data.targetData)
             {
-                Destroy(Instantiate(WavePrefab, target.Source.Position.Value, target.Source.Transform.rotation), 2);
+                var orient = Quaternion.LookRotation(target.Directions[0]);
+                orient.x = orient.z = 0;
+
+                Destroy(Instantiate(WavePrefab, target.Source.Position.Value, orient), 2);
                 return;
             }
         }

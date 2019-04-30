@@ -377,6 +377,9 @@ namespace Spells
                         if (dst != null && dst.Length > 0)
                             targets.AddRange(dst);
                     }
+
+                    if (source.Position.HasValue && target.Position.HasValue)
+                        castData.Directions.Add(target.Position.Value - source.Position.Value);
                 }
 
                 if (targets.Count == 0)

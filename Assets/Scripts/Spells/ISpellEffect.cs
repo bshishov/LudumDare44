@@ -59,6 +59,8 @@ namespace Spells
 
     public class SpellTargets
     {
+        public List<Vector3> Directions = new List<Vector3>();
+
         public TargetInfo Source;
         public TargetInfo[] Destinations;
 
@@ -85,9 +87,6 @@ namespace Spells
 
     public class SubSpellTargets
     {
-        public Vector3 origin;
-        public Vector3 direction;
-
         public List<SpellTargets> targetData;
     }
 
