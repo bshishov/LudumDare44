@@ -70,7 +70,8 @@ namespace Assets.Scripts.Data
         [EnumFlag] public SpellFlags Flags;
         [EnumFlag] public AffectedTargets AffectedTarget;
         [EnumFlag] public ObstacleHandling Obstacles;
-        [EnumFlag] public SpellTargeting Targeting;
+
+        public SpellTargeting Targeting;
 
         [Header("Data")]
         public AreaOfEffect Area;

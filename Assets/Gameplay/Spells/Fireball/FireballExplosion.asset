@@ -18,7 +18,7 @@ MonoBehaviour:
   Flags: 21
   AffectedTarget: -1
   Obstacles: 0
-  Targeting: -1
+  Targeting: 2
   Area: {fileID: 11400000, guid: 45582d7ff472ce542b077d4dd178a29e, type: 2}
   Projectile: {fileID: 0}
   Buffs:
