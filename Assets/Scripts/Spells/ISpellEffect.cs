@@ -10,11 +10,11 @@ namespace Spells
     {
         JustQueued = 0,
         PreDelays,
-        Executing,
+        FindTargets,
+        PreDamageDelay,
+        Fire,
         PostDelay,
         Finishing,
-
-        Projectile,
     }
 
     public class TargetInfo

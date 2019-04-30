@@ -58,8 +58,8 @@ namespace Assets.Scripts.Data
         public enum SpellTargeting
         {
             None = 0,
-            Target = 1 << 1,
-            Location = 1 << 2
+            Target,
+            Location
         }
 
         public SpellOrigin Origin;
