@@ -78,10 +78,6 @@ public class Cheats : MonoBehaviour
                 Debugger.Default.Display(path + "/Spell", spellbookStateSpellSlot.Spell.name);
             spellSlotIdx++;
         }
-
-        Debugger.Default.DrawCircle(_playerState.transform.position + Vector3.up * 2, Vector3.up, 1f, Color.black);
-        Debugger.Default.DrawCircleSphere(_playerState.transform.position + Vector3.up, 1f, Color.black);
-        Debugger.Default.DrawLine(_playerState.transform.position + Vector3.up, Vector3.zero, Color.cyan);
 #endif
     }
 
