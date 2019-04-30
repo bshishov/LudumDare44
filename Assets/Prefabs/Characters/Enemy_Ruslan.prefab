@@ -2149,7 +2149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentTeam: 2
-  character: {fileID: 11400000, guid: 0c51becd8c73094408b636f82ad49df5, type: 2}
+  character: {fileID: 11400000, guid: d0d9c0419e6089b478c17daca32b9d9a, type: 2}
   Nodes:
   - Transform: {fileID: 5940929338766483706}
     Role: 0
