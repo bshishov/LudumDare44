@@ -10,6 +10,7 @@ namespace Assets.Scripts.UI
     public class UISlotState : MonoBehaviour
     {
         public Spell.Slot Slot;
+        public Sprite DefaultSpellIcon;
         public Image SpellIcon;
         public Image CooldownOverlay;
         public TextMeshProUGUI CooldownText;
@@ -29,6 +30,7 @@ namespace Assets.Scripts.UI
                 }
             }
 
+            SpellIcon.sprite = DefaultSpellIcon;
             StacksText.text = String.Empty;
             CooldownText.text = String.Empty;
         }
@@ -37,7 +39,7 @@ namespace Assets.Scripts.UI
         {
             var slotState = _spellBookState.GetSpellSlotState((int)Slot);
             
-            if (slotState.Spell != null)
+            if (slotState.Spell != null && slotState.State != SpellbookState.SpellState.None)
             {
                 SpellIcon.sprite = slotState.Spell.Icon;
                 CooldownOverlay.fillAmount = slotState.RemainingCooldown / slotState.Spell.Cooldown;
@@ -55,6 +57,10 @@ namespace Assets.Scripts.UI
                 {
                     StacksText.text = String.Empty;
                 }
+            }
+            else
+            {
+                SpellIcon.sprite = DefaultSpellIcon;
             }
         }
     }
