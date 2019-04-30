@@ -27,5 +27,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7ae61376980debd459c97ed849f16f98, type: 2}
   - {fileID: 11400000, guid: cc2b8d602883b9948b2cce67a064a97f, type: 2}
   SpellEffect: {fileID: 0}
-  DropItem: {fileID: 1505186117477699395, guid: 881112f11abc5bf45bc9a3a385e42f40,
+  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
     type: 3}
