@@ -90,11 +90,6 @@ public class PlayerController : MonoBehaviour
                 target.Character = character;
                 break;
             }
-            target.Position = targetPosition;
-
-            var data = new SpellTargets(
-                TargetInfo.Create(_characterState, _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter)),
-                target);
         }
         else
         {
@@ -106,6 +101,12 @@ public class PlayerController : MonoBehaviour
         {
             target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
             target.Position = target.Transform.position;
+        }
+        else if(target.Position.HasValue)
+        {
+            var adoptedTarget = target.Position.Value;
+            adoptedTarget.y = _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter).position.y;
+            target.Position = adoptedTarget;
         }
 
         _spellbook.TryFireSpellToTarget(slotIndex, target);
