@@ -39,13 +39,13 @@ public class PlayerController : MonoBehaviour
         moveDirection.x = Input.GetAxis("Horizontal");
         moveDirection.z = Input.GetAxis("Vertical");
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
             FireSpell((int)Spell.Slot.LMB);
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
             FireSpell((int)Spell.Slot.RMB);
 
-        if (Input.GetButtonDown("Ult"))
+        if (Input.GetButton("Ult"))
             FireSpell((int)Spell.Slot.ULT);
 
         if (Input.GetButtonDown("Use"))
