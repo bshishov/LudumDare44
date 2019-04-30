@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Data;
+using Assets.Scripts.Utils.Debugger;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -478,7 +479,10 @@ namespace Spells
                 {
                     if (target.Character != null)
                         if (context.GetCurrentSubSpell().Obstacles == SubSpell.ObstacleHandling.Break)
+                        {
+                            Debugger.Default.DrawLine(source.Transform.position, target.Transform.position, Color.blue);
                             return new[] {target};
+                        }
 
                     //Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10, Color.green, 2);
 
@@ -540,7 +544,10 @@ namespace Spells
                 case AreaOfEffect.AreaType.Sphere:
                 {
                     Assert.IsTrue(target.Position.HasValue);
+
                     var pos = target.Position.Value;
+                    Debugger.Default.DrawCircleSphere(pos, context.GetCurrentSubSpell().Area.Size, Color.blue);
+
                     return avalibleTargets.Where(t =>
                             (t.transform.position - pos).magnitude < context.GetCurrentSubSpell().Area.Size)
                         .Select(TargetInfo.Create).ToArray();

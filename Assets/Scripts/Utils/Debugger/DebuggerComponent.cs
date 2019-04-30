@@ -96,6 +96,12 @@ namespace Assets.Scripts.Utils.Debugger
             }
         }
 
+        private void LateUpdate()
+        {
+            if (_isDrawingDebugLines)
+                _drawer.LateUpdate();
+        }
+
         public void Open()
         {
             _isOpened = true;
@@ -267,28 +273,28 @@ namespace Assets.Scripts.Utils.Debugger
             });
         }
 
-        public void DrawRay(Ray ray, Color col, float maxRange = 100f)
+        public void DrawRay(Ray ray, Color col, float maxRange = 100f, float duration = 0.0f)
         {
             if (_isDrawingDebugLines)
-                _drawer.DrawLine(ray.origin, ray.origin + ray.direction * maxRange, col);
+                _drawer.DrawLine(ray.origin, ray.origin + ray.direction * maxRange, col, duration);
         }
 
-        public void DrawLine(Vector3 from, Vector3 to, Color col)
+        public void DrawLine(Vector3 from, Vector3 to, Color col, float duration = 0.0f)
         {
             if(_isDrawingDebugLines)
-                _drawer.DrawLine(from, to, col);
+                _drawer.DrawLine(from, to, col, duration);
         }
 
-        public void DrawCircle(Vector3 center, Vector3 normal, float radius, Color col)
+        public void DrawCircle(Vector3 center, Vector3 normal, float radius, Color col, float duration = 0.0f)
         {
             if (_isDrawingDebugLines)
-                _drawer.DrawCircle(center, normal, radius, col);
+                _drawer.DrawCircle(center, normal, radius, col, duration);
         }
 
-        public void DrawCircleSphere(Vector3 center, float radius, Color col)
+        public void DrawCircleSphere(Vector3 center, float radius, Color col, float duration = 0.0f)
         {
             if (_isDrawingDebugLines)
-                _drawer.DrawCircleSphere(center, radius, col);
+                _drawer.DrawCircleSphere(center, radius, col, duration);
         }
 
         public Logger GetLogger(string path)
