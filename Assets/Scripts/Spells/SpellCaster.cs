@@ -31,38 +31,39 @@ namespace Spells
         }
     }
 
-    public class SpellContext
+    public class SpellContext : ISpellContext
     {
-        public bool aborted;
-        public float activeTime;
+        private SubSpell _currentSubSpell;
 
         public SpellCaster caster;
-
-        public int currentSubspell;
 
         public ISpellEffect effect;
 
         public CharacterState[] filteredTargets;
 
         public float frameTime;
-        public CharacterState initialSource;
-
-        public Spell spell;
 
         private int startSubspellIndex;
 
-        public float startTime;
-        public ContextState state;
-        public float stateActiveTime;
-        public SubSpellContext subContext;
-
         public List<SubSpellTargets> subSpellTargets;
-        public bool IsLastSubSpell => currentSubspell == spell.SubSpells.Length - 1;
 
-        public SubSpell GetCurrentSubSpell()
-        {
-            return spell.SubSpells[currentSubspell];
-        }
+        public int CurrentSubspell { get; set; }
+        public SubSpellContext SubContext { get; set; }
+
+        public SubSpellTargets CurrentSubSpellTargets => subSpellTargets[CurrentSubspell - startSubspellIndex];
+        public bool Aborted { get; set; }
+        public float ActiveTime { get; set; }
+        public CharacterState InitialSource { get; private set; }
+
+        public Spell Spell { get; private set; }
+
+        public float StartTime { get; set; }
+        public ContextState State { get; set; }
+        public float StateActiveTime { get; set; }
+
+        public bool IsLastSubSpell => CurrentSubspell == Spell.SubSpells.Length - 1;
+
+        public SubSpell CurrentSubSpell => Spell.SubSpells[CurrentSubspell];
 
         public static SpellContext Create(SpellCaster caster, Spell spell, SpellTargets targets,
             int subSpellStartIndex)
@@ -71,18 +72,18 @@ namespace Spells
 
             var context = new SpellContext
             {
-                initialSource = targets.Source.Character,
+                InitialSource = targets.Source.Character,
                 caster = caster,
-                state = subSpellStartIndex == 0 ? ContextState.JustQueued : ContextState.FindTargets,
+                State = subSpellStartIndex == 0 ? ContextState.JustQueued : ContextState.FindTargets,
 
-                spell = spell,
+                Spell = spell,
 
                 startSubspellIndex = subSpellStartIndex,
-                currentSubspell = subSpellStartIndex,
-                subContext = null,
+                CurrentSubspell = subSpellStartIndex,
+                SubContext = null,
 
-                startTime = Time.fixedTime,
-                stateActiveTime = 0.0f,
+                StartTime = Time.fixedTime,
+                StateActiveTime = 0.0f,
 
                 filteredTargets =
                     (spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce
@@ -101,19 +102,6 @@ namespace Spells
 
             return context;
         }
-
-        public SubSpellTargets GetCurrentSubSpellTargets()
-        {
-            return subSpellTargets[currentSubspell - startSubspellIndex];
-        }
-    }
-
-    public struct TargetingData
-    {
-        public CharacterState owner;
-        public Vector3 origin;
-        public Vector3? targetLocation;
-        public CharacterState targetCharacter;
     }
 
     public class SpellCaster : MonoBehaviour
@@ -134,7 +122,7 @@ namespace Spells
         {
             if (_context != null)
             {
-                Debug.LogError($"spell cast aready casting, {_context.spell.Name}");
+                Debug.LogError($"spell cast aready casting, {_context.Spell.Name}");
                 return;
             }
 
@@ -152,8 +140,8 @@ namespace Spells
         private static bool ExecuteContext(SpellContext context)
         {
             context.frameTime = Time.deltaTime;
-            context.activeTime += context.frameTime;
-            context.stateActiveTime += context.frameTime;
+            context.ActiveTime += context.frameTime;
+            context.StateActiveTime += context.frameTime;
 
             try
             {
@@ -167,9 +155,9 @@ namespace Spells
                 return true;
             }
 
-            if (context.aborted) Debug.Log($"{context.spell.Name} aborted");
+            if (context.Aborted) Debug.Log($"{context.Spell.Name} aborted");
 
-            return context.state == ContextState.Finishing;
+            return context.State == ContextState.Finishing;
         }
 
         private void Update()
@@ -189,15 +177,15 @@ namespace Spells
 
         private static bool ManageContext(SpellContext context)
         {
-            switch (context.state)
+            switch (context.State)
             {
                 case ContextState.JustQueued:
-                    Debug.Log($"{context.spell.Name} start spell cast");
+                    Debug.Log($"{context.Spell.Name} start spell cast");
                     Advance();
                     return true;
 
                 case ContextState.PreDelays:
-                    if (context.stateActiveTime < context.spell.PreCastDelay)
+                    if (context.StateActiveTime < context.Spell.PreCastDelay)
                         break;
 
                     Advance();
@@ -205,37 +193,37 @@ namespace Spells
 
                 case ContextState.FindTargets:
                 case ContextState.PreDamageDelay:
-                    context.state = ContextState.Fire;
+                    context.State = ContextState.Fire;
                     return true;
 
                 case ContextState.Fire:
-                    context.subContext = SubSpellContext.Create(context);
+                    context.SubContext = SubSpellContext.Create(context);
 
-                    while (ManageSubContext(context, context.subContext)) ;
+                    while (ManageSubContext(context, context.SubContext)) ;
 
-                    if (context.subContext.aborted)
-                        if ((context.spell.Flags & Spell.SpellFlags.BreakOnFailedTargeting)
+                    if (context.SubContext.aborted)
+                        if ((context.Spell.Flags & Spell.SpellFlags.BreakOnFailedTargeting)
                             == Spell.SpellFlags.BreakOnFailedTargeting)
                         {
-                            context.aborted = true;
-                            context.state = ContextState.PostDelay;
+                            context.Aborted = true;
+                            context.State = ContextState.PostDelay;
 
                             return true;
                         }
 
-                    context.subContext = null;
+                    context.SubContext = null;
                     Advance();
                     return true;
 
                 case ContextState.PostDelay:
-                    if (context.stateActiveTime < context.spell.PreCastDelay)
+                    if (context.StateActiveTime < context.Spell.PreCastDelay)
                         break;
 
                     Advance();
                     return true;
 
                 case ContextState.Finishing:
-                    Debug.Log($"{context.spell.Name} finishing");
+                    Debug.Log($"{context.Spell.Name} finishing");
                     return false;
             }
 
@@ -243,8 +231,8 @@ namespace Spells
 
             void Advance()
             {
-                ++context.state;
-                context.stateActiveTime = 0;
+                ++context.State;
+                context.StateActiveTime = 0;
             }
         }
 
@@ -257,7 +245,7 @@ namespace Spells
                     return true;
 
                 case ContextState.PreDelays:
-                    if (subContext.activeTime < context.GetCurrentSubSpell().PostCastDelay)
+                    if (subContext.activeTime < context.CurrentSubSpell.PostCastDelay)
                         break;
 
                     Advance();
@@ -266,7 +254,8 @@ namespace Spells
                 case ContextState.FindTargets:
                     if (!FindTargets(context, subContext))
                     {
-                        Debug.LogWarning($"{context.spell.Name} Failed to FindTargets subspell {context.currentSubspell}");
+                        Debug.LogWarning(
+                            $"{context.Spell.Name} Failed to FindTargets subspell {context.CurrentSubspell}");
                         subContext.aborted = true;
                     }
 
@@ -274,17 +263,17 @@ namespace Spells
                     return true;
 
                 case ContextState.PreDamageDelay:
-                    if (subContext.activeTime < context.GetCurrentSubSpell().PostCastDelay)
+                    if (subContext.activeTime < context.CurrentSubSpell.PostCastDelay)
                         break;
 
                     Advance();
                     return true;
 
                 case ContextState.Fire:
-                    if (!context.subContext.projectileSpawned)
+                    if (!context.SubContext.projectileSpawned)
                     {
                         Execute(context, subContext);
-                        Debug.Log($"{context.spell.Name} Executed subspell {context.currentSubspell}");
+                        Debug.Log($"{context.Spell.Name} Executed subspell {context.CurrentSubspell}");
                     }
 
 
@@ -292,17 +281,17 @@ namespace Spells
                     return true;
 
                 case ContextState.PostDelay:
-                    if (subContext.activeTime < context.GetCurrentSubSpell().PostCastDelay)
+                    if (subContext.activeTime < context.CurrentSubSpell.PostCastDelay)
                         break;
 
                     Advance();
                     return true;
 
                 case ContextState.Finishing:
-                    ++context.currentSubspell;
+                    ++context.CurrentSubspell;
                     subContext.state = ContextState.PreDelays;
 
-                    var casting = context.currentSubspell < context.spell.SubSpells.Length
+                    var casting = context.CurrentSubspell < context.Spell.SubSpells.Length
                                   && subContext.aborted == false
                                   && subContext.projectileSpawned == false;
 
@@ -327,7 +316,7 @@ namespace Spells
         private static bool FindTargets(SpellContext context, SubSpellContext subContext)
         {
             var anyTargetFound = false;
-            var currentTargets = context.GetCurrentSubSpellTargets();
+            var currentTargets = context.CurrentSubSpellTargets;
 
             var targets = new List<TargetInfo>();
 
@@ -336,16 +325,19 @@ namespace Spells
                 var source = castData.Source;
                 CharacterState[] availableTargets = null;
 
-                if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.SelfTarget) ==
+                if ((context.CurrentSubSpell.Flags & SubSpell.SpellFlags.SelfTarget) ==
                     SubSpell.SpellFlags.SelfTarget)
+                {
                     castData.Destinations = new[] {source};
+                }
 
-                else if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.ClosestTarget)
+                else if ((context.CurrentSubSpell.Flags & SubSpell.SpellFlags.ClosestTarget)
                          == SubSpell.SpellFlags.ClosestTarget)
                 {
                     Assert.IsTrue(source.Position.HasValue, "source.Position != null");
 
-                    availableTargets = GetFilteredCharacters(context.initialSource, source.Character, context.GetCurrentSubSpell().AffectedTarget);
+                    availableTargets = GetFilteredCharacters(context.InitialSource, source.Character,
+                        context.CurrentSubSpell.AffectedTarget);
                     castData.Destinations = new[]
                     {
                         TargetInfo.Create(availableTargets
@@ -356,17 +348,13 @@ namespace Spells
 
                 foreach (var target in castData.Destinations)
                 {
-                    if (context.GetCurrentSubSpell().Targeting == SubSpell.SpellTargeting.Target)
-                    {
+                    if (context.CurrentSubSpell.Targeting == SubSpell.SpellTargeting.Target)
                         Assert.IsNotNull(target.Transform);
-                    }
 
-                    if (context.GetCurrentSubSpell().Targeting == SubSpell.SpellTargeting.Location)
-                    {
+                    if (context.CurrentSubSpell.Targeting == SubSpell.SpellTargeting.Location)
                         Assert.IsTrue(target.Position.HasValue);
-                    }
 
-                    if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.Projectile) ==
+                    if ((context.CurrentSubSpell.Flags & SubSpell.SpellFlags.Projectile) ==
                         SubSpell.SpellFlags.Projectile)
                     {
                         SpawnProjectile(source, target, context);
@@ -374,12 +362,13 @@ namespace Spells
                     }
 
                     if (availableTargets == null)
-                        availableTargets = GetFilteredCharacters(context.initialSource, source.Character, context.GetCurrentSubSpell().AffectedTarget);
+                        availableTargets = GetFilteredCharacters(context.InitialSource, source.Character,
+                            context.CurrentSubSpell.AffectedTarget);
 
-                    if ((context.spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce)
+                    if ((context.Spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce)
                         availableTargets = availableTargets.Except(context.filteredTargets).ToArray();
 
-                    if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.Raycast) ==
+                    if ((context.CurrentSubSpell.Flags & SubSpell.SpellFlags.Raycast) ==
                         SubSpell.SpellFlags.Raycast)
                     {
                         var dst = GetAllCharacterInArea(context, availableTargets, source, target);
@@ -397,7 +386,7 @@ namespace Spells
                 anyTargetFound = true;
                 castData.Destinations = targets.ToArray();
 
-                if ((context.spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) ==
+                if ((context.Spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) ==
                     Spell.SpellFlags.AffectsOnlyOnce)
                     context.filteredTargets =
                         context.filteredTargets.Where(f => !targets.Any(t => t.Character == f)).ToArray();
@@ -408,11 +397,11 @@ namespace Spells
 
         private static void Execute(SpellContext context, SubSpellContext subContext)
         {
-            var currentTargets = context.GetCurrentSubSpellTargets();
-            var newTargets = new SubSpellTargets { targetData = new List<SpellTargets>() };
+            var currentTargets = context.CurrentSubSpellTargets;
+            var newTargets = new SubSpellTargets {targetData = new List<SpellTargets>()};
 
             if (context.effect != null)
-                context.effect.OnSubSpellStartCast(context.spell, context.GetCurrentSubSpell(), currentTargets);
+                context.effect.OnSubSpellStartCast(context.Spell, context.CurrentSubSpell, currentTargets);
 
             foreach (var targets in currentTargets.targetData)
             {
@@ -421,7 +410,7 @@ namespace Spells
 
                 foreach (var destination in targets.Destinations)
                 {
-                    destination.Character.ApplySpell(context.initialSource, context.GetCurrentSubSpell());
+                    destination.Character.ApplySpell(context.InitialSource, context.CurrentSubSpell);
 
                     if (!context.IsLastSubSpell)
                         newTargets.targetData.Add(new SpellTargets(destination));
@@ -435,11 +424,11 @@ namespace Spells
         {
             var projectileContext = new ProjectileContext
             {
-                owner = context.initialSource,
-                projectileData = context.GetCurrentSubSpell().Projectile,
+                owner = context.InitialSource,
+                projectileData = context.CurrentSubSpell.Projectile,
 
-                spell = context.spell,
-                startSubContext = context.currentSubspell,
+                spell = context.Spell,
+                startSubContext = context.CurrentSubspell,
 
                 target = target,
                 origin = source
@@ -448,11 +437,11 @@ namespace Spells
             var projectilePrefab = Instantiate(new GameObject(), source.Position.Value, Quaternion.identity);
 
             var projectileData = projectilePrefab.AddComponent<ProjectileBehaviour>();
-            Instantiate(context.GetCurrentSubSpell().Projectile.ProjectilePrefab, projectilePrefab.transform);
+            Instantiate(context.CurrentSubSpell.Projectile.ProjectilePrefab, projectilePrefab.transform);
 
             projectileData.Initialize(projectileContext, context.caster);
 
-            context.subContext.projectileSpawned = true;
+            context.SubContext.projectileSpawned = true;
         }
 
         private static CharacterState[] GetAllCharacters()
@@ -497,14 +486,15 @@ namespace Spells
             TargetInfo target)
 
         {
-            switch (context.GetCurrentSubSpell().Area.Area)
+            switch (context.CurrentSubSpell.Area.Area)
             {
                 case AreaOfEffect.AreaType.Ray:
                 {
                     if (target.Character != null)
-                        if (context.GetCurrentSubSpell().Obstacles == SubSpell.ObstacleHandling.Break)
+                        if (context.CurrentSubSpell.Obstacles == SubSpell.ObstacleHandling.Break)
                         {
-                            Debugger.Default.DrawLine(source.Transform.position, target.Transform.position, Color.blue, 1);
+                            Debugger.Default.DrawLine(source.Transform.position, target.Transform.position, Color.blue,
+                                1);
                             return new[] {target};
                         }
 
@@ -550,12 +540,13 @@ namespace Spells
                     direction.y = 0;
 
                     var pos = target.Position.Value;
-                    var origin = (context.GetCurrentSubSpell().Origin & SubSpell.SpellOrigin.Self) == SubSpell.SpellOrigin.Self
-                        ? source.Position.Value 
+                    var origin = (context.CurrentSubSpell.Origin & SubSpell.SpellOrigin.Self) ==
+                                 SubSpell.SpellOrigin.Self
+                        ? source.Position.Value
                         : pos;
 
-                    var sphereSize = context.GetCurrentSubSpell().Area.Size;
-                    var maxAngle = context.GetCurrentSubSpell().Area.Angle;
+                    var sphereSize = context.CurrentSubSpell.Area.Size;
+                    var maxAngle = context.CurrentSubSpell.Area.Angle;
 
                     Debugger.Default.DrawCone(origin, direction, sphereSize, maxAngle, Color.blue, 1.0f);
 
@@ -575,8 +566,7 @@ namespace Spells
                             var angle = Vector3.Angle(direction, directionTo);
                             if (angle > 0)
                                 return angle < maxAngle;
-                            else
-                                return -angle < maxAngle;
+                            return -angle < maxAngle;
                         })
                         .Select(TargetInfo.Create).ToArray();
                 }
@@ -586,10 +576,10 @@ namespace Spells
                     Assert.IsTrue(target.Position.HasValue);
 
                     var pos = target.Position.Value;
-                    Debugger.Default.DrawCircleSphere(pos, context.GetCurrentSubSpell().Area.Size, Color.blue, 1);
+                    Debugger.Default.DrawCircleSphere(pos, context.CurrentSubSpell.Area.Size, Color.blue, 1);
 
                     return avalibleTargets.Where(t =>
-                            (t.transform.position - pos).magnitude < context.GetCurrentSubSpell().Area.Size)
+                            (t.transform.position - pos).magnitude < context.CurrentSubSpell.Area.Size)
                         .Select(TargetInfo.Create).ToArray();
                 }
                 //case AreaOfEffect.AreaType.Cylinder:
