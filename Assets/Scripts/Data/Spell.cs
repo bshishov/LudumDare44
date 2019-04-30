@@ -57,6 +57,8 @@ namespace Assets.Scripts.Data
         [Header("FX")]
         public GameObject SpellEffect;
 
+        public GameObject DropItem;
+
         public ISpellEffect GetEffect()
         {
             if (SpellEffect == null)

@@ -1,9 +1,10 @@
 ﻿using System;
 using Assets.Scripts;
+using Assets.Scripts.Utils;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class CameraController : MonoBehaviour
+public class CameraController : Singleton<CameraController>
 {
     [Header("Position & Movement")]
     public Vector3 TargetOffset;

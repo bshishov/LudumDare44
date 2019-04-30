@@ -84,7 +84,7 @@ namespace Spells
         {
             var slot = GetSpellSlot(spell);
             var pickupOptions = GetPickupOptions(spell);
-            Debug.Log($"Placing spell {spell.Name} into slot {slot}. PlaceMode = {pickupOptions}");
+            Debug.Log($"Placing spell {spell.name} into slot {slot}. PlaceMode = {pickupOptions}");
 
             switch (pickupOptions)
             {
@@ -184,7 +184,7 @@ namespace Spells
 
         private void AddSpellToSlot(int slotIndex, Spell spell)
         {
-            Debug.Log($"Spell {spell.Name} placed into slot {slotIndex}");
+            Debug.Log($"Spell {spell.name} placed into slot {slotIndex}");
             SpellSlots[slotIndex] = new SpellSlotState
             {
                 Spell = spell,
