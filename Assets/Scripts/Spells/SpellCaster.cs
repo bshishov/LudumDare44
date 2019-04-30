@@ -308,7 +308,7 @@ namespace Spells
             var currentTargets = context.GetCurrentSubSpellTargets();
             var newTargets = new SubSpellTargets {targetData = new List<SpellTargets>()};
 
-            if(context.effect != null)
+            if (context.effect != null)
                 context.effect.OnSubSpellStartCast(context.spell, context.GetCurrentSubSpell(), currentTargets);
 
             foreach (var targets in currentTargets.targetData)
@@ -361,7 +361,6 @@ namespace Spells
                     if ((context.GetCurrentSubSpell().Targeting & SubSpell.SpellTargeting.Target) ==
                         SubSpell.SpellTargeting.Target)
                     {
-
                     }
 
                     if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.Projectile) ==
@@ -503,16 +502,38 @@ namespace Spells
                     return null;
                 }
 
-                //case AreaOfEffect.AreaType.Cone:
-                //    return characters.Where(t => Vector3.Angle(ray.direction, (t.transform.position - ray.origin)) < area.Size).ToArray();
+                case AreaOfEffect.AreaType.Cone:
+                {
+                    Assert.IsTrue(target.Position.HasValue);
+                    Assert.IsTrue(source.Position.HasValue);
+
+                    var pos = target.Position.Value;
+                    var direction = target.Position.Value - source.Position.Value;
+
+                    var sphereSize = context.GetCurrentSubSpell().Area.Size;
+                    var maxAngle = context.GetCurrentSubSpell().Area.Angle;
+                    return avalibleTargets
+                        .Where(t =>
+                        {
+                            var directionTo = t.transform.position - pos;
+                            var inSphere = directionTo.magnitude < sphereSize;
+                            if (!inSphere)
+                                return false;
+
+                            var angle = Vector3.Angle(direction, directionTo);
+                            return maxAngle < angle || -angle < maxAngle;
+                        })
+                        .Select(TargetInfo.Create).ToArray();
+                }
 
                 case AreaOfEffect.AreaType.Sphere:
+                {
                     Assert.IsTrue(target.Position.HasValue);
                     var pos = target.Position.Value;
                     return avalibleTargets.Where(t =>
-                            ((t.transform.position - pos).magnitude < context.GetCurrentSubSpell().Area.Size))
+                            (t.transform.position - pos).magnitude < context.GetCurrentSubSpell().Area.Size)
                         .Select(TargetInfo.Create).ToArray();
-
+                }
                 //case AreaOfEffect.AreaType.Cylinder:
                 //    return characters.Where(t => Vector3.Cross(ray.direction, t.transform.position - ray.origin)
                 //        .magnitude < area.Size).ToArray();

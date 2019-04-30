@@ -17,6 +17,7 @@ namespace Assets.Scripts.Data
         }
 
         public float Size = 0.0f;
+        public float Angle = 45.0f;
         public AreaType Area;
     }
 }
