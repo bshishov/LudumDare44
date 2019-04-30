@@ -83,6 +83,11 @@ namespace Spells
                 startTime = Time.fixedTime,
                 stateActiveTime = 0.0f,
 
+                filteredTargets =
+                    (spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce
+                        ? new CharacterState[] { }
+                        : null,
+
                 subSpellTargets = new List<SubSpellTargets>
                 {
                     new SubSpellTargets
@@ -339,11 +344,6 @@ namespace Spells
             {
                 var source = castData.Source;
 
-                if ((context.spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == 0 || context.filteredTargets == null)
-                    context.filteredTargets = GetFilteredCharacters(context.initialSource,
-                        castData.Source.Character,
-                        context.GetCurrentSubSpell().AffectedTarget);
-
                 if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.SelfTarget) ==
                     SubSpell.SpellFlags.SelfTarget)
                     castData.Destinations = new[] {source};
@@ -370,10 +370,18 @@ namespace Spells
                         return true;
                     }
 
+                    var availableTargets = GetFilteredCharacters(
+                        context.initialSource,
+                        source.Character,
+                        context.GetCurrentSubSpell().AffectedTarget);
+
+                    if ((context.spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce)
+                        availableTargets = availableTargets.Except(context.filteredTargets).ToArray();
+
                     if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.Raycast) ==
                         SubSpell.SpellFlags.Raycast)
                     {
-                        var dst = GetAllCharacterInArea(context.filteredTargets, source, target, context);
+                        var dst = GetAllCharacterInArea(availableTargets, source, target, context);
                         if (dst != null && dst.Length > 0)
                             targets.AddRange(dst);
                     }
