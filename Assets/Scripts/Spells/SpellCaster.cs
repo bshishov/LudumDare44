@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Data;
 using Assets.Scripts.Utils.Debugger;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -111,6 +112,9 @@ namespace Spells
 
         private CharacterState _owner;
         public float MaxSpellDistance = 100.0f;
+
+        [CanBeNull]
+        public ISpellContext ActiveSpellContext => _context;
 
         // Start is called before the first frame update
         private void Start()
