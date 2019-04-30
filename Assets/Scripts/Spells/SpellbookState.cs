@@ -121,6 +121,10 @@ namespace Spells
 
         private void FireSpell(int index, SpellTargets targets)
         {
+            // Disable self cast
+            if (_characterState.Equals(targets.Destinations[0].Character))
+                return;
+
             Assert.IsTrue(index >= 0 && index <= SpellCount);
             var slotState = GetSpellSlotState(index);
             if (slotState.State == SpellState.Ready)
@@ -133,54 +137,15 @@ namespace Spells
             }
         }
 
-        public void TryFireSpellToPoint(int slotIndex, Vector3 targetPosition)
-        {
-            var target = new TargetInfo();
-
-            // Try locate target character located in target position
-            var results = Physics.OverlapSphere(targetPosition, 1f, LayerMask.GetMask("Actors"));
-            foreach (var result in results)
-            {
-                var character = result.GetComponent<CharacterState>();
-                if (character == null)
-                    continue;
-
-                if(character.Equals(_characterState))
-                    continue;
-                
-                if(!character.IsAlive)
-                    continue;
-
-                target.Character = character;
-                target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
-                break;
-            }
-            target.Position = targetPosition;
-
-            var data = new SpellTargets(
-                TargetInfo.Create(_characterState, _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter)),
-                target);
-
-
-            FireSpell(slotIndex, data);
-        }
 
         public void TryFireSpellToTarget(int slotIndex, CharacterState target)
-        {
-            // Disable cast on corpses
-            if(!target.IsAlive)
-                return;
+            =>  TryFireSpellToTarget(slotIndex, TargetInfo.Create(target, target.GetNodeTransform(CharacterState.NodeRole.Chest)));
 
-            // Disable self cast
-            if (target.Equals(_characterState))
-                return;
-
-            var data = new SpellTargets(
-                TargetInfo.Create(_characterState, _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter)), 
-                TargetInfo.Create(target, target.GetNodeTransform(CharacterState.NodeRole.Chest)));
-
-            FireSpell(slotIndex, data);
-        }
+        public void TryFireSpellToTarget(int slotIndex, TargetInfo target)
+            => FireSpell(slotIndex, 
+                new SpellTargets(
+                    TargetInfo.Create(_characterState, _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter))
+                    , target));
 
         private void AddSpellToSlot(int slotIndex, Spell spell)
         {

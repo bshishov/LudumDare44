@@ -10,6 +10,7 @@ namespace Assets.Scripts.Data
         public float Health;
         public float Damage;
         public float Speed;
+        [Range(0f, 1f)]
         public float Evasion = 0f;
         public float Size = 1f;
         public float HealthModifier = 1f;
@@ -21,6 +22,7 @@ namespace Assets.Scripts.Data
         public float AttackCooldown = 1f;        
 
         [Header("Drop Info")]
+        [Range(0f, 1f)]
         public float DropRate;
         [SerializeField]
         public List<Spell> DropSpells;

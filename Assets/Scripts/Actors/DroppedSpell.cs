@@ -16,6 +16,7 @@ namespace Actors
             {
                 character.Pickup(Spell);
                 Destroy(gameObject);
+                CameraController.Instance.Shake(0.5f);
             }
 
             if (interaction == Interaction.Discard)
@@ -27,6 +28,21 @@ namespace Actors
         public void Setup(Spell spell)
         {
             Spell = spell;
+        }
+        
+        public static GameObject InstantiateDroppedSpell(Spell spell, Vector3 position)
+        {
+            var go = GameObject.Instantiate(spell.DropItem, position, Quaternion.identity);
+            if (go != null)
+            {
+                var dSpell = go.GetComponent<DroppedSpell>();
+                if (dSpell != null)
+                {
+                    dSpell.Setup(spell);
+                }
+            }
+
+            return go;
         }
     }
 }
