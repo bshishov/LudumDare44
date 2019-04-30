@@ -59,9 +59,9 @@ namespace Spells
 
     public class SpellTargets
     {
-        public List<Vector3> Directions = new List<Vector3>();
+        public readonly List<Vector3> Directions = new List<Vector3>();
 
-        public TargetInfo Source;
+        public readonly TargetInfo Source;
         public TargetInfo[] Destinations;
 
         public SpellTargets(TargetInfo source)
@@ -87,13 +87,18 @@ namespace Spells
 
     public class SubSpellTargets
     {
-        public List<SpellTargets> targetData;
+        public List<SpellTargets> TargetData;
     }
 
     public interface ISpellEffect
     {
-        void OnSpellStateChange(Spell spell, ContextState newState);
-        void OnSubSpellStateChange(Spell spell, SubSpell subspell, ContextState newSubState);
-        void OnSubSpellStartCast(Spell spell, SubSpell subspell, SubSpellTargets data);
+        void OnStateChange(ISpellContext context, ContextState oldState);
+    }
+
+    public interface ISubSpellEffect
+    {
+        void OnTargetsPreSelected(ISpellContext context, SpellTargets targets);
+
+        void OnTargetsAffected(ISpellContext context, SpellTargets targets);
     }
 }
