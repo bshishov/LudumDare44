@@ -16,6 +16,7 @@ namespace Actors
             {
                 character.Pickup(Spell);
                 Destroy(gameObject);
+                CameraController.Instance.Shake(0.5f);
             }
 
             if (interaction == Interaction.Discard)

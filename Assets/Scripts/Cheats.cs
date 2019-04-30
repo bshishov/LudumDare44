@@ -40,6 +40,11 @@ public class Cheats : MonoBehaviour
             {
                 _playerState.Pickup(spell);
             });
+
+            Debugger.Default.Display(string.Format("Cheats/Drop Spell/{0}", spell.name), () =>
+            {
+                GameObject.Instantiate(spell.DropItem, _playerState.transform.position, Quaternion.identity);
+            });
         }
 
         foreach (var item in Items)
