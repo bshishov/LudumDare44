@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 833679637994059019}
   - component: {fileID: 315806632752945765}
   - component: {fileID: 1693040572691429479}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FireEmbers (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4683,7 +4683,7 @@ GameObject:
   - component: {fileID: 3993484698761832890}
   - component: {fileID: 8884863082629208310}
   - component: {fileID: 2643761194963410457}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mesh_Item_Book
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4782,7 +4782,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1721778585618548941}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4815,7 +4815,7 @@ GameObject:
   - component: {fileID: 2313204371107739898}
   - component: {fileID: 7215752701144794596}
   - component: {fileID: 3107179678607589573}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9565,7 +9565,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1343025373505927439}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9595,8 +9595,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5373773977228670683}
-  m_Layer: 0
-  m_Name: mesh_Item_Book
+  - component: {fileID: 7591657924257441192}
+  - component: {fileID: -5358399009518475109}
+  m_Layer: 9
+  m_Name: Dropped_Spell_Book
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9617,6 +9619,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7591657924257441192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8991475332634969288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8f3608adc028f945b8695d1079e367f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spell: {fileID: 0}
+--- !u!135 &-5358399009518475109
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8991475332634969288}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &4467612815845280997
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9624,6 +9652,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2337886414347317313}
     m_Modifications:
+    - target: {fileID: 3409368694553202507, guid: 3c45eac3d7c96fe4bb10ddbe28d3c03a,
+        type: 3}
+      propertyPath: m_Name
+      value: Point Light
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409368694553202507, guid: 3c45eac3d7c96fe4bb10ddbe28d3c03a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 8854239594274326339, guid: 3c45eac3d7c96fe4bb10ddbe28d3c03a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9678,11 +9716,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3409368694553202507, guid: 3c45eac3d7c96fe4bb10ddbe28d3c03a,
-        type: 3}
-      propertyPath: m_Name
-      value: Point Light
       objectReference: {fileID: 0}
     - target: {fileID: 7459722980612578603, guid: 3c45eac3d7c96fe4bb10ddbe28d3c03a,
         type: 3}

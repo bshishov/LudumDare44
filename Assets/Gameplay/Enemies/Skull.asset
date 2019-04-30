@@ -23,7 +23,7 @@ MonoBehaviour:
   FearRange: 0
   MeleeRange: 1
   AttackCooldown: 5
-  DropRate: 7
+  DropRate: 0.07
   DropSpells:
   - {fileID: 0}
   - {fileID: 11400000, guid: 4dea2418d8494ae43ba01a378694fbf2, type: 2}

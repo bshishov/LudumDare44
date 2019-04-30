@@ -23,6 +23,6 @@ MonoBehaviour:
   FearRange: 0
   MeleeRange: 1
   AttackCooldown: 0.5
-  DropRate: 5
+  DropRate: 0.05
   DropSpells: []
   UseSpells: []

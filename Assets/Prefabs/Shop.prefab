@@ -71,7 +71,8 @@ MonoBehaviour:
     Weight: 1
   - Item: {fileID: 11400000, guid: 7a11f8d9f544d104fa2e8757b9100b65, type: 2}
     Weight: 1
-  BuyEffect: {fileID: 1947871717301538, guid: a990e3ac1318b834488c784d851f42a9, type: 3}
+  BuyEffect: {fileID: 4946014130508622525, guid: b39816f03392bc642b9a8b7ddd8d31bf,
+    type: 3}
 --- !u!135 &851490440126079302
 SphereCollider:
   m_ObjectHideFlags: 0
