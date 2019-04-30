@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using Assets.Scripts.Utils.Debugger.Widgets;
 using UnityEngine;
+using UnityEngine.Rendering;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Utils.Debugger
 {
@@ -18,8 +20,10 @@ namespace Assets.Scripts.Utils.Debugger
         public KeyCode ActionKey = KeyCode.F5;
         public KeyCode NavigateUp = KeyCode.PageUp;
         public KeyCode NavigateDown = KeyCode.PageDown;
+        public KeyCode ToggleDebugDrawings = KeyCode.F6;
 
         private bool _isOpened;
+        private bool _isDrawingDebugLines;
 
         private readonly DebugNode _root = new DebugNode("Debug")
         {
@@ -30,9 +34,11 @@ namespace Assets.Scripts.Utils.Debugger
         private Logger _defaultLog;
         private readonly Cache<string, DebugNode> _pathCache = new Cache<string, DebugNode>();
         private readonly DrawingContext _context = new DrawingContext();
+        private Drawer _drawer;
 
         void Awake()
         {
+            _drawer = new Drawer();
             _defaultLog = GetLogger("Log");
             Display("Debug/Path cache", new Vector2(200, 20), rect =>
             {
@@ -82,6 +88,11 @@ namespace Assets.Scripts.Utils.Debugger
 
                 if (Input.GetKeyDown(ActionKey))
                     _context.ActionRequested = true;
+            }
+
+            if (Input.GetKeyDown(ToggleDebugDrawings))
+            {
+                _isDrawingDebugLines = !_isDrawingDebugLines;
             }
         }
 
@@ -256,6 +267,30 @@ namespace Assets.Scripts.Utils.Debugger
             });
         }
 
+        public void DrawRay(Ray ray, Color col, float maxRange = 100f)
+        {
+            if (_isDrawingDebugLines)
+                _drawer.DrawLine(ray.origin, ray.origin + ray.direction * maxRange, col);
+        }
+
+        public void DrawLine(Vector3 from, Vector3 to, Color col)
+        {
+            if(_isDrawingDebugLines)
+                _drawer.DrawLine(from, to, col);
+        }
+
+        public void DrawCircle(Vector3 center, Vector3 normal, float radius, Color col)
+        {
+            if (_isDrawingDebugLines)
+                _drawer.DrawCircle(center, normal, radius, col);
+        }
+
+        public void DrawCircleSphere(Vector3 center, float radius, Color col)
+        {
+            if (_isDrawingDebugLines)
+                _drawer.DrawCircleSphere(center, radius, col);
+        }
+
         public Logger GetLogger(string path)
         {
             var node = GetOrCreateNode(path);
@@ -268,6 +303,7 @@ namespace Assets.Scripts.Utils.Debugger
             node.Widget = p;
             return p;
         }
+        
 
         void OnGUI()
         {
