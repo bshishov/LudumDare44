@@ -523,6 +523,8 @@ namespace Spells
                     Assert.IsTrue(source.Position.HasValue);
 
                     var direction = target.Position.Value - source.Position.Value;
+                    direction.y = 0;
+
                     var pos = target.Position.Value;
                     var origin = (context.GetCurrentSubSpell().Origin & SubSpell.SpellOrigin.Self) == SubSpell.SpellOrigin.Self
                         ? source.Position.Value 
@@ -536,13 +538,21 @@ namespace Spells
                     return avalibleTargets
                         .Where(t =>
                         {
-                            var directionTo = t.transform.position - origin;
+                            var position = t.transform.position;
+                            Debugger.Default.DrawLine(origin, position, Color.green, 1.0f);
+
+                            var directionTo = position - origin;
+                            directionTo.y = 0;
+
                             var inSphere = directionTo.magnitude < sphereSize;
                             if (!inSphere)
                                 return false;
 
                             var angle = Vector3.Angle(direction, directionTo);
-                            return maxAngle < angle || -angle < maxAngle;
+                            if (angle > 0)
+                                return angle < maxAngle;
+                            else
+                                return -angle < maxAngle;
                         })
                         .Select(TargetInfo.Create).ToArray();
                 }
