@@ -169,17 +169,12 @@ public class CharacterState : MonoBehaviour
 
     void HandleDeath()
     {
-        if (DropSpells.Count > 0)
+        if (DropSpells.Count > 0 && Random.value < DropRate)
         {
             var spell = RandomUtils.Choice((IList<Spell>)DropSpells);
-            if (spell != null && spell.DropItem)
+            if (spell != null)
             {
-                var dropSpellObj = (GameObject)GameObject.Instantiate(spell.DropItem, GetNodeTransform(NodeRole.Chest).position, Quaternion.identity);
-                var dropSpell = dropSpellObj.GetComponent<DroppedSpell>();
-                if (dropSpell != null)
-                {
-                    dropSpell.Setup(spell);
-                }
+                DroppedSpell.InstantiateDroppedSpell(spell, GetNodeTransform(NodeRole.Chest).position);
             }
         }
 

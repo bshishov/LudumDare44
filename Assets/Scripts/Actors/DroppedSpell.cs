@@ -29,5 +29,20 @@ namespace Actors
         {
             Spell = spell;
         }
+        
+        public static GameObject InstantiateDroppedSpell(Spell spell, Vector3 position)
+        {
+            var go = GameObject.Instantiate(spell.DropItem, position, Quaternion.identity);
+            if (go != null)
+            {
+                var dSpell = go.GetComponent<DroppedSpell>();
+                if (dSpell != null)
+                {
+                    dSpell.Setup(spell);
+                }
+            }
+
+            return go;
+        }
     }
 }

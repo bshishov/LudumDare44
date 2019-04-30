@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Actors;
 using Assets.Scripts.Data;
 using Assets.Scripts.Utils.Debugger;
 using Spells;
@@ -43,7 +44,7 @@ public class Cheats : MonoBehaviour
 
             Debugger.Default.Display(string.Format("Cheats/Drop Spell/{0}", spell.name), () =>
             {
-                GameObject.Instantiate(spell.DropItem, _playerState.transform.position, Quaternion.identity);
+                DroppedSpell.InstantiateDroppedSpell(spell, _playerState.GetNodeTransform(CharacterState.NodeRole.Chest).transform.position);
             });
         }
 
