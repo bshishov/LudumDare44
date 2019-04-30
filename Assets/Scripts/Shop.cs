@@ -48,13 +48,13 @@ namespace Assets.Scripts
                 Text.text = CurrentPrice.ToString();
             }
 
-            if (PlaceTransform)
+            if (PlaceTransform == null)
                 PlaceTransform = transform;
 
             if (ActiveItem != null && ActiveItem.Prefab != null)
             {
-                _itemObject = GameObject.Instantiate(ActiveItem.Prefab, PlaceTransform);
-                _itemObject.transform.SetParent(PlaceTransform, worldPositionStays:false);
+                _itemObject = GameObject.Instantiate(ActiveItem.Prefab, 
+                    PlaceTransform.position, Quaternion.identity);
             }
         }
     

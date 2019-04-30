@@ -15,7 +15,7 @@ MonoBehaviour:
   Health: 75
   Damage: 50
   Speed: 2
-  Evasion: 0
+  Evasion: 0.2
   Size: 1
   HealthModifier: 1
   IndifferenceDistance: 30
@@ -23,7 +23,7 @@ MonoBehaviour:
   FearRange: 0
   MeleeRange: 1
   AttackCooldown: 4
-  DropRate: 1
+  DropRate: 0.05
   DropSpells:
   - {fileID: 0}
   UseSpells:

@@ -122,7 +122,7 @@ public class CharacterState : MonoBehaviour
         // Todo: track picked items and their stats
         foreach (var buff in item.Buffs)
         {
-            BuffPropertyNew(buff);
+            ApplyBuffProperty(buff);
         }
     }
     
@@ -199,19 +199,19 @@ public class CharacterState : MonoBehaviour
             {
                 if (buff.PerSecond)
                 {
-                    BuffPropertyNew(buff);
+                    ApplyBuffProperty(buff);
                 }
             }
             else
             {
                 if (!buff.PerSecond)
                 {
-                    BuffPropertyReturn(buff);
+                    RevertBuffProperty(buff);
                 }
                 AppliedBuffs.Remove(buff);
             }
         }
-
+        
         Health = Mathf.Min(Health + HealthRegen, MaxHealth);
     }
 
@@ -219,7 +219,8 @@ public class CharacterState : MonoBehaviour
     {
         if (IsAlive)
         {
-            Health -= Mathf.Abs(amount);
+            if(Random.value > Evasion)
+                Health -= Mathf.Abs(amount);
         }
 
         // Because health changed
@@ -259,21 +260,26 @@ public class CharacterState : MonoBehaviour
         }
         else
         {
+            if (buff.OnAppliedEffect != null)
+            {
+                GameObject.Instantiate(buff.OnAppliedEffect, GetNodeTransform(NodeRole.Chest), false);
+            }
+
             if (buff.Permanent)
             {
-                BuffPropertyNew(buff);
+                ApplyBuffProperty(buff);
             }
             else {
                 if (!buff.PerSecond)
                 {
-                    BuffPropertyNew(buff);
+                    ApplyBuffProperty(buff);
                 }
                 AppliedBuffs.Add(buff, buff.Duration);
             }            
         }
     }
 
-    void BuffPropertyNew(Buff buff)
+    void ApplyBuffProperty(Buff buff)
     {
         switch (buff.ChangedProperty)
         {
@@ -301,7 +307,7 @@ public class CharacterState : MonoBehaviour
         }
     }
 
-    void BuffPropertyReturn(Buff buff)
+    void RevertBuffProperty(Buff buff)
     {
         switch (buff.ChangedProperty)
         {
