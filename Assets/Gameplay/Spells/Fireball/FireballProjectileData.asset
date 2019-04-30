@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3030d9deb419ea245a3f54c0b8afad23, type: 3}
   m_Name: FireballProjectileData
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 2905237645726948510, guid: cedc92b3cf6e36b43af578c97fb96ea0,
+  ProjectilePrefab: {fileID: 2905237645726948510, guid: 6574070909f6a494385f2f20b8ee19a9,
     type: 3}
   Speed: 15
   MaxDistance: 50

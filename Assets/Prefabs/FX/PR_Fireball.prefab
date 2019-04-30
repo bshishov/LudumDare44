@@ -14372,7 +14372,7 @@ GameObject:
   - component: {fileID: 609536328053573851}
   - component: {fileID: 4159607665082516117}
   m_Layer: 8
-  m_Name: Fireball
+  m_Name: PR_Fireball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14405,7 +14405,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.49
-  m_Height: 0
-  m_Direction: 1
+  m_Radius: 0.38
+  m_Height: 1.22
+  m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
