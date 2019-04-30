@@ -108,20 +108,8 @@ public class CharacterState : MonoBehaviour
     {
         if (!IsAlive)
             return;
-
-        Assert.IsNotNull(_spellbook);
-        var option = _spellbook.GetPickupOptions(spell);
-
-        switch (option)
-        {
-            case SpellbookState.PlaceOptions.Place:
-                _spellbook.PlaceSpell(spell);
-                break;
-
-            default:
-                Debug.Log("Unhandled Pickup option");
-                break;
-        }
+        
+        _spellbook.PlaceSpell(spell);
     }
 
     public void Pickup(Item item)
