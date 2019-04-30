@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
-  m_Name: SubLightning
+  m_Name: PoisonDaggerProj
   m_EditorClassIdentifier: 
   Origin: 1
   PostCastDelay: 0
-  PreCastDelay: 0.5
-  Flags: 22
+  PreCastDelay: 0
+  Flags: 10
   AffectedTarget: 8
-  Obstacles: 4
-  Targeting: 2
-  Area: {fileID: 11400000, guid: 34e14946de751714fb0cf7c8383eb436, type: 2}
-  Projectile: {fileID: 0}
-  Buffs:
-  - {fileID: 11400000, guid: 96e442dfe34032b4dab6264023b79922, type: 2}
+  Obstacles: 2
+  Targeting: -1
+  Area: {fileID: 0}
+  Projectile: {fileID: 11400000, guid: c2b58c8479255004794d1b5a46887ac8, type: 2}
+  Buffs: []
