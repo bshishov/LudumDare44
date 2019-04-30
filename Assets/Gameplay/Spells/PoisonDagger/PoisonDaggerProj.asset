@@ -20,5 +20,5 @@ MonoBehaviour:
   Obstacles: 2
   Targeting: -1
   Area: {fileID: 0}
-  Projectile: {fileID: 11400000, guid: c2b58c8479255004794d1b5a46887ac8, type: 2}
+  Projectile: {fileID: 11400000, guid: 8fb3853ebcae0de4fb6e54df438c206b, type: 2}
   Buffs: []

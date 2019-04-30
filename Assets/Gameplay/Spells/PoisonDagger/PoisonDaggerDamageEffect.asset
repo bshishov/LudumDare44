@@ -22,4 +22,4 @@ MonoBehaviour:
   Area: {fileID: 11400000, guid: 34e14946de751714fb0cf7c8383eb436, type: 2}
   Projectile: {fileID: 0}
   Buffs:
-  - {fileID: 11400000, guid: afed5aefb88fadc4dae6c091bb727e73, type: 2}
+  - {fileID: 11400000, guid: 6868e38550283d749b30399de85e6160, type: 2}

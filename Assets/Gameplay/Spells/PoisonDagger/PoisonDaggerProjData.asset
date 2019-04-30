@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3030d9deb419ea245a3f54c0b8afad23, type: 3}
   m_Name: PoisonDaggerProjData
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 8329142908447375752, guid: 0011eb1cb25649544aedca6cc1b0b7fb,
+  ProjectilePrefab: {fileID: 429807270828845083, guid: b4d0a1ce57cf2e344bf93f6eacec71d4,
     type: 3}
   Speed: 40
   MaxDistance: 50

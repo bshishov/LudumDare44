@@ -20,7 +20,7 @@ MonoBehaviour:
   Cooldown: 0
   CastingTime: 1
   Flags: 0
-  PreCastDelay: 0
+  PreCastDelay: 0.1
   PostCastDelay: 0
   ChannelTime: 0
   SubSpells:

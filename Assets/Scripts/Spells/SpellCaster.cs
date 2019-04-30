@@ -344,18 +344,23 @@ namespace Spells
             foreach (var castData in currentTargets.targetData)
             {
                 var source = castData.Source;
+                CharacterState[] availableTargets = null;
 
                 if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.SelfTarget) ==
                     SubSpell.SpellFlags.SelfTarget)
                     castData.Destinations = new[] {source};
-                else if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.ClosestTarget) ==
-                         SubSpell.SpellFlags.ClosestTarget)
+
+                else if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.ClosestTarget)
+                         == SubSpell.SpellFlags.ClosestTarget)
+                {
+                    availableTargets = GetFilteredCharacters(context.initialSource, source.Character, context.GetCurrentSubSpell().AffectedTarget);
                     castData.Destinations = new[]
                     {
-                        TargetInfo.Create(context.filteredTargets
+                        TargetInfo.Create(availableTargets
                             .OrderBy(t => (t.transform.position - source.Position.Value).magnitude)
                             .FirstOrDefault())
                     };
+                }
 
                 foreach (var target in castData.Destinations)
                 {
@@ -371,10 +376,8 @@ namespace Spells
                         return true;
                     }
 
-                    var availableTargets = GetFilteredCharacters(
-                        context.initialSource,
-                        source.Character,
-                        context.GetCurrentSubSpell().AffectedTarget);
+                    if(availableTargets == null)
+                        availableTargets = GetFilteredCharacters(context.initialSource, source.Character, context.GetCurrentSubSpell().AffectedTarget);
 
                     if ((context.spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce)
                         availableTargets = availableTargets.Except(context.filteredTargets).ToArray();
