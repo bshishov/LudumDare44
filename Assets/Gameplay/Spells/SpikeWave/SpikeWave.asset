@@ -24,7 +24,7 @@ MonoBehaviour:
   PostCastDelay: 0
   ChannelTime: 0
   SubSpells:
-  - {fileID: 11400000, guid: 94474afc0958491479780fa636c55d39, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: 4cb3d184c6ea43d42a389a862c9449ad, type: 2}
   - {fileID: 11400000, guid: 4cb3d184c6ea43d42a389a862c9449ad, type: 2}
   SpellEffect: {fileID: 1349204274574646620, guid: 97b50922a392d41499e890a3452714e0,
