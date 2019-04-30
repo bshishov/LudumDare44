@@ -80,6 +80,16 @@ namespace Assets.Scripts.Utils.Debugger
 
             _queuedMeshes.RemoveAll((pair) => pair.until < Time.time);
         }
+
+        public void DrawCone(Vector3 origin, Vector3 direction, float sphereSize, float angle, Color color, float duration)
+        {
+            Debugger.Default.DrawCircleSphere(origin, sphereSize, color, duration);
+            Debugger.Default.DrawRay(new Ray(origin, direction), color, sphereSize, duration);
+            Debugger.Default.DrawRay(new Ray(origin, Quaternion.Euler(-angle, 0, 0) * direction), color, sphereSize, duration);
+            Debugger.Default.DrawRay(new Ray(origin, Quaternion.Euler(angle, 0, 0) * direction), color, sphereSize, duration);
+            Debugger.Default.DrawRay(new Ray(origin, Quaternion.Euler(0, -angle, 0) * direction), color, sphereSize, duration);
+            Debugger.Default.DrawRay(new Ray(origin, Quaternion.Euler(0, angle, 0) * direction), color, sphereSize, duration);
+        }
     }
 
     public static class MeshUtils

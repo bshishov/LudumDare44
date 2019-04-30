@@ -382,7 +382,7 @@ namespace Spells
                     if ((context.GetCurrentSubSpell().Flags & SubSpell.SpellFlags.Raycast) ==
                         SubSpell.SpellFlags.Raycast)
                     {
-                        var dst = GetAllCharacterInArea(availableTargets, source, target, context);
+                        var dst = GetAllCharacterInArea(context, availableTargets, source, target);
                         if (dst != null && dst.Length > 0)
                             targets.AddRange(dst);
                     }
@@ -467,10 +467,10 @@ namespace Spells
         }
 
         private static TargetInfo[] GetAllCharacterInArea(
+            SpellContext context,
             CharacterState[] avalibleTargets,
             TargetInfo source,
-            TargetInfo target,
-            SpellContext context)
+            TargetInfo target)
 
         {
             switch (context.GetCurrentSubSpell().Area.Area)
@@ -480,7 +480,7 @@ namespace Spells
                     if (target.Character != null)
                         if (context.GetCurrentSubSpell().Obstacles == SubSpell.ObstacleHandling.Break)
                         {
-                            Debugger.Default.DrawLine(source.Transform.position, target.Transform.position, Color.blue);
+                            Debugger.Default.DrawLine(source.Transform.position, target.Transform.position, Color.blue, 1);
                             return new[] {target};
                         }
 
@@ -522,15 +522,21 @@ namespace Spells
                     Assert.IsTrue(target.Position.HasValue);
                     Assert.IsTrue(source.Position.HasValue);
 
-                    var pos = target.Position.Value;
                     var direction = target.Position.Value - source.Position.Value;
+                    var pos = target.Position.Value;
+                    var origin = (context.GetCurrentSubSpell().Origin & SubSpell.SpellOrigin.Self) == SubSpell.SpellOrigin.Self
+                        ? source.Position.Value 
+                        : pos;
 
                     var sphereSize = context.GetCurrentSubSpell().Area.Size;
                     var maxAngle = context.GetCurrentSubSpell().Area.Angle;
+
+                    Debugger.Default.DrawCone(origin, direction, sphereSize, maxAngle, Color.blue, 1.0f);
+
                     return avalibleTargets
                         .Where(t =>
                         {
-                            var directionTo = t.transform.position - pos;
+                            var directionTo = t.transform.position - origin;
                             var inSphere = directionTo.magnitude < sphereSize;
                             if (!inSphere)
                                 return false;
@@ -546,7 +552,7 @@ namespace Spells
                     Assert.IsTrue(target.Position.HasValue);
 
                     var pos = target.Position.Value;
-                    Debugger.Default.DrawCircleSphere(pos, context.GetCurrentSubSpell().Area.Size, Color.blue);
+                    Debugger.Default.DrawCircleSphere(pos, context.GetCurrentSubSpell().Area.Size, Color.blue, 1);
 
                     return avalibleTargets.Where(t =>
                             (t.transform.position - pos).magnitude < context.GetCurrentSubSpell().Area.Size)

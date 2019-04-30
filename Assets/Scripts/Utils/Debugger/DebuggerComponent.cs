@@ -329,5 +329,11 @@ namespace Assets.Scripts.Utils.Debugger
             _context.ActionRequested = false;
             _context.CursorIndex = Mathf.Clamp(_context.CursorIndex, 0, _context.Index - 1);
         }
+
+        public void DrawCone(Vector3 origin, Vector3 direction, float sphereSize, float angle, Color color, float duration)
+        {
+            if (_isDrawingDebugLines)
+                _drawer.DrawCone(origin, direction, sphereSize, angle, color, duration);
+        }
     }
 }
