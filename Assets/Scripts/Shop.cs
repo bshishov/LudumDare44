@@ -84,7 +84,7 @@ namespace Assets.Scripts
                 RemoveItemAndClose();
 
                 if (BuyEffect != null)
-                    GameObject.Instantiate(BuyEffect, PlaceTransform);
+                    GameObject.Instantiate(BuyEffect, PlaceTransform.position, Quaternion.identity);
 
                 var shopGroup = GetComponentInParent<ShopGroup>();
                 if(shopGroup != null)
