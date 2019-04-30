@@ -141,20 +141,19 @@ namespace Spells
             var results = Physics.OverlapSphere(targetPosition, 1f, LayerMask.GetMask("Actors"));
             foreach (var result in results)
             {
-                target.Character = result.GetComponent<CharacterState>();
-                if (target.Character != null)
-                {
-                    if (!target.Character.IsAlive)
-                    {
-                        target.Character = null;
-                    }
-                    else
-                    {
-                        target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
-                    }
+                var character = result.GetComponent<CharacterState>();
+                if (character == null)
+                    continue;
 
-                    break;
-                }
+                if(character.Equals(_characterState))
+                    continue;
+                
+                if(!character.IsAlive)
+                    continue;
+
+                target.Character = character;
+                target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
+                break;
             }
             target.Position = targetPosition;
 
@@ -168,6 +167,14 @@ namespace Spells
 
         public void TryFireSpellToTarget(int slotIndex, CharacterState target)
         {
+            // Disable cast on corpses
+            if(!target.IsAlive)
+                return;
+
+            // Disable self cast
+            if (target.Equals(_characterState))
+                return;
+
             var data = new SpellTargets(
                 TargetInfo.Create(_characterState, _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter)), 
                 TargetInfo.Create(target, target.GetNodeTransform(CharacterState.NodeRole.Chest)));
