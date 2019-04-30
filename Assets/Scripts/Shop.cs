@@ -1,12 +1,13 @@
 ﻿using System;
 using Assets.Scripts.Data;
 using Assets.Scripts.Utils;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts
 {
-    public class Shop : MonoBehaviour
+    public class Shop : MonoBehaviour, IInteractable
     {
         public enum ShopState
         {
@@ -24,10 +25,11 @@ namespace Assets.Scripts
 
         public ShopState State = ShopState.None;
         public Item ActiveItem;
+        public TextMeshPro Text;
         public float CurrentPrice { get; private set; }
         public Transform PlaceTransform;
-
         public ItemEntry[] ItemPool;
+        public GameObject BuyEffect;
 
         private GameObject _itemObject;
 
@@ -43,6 +45,7 @@ namespace Assets.Scripts
                 ActiveItem = entry.Item;
                 CurrentPrice = entry.Item.Cost;
                 State = ShopState.WithItem;
+                Text.text = CurrentPrice.ToString();
             }
 
             if (PlaceTransform)
@@ -58,12 +61,13 @@ namespace Assets.Scripts
         {
         }
 
-        void DropItem()
+        public void RemoveItemAndClose()
         {
             ActiveItem = null;
             State = ShopState.Sold;
             if(_itemObject != null)
                 Destroy(_itemObject);
+            Text.text = string.Empty;
         }
 
         public void Buy(CharacterState character)
@@ -77,12 +81,27 @@ namespace Assets.Scripts
             if (character.SpendCurrency(CurrentPrice))
             {
                 character.Pickup(ActiveItem);
-                DropItem();
+                RemoveItemAndClose();
+
+                if (BuyEffect != null)
+                    GameObject.Instantiate(BuyEffect, PlaceTransform.position, Quaternion.identity);
+
+                var shopGroup = GetComponentInParent<ShopGroup>();
+                if(shopGroup != null)
+                    shopGroup.CloseAll();
             }
             else
             {
                 Debug.Log("Insufficient funds");
             }
+        }
+
+        public InteractableType Type => InteractableType.Shop;
+
+        public void Interact(CharacterState character, Interaction interaction)
+        {
+            if (interaction == Interaction.Buy)
+                Buy(character);
         }
     }
 }

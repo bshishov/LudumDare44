@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Assets.Scripts.Data;
 using UnityEngine;
 
@@ -34,6 +36,25 @@ namespace Spells
 
         public static TargetInfo Create(CharacterState character)
             => Create(character, character.GetNodeTransform());
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            if (Character != null)
+            {
+                sb.Append($"Character = {Character}\r\n");
+            }
+            if (Transform != null)
+            {
+                sb.Append($"Transform = {Transform}\r\n");
+            }
+            if (Position.HasValue == true)
+            {
+                sb.Append($"Position = {Position.Value}\r\n");
+            }
+
+            return sb.ToString();
+        }
     }
 
     public class SpellTargets
@@ -51,6 +72,14 @@ namespace Spells
         {
             Source = source;
             Destinations = new []{ target };
+        }
+
+        public override string ToString()
+        {
+            string dst = "";
+            if(Destinations != null && Destinations.Length > 0)
+                dst = string.Join("; ", Destinations.Select(d => d.ToString()));
+            return $"Source = {Source}, Destinations = {dst}";
         }
     }
 
