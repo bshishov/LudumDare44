@@ -34,6 +34,10 @@ namespace Spells
         private static SubSpell.ObstacleHandling _requireCollisionMask =
             SubSpell.ObstacleHandling.ExecuteSpellSequence | SubSpell.ObstacleHandling.Break | SubSpell.ObstacleHandling.IgnoreButTarget;
 
+        private Rigidbody _rigidbody;
+        private Collider _collider
+            ;
+
 
         public void Initialize(ProjectileContext context, SpellCaster caster)
         {
@@ -50,11 +54,13 @@ namespace Spells
             _direction = _context.target.Position.Value - transform.position;
             _direction = _direction.normalized;
 
+            _collider = gameObject.GetComponentInChildren<Collider>();
+
             if ((_requireCollisionMask & _context.GetProjectileSubSpell().Obstacles) != 0)
             {
-                var sphere = gameObject.AddComponent<Rigidbody>();
-                sphere.isKinematic = false;
-                sphere.useGravity = false;
+                _rigidbody = gameObject.AddComponent<Rigidbody>();
+                _rigidbody.isKinematic = false;
+                _rigidbody.useGravity = false;
             }
 
             switch (_context.projectileData.Trajectory)
@@ -152,8 +158,8 @@ namespace Spells
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(_context.origin.Position.Value, _context.target.Position.Value);
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawCube(_collider.bounds.center, _collider.bounds.size);
 
         }
     }

@@ -63,23 +63,52 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        var target = new TargetInfo();
         var groundPoint = Vector3.zero;
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (_ground.Raycast(ray, out var enter))
         {
-            groundPoint = ray.GetPoint(enter);
+            target.Position = ray.GetPoint(enter);
         }
 
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, LayerMask.GetMask("Actors")))
+        if (Physics.Raycast(ray, out var hit, LayerMask.GetMask("Actors")))
         {
-            var tgtCharacter = hit.transform.GetComponent<CharacterState>();
-            if(tgtCharacter != null)
-                _spellbook.TryFireSpellToTarget(slotIndex, tgtCharacter);
+            target.Character = hit.transform.GetComponent<CharacterState>();
+        }
+        else if(target.Position.HasValue)
+        {
+            var targetPosition = target.Position.Value;
+
+            // Try locate target character located in target position
+            var results = Physics.OverlapSphere(targetPosition, 1f, LayerMask.GetMask("Actors"));
+            foreach (var result in results)
+            {
+                var character = result.GetComponent<CharacterState>();
+                if (character == null)
+                    continue;
+                
+                target.Character = character;
+                break;
+            }
+            target.Position = targetPosition;
+
+            var data = new SpellTargets(
+                TargetInfo.Create(_characterState, _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter)),
+                target);
+        }
+        else
+        {
+            Debug.LogWarning("Cant find any spell target");
             return;
         }
-        
-        _spellbook.TryFireSpellToPoint(slotIndex, groundPoint);
+
+        if (target.Character)
+        {
+            target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
+            target.Position = target.Transform.position;
+        }
+
+        _spellbook.TryFireSpellToTarget(slotIndex, target);
     }
 
     private void TryInteract(Interaction interaction)

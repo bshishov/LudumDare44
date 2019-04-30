@@ -14,12 +14,24 @@ Material:
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3001
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_4882356E:
+        m_Texture: {fileID: 2800000, guid: 8270e459bf5225d47b8a711dbc32a0b7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_567A1A6F:
+        m_Texture: {fileID: 2800000, guid: e807e449bc714da439b7c7d0f6bbb273, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_5B74742:
+        m_Texture: {fileID: 2800000, guid: a7ff7f32f8f0c724681cc130cdd7a724, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_97B584ED:
         m_Texture: {fileID: 2800000, guid: 9b32d16b0cb726c43af5bb1674f8baea, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -54,9 +66,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_10154199: 1
+    - Vector1_103404C0: 2
     - Vector1_24DC7CB6: 30
     - Vector1_89F14894: 1
     - Vector1_951CFA77: 0.329
+    - Vector1_B2B77134: 0.023
     - Vector1_C60959E6: 2.58
     - Vector1_C7706716: 0
     - Vector1_E93467C6: 0.271
@@ -105,6 +119,9 @@ Material:
     - Color_281A855D: {r: 0, g: 0, b: 0, a: 0}
     - Color_B340782C: {r: 0, g: 1, b: 1, a: 0}
     - Color_BFD9BFD3: {r: 1, g: 1, b: 1, a: 0}
+    - Color_EA9D2343: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 0}
+    - Color_EAB3F06F: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 0}
+    - Vector2_F22E0A41: {r: 40, g: 40, b: 0, a: 0}
     - Vector3_A9C3AA14: {r: 30, g: 45, b: 0, a: 0}
     - _BaseColor: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
