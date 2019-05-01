@@ -69,6 +69,9 @@ public class Cheats : MonoBehaviour
     void Update()
     {
 #if DEBUG
+        if(_playerController == null || _playerSpellbookState)
+            return;
+
         var spellSlotIdx = 0;
         foreach (var spellbookStateSpellSlot in _playerSpellbookState.SpellSlots)
         {

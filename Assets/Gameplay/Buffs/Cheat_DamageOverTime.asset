@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
-  m_Name: Cheat_FireDamage
+  m_Name: Cheat_DamageOverTime
   m_EditorClassIdentifier: 
   Name: Fire
-  Behaviour: 0
+  Behaviour: 1
   TickCooldown: 0.5
-  Duration: 4
+  Duration: 5
   Modifiers:
-  - Parameter: 5
-    Value: 3
-    PerStackMultiplier: 1.5
+  - Parameter: 1
+    Value: -5
+    PerStackMultiplier: 1
   OnApplyBuff: []
   OnTickBuff: []
   OnRemove: []

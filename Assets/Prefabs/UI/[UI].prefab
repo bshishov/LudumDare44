@@ -2098,7 +2098,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 315, y: 32}
+  m_SizeDelta: {x: 276.95, y: 32}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &7100245107633056631
 CanvasRenderer:
@@ -2760,12 +2760,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3692108666499867564, guid: fcea65bcfffb4fa4ba8f4325f8ba7e14,
         type: 3}
-    - target: {fileID: 5422598960028570725, guid: 942d3e29357d44a448005d87f1027e67,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 3692108666499867564, guid: fcea65bcfffb4fa4ba8f4325f8ba7e14,
-        type: 3}
     - target: {fileID: 1786944404747806841, guid: 942d3e29357d44a448005d87f1027e67,
         type: 3}
       propertyPath: m_Sprite
@@ -2777,6 +2771,12 @@ PrefabInstance:
       propertyPath: m_Type
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5422598960028570725, guid: 942d3e29357d44a448005d87f1027e67,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3692108666499867564, guid: fcea65bcfffb4fa4ba8f4325f8ba7e14,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 942d3e29357d44a448005d87f1027e67, type: 3}
 --- !u!224 &7725643081391958018 stripped

@@ -19,11 +19,15 @@ namespace Assets.Scripts.Utils.Debugger.Widgets
 
         public Vector2 GetSize(Style style)
         {
-            return Vector2.zero;
+            return new Vector2(100, 20);
         }
 
         public void Draw(Rect rect, Style style)
         {
+            if (GUI.Button(rect, "<Click or F5>"))
+            {
+                DoAction();
+            }
         }
 
         public void SetValue(object o)

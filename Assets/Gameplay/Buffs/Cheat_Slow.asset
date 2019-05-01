@@ -10,20 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
-  m_Name: Cheat_Regen
+  m_Name: Cheat_Slow
   m_EditorClassIdentifier: 
-  Name: Regen
+  Name: Slowdown
   Behaviour: 1
-  TickCooldown: 0.1
+  TickCooldown: 1
   Duration: 5
-  Modifiers: []
+  Modifiers:
+  - Parameter: 10
+    Value: -1
+    PerStackMultiplier: 1
   OnApplyBuff: []
-  OnTickBuff:
-  - ApplyModifier:
-      Parameter: 1
-      Value: 1
-      PerStackMultiplier: 1
-    CastSpell: {fileID: 0}
-    SpawnObject: {fileID: 3194528183578555780, guid: ddbd5bc898215eb45bad24f9f6821cb7,
-      type: 3}
+  OnTickBuff: []
   OnRemove: []

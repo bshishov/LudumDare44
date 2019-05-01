@@ -37,10 +37,18 @@ public class CharacterState : MonoBehaviour
         public float TickCd;
         public int Stacks = 1;
 
+        public BuffState(Buff buff, int stacks = 1)
+        {
+            Stacks = 1;
+            Buff = buff;
+            TimeRemaining = buff.Duration;
+            TickCd = 0;
+        }
+
         public void Refresh()
         {
             TimeRemaining = Buff.Duration;
-            TickCd = Buff.TickCooldown;
+            TickCd = 0;
         }
     }
 
@@ -66,28 +74,28 @@ public class CharacterState : MonoBehaviour
     private float _maxHpFlatModSum;
     private float _maxHpMultModSum;
     public float Health => _hp;
-    public float MaxHealth => (character.Health + _maxHpFlatModSum) * (1 + _maxHpMultModSum);
+    public float MaxHealth => (character.Health + _maxHpFlatModSum) * (1 + ELU(_maxHpMultModSum));
 
     // ========= Damage
     private float _dmgFlatModSum;
     private float _dmgMultModSum;
-    public float Damage => character.Damage * (1 + _dmgMultModSum) + _dmgFlatModSum;
+    public float Damage => character.Damage * (1 + ELU(_dmgMultModSum)) + _dmgFlatModSum;
 
     // ======== Evasion
     // All sources multiplicative aggregation 
     // [0, 1] range. Multiplication product of every (1 - evasion chance mod)
-    private float _evasionModMulProduct;
+    private float _evasionModMulProduct = 1f;
     public float Evasion => 1 - (1 - character.Evasion) * _evasionModMulProduct;
 
     // ========= Speed
     private float _speedFlatModSum;
     private float _speedMultModSum;
-    public float Speed => (character.Speed + _speedFlatModSum) * (1 + _speedMultModSum);
+    public float Speed => Mathf.Max((character.Speed + _speedFlatModSum) * (1 + ELU(_speedMultModSum)), 0);
 
     // ========= Size
     private float _sizeFlatModSum;
     private float _sizeMultModSum;
-    public float Size => (character.Size + _sizeFlatModSum) * (1 + _sizeMultModSum);
+    public float Size => (character.Size + _sizeFlatModSum) * (1 + ELU(_sizeMultModSum));
 
     // ========= AdditionSpellStacks
     private float _assFlatMod;
@@ -162,17 +170,19 @@ public class CharacterState : MonoBehaviour
             switch (buff.Behaviour)
             {
                 case BuffStackBehaviour.MaxStacksOfTwo:
-                    state.Refresh();
-                    // TODO: DO SOMETHING WITH ALREADY APPLIED MODIFIERS
+                    RevertBuffModifiers(state.Buff, state.Stacks);
                     state.Stacks = Mathf.Max(stacks, state.Stacks);
+                    ApplyBuffModifiers(state.Buff, state.Stacks);
+                    state.Refresh();
                     break;
                 case BuffStackBehaviour.AddNewAsSeparate:
                     AddBuff();
                     break;
                 case BuffStackBehaviour.SumStacks:
-                    state.Refresh();
-                    // TODO: DO SOMETHING WITH ALREADY APPLIED MODIFIERS
+                    RevertBuffModifiers(state.Buff, state.Stacks);
                     state.Stacks += stacks;
+                    ApplyBuffModifiers(state.Buff, state.Stacks);
+                    state.Refresh();
                     break;
                 case BuffStackBehaviour.Discard:
                     break;
@@ -183,19 +193,28 @@ public class CharacterState : MonoBehaviour
             AddBuff();
         }
 
+        void RevertBuffModifiers(Buff b, int s)
+        {
+            if (b.Modifiers != null)
+                foreach (var mod in b.Modifiers)
+                    RevertModifier(mod, s);
+        }
+
+        void ApplyBuffModifiers(Buff b, int s)
+        {
+            if (b.Modifiers != null)
+                foreach (var mod in b.Modifiers)
+                    ApplyModifier(mod, s);
+        }
+
         void AddBuff()
         {
-            if(buff.Modifiers != null)
-                foreach (var mod in buff.Modifiers)
-                    ApplyModifier(mod, stacks);
-
-            _states.Add(new BuffState
-            {
-                Buff = buff,
-                Stacks = stacks,
-                TickCd = buff.TickCooldown,
-                TimeRemaining = buff.Duration
-            });
+            ApplyBuffModifiers(buff, stacks);
+            _states.Add(new BuffState(buff, stacks));
+            Debug.LogFormat("<b>{0}</b> received buff <b>{1}</b> with <b>{2}</b> stacks", 
+                gameObject.name,
+                buff.name,
+                stacks);
         }
     }
 
@@ -214,8 +233,13 @@ public class CharacterState : MonoBehaviour
                 false);
     }
 
-    public void ApplyModifier(Modifier modifier, int stacks=1)
+    public void ApplyModifier(Modifier modifier, int stacks)
     {
+        Debug.LogFormat("Applied modifier <b>{0}</b> with value <b>{1}</b>. Stacks: <b>{2}</b>. StackMultiplier: <b>{3}</b>", 
+            modifier.Parameter, 
+            modifier.Value, 
+            stacks, 
+            modifier.PerStackMultiplier);
         var hpFraction = _hp / MaxHealth;
         switch (modifier.Parameter)
         {
@@ -264,6 +288,16 @@ public class CharacterState : MonoBehaviour
         }
     }
 
+    public void RevertModifier(Modifier modifier, int stacks)
+    {
+        ApplyModifier(new Modifier
+        {
+            Parameter = modifier.Parameter,
+            PerStackMultiplier = modifier.PerStackMultiplier,
+            Value = -modifier.Value
+        }, stacks);
+    }
+
     private void SetHp(float targetHp)
     {
         targetHp = Mathf.Clamp(targetHp, -1, MaxHealth);
@@ -294,7 +328,7 @@ public class CharacterState : MonoBehaviour
             Parameter = ModificationParameter.MaxHpFlat,
             PerStackMultiplier = 1f,
             Value = -amount
-        });
+        }, 1);
         return true;
     }
     
@@ -303,6 +337,10 @@ public class CharacterState : MonoBehaviour
         if (IsAlive)
         {
             _timeBeforeNextAttack += Time.deltaTime;
+        }
+        else
+        {
+            return;
         }
         
 #if DEBUG
@@ -337,14 +375,7 @@ public class CharacterState : MonoBehaviour
 
                 if(buffState.Buff.Modifiers != null)
                     foreach (var buffModifier in buffState.Buff.Modifiers)
-                    {
-                        ApplyModifier(new Modifier
-                        {
-                            Parameter = buffModifier.Parameter,
-                            Value = -buffModifier.Value,
-                            PerStackMultiplier = buffModifier.PerStackMultiplier
-                        });
-                    }
+                        RevertModifier(buffModifier, buffState.Stacks);
 
                 _states.RemoveAt(i);
             }
@@ -354,11 +385,28 @@ public class CharacterState : MonoBehaviour
 #if DEBUG
     void DisplayState()
     {
+        var buffs = gameObject.name + "/Buffs states/";
+        foreach (var buffState in _states)
+        {
+            Debugger.Default.Display(buffs + buffState.Buff.name + "/Stacks", buffState.Stacks);
+            Debugger.Default.Display(buffs + buffState.Buff.name + "/Tick CD", buffState.TickCd);
+            Debugger.Default.Display(buffs + buffState.Buff.name + "/Time remaining", buffState.TimeRemaining);
+        }
+
         Debugger.Default.Display(gameObject.name + "/Health", Health);
         Debugger.Default.Display(gameObject.name + "/MaxHealth", MaxHealth);
+        Debugger.Default.Display(gameObject.name + "/MaxHealth/MultModSum", _maxHpMultModSum);
+        Debugger.Default.Display(gameObject.name + "/MaxHealth/FlatModSum", _maxHpFlatModSum);
         Debugger.Default.Display(gameObject.name + "/Speed", Speed);
+        Debugger.Default.Display(gameObject.name + "/Speed/FlatModSum", _speedFlatModSum);
+        Debugger.Default.Display(gameObject.name + "/Speed/MultModSum", _speedMultModSum);
         Debugger.Default.Display(gameObject.name + "/Damage", Damage);
+        Debugger.Default.Display(gameObject.name + "/Damage/FlatModSum", _dmgFlatModSum);
+        Debugger.Default.Display(gameObject.name + "/Damage/MultModSum", _dmgMultModSum);
         Debugger.Default.Display(gameObject.name + "/Evasion", Evasion);
+        Debugger.Default.Display(gameObject.name + "/Evasion/MultProd", _evasionModMulProduct);
+
+
     }
 #endif
 
@@ -383,17 +431,19 @@ public class CharacterState : MonoBehaviour
         if (IsAlive)
         {
             if (Random.value > Evasion)
+            {
                 SetHp(_hp - amount);
-        }
 
-        // Because health changed
-        if (Health <= 0)
-        {
-            HandleDeath();
-        }
-        else
-        {
-            _animationController.PlayHitImpactAnimation();
+                // Because health changed
+                if (Health <= 0)
+                {
+                    HandleDeath();
+                }
+                else
+                {
+                    _animationController.PlayHitImpactAnimation();
+                }
+            }
         }
     }
     
@@ -431,5 +481,12 @@ public class CharacterState : MonoBehaviour
         var tDefault = GetNodeTransform(NodeRole.Default);
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(tDefault.position, .1f);
+    }
+
+    public static float ELU(float x, float alpha=1f)
+    {
+        if (x >= 0)
+            return x;
+        return alpha * (Mathf.Exp(x) - 1);
     }
 }

@@ -55,6 +55,8 @@ namespace Assets.Scripts.Data
         public float Duration = 1f;
 
         [Header("Modifiers")]
+        // Changes that will be applied once the buff is applied
+        // and will be REVERTED when buff removed
         public Modifier[] Modifiers;
 
         [Header("Affects")]
