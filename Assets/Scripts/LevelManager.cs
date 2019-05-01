@@ -11,7 +11,7 @@ namespace Assets.Scripts.Utils
     public class LevelManager : Singleton<LevelManager>
     {
         public UI.UICanvasGroupFader ScreenFader;
-        //public Sound Music;
+        public Sound.Sound Music;
         private string _nextLevelRequest;
 
         void Start()
@@ -22,7 +22,8 @@ namespace Assets.Scripts.Utils
             ScreenFader.StateChanged += StateChanged;
             ScreenFader.FadeOut();
 
-            //SoundManager.Instance.PlayMusic(Music);
+            if (Music != null)
+                Sound.SoundManager.Instance.PlayMusic(Music);
         }
 
         void OnLevelWasLoaded(int level)
