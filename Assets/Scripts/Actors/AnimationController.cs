@@ -2,12 +2,15 @@
 using Assets.Scripts.Utils;
 using Assets.Scripts.Utils.Debugger;
 using UnityEngine;
+using UnityEngine.AI;
+
 
 
 public class AnimationController : MonoBehaviour
 {
     public Animator Animator;
     public float SpeedMultiplier = 1f;
+    private float _timeUntilDestroy = 5f;
 
     [Header("Material configuration")]
     public float ImpactDecayTime = 0.1f;
@@ -39,6 +42,7 @@ public class AnimationController : MonoBehaviour
     private Vector2 _dirVelocity;
     private Vector2 _moveDir;
     private float _impactTime;
+    private Vector3 _toHell = new Vector3(0f, 0.003f, 0f);
 
     void Start()
     {
@@ -146,6 +150,18 @@ public class AnimationController : MonoBehaviour
 
     private void Update()
     {
+        if (_disabled && _timeUntilDestroy>0f)
+        {
+            _timeUntilDestroy -= Time.deltaTime;
+            GetComponent<NavMeshAgent>().enabled = false;
+        }
+        if (_disabled && _timeUntilDestroy <= 0f)
+        {            
+            transform.position -= _toHell;
+        }
+        if (transform.position.y < -0.5f)
+            Destroy(gameObject);
+
         _impactTime = Mathf.Max(_impactTime - Time.deltaTime, 0);
         if (Renderers != null)
         {
