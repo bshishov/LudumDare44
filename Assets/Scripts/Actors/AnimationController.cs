@@ -58,18 +58,6 @@ public class AnimationController : MonoBehaviour
 
         Debugger.Default.Display("Animation/Play Death", PlayDeathAnimation);
         Debugger.Default.Display("Animation/Play Attack", PlayAttackAnimation);
-        //Debugger.Default.Display("Animation/Play Cast AoE", () =>
-        //{
-        //    PlayCastAnimation(SubSpell.SpellTypes.Aoe);
-        //});
-        //Debugger.Default.Display("Animation/Play Cast Projectile", () =>
-        //{
-        //    PlayCastAnimation(SubSpell.SpellTypes.Projectile);
-        //});
-        //Debugger.Default.Display("Animation/Play Cast Raycast", () =>
-        //{
-        //    PlayCastAnimation(SubSpell.SpellTypes.Raycast);
-        //});
         Debugger.Default.Display("Animation/Force enable", () => { _disabled = false; });
 
         _lastPosition = transform.position;
@@ -99,25 +87,6 @@ public class AnimationController : MonoBehaviour
         
         Animator.SetTrigger(Attack);
     }
-
-    //public void PlayCastAnimation(Spell.SpellTypes spellType = SubSpell.SpellTypes.Raycast)
-    //{
-    //    if (_disabled)
-    //        return;
-
-    //    switch (spellType)
-    //    {
-    //        case SubSpell.SpellTypes.Raycast:
-    //            Animator.SetTrigger(CastTarget);
-    //            break;
-    //        case SubSpell.SpellTypes.Aoe:
-    //            Animator.SetTrigger(CastAoE);
-    //            break;
-    //        case SubSpell.SpellTypes.Projectile:
-    //            Animator.SetTrigger(CastProjectile);
-    //            break;
-    //    }
-    //}
 
     public void PlayHitImpactAnimation()
     {
@@ -192,5 +161,13 @@ public class AnimationController : MonoBehaviour
 
             _lastPosition = transform.position;
         }
+    }
+
+    public void PlayCastAnimation()
+    {
+        if(_disabled)
+            return;
+
+        Animator.SetTrigger(CastTarget);
     }
 }
