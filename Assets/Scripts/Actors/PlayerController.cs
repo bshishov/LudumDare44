@@ -142,6 +142,7 @@ public class PlayerController : MonoBehaviour
     {
         var motionVector = moveDirection.normalized * maxSpeed * Time.deltaTime;
 
+        _agent.speed = _characterState.Speed;
         _agent.Move(motionVector);
         _agent.SetDestination(transform.position + motionVector);
     }

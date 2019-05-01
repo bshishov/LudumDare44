@@ -84,7 +84,7 @@ public class EnemyController : MonoBehaviour
                                 if (_characterState.CanDealDamage())
                                 {
                                     _navMeshAgent.isStopped = true;
-                                    player.ReceiveDamage(_characterState.character.Damage);
+                                    player.ReceiveDamage(_characterState.Damage);
                                     transform.rotation = Quaternion.LookRotation(len);
                                     _characterState.GetComponent<AnimationController>().PlayAttackAnimation();
                                 }

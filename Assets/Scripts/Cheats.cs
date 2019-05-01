@@ -27,6 +27,7 @@ public class Cheats : MonoBehaviour
         _playerState = _playerController.GetComponent<CharacterState>();
         _playerSpellbookState = _playerController.GetComponent<SpellbookState>();
 
+        if(Buffs != null)
         foreach (var buff in Buffs)
         {
             Debugger.Default.Display(string.Format("Cheats/Apply Buffs/{0}", buff.name), () =>
