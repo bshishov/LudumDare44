@@ -19,13 +19,13 @@ namespace Assets.Scripts.Utils.UI
             if (_fader.State == UICanvasGroupFader.FaderState.FadedIn)
             {
                 Time.timeScale = 0f;
-                CastPanel.SetActive(false);
+                //CastPanel.SetActive(false);
             }
 
             if (_fader.State == UICanvasGroupFader.FaderState.FadedOut)
             {
                 Time.timeScale = 1f;
-                CastPanel.SetActive(true);
+                //CastPanel.SetActive(true);
             }
         }
 
