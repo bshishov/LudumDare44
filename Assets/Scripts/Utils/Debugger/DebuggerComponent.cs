@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using Assets.Scripts.Utils.Debugger.Widgets;
 using UnityEngine;
+using UnityEngine.Rendering;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Utils.Debugger
 {
@@ -18,8 +20,10 @@ namespace Assets.Scripts.Utils.Debugger
         public KeyCode ActionKey = KeyCode.F5;
         public KeyCode NavigateUp = KeyCode.PageUp;
         public KeyCode NavigateDown = KeyCode.PageDown;
+        public KeyCode ToggleDebugDrawings = KeyCode.F6;
 
         private bool _isOpened;
+        private bool _isDrawingDebugLines;
 
         private readonly DebugNode _root = new DebugNode("Debug")
         {
@@ -30,9 +34,11 @@ namespace Assets.Scripts.Utils.Debugger
         private Logger _defaultLog;
         private readonly Cache<string, DebugNode> _pathCache = new Cache<string, DebugNode>();
         private readonly DrawingContext _context = new DrawingContext();
+        private Drawer _drawer;
 
         void Awake()
         {
+            _drawer = new Drawer();
             _defaultLog = GetLogger("Log");
             Display("Debug/Path cache", new Vector2(200, 20), rect =>
             {
@@ -83,6 +89,17 @@ namespace Assets.Scripts.Utils.Debugger
                 if (Input.GetKeyDown(ActionKey))
                     _context.ActionRequested = true;
             }
+
+            if (Input.GetKeyDown(ToggleDebugDrawings))
+            {
+                _isDrawingDebugLines = !_isDrawingDebugLines;
+            }
+        }
+
+        private void LateUpdate()
+        {
+            if (_isDrawingDebugLines)
+                _drawer.LateUpdate();
         }
 
         public void Open()
@@ -256,6 +273,30 @@ namespace Assets.Scripts.Utils.Debugger
             });
         }
 
+        public void DrawRay(Ray ray, Color col, float maxRange = 100f, float duration = 0.0f)
+        {
+            if (_isDrawingDebugLines)
+                _drawer.DrawLine(ray.origin, ray.origin + ray.direction * maxRange, col, duration);
+        }
+
+        public void DrawLine(Vector3 from, Vector3 to, Color col, float duration = 0.0f)
+        {
+            if(_isDrawingDebugLines)
+                _drawer.DrawLine(from, to, col, duration);
+        }
+
+        public void DrawCircle(Vector3 center, Vector3 normal, float radius, Color col, float duration = 0.0f)
+        {
+            if (_isDrawingDebugLines)
+                _drawer.DrawCircle(center, normal, radius, col, duration);
+        }
+
+        public void DrawCircleSphere(Vector3 center, float radius, Color col, float duration = 0.0f)
+        {
+            if (_isDrawingDebugLines)
+                _drawer.DrawCircleSphere(center, radius, col, duration);
+        }
+
         public Logger GetLogger(string path)
         {
             var node = GetOrCreateNode(path);
@@ -268,6 +309,7 @@ namespace Assets.Scripts.Utils.Debugger
             node.Widget = p;
             return p;
         }
+        
 
         void OnGUI()
         {
@@ -286,6 +328,12 @@ namespace Assets.Scripts.Utils.Debugger
             _context.CollapseRequested = false;
             _context.ActionRequested = false;
             _context.CursorIndex = Mathf.Clamp(_context.CursorIndex, 0, _context.Index - 1);
+        }
+
+        public void DrawCone(Vector3 origin, Vector3 direction, float sphereSize, float angle, Color color, float duration)
+        {
+            if (_isDrawingDebugLines)
+                _drawer.DrawCone(origin, direction, sphereSize, angle, color, duration);
         }
     }
 }

@@ -32,8 +32,10 @@ Material:
     - Vector1_C60959E6: 3
     - Vector1_C7706716: 0
     - Vector1_E93467C6: 0.3
+    - _TintMultiplier: 0
     m_Colors:
     - Color_10EBBCA2: {r: 0.9926699, g: 1, b: 0.8820755, a: 0}
     - Color_281A855D: {r: 0, g: 0, b: 0, a: 0}
     - Color_B340782C: {r: 0, g: 1, b: 1, a: 0}
+    - Color_BFD9BFD3: {r: 1, g: 1, b: 1, a: 0}
     - Vector3_A9C3AA14: {r: 30, g: 45, b: 0, a: 0}

@@ -9,10 +9,17 @@ public class AnimationController : MonoBehaviour
     public Animator Animator;
     public float SpeedMultiplier = 1f;
 
-    public bool DisableAnimationsAfterDeath = true;
-    public bool UseMaterialAnimations;
+    [Header("Material configuration")]
+    public float ImpactDecayTime = 0.1f;
+    public float DissolveTime = 1f;
+    public Renderer[] Renderers;
 
     [Header("Animator configuration")]
+    public bool DisableAnimationsAfterDeath = true;
+    public bool UseMaterialAnimations;
+    public bool AutoTrackSpeed = true;
+    public float SmoothTime = 0.1f;
+    public bool SeparateLegs = true;
     public string DeathTrigger = "Death";
     public string TakeDamage = "TakeDamage";
     public string SpeedVariable = "Speed";
@@ -28,6 +35,10 @@ public class AnimationController : MonoBehaviour
     // TODO: IK ?
 
     private bool _disabled = false;
+    private Vector3 _lastPosition;
+    private Vector2 _dirVelocity;
+    private Vector2 _moveDir;
+    private float _impactTime;
 
     void Start()
     {
@@ -56,6 +67,8 @@ public class AnimationController : MonoBehaviour
         //    PlayCastAnimation(SubSpell.SpellTypes.Raycast);
         //});
         Debugger.Default.Display("Animation/Force enable", () => { _disabled = false; });
+
+        _lastPosition = transform.position;
     }
 
     public void PlayDeathAnimation()
@@ -107,6 +120,7 @@ public class AnimationController : MonoBehaviour
         if (_disabled)
             return;
 
+        _impactTime = ImpactDecayTime;
         if (TakeDamageVariations == null || TakeDamageVariations.Length == 0)
         {
             Animator.SetTrigger(TakeDamage);
@@ -128,5 +142,39 @@ public class AnimationController : MonoBehaviour
             return;
 
         Animator.SetTrigger(Pickup);
+    }
+
+    private void Update()
+    {
+        _impactTime = Mathf.Max(_impactTime - Time.deltaTime, 0);
+        if (Renderers != null)
+        {
+            var impactVal = _impactTime / ImpactDecayTime;
+            foreach (var rndr in Renderers)
+            {
+                rndr.material.SetFloat("_TintMultiplier", impactVal);
+            }
+        }
+
+        if (AutoTrackSpeed)
+        {
+            var moveDirection = transform.position - _lastPosition;
+            moveDirection.y = 0;
+            var speed = moveDirection.magnitude / Time.deltaTime;
+            var dir = transform.InverseTransformDirection(moveDirection);
+            var dir2d = new Vector2(dir.x, dir.z) * SpeedMultiplier * speed;
+
+            _moveDir = Vector2.SmoothDamp(_moveDir, dir2d, ref _dirVelocity, SmoothTime);
+
+            if (SeparateLegs)
+            {
+                Animator.SetFloat("SpeedX", _moveDir.x);
+                Animator.SetFloat("SpeedZ", _moveDir.y);
+            }
+
+            Animator.SetFloat("Speed", _moveDir.magnitude);
+
+            _lastPosition = transform.position;
+        }
     }
 }

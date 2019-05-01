@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts;
+using Assets.Scripts.Data;
+using Spells;
 using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
@@ -10,10 +15,10 @@ public class PlayerController : MonoBehaviour
 
     private Plane _ground;
     private CharacterState _characterState;
+    private SpellbookState _spellbook;
 
     private NavMeshAgent _agent;
     private AnimationController _animator;
-    public SpellEmitter[] _emitters;
 
     void Start()
     {
@@ -21,49 +26,116 @@ public class PlayerController : MonoBehaviour
 
         _characterState = GetComponent<CharacterState>();
         _animator = GetComponent<AnimationController>();
+        _spellbook = GetComponent<SpellbookState>();
 
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
 
-        _emitters = GetComponentsInChildren<SpellEmitter>();
-
         CharacterUtils.ApplySettings(_characterState, _agent, false);
     }
 
-    void GetInput()
+    void HandleInput()
     {
         moveDirection.x = Input.GetAxis("Horizontal");
         moveDirection.z = Input.GetAxis("Vertical");
 
-        if (Input.GetMouseButtonDown(0))
-            FireSpell(0);
+        if (Input.GetMouseButton(0))
+            FireSpell((int)Spell.Slot.LMB);
 
-        if (Input.GetMouseButtonDown(1))
-            FireSpell(1);
+        if (Input.GetMouseButton(1))
+            FireSpell((int)Spell.Slot.RMB);
 
-        if (Input.GetMouseButtonDown(1))
-            FireSpell(2);
+        if (Input.GetButton("Ult"))
+            FireSpell((int)Spell.Slot.ULT);
+
+        if (Input.GetButtonDown("Use"))
+            TryInteract((Interaction)0);
+
+        if (Input.GetButtonDown("Use2"))
+            TryInteract((Interaction)1);
     }
 
-    private void FireSpell(int index)
+    private void FireSpell(int slotIndex)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(ray.origin, ray.direction * 100, Color.green, 2.0f);
+        if (!_spellbook.IsSpellReady(slotIndex))
+        {
+            // Spell is not ready or missing - just exit
+            return;
+        }
+
+        var target = new TargetInfo();
+        var groundPoint = Vector3.zero;
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (_ground.Raycast(ray, out var enter))
         {
-            var hitPoint = ray.GetPoint(enter);
-
-            var data = _emitters[0].GetData(_characterState, ray, hitPoint);
-
-            _characterState.FireSpell(index, data);
+            target.Position = ray.GetPoint(enter);
         }
+
+        if (Physics.Raycast(ray, out var hit, LayerMask.GetMask("Actors")))
+        {
+            target.Character = hit.transform.GetComponent<CharacterState>();
+        }
+        else if(target.Position.HasValue)
+        {
+            var targetPosition = target.Position.Value;
+
+            // Try locate target character located in target position
+            var results = Physics.OverlapSphere(targetPosition, 1f, LayerMask.GetMask("Actors"));
+            foreach (var result in results)
+            {
+                var character = result.GetComponent<CharacterState>();
+                if (character == null)
+                    continue;
+                
+                target.Character = character;
+                break;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Cant find any spell target");
+            return;
+        }
+
+        if (target.Character)
+        {
+            target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
+            target.Position = target.Transform.position;
+        }
+        else if(target.Position.HasValue)
+        {
+            var adoptedTarget = target.Position.Value;
+            adoptedTarget.y = _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter).position.y;
+            target.Position = adoptedTarget;
+        }
+
+        _spellbook.TryFireSpellToTarget(slotIndex, target);
+    }
+
+    private void TryInteract(Interaction interaction)
+    {
+        foreach (var interactable in GetUsableItemsInRange())
+        {
+            interactable.Interact(_characterState, interaction);
+        }
+    }
+
+    private IEnumerable<IInteractable> GetUsableItemsInRange()
+    {
+        var pos = _characterState.GetNodeTransform(CharacterState.NodeRole.Chest).position;
+        return Physics.OverlapSphere(pos, 1f)
+            .Select(c => c.GetComponent<IInteractable>())
+            .Where(i => i != null);
     }
 
     void Update()
     {
-        GetInput();
-        Move();
-        LookAt();
+        if (_characterState.IsAlive)
+        {
+            HandleInput();
+            Move();
+            LookAt();
+        }
     }
 
     void Move()
@@ -72,8 +144,6 @@ public class PlayerController : MonoBehaviour
 
         _agent.Move(motionVector);
         _agent.SetDestination(transform.position + motionVector);
-
-        _animator.SetSpeed(_agent.velocity.magnitude / _agent.speed);
     }
 
     private void LookAt()
@@ -103,12 +173,10 @@ public class PlayerController : MonoBehaviour
             Gizmos.DrawSphere(hitPoint, 0.2f);
         }
 
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Gizmos.DrawRay(ray);
-        if (_ground.Raycast(ray, out enter))
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo, 100, LayerMask.GetMask("Actors")))
         {
-            var hitPoint = ray.GetPoint(enter);
-            _characterState.DrawSpellGizmos(0, hitPoint);
+            Gizmos.DrawWireCube(hitInfo.transform.position, Vector3.one);
         }
     }
 }

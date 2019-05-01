@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Wooden Shield
   Cost: 0
+  Icon: {fileID: 0}
   Buffs:
   - {fileID: 11400000, guid: 90f72249b32c7cd46875f8fe8b1fb84d, type: 2}
+  Prefab: {fileID: 9083103755503531497, guid: 6fa11f7cb0038894ba98072a2e46b04a, type: 3}

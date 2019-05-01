@@ -10,14 +10,19 @@ namespace Assets.Scripts.Data
         public float Health;
         public float Damage;
         public float Speed;
+        [Range(0f, 1f)]
         public float Evasion = 0f;
         public float Size = 1f;
+        public float HealthModifier = 1f;
 
-        public int IndifferenceDistance = 10;
-        public int SpellRange = 0;
-        public int FearRange = 0;
+        public float IndifferenceDistance = 10f;
+        public float SpellRange = 0f;
+        public float FearRange = 0f;
+        public float MeleeRange = 0f;
+        public float AttackCooldown = 1f;        
 
         [Header("Drop Info")]
+        [Range(0f, 1f)]
         public float DropRate;
         [SerializeField]
         public List<Spell> DropSpells;

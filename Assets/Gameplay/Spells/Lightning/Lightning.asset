@@ -13,15 +13,21 @@ MonoBehaviour:
   m_Name: Lightning
   m_EditorClassIdentifier: 
   Name: Lightning
+  Icon: {fileID: 2659369684134734925, guid: 31ec042ca000c8346a1fbbc8cbdd9b6f, type: 3}
   BloodCost: 0
   BloodBack: 2
-  Cooldown: 1
-  CastingTime: 2
-  Delay: 0
+  DefaultSlot: 0
+  Cooldown: 0.8
+  CastingTime: 1
+  Flags: 6
   PreCastDelay: 0
   PostCastDelay: 0
   ChannelTime: 0
   SubSpells:
   - {fileID: 11400000, guid: 94474afc0958491479780fa636c55d39, type: 2}
-  - {fileID: 11400000, guid: e57d9a358a1594f4f8f64850aafd2390, type: 2}
-  - {fileID: 11400000, guid: e57d9a358a1594f4f8f64850aafd2390, type: 2}
+  - {fileID: 11400000, guid: 3f3451bb833b2dc4abc651b8e5f9a55e, type: 2}
+  - {fileID: 11400000, guid: 3f3451bb833b2dc4abc651b8e5f9a55e, type: 2}
+  SpellEffect: {fileID: 1349204274574646620, guid: 97b50922a392d41499e890a3452714e0,
+    type: 3}
+  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
+    type: 3}

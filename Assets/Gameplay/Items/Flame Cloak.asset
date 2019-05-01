@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Flame Cloak
   Cost: 20
+  Icon: {fileID: 0}
   Buffs:
   - {fileID: 11400000, guid: 97060b16eb90ce74a906cf555140bbb9, type: 2}
+  Prefab: {fileID: 3121115164540932662, guid: aaa2fe678e3c0324fbfb531ba02ea010, type: 3}

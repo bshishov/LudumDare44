@@ -8,21 +8,36 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: mat_Vlad_Cloth
-  m_Shader: {fileID: 4800000, guid: 0406db5a14f94604a8c57ccfbc9f3b46, type: 3}
-  m_ShaderKeywords: _RECEIVE_SHADOWS_OFF
+  m_Shader: {fileID: -6465566751694194690, guid: be38755c58ddde14a8bb0d074e7036da,
+    type: 3}
+  m_ShaderKeywords: 
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3050
-  stringTagMap:
-    RenderType: Transparent
-  disabledShaderPasses:
-  - SHADOWCASTER
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: 3001
+  stringTagMap: {}
+  disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_4882356E:
+        m_Texture: {fileID: 2800000, guid: 8270e459bf5225d47b8a711dbc32a0b7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_567A1A6F:
+        m_Texture: {fileID: 2800000, guid: e807e449bc714da439b7c7d0f6bbb273, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_5B74742:
+        m_Texture: {fileID: 2800000, guid: a7ff7f32f8f0c724681cc130cdd7a724, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_97B584ED:
+        m_Texture: {fileID: 2800000, guid: 9b32d16b0cb726c43af5bb1674f8baea, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: b3e8dc57cb8b9f142a8ce87d1c81a6b9, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -34,7 +49,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b3e8dc57cb8b9f142a8ce87d1c81a6b9, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -50,6 +65,16 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_10154199: 1
+    - Vector1_103404C0: 2
+    - Vector1_24DC7CB6: 30
+    - Vector1_89F14894: 1
+    - Vector1_951CFA77: 0.329
+    - Vector1_B2B77134: 0.023
+    - Vector1_C60959E6: 2.58
+    - Vector1_C7706716: 0
+    - Vector1_E93467C6: 0.271
+    - Vector1_F9E2BB74: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BlendOp: 0
@@ -58,13 +83,13 @@ Material:
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
     - _ColorMode: 0
-    - _Cull: 2
+    - _Cull: 0
     - _Cutoff: 0.503
     - _DistortionBlend: 0.5
     - _DistortionEnabled: 0
     - _DistortionStrength: 1
     - _DistortionStrengthScaled: 0.1
-    - _DstBlend: 10
+    - _DstBlend: 0
     - _EmissionEnabled: 0
     - _EnvironmentReflections: 1
     - _FlipbookBlending: 0
@@ -84,12 +109,21 @@ Material:
     - _SoftParticlesFarFadeDistance: 1
     - _SoftParticlesNearFadeDistance: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 5
-    - _Surface: 1
+    - _SrcBlend: 1
+    - _Surface: 0
     - _WorkflowMode: 1
-    - _ZWrite: 0
+    - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - Color_10EBBCA2: {r: 0.9926699, g: 1, b: 0.8820755, a: 0}
+    - Color_12DAAE22: {r: 1, g: 1, b: 1, a: 0}
+    - Color_281A855D: {r: 0, g: 0, b: 0, a: 0}
+    - Color_B340782C: {r: 0, g: 1, b: 1, a: 0}
+    - Color_BFD9BFD3: {r: 1, g: 1, b: 1, a: 0}
+    - Color_EA9D2343: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 0}
+    - Color_EAB3F06F: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 0}
+    - Vector2_F22E0A41: {r: 40, g: 40, b: 0, a: 0}
+    - Vector3_A9C3AA14: {r: 30, g: 45, b: 0, a: 0}
+    - _BaseColor: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}

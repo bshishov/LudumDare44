@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Hourglass
   Cost: 15
+  Icon: {fileID: 0}
   Buffs:
   - {fileID: 11400000, guid: f1a9a7dc2f0cd494998fa4df4cc99a61, type: 2}
+  Prefab: {fileID: 8353440635793471631, guid: 5ace1e3e1011b01419a520411a5ba2ca, type: 3}

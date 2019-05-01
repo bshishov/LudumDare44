@@ -35,6 +35,7 @@ namespace Assets.Scripts
             SpawnNextChunk();
 
             Debugger.Default.Display("GameManager/Spawn next chunk", SpawnNextChunk);
+            Debugger.Default.Display("GameManager/Pause", Pause);
         }
         
         void Update()
@@ -116,6 +117,12 @@ namespace Assets.Scripts
                     budget -= enemy.BudgetConsume;
                 }
             }
+        }
+
+        [ContextMenu("Pause")]
+        public void Pause()
+        {
+            Time.timeScale = 1f - Time.timeScale;
         }
     }
 }

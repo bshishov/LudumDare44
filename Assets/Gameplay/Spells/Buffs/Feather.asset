@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Feather
   ChangedProperty: 5
-  Addition: 5
+  Addition: 0.05
   Multiplier: 1
   Radius: 0
   PerSecond: 0
   Permanent: 1
   Duration: 1
-  VisualEffect: {fileID: 0}
+  OnAppliedEffect: {fileID: 0}

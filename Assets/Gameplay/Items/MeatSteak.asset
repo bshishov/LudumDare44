@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Meat steak
   Cost: 0
+  Icon: {fileID: 0}
   Buffs:
   - {fileID: 11400000, guid: 8622aadd5423dbf49b5e58665641ec66, type: 2}
   - {fileID: 11400000, guid: a973fdb5ad6b6c6469c83bc2cda96398, type: 2}
+  Prefab: {fileID: 7414661946360081799, guid: 87b39e9e18e9a5c4ca4518ef70e97eab, type: 3}

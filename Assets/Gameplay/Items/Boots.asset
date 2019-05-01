@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Boots
   Cost: 5
+  Icon: {fileID: 0}
   Buffs:
   - {fileID: 11400000, guid: cbf1dd6cdc7160f4bb5b534d577eb406, type: 2}
+  Prefab: {fileID: 7110239382461080118, guid: 16d0481cac307f6489c4092962e112de, type: 3}

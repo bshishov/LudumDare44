@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Suspicious juice
   Cost: 20
+  Icon: {fileID: 0}
   Buffs:
   - {fileID: 11400000, guid: becfb68aee4562b4a91cdf4feb2e1868, type: 2}
+  Prefab: {fileID: 7414661946360081799, guid: 87b39e9e18e9a5c4ca4518ef70e97eab, type: 3}

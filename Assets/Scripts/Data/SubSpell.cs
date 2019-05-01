@@ -4,78 +4,80 @@ using UnityEngine;
 
 namespace Assets.Scripts.Data
 {
-    [CreateAssetMenu(fileName = "SubSpell", menuName = "Mechanics/SubSpell")]
+    [CreateAssetMenu(fileName = "SubSpell", menuName = "Spells/SubSpell")]
     [Serializable]
     public class SubSpell : ScriptableObject
     {
         [Serializable]
         [Flags]
-        public enum AffectedTargets : int
+        public enum AffectedTargets
         {
             Self = 1 << 1,
             Friend = 1 << 2,
             Enemy = 1 << 3
-        };
-
-        [EnumFlag]
-        public AffectedTargets AffectedTarget;
-
-        [Serializable]
-        public enum SpellTargets : int
-        {
-            Undefined = 0,
-            Direction,
-            Location,
-            CastOnSelf,
-            CastOnClosest,
         }
 
-        [EnumFlag]
-        public SpellTargets SpellTarget;
+        [Serializable]
+        [Flags]
+        public enum ObstacleHandling
+        {
+            None = 0,
+
+            ExecuteSpellSequence = 1 << 1,
+            Break = 1 << 2,
+            ExecuteSpellSequenceOnMaxDistance = 1 << 3,
+            IgnoreButTarget = 1 << 4
+        }
 
         [Serializable]
         [Flags]
-        public enum ProjectileType : int
+        public enum SpellFlags
         {
             Undefined = 0,
 
-            None = Undefined,
+            HaveDirection = 1 << 1,
 
-            Raycast = 1 << 1,
-            Projectile = 1 << 2,
-        };
+            Raycast = 1 << 2,
+            Projectile = 1 << 3,
 
-        [EnumFlag]
-        public ProjectileType Projectile;
-        public float ProjectileSpeed;
+            Special = 1 << 4,
+            SelfTarget,
+            ClosestTarget,
+            SpecialEnd = 1 << (5 - 1)
+        }
 
         [Serializable]
-        [Flags]
-        public enum ProjectileObstacles : int
+        public enum SpellOrigin
         {
-            Undefined = 0,
+            None = 0,
+            Self,
+            Cursor
+        }
 
-            None = Undefined,
+        [Serializable]
+        public enum SpellTargeting
+        {
+            None = 0,
+            Target,
+            Location
+        }
 
-            Ignore = 1 << 1,
-            Activate = 1 << 2,
-            Break = 1 << 3,
-        };
-
-        [EnumFlag]
-        public ProjectileObstacles Obstacles;
-
-        public AreaOfEffect Area;
-
-        public float PreCastDelay;
+        public SpellOrigin Origin;
         public float PostCastDelay;
+        public float PreCastDelay;
 
+        [Header("Flags")]
+        [EnumFlag] public SpellFlags Flags;
+        [EnumFlag] public AffectedTargets AffectedTarget;
+        [EnumFlag] public ObstacleHandling Obstacles;
+
+        public SpellTargeting Targeting;
+
+        [Header("Data")]
+        public AreaOfEffect Area;
+        public ProjectileData Projectile;
+        
         [Header("Buffs")]
-        [SerializeField]
-        public List<Buff> Buffs;
-
-        // TODO: set later
-        [Header("Visual Effects")]
-        public GameObject VisualEffect;
+        [SerializeField] public List<Buff> Buffs;
     }
 }

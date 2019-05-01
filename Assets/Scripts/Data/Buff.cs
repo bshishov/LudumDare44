@@ -20,9 +20,7 @@ namespace Assets.Scripts.Data
         public bool Permanent;
         public float Duration;
         
-
-        // TODO: set later
         [Header("Visual Effects")]
-        public GameObject VisualEffect;
+        public GameObject OnAppliedEffect;
     }
 }

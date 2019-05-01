@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Actors;
 using Assets.Scripts.Data;
 using Assets.Scripts.Utils.Debugger;
+using Spells;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -13,6 +15,7 @@ public class Cheats : MonoBehaviour
     public Buff[] Buffs;
     public Spell[] Spells;
     public Item[] Items;
+    public GameObject[] Enemies;
 
     private PlayerController _playerController;
     private CharacterState _playerState;
@@ -38,6 +41,11 @@ public class Cheats : MonoBehaviour
             {
                 _playerState.Pickup(spell);
             });
+
+            Debugger.Default.Display(string.Format("Cheats/Drop Spell/{0}", spell.name), () =>
+            {
+                DroppedSpell.InstantiateDroppedSpell(spell, _playerState.GetNodeTransform(CharacterState.NodeRole.Chest).transform.position);
+            });
         }
 
         foreach (var item in Items)
@@ -46,6 +54,14 @@ public class Cheats : MonoBehaviour
             {
                 _playerState.Pickup(item);
             });
+        }
+
+        foreach (var enemy in Enemies)
+        {
+            Debugger.Default.Display(string.Format("Cheats/Spawn Enemy/{0}", enemy.name), () =>
+                {
+                    GameObject.Instantiate(enemy, _playerState.transform.position, Quaternion.identity);
+                });
         }
     }
 

@@ -1,34 +1,36 @@
 ﻿using System;
-using Assets.Scripts;
-using Assets.Scripts.UI;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIBloodBar : MonoBehaviour
+namespace Assets.Scripts.UI
 {
-    public UIProgressBar ProgressBar;
-    public Text Text;
-
-    private CharacterState _playerState;
-    private const string HpBarFormat = "{0:#} / {1:#}";
-
-    void Start()
+    public class UIBloodBar : MonoBehaviour
     {
-        var player = GameObject.FindGameObjectWithTag(Tags.Player);
-        if (player != null)
+        public UIProgressBar ProgressBar;
+        public TextMeshProUGUI Text;
+
+        private CharacterState _playerState;
+        private const string HpBarFormat = "{0:#} / {1:#}";
+
+        void Start()
         {
-            _playerState = player.GetComponent<CharacterState>();
-            if (_playerState == null)
+            var player = GameObject.FindGameObjectWithTag(Tags.Player);
+            if (player != null)
             {
-                Debug.LogWarning("PlayerState not found");
+                _playerState = player.GetComponent<CharacterState>();
+                if (_playerState == null)
+                {
+                    Debug.LogWarning("PlayerState not found");
+                }
             }
         }
-    }
     
-    void Update()
-    {
-        var f = _playerState.Health / _playerState.MaxHealth;
-        ProgressBar.SetTarget(f);
-        Text.text = String.Format(HpBarFormat, _playerState.Health, _playerState.MaxHealth);
+        void Update()
+        {
+            var f = _playerState.Health / _playerState.MaxHealth;
+            ProgressBar.SetTarget(f);
+            Text.text = String.Format(HpBarFormat, _playerState.Health, _playerState.MaxHealth);
+        }
     }
 }
