@@ -63,6 +63,7 @@ public class CharacterState : MonoBehaviour
     [EnumFlag]
     public Team CurrentTeam = Team.Undefined;
 
+    public event Action OnDeath;
     public CharacterConfig character;
     public CharacterNode[] Nodes;
    
@@ -95,7 +96,10 @@ public class CharacterState : MonoBehaviour
     // ========= Size
     private float _sizeFlatModSum;
     private float _sizeMultModSum;
-    public float Size => (character.Size + _sizeFlatModSum) * (1 + ELU(_sizeMultModSum));
+    public float Size => 
+        Mathf.Clamp(
+        (character.Size + _sizeFlatModSum) * (1 + ELU(_sizeMultModSum)), 
+        1, 10f);
 
     // ========= AdditionSpellStacks
     private float _assFlatMod = 0;
@@ -108,9 +112,11 @@ public class CharacterState : MonoBehaviour
     private AnimationController _animationController;
     private SpellbookState _spellbook;
     private readonly List<BuffState> _states = new List<BuffState>();
+    private Vector3 _baseScale;
 
     void Start()
     {
+        _baseScale = transform.localScale;
         IsAlive = true;
 
         _spellbook = GetComponent<SpellbookState>();
@@ -120,6 +126,8 @@ public class CharacterState : MonoBehaviour
 
         if (CurrentTeam == Team.Undefined)
             Debug.LogError("Team not set!", this);
+
+        transform.localScale = _baseScale * Size;
     }
 
     public bool CanDealDamage()
@@ -283,6 +291,14 @@ public class CharacterState : MonoBehaviour
             default:
                 break;
         }
+
+        switch (modifier.Parameter)
+        {
+            case ModificationParameter.SizeFlat:
+            case ModificationParameter.SizeMult:
+                transform.localScale = _baseScale * Size;
+                break;
+        }
     }
 
     public void RevertModifier(Modifier modifier, int stacks)
@@ -418,9 +434,9 @@ public class CharacterState : MonoBehaviour
                 DroppedSpell.InstantiateDroppedSpell(spell, GetNodeTransform(NodeRole.Chest).position);
             }
         }
-        
         _animationController.PlayDeathAnimation();
-        Debug.LogFormat("{0} died", gameObject.name);
+        Debug.Log($"<b>{gameObject.name}</b> died");
+        OnDeath?.Invoke();
     }
 
     public void ReceiveDamage(float amount)

@@ -7,6 +7,7 @@ namespace Assets.Scripts.Data
     [CreateAssetMenu(fileName = "CharacterConfig", menuName = "Mechanics/CharacterConfig")]
     public class CharacterConfig : ScriptableObject
     {
+        [Header("Stats")]
         public float Health;
         public float Damage;
         public float Speed;
@@ -15,6 +16,7 @@ namespace Assets.Scripts.Data
         public float Size = 1f;
         public float HealthModifier = 1f;
 
+        [Header("AI")]
         public float IndifferenceDistance = 10f;
         public float SpellRange = 0f;
         public float FearRange = 0f;
