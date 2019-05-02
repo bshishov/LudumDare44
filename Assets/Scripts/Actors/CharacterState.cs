@@ -11,6 +11,7 @@ using Assets.Scripts.Utils;
 using Assets.Scripts.Utils.Debugger;
 using Spells;
 using UnityEngine.Assertions;
+using Logger = Assets.Scripts.Utils.Debugger.Logger;
 
 public class CharacterState : MonoBehaviour
 {
@@ -37,6 +38,8 @@ public class CharacterState : MonoBehaviour
         public float TickCd;
         public int Stacks = 1;
 
+        public List<Change> ActiveChanges = new List<Change>();
+
         public BuffState(Buff buff, int stacks = 1)
         {
             Stacks = 1;
@@ -50,6 +53,12 @@ public class CharacterState : MonoBehaviour
             TimeRemaining = Buff.Duration;
             TickCd = 0;
         }
+    }
+
+    struct Change
+    {
+        public ModificationParameter Parameter;
+        public float Amount;
     }
 
     public enum Team : int
@@ -110,16 +119,18 @@ public class CharacterState : MonoBehaviour
     // Internal
     private float _timeBeforeNextAttack;
     private AnimationController _animationController;
-    private SpellbookState _spellbook;
+    private SpellbookState _spellBook;
     private readonly List<BuffState> _states = new List<BuffState>();
     private Vector3 _baseScale;
+    private Logger _combatLog;
 
     void Start()
     {
+        _combatLog = Debugger.Default.GetLogger(gameObject.name + "/StatLog", unityLog:false);
         _baseScale = transform.localScale;
         IsAlive = true;
 
-        _spellbook = GetComponent<SpellbookState>();
+        _spellBook = GetComponent<SpellbookState>();
         _animationController = GetComponent<AnimationController>();
         _timeBeforeNextAttack = 0f;
         _hp = character.HealthModifier * MaxHealth;
@@ -149,13 +160,15 @@ public class CharacterState : MonoBehaviour
         if (!IsAlive)
             return;
         
-        _spellbook.PlaceSpell(spell);
+        _spellBook.PlaceSpell(spell);
     }
 
     public void Pickup(Item item)
     {
         if (!IsAlive)
             return;
+
+        _combatLog.Log($"<b>{gameObject.name}</b> picked up item <b>{item.name}</b>");
 
         // Todo: track picked items and their stats
         foreach (var buff in item.Buffs)
@@ -178,58 +191,73 @@ public class CharacterState : MonoBehaviour
             switch (buff.Behaviour)
             {
                 case BuffStackBehaviour.MaxStacksOfTwo:
-                    RevertBuffModifiers(state.Buff, state.Stacks);
+                    RevertBuffChanges(state);
                     state.Stacks = Mathf.Max(stacks, state.Stacks);
-                    ApplyBuffModifiers(state.Buff, state.Stacks);
+                    ApplyBuffModifiers(state);
                     state.Refresh();
                     break;
                 case BuffStackBehaviour.AddNewAsSeparate:
                     AddBuff();
                     break;
                 case BuffStackBehaviour.SumStacks:
-                    RevertBuffModifiers(state.Buff, state.Stacks);
+                    RevertBuffChanges(state);
                     state.Stacks += stacks;
-                    ApplyBuffModifiers(state.Buff, state.Stacks);
+                    ApplyBuffModifiers(state);
                     state.Refresh();
                     break;
                 case BuffStackBehaviour.Discard:
                     break;
             }
+
+            _combatLog.Log($"<b>{gameObject.name}</b> reapplied buff <b>{buff.name}</b> with <b>{buff.Behaviour}</b> behaviour. Stack after reapplied: <b>{state.Stacks}</b>");
         }
         else
         {
             AddBuff();
         }
 
-        void RevertBuffModifiers(Buff b, int s)
+        void RevertBuffChanges(BuffState s)
         {
-            if (b.Modifiers != null)
-                foreach (var mod in b.Modifiers)
-                    RevertModifier(mod, s);
+            if (s.ActiveChanges != null)
+            {
+                for (var i = s.ActiveChanges.Count - 1; i >= 0; i--)
+                {
+                    RevertChange(s.ActiveChanges[i]);
+                    s.ActiveChanges.RemoveAt(i);
+                }
+            }
         }
 
-        void ApplyBuffModifiers(Buff b, int s)
+        void ApplyBuffModifiers(BuffState s)
         {
-            if (b.Modifiers != null)
-                foreach (var mod in b.Modifiers)
-                    ApplyModifier(mod, s);
+            if (s.Buff.Modifiers != null)
+                foreach (var mod in s.Buff.Modifiers)
+                {
+                    ApplyModifier(mod, s.Stacks, out var change);
+                    s.ActiveChanges.Add(new Change
+                    {
+                        Parameter = mod.Parameter,
+                        Amount = change
+                    });
+                }
         }
 
         void AddBuff()
         {
-            ApplyBuffModifiers(buff, stacks);
-            _states.Add(new BuffState(buff, stacks));
-            Debug.LogFormat("<b>{0}</b> received buff <b>{1}</b> with <b>{2}</b> stacks", 
+            var s = new BuffState(buff, stacks);
+            _states.Add(s);
+            _combatLog.LogFormat("<b>{0}</b> received buff <b>{1}</b> with <b>{2}</b> stacks", 
                 gameObject.name,
                 buff.name,
                 stacks);
+            ApplyBuffModifiers(s);
         }
     }
 
     public void ApplyAffect(Affect affect, int stacks)
     {
         if (affect.ApplyModifier != null)
-            ApplyModifier(affect.ApplyModifier, stacks);
+            ApplyModifier(affect.ApplyModifier, stacks, out _);
 
         if (affect.CastSpell != null)
             throw new NotImplementedException();
@@ -241,58 +269,76 @@ public class CharacterState : MonoBehaviour
                 false);
     }
 
-    public void ApplyModifier(Modifier modifier, int stacks)
+    public void ApplyModifier(Modifier modifier, int stacks, out float change)
     {
-        Debug.Log($"<b>{gameObject.name}</b> received modifier <b>{modifier.Parameter}</b> with value <b>{modifier.Value}</b>." +
-                  $" Stacks: <b>{stacks}</b>. StackMultiplier: <b>{modifier.PerStackMultiplier}</b>");
+        ApplyModifier(modifier.Parameter, modifier.Value, stacks, modifier.EffectiveStacks, out change);
+    }
+
+    public void ApplyModifier(ModificationParameter parameter, float amount, int stacks, float effectiveStacks, out float actualChange)
+    {
+        actualChange = 0f;
+        
         var hpFraction = _hp / MaxHealth;
-        switch (modifier.Parameter)
+        switch (parameter)
         {
             case ModificationParameter.HpFlat:
-                SetHp(_hp + modifier.Value * stacks * modifier.PerStackMultiplier);
+                actualChange = SetHp(_hp + StackedModifier(amount, stacks, effectiveStacks));
                 break;
             case ModificationParameter.HpMult:
-                SetHp(_hp * (1 + modifier.Value * stacks * modifier.PerStackMultiplier));
+                actualChange = SetHp(_hp * (1 + StackedModifier(amount, stacks, effectiveStacks)));
                 break;
             case ModificationParameter.MaxHpFlat:
-                _maxHpFlatModSum += modifier.Value * stacks * modifier.PerStackMultiplier;
+                actualChange = StackedModifier(amount, stacks, effectiveStacks);
+                _maxHpFlatModSum += actualChange;
                 _hp = hpFraction * MaxHealth;
                 break;
             case ModificationParameter.MaxHpMult:
-                _maxHpMultModSum += modifier.Value * stacks * modifier.PerStackMultiplier;
+                actualChange = StackedModifier(amount, stacks, effectiveStacks);
+                _maxHpMultModSum += actualChange;
                 _hp = hpFraction * MaxHealth;
                 break;
             case ModificationParameter.DmgFlat:
-                _dmgFlatModSum += modifier.Value * stacks * modifier.PerStackMultiplier;
+                actualChange = StackedModifier(amount, stacks, effectiveStacks);
+                _dmgFlatModSum += actualChange;
                 break;
             case ModificationParameter.DmgMult:
-                _dmgMultModSum += modifier.Value * stacks * modifier.PerStackMultiplier;
+                actualChange = StackedModifier(amount, stacks, effectiveStacks);
+                _dmgMultModSum += actualChange;
                 break;
             case ModificationParameter.EvasionChanceFlat:
-                _evasionModMulProduct *= Mathf.Pow(1 - modifier.Value, stacks * modifier.PerStackMultiplier);
+                // TODO: FIX STACKING
+                _evasionModMulProduct *= Mathf.Pow(1 - amount, stacks);
                 break;
             case ModificationParameter.CritChanceFlat:
                 break;
             case ModificationParameter.SpeedFlat:
-                _speedFlatModSum += modifier.Value * stacks * modifier.PerStackMultiplier;
+                actualChange = StackedModifier(amount, stacks, effectiveStacks);
+                _speedFlatModSum += actualChange;
                 break;
             case ModificationParameter.SpeedMult:
-                _speedMultModSum += modifier.Value * stacks * modifier.PerStackMultiplier;
+                actualChange = StackedModifier(amount, stacks, effectiveStacks);
+                _speedMultModSum += actualChange;
                 break;
             case ModificationParameter.SizeFlat:
-                _sizeFlatModSum += modifier.Value * stacks * modifier.PerStackMultiplier;
+                actualChange = StackedModifier(amount, stacks, effectiveStacks);
+                _sizeFlatModSum += actualChange;
                 break;
             case ModificationParameter.SizeMult:
-                _sizeMultModSum += modifier.Value * stacks * modifier.PerStackMultiplier;
+                actualChange = StackedModifier(amount, stacks, effectiveStacks);
+                _sizeMultModSum += actualChange;
                 break;
             case ModificationParameter.SpellStacksFlat:
-                _assFlatMod += modifier.Value * stacks * modifier.PerStackMultiplier;
+                actualChange = StackedModifier(amount, stacks, effectiveStacks);
+                _assFlatMod += actualChange;
                 break;
             default:
                 break;
         }
 
-        switch (modifier.Parameter)
+        _combatLog.Log($"<b>{gameObject.name}</b> received modifier <b>{parameter}</b> with amount <b>{amount}</b>. Actual change: <b>{actualChange}</b>" +
+                  $" Stacks: <b>{stacks}</b>. EffectiveStacks: <b>{effectiveStacks}</b>");
+
+        switch (parameter)
         {
             case ModificationParameter.SizeFlat:
             case ModificationParameter.SizeMult:
@@ -301,28 +347,26 @@ public class CharacterState : MonoBehaviour
         }
     }
 
-    public void RevertModifier(Modifier modifier, int stacks)
+    private void RevertChange(Change change)
     {
-        ApplyModifier(new Modifier
-        {
-            Parameter = modifier.Parameter,
-            PerStackMultiplier = modifier.PerStackMultiplier,
-            Value = -modifier.Value
-        }, stacks);
+        // TODO: Revert EVASION and CRIT properly by dividing and not subtracting
+        ApplyModifier(change.Parameter, -change.Amount, 1, 1, out _);
     }
 
-    private void SetHp(float targetHp)
+    private float SetHp(float targetHp)
     {
         targetHp = Mathf.Clamp(targetHp, -1, MaxHealth);
         var delta = targetHp - _hp;
         if (delta < 0)
         {
-            _animationController.PlayHitImpactAnimation();
             if (targetHp <= 0)
                 HandleDeath();
+            else
+                _animationController.PlayHitImpactAnimation();
         }
         // Change
         _hp = targetHp;
+        return delta;
     }
 
     public bool SpendCurrency(float amount)
@@ -336,12 +380,7 @@ public class CharacterState : MonoBehaviour
             return false;
         }
 
-        ApplyModifier(new Modifier
-        {
-            Parameter = ModificationParameter.MaxHpFlat,
-            PerStackMultiplier = 1f,
-            Value = -amount
-        }, 1);
+        ApplyModifier(ModificationParameter.MaxHpFlat, -amount, 1, 1, out _);
         return true;
     }
     
@@ -386,9 +425,9 @@ public class CharacterState : MonoBehaviour
                         ApplyAffect(affect, buffState.Stacks);
 
 
-                if(buffState.Buff.Modifiers != null)
-                    foreach (var buffModifier in buffState.Buff.Modifiers)
-                        RevertModifier(buffModifier, buffState.Stacks);
+                if(buffState.ActiveChanges != null)
+                    foreach (var change in buffState.ActiveChanges)
+                        RevertChange(change);
 
                 _states.RemoveAt(i);
             }
@@ -401,9 +440,14 @@ public class CharacterState : MonoBehaviour
         var buffs = gameObject.name + "/Buffs states/";
         foreach (var buffState in _states)
         {
-            Debugger.Default.Display(buffs + buffState.Buff.name + "/Stacks", buffState.Stacks);
-            Debugger.Default.Display(buffs + buffState.Buff.name + "/Tick CD", buffState.TickCd);
-            Debugger.Default.Display(buffs + buffState.Buff.name + "/Time remaining", buffState.TimeRemaining);
+            var path = buffs + buffState.Buff.name;
+            Debugger.Default.Display(path + "/Stacks", buffState.Stacks);
+            Debugger.Default.Display(path + "/Tick CD", buffState.TickCd);
+            Debugger.Default.Display(path + "/Time remaining", buffState.TimeRemaining);
+            foreach (var change in buffState.ActiveChanges)
+            {
+                Debugger.Default.Display(path + "/Changes/" + change.Parameter, change.Amount);
+            }
         }
 
         Debugger.Default.Display(gameObject.name + "/Health", Health);
@@ -496,10 +540,22 @@ public class CharacterState : MonoBehaviour
         Gizmos.DrawSphere(tDefault.position, .1f);
     }
 
+    /// <summary>
+    /// Exponential linear unit. Used for multiplier modifiers to not go pass the -1 on the left side
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="alpha"></param>
+    /// <returns>Returns the value in range [-1, +inf) </returns>
     public static float ELU(float x, float alpha=1f)
     {
         if (x >= 0)
             return x;
         return alpha * (Mathf.Exp(x) - 1);
+    }
+
+    public static float StackedModifier(float modifierValue, float stacks, float effectiveStacks)
+    {
+        // DO NOT CHANGE THIS! unless you do not know what you are doing!
+        return modifierValue * stacks / ((stacks - 1) * (1 - 0.3f) / (Mathf.Min(1,effectiveStacks)) + 1);
     }
 }

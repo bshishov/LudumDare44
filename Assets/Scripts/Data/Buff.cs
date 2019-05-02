@@ -42,7 +42,9 @@ namespace Assets.Scripts.Data
     {
         public ModificationParameter Parameter;
         public float Value;
-        public float PerStackMultiplier = 1f;
+
+        // Indicating that the value will not scale too much after this amount of stacks
+        public float EffectiveStacks = 10f;
     }
 
     [CreateAssetMenu(fileName = "Buff", menuName = "Mechanics/Buff")]
