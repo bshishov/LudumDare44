@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mat_Skull
+  m_Name: mat_Enemy_FleshGolem
   m_Shader: {fileID: -6465566751694194690, guid: 2290f25df2f8c114483ac983bc21143e,
     type: 3}
   m_ShaderKeywords: 
@@ -101,7 +101,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_10EBBCA2: {r: 0.9926699, g: 1, b: 0.8820755, a: 0}
-    - Color_12DAAE22: {r: 1, g: 0.50181097, b: 0, a: 0}
+    - Color_12DAAE22: {r: 0.044491086, g: 0.122641504, b: 0.028346388, a: 0}
     - Color_281A855D: {r: 1, g: 1, b: 1, a: 0}
     - Vector3_A9C3AA14: {r: 30, g: 45, b: 0, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

@@ -243,7 +243,7 @@ public class CharacterState : MonoBehaviour
 
     public void ApplyModifier(Modifier modifier, int stacks)
     {
-        Debug.Log($"{gameObject.name} received modifier <b>{modifier.Parameter}</b> with value <b>{modifier.Value}</b>." +
+        Debug.Log($"<b>{gameObject.name}</b> received modifier <b>{modifier.Parameter}</b> with value <b>{modifier.Value}</b>." +
                   $" Stacks: <b>{stacks}</b>. StackMultiplier: <b>{modifier.PerStackMultiplier}</b>");
         var hpFraction = _hp / MaxHealth;
         switch (modifier.Parameter)

@@ -5,13 +5,13 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: 8573185672648390963
-    second: Armature|Reaper_Atack
+    second: Reaper_Atack
   - first:
       74: 3012886588839314923
-    second: Armature|Reaper_Idle
+    second: Reaper_Idle
   - first:
       74: -5931100377931971161
-    second: Armature|Reaper_Walk
+    second: Reaper_Walk
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -32,7 +32,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
-    optimizeGameObjects: 0
+    optimizeGameObjects: 1
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -47,11 +47,14 @@ ModelImporter:
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - mesh_Reaper
+    - Armature/Bone/Bone.001/Upper_Arm_R/Arm_R/Hand_R
+    - Armature/Bone/Bone.001
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature|Reaper_Atack
+      name: Reaper_Atack
       takeName: Armature|Reaper_Atack
       internalID: 8573185672648390963
       firstFrame: 0
@@ -80,7 +83,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Reaper_Idle
+      name: Reaper_Idle
       takeName: Armature|Reaper_Idle
       internalID: 3012886588839314923
       firstFrame: 0
@@ -109,7 +112,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Reaper_Walk
+      name: Reaper_Walk
       takeName: Armature|Reaper_Walk
       internalID: -5931100377931971161
       firstFrame: 0

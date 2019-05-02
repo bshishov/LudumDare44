@@ -5,19 +5,19 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: 2944855941006285045
-    second: Armature.001|Fanatic_Attack
+    second: Fanatic_Attack
   - first:
       74: -6716847476621964617
-    second: Armature.001|Fanatic_Death
+    second: Fanatic_Death
   - first:
       74: -1021835432075433594
-    second: Armature.001|Fanatic_Idle
+    second: Fanatic_Idle
   - first:
       74: 126317983755079002
-    second: Armature.001|Fanatic_Run
+    second: Fanatic_Run
   - first:
       74: 7409116551471118945
-    second: Armature.001|Fanatic_Spawn
+    second: Fanatic_Spawn
   - first:
       74: 4682928455411400512
     second: Armature.001|L_FOOTcontrol|CINEMA_4D_Main|Layer0
@@ -84,7 +84,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature.001|Fanatic_Attack
+      name: Fanatic_Attack
       takeName: Armature.001|Fanatic_Attack
       internalID: 2944855941006285045
       firstFrame: 0
@@ -113,7 +113,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature.001|Fanatic_Death
+      name: Fanatic_Death
       takeName: Armature.001|Fanatic_Death
       internalID: -6716847476621964617
       firstFrame: 0
@@ -142,7 +142,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature.001|Fanatic_Idle
+      name: Fanatic_Idle
       takeName: Armature.001|Fanatic_Idle
       internalID: -1021835432075433594
       firstFrame: 0
@@ -171,7 +171,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature.001|Fanatic_Run
+      name: Fanatic_Run
       takeName: Armature.001|Fanatic_Run
       internalID: 126317983755079002
       firstFrame: 0
@@ -200,7 +200,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature.001|Fanatic_Spawn
+      name: Fanatic_Spawn
       takeName: Armature.001|Fanatic_Spawn
       internalID: 7409116551471118945
       firstFrame: 0

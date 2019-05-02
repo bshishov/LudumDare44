@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mat_HugeTroll
+  m_Name: mat_Enemy_HugeTroll
   m_Shader: {fileID: -6465566751694194690, guid: 2290f25df2f8c114483ac983bc21143e,
     type: 3}
   m_ShaderKeywords: 

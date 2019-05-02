@@ -5,6 +5,7 @@ using UnityEngine.Assertions.Must;
 
 namespace Spells
 {
+    [RequireComponent(typeof(SpellCaster))]
     public class SpellbookState : MonoBehaviour
     {
         public enum PlaceOptions : int

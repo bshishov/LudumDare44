@@ -14,15 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 1
   Damage: 5
-  Speed: 1.5
+  Speed: 4
   Evasion: 0
   Size: 1
   HealthModifier: 1
-  IndifferenceDistance: 10
-  SpellRange: 1
+  IndifferenceDistance: 30
+  SpellRange: 10
   FearRange: 0
   MeleeRange: 1
   AttackCooldown: 5
+  ApplyBuffOnAttack: {fileID: 0}
+  AdditionalSpellStacks: 0
   DropRate: 0.07
   DropSpells:
   - {fileID: 0}

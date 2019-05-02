@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mat_Fanatic
+  m_Name: mat_Enemy_Skull
   m_Shader: {fileID: -6465566751694194690, guid: 2290f25df2f8c114483ac983bc21143e,
     type: 3}
   m_ShaderKeywords: 
@@ -72,11 +72,11 @@ Material:
     m_Floats:
     - Vector1_10154199: 1
     - Vector1_8B2D7675: -0.488
-    - Vector1_951CFA77: 0.5
-    - Vector1_C60959E6: 4.83
+    - Vector1_951CFA77: 0.383
+    - Vector1_C60959E6: 1.99
     - Vector1_C7706716: 0
     - Vector1_D5959C93: 0.3
-    - Vector1_E93467C6: 0.19
+    - Vector1_E93467C6: 0.289
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -101,7 +101,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_10EBBCA2: {r: 0.9926699, g: 1, b: 0.8820755, a: 0}
-    - Color_12DAAE22: {r: 0.5, g: 0, b: 0, a: 0}
+    - Color_12DAAE22: {r: 0.5849056, g: 0, b: 0, a: 0}
     - Color_281A855D: {r: 1, g: 1, b: 1, a: 0}
     - Vector3_A9C3AA14: {r: 30, g: 45, b: 0, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

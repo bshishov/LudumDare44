@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: Cheat_SizeIncrease
   m_EditorClassIdentifier: 
   Name: 
-  Behaviour: 0
+  Behaviour: 1
   TickCooldown: 1
-  Duration: 1
-  Modifiers: []
+  Duration: 2
+  Modifiers:
+  - Parameter: 8
+    Value: 0.01
+    PerStackMultiplier: 1
   OnApplyBuff: []
   OnTickBuff: []
   OnRemove: []
