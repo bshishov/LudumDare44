@@ -1,23 +1,24 @@
-﻿using Assets.Scripts.Data;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
-using Debug = System.Diagnostics.Debug;
 
 namespace Spells.Effects
 {
-    public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
+public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
+{
+    public GameObject WavePrefab;
+
+    public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
     {
-        public GameObject WavePrefab;
-        
-        public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
+        foreach (var target in targets.Destinations)
         {
-            var orient = Quaternion.LookRotation(targets.Directions[0]);
+            var orient          = Quaternion.LookRotation(target.Position.Value - targets.Source.Position.Value);
             orient.x = orient.z = 0;
 
             Assert.IsTrue(targets.Source.Position.HasValue, "targets.Source.Position != null");
             Destroy(Instantiate(WavePrefab, targets.Source.Position.Value, orient), 2);
         }
-
-        public void OnTargetsAffected(ISpellContext context, SpellTargets targets) {  }
     }
+
+    public void OnTargetsAffected(ISpellContext context, SpellTargets targets) { }
+}
 }
