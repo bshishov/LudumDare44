@@ -454,9 +454,6 @@ public class SpellCaster : MonoBehaviour
                 targets.AddRange(dst);
         }
 
-        if (source.Position.HasValue && target.Position.HasValue)
-            castData.Directions.Add(target.Position.Value - source.Position.Value);
-
         return false;
     }
 
