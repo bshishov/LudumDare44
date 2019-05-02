@@ -10,7 +10,7 @@ public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
     public ParticleSystem SpikePrefab;
     public float SpikesPerDistance = 7.5f;
 
-        public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
+    public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
     {
         Assert.AreEqual(context.CurrentSubSpell.Area.Area, AreaOfEffect.AreaType.Cone);
 
@@ -20,7 +20,10 @@ public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
             orient.x = orient.z = 0;
 
             Assert.IsTrue(targets.Source.Position.HasValue, "targets.Source.Position != null");
-            SpawnParticle(targets.Source.Position.Value, orient, (context.CurrentSubSpell.Area.Size + context.CurrentSubSpell.Area.MinSize)/2, context.CurrentSubSpell.Area.Angle);
+            SpawnParticle(targets.Source.Position.Value,
+                          orient,
+                          (context.CurrentSubSpell.Area.Size + context.CurrentSubSpell.Area.MinSize) / 2,
+                          context.CurrentSubSpell.Area.Angle);
         }
     }
 
