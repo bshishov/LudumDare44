@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3030d9deb419ea245a3f54c0b8afad23, type: 3}
   m_Name: SkullProjData
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 918118346315437581, guid: f3c5ef2a922d5b24e8a410a5728026b8,
+  ProjectilePrefab: {fileID: 4385171735532075985, guid: a6da86c9ac5158e4dacc4471fab35c78,
     type: 3}
   Speed: 40
   MaxDistance: 50
