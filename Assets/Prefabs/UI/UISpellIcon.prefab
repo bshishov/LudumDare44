@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Slot: 0
-  DefaultSpellIcon: {fileID: 6640104503332920153, guid: 31ec042ca000c8346a1fbbc8cbdd9b6f,
+  DefaultSpellIcon: {fileID: 294179135353329459, guid: 27c9ef8b782be9643adf078c40c13582,
     type: 3}
   SpellIcon: {fileID: 7315839022316494209}
   CooldownOverlay: {fileID: 5422598960028570725}
