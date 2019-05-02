@@ -111,61 +111,61 @@ public class EnemyController : MonoBehaviour
                         if (_distance < _indifferenceDistance)
                         {
                             var spellCount = _characterState.character.UseSpells.Count;
-                                if (spellCount <= 0)
+                            if (spellCount <= 0)
+                            {
+                                if (_distance > _meleeRange)
                                 {
-                                    if (_distance > _meleeRange)
-                                    {
-                                        _navMeshAgent.isStopped = false;
-                                        _navMeshAgent.SetDestination(player.transform.position);
-                                    }
-                                    else
-                                    {
-                                        if (_characterState.CanDealDamage())
-                                        {
-                                            _navMeshAgent.isStopped = true;
-                                            player.ReceiveDamage(_characterState.Damage);
-
-                                            if (_characterState.character.ApplyBuffOnAttack != null)
-                                            {
-                                                player.ApplyBuff(
-                                                    _characterState.character.ApplyBuffOnAttack,
-                                                    1 + _characterState.AdditionSpellStacks);
-                                            }
-
-                                            transform.rotation = Quaternion.LookRotation(len);
-                                            _characterState.GetComponent<AnimationController>().PlayAttackAnimation();
-                                        }
-                                    }
+                                    _navMeshAgent.isStopped = false;
+                                    _navMeshAgent.SetDestination(player.transform.position);
                                 }
                                 else
                                 {
-                                    if (_distance > _spellRange)
+                                    if (_characterState.CanDealDamage())
                                     {
-                                        _navMeshAgent.speed = _characterState.Speed;
-                                        selectedPlayer = player;
-                                        _navMeshAgent.isStopped = false;
-                                        _navMeshAgent.SetDestination(selectedPlayer.transform.position);
-                                    }
-                                    else
-                                    {
-                                        if (_distance > _fearRange)
+                                        _navMeshAgent.isStopped = true;
+                                        player.ReceiveDamage(_characterState.Damage);
+
+                                        if (_characterState.character.ApplyBuffOnAttack != null)
                                         {
-                                            if (_characterState.CanDealDamage())
-                                            {
-                                                transform.LookAt(player.transform);
-                                                _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player);
-                                                _navMeshAgent.isStopped = true;
-                                            }
+                                            player.ApplyBuff(
+                                                _characterState.character.ApplyBuffOnAttack,
+                                                1 + _characterState.AdditionSpellStacks);
                                         }
-                                        else
-                                        {
-                                            _navMeshAgent.speed = 10 * _characterState.Speed;
-                                            _navMeshAgent.isStopped = false;
-                                            _navMeshAgent.SetDestination(transform.position - _fearRange * len.normalized);
-                                        }
+
+                                        transform.rotation = Quaternion.LookRotation(len);
+                                        _characterState.GetComponent<AnimationController>().PlayAttackAnimation();
                                     }
                                 }
                             }
+                            else
+                            {
+                                if (_distance > _spellRange)
+                                {
+                                    _navMeshAgent.speed = _characterState.Speed;
+                                    selectedPlayer = player;
+                                    _navMeshAgent.isStopped = false;
+                                    _navMeshAgent.SetDestination(selectedPlayer.transform.position);
+                                }
+                                else
+                                {
+                                    if (_distance > _fearRange)
+                                    {
+                                        if (_characterState.CanDealDamage())
+                                        {
+                                            transform.LookAt(player.transform);
+                                            _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player);
+                                            _navMeshAgent.isStopped = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        _navMeshAgent.speed = 10 * _characterState.Speed;
+                                        _navMeshAgent.isStopped = false;
+                                        _navMeshAgent.SetDestination(transform.position - _fearRange * len.normalized);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
