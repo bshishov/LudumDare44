@@ -26,9 +26,10 @@ namespace Actors
             }
         }
 
-        public void Setup(Spell spell)
+        public void Setup(Spell spell, int stacks)
         {
             Spell = spell;
+            Stacks = stacks;
         }
         
         public static GameObject InstantiateDroppedSpell(Spell spell, Vector3 position)
@@ -39,7 +40,7 @@ namespace Actors
                 var dSpell = go.GetComponent<DroppedSpell>();
                 if (dSpell != null)
                 {
-                    dSpell.Setup(spell);
+                    dSpell.Setup(spell, 1);
                 }
             }
 
