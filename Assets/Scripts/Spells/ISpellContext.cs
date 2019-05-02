@@ -16,6 +16,7 @@ namespace Spells
 
         bool Aborted { get; }
 
+        int Stacks { get; }
         float StartTime { get; }
         float ActiveTime { get; }
         float StateActiveTime { get; }

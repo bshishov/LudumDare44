@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Data;
+using Assets.Scripts.Spells;
 using Assets.Scripts.Utils.Debugger;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -49,7 +50,7 @@ public class SpellContext : ISpellContext
     private int startSubspellIndex;
 
     public List<SubSpellTargets> subSpellTargets;
-
+    
     public int             CurrentSubspell { get; set; }
     public SubSpellContext SubContext      { get; set; }
 
@@ -60,6 +61,7 @@ public class SpellContext : ISpellContext
 
     public Spell Spell { get; private set; }
 
+    public int Stacks { get; set; } = 1;
     public float        StartTime       { get; set; }
     public ContextState State           { get; set; }
     public float        StateActiveTime { get; set; }
@@ -69,7 +71,7 @@ public class SpellContext : ISpellContext
     public SubSpell CurrentSubSpell => Spell.SubSpells[CurrentSubspell];
     public Spell.SpellFlags SpellFlags => Spell.Flags;
 
-    public static SpellContext Create(SpellCaster caster, Spell spell, SpellTargets targets, int subSpellStartIndex)
+    public static SpellContext Create(SpellCaster caster, Spell spell, int stacks, SpellTargets targets, int subSpellStartIndex)
     {
         Debug.Log(targets);
 
@@ -79,6 +81,7 @@ public class SpellContext : ISpellContext
                           caster             = caster,
                           State              = subSpellStartIndex == 0 ? ContextState.JustQueued : ContextState.FindTargets,
                           Spell              = spell,
+                          Stacks             = stacks,
                           startSubspellIndex = subSpellStartIndex,
                           CurrentSubspell    = subSpellStartIndex,
                           SubContext         = null,
@@ -147,7 +150,7 @@ public class SpellCaster : MonoBehaviour
         return true;
     }
 
-    public bool CastSpell(Spell spell, SpellTargets targets)
+    public bool CastSpell(Spell spell, int stacks, SpellTargets targets)
     {
         if (_context != null)
         {
@@ -158,15 +161,15 @@ public class SpellCaster : MonoBehaviour
         if (!targets.Destinations.Any(t => IsValidTarget(spell.SubSpells[0], t)))
             return false;
 
-        _context = SpellContext.Create(this, spell, targets, 0);
+        _context = SpellContext.Create(this, spell, stacks, targets, 0);
         return true;
     }
 
-    internal void ContinueCastSpell(Spell spell, SpellTargets targets, int subSpellStartIndex = 0)
+    internal void ContinueCastSpell(Spell spell, SpellTargets targets, int subSpellStartIndex = 0, int stacks=1)
     {
         lock (_nestedContexts)
         {
-            _nestedContexts.Add(SpellContext.Create(this, spell, targets, subSpellStartIndex));
+            _nestedContexts.Add(SpellContext.Create(this, spell, stacks, targets, subSpellStartIndex));
         }
     }
 
@@ -474,7 +477,7 @@ public class SpellCaster : MonoBehaviour
 
             foreach (var destination in targets.Destinations)
             {
-                destination.Character.ApplySpell(context.InitialSource, context.CurrentSubSpell);
+                destination.Character.ApplySpell(context.InitialSource, context);
 
                 if (!context.IsLastSubSpell)
                     newTargets.TargetData.Add(new SpellTargets(destination));
@@ -493,7 +496,8 @@ public class SpellCaster : MonoBehaviour
                                     spell           = context.Spell,
                                     startSubContext = context.CurrentSubspell,
                                     target          = target,
-                                    origin          = source
+                                    origin          = source,
+                                    Stacks          = context.Stacks
                                 };
 
         var projectilePrefab = Instantiate(new GameObject(), source.Position.Value, Quaternion.identity);

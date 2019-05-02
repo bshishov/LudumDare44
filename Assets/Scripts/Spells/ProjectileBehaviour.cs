@@ -11,6 +11,7 @@ namespace Spells
         public ProjectileData projectileData;
 
         public Spell spell;
+        public int Stacks;
         public int startSubContext;
 
         public TargetInfo origin;
@@ -119,7 +120,7 @@ namespace Spells
                 new SpellTargets(
                     TargetInfo.Create(_context.owner, transform, transform.position),
                     target != null ? TargetInfo.Create(target) : new TargetInfo {Position = transform.position}
-                ), _context.startSubContext + 1);
+                ), _context.startSubContext + 1, stacks:_context.Stacks);
         }
 
         private void Update()

@@ -507,15 +507,18 @@ public class CharacterState : MonoBehaviour
         }
     }
     
-    internal void ApplySpell(CharacterState owner, SubSpell spell)
+    internal void ApplySpell(CharacterState owner, ISpellContext spellContext)
     {
         if(!IsAlive)
             return;
 
+        var currentSub = spellContext.CurrentSubSpell;
+        _combatLog.Log($"<b>{gameObject.name}</b> received spell cast <b>{spellContext.Spell.name}</b>" +
+                       $" (sub: <b>{currentSub.name}</b>) with <b>{spellContext.Stacks}</b>");
         if (owner.CurrentTeam != CurrentTeam)
         {
-            foreach (var buff in spell.Buffs)
-                ApplyBuff(buff);
+            foreach (var buff in spellContext.CurrentSubSpell.Buffs)
+                ApplyBuff(buff, spellContext.Stacks);
         }
     }
 
