@@ -1,42 +1,23 @@
 fileFormatVersion: 2
-guid: f8b1863b4c3ed8144b2ef795d28e4b32
+guid: b70c19f628b827641aec3a0a2d84f118
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
   - first:
-      74: 9036583609359542976
-    second: Enemy_Skull_Armature|L_FOOTcontrol|CINEMA_4D_Main|Layer0
-  - first:
-      74: -3921441930392665096
-    second: Enemy_Skull_Armature|Master|CINEMA_4D_Main|Layer0
-  - first:
-      74: 2167192170397415646
-    second: Enemy_Skull_Armature|MN_pants_MN_pants1|Take 001|BaseLayer
-  - first:
-      74: 1305124422885302904
-    second: Enemy_Skull_Armature|Ogre_delete
-  - first:
-      74: 7163444585153869895
-    second: Enemy_Skull_Armature|Plane.007Action.002
-  - first:
-      74: -6707817248754678306
-    second: Enemy_Skull_Armature|Plane.009Action
-  - first:
-      74: 1595572785539779990
-    second: Enemy_Skull_Armature|R_FOOTcontrol|CINEMA_4D_Main|Layer0
-  - first:
       74: 8087160509427242797
-    second: Skull_Death
+    second: Enemy_Skull_Armature|Skull_Attack
   - first:
       74: -8080927988298006444
-    second: Skull_Idle
+    second: Enemy_Skull_Armature|Skull_Idle
   - first:
       74: -8064636431053875560
-    second: Skull_Walk
+    second: Enemy_Skull_Armature|Skull_Walk
+  externalObjects:
   - first:
-      74: 4221859023215554732
-    second: Skull_Attack
-  externalObjects: {}
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Enemies_Skull
+    second: {fileID: 2100000, guid: 8b9e5d3694a27b04e9988ead4579e89b, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -65,10 +46,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Skull_Death
+      name: Enemy_Skull_Armature|Skull_Attack
       takeName: Enemy_Skull_Armature|Skull_Attack
       internalID: 8087160509427242797
-      firstFrame: 21
+      firstFrame: 0
       lastFrame: 50
       wrapMode: 0
       orientationOffsetY: 0
@@ -94,7 +75,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Skull_Idle
+      name: Enemy_Skull_Armature|Skull_Idle
       takeName: Enemy_Skull_Armature|Skull_Idle
       internalID: -8080927988298006444
       firstFrame: 0
@@ -123,40 +104,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Skull_Walk
+      name: Enemy_Skull_Armature|Skull_Walk
       takeName: Enemy_Skull_Armature|Skull_Walk
       internalID: -8064636431053875560
       firstFrame: 0
       lastFrame: 10
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Skull_Attack
-      takeName: Enemy_Skull_Armature|Skull_Attack
-      internalID: 4221859023215554732
-      firstFrame: 0
-      lastFrame: 20
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
