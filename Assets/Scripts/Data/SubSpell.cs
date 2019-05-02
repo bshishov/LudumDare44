@@ -94,8 +94,6 @@ public class SubSpell : ScriptableObject
 
     public SpellTargeting Targeting;
 
-    public TargetLockingType TargetLocking;
-
     [Header("FX")]
     public GameObject Effect;
     public ISubSpellEffect GetEffect()
