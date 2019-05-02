@@ -2,12 +2,15 @@
 using Assets.Scripts.Utils;
 using Assets.Scripts.Utils.Debugger;
 using UnityEngine;
+using UnityEngine.AI;
+
 
 
 public class AnimationController : MonoBehaviour
 {
     public Animator Animator;
     public float SpeedMultiplier = 1f;
+    private float _timeUntilDestroy = 5f;
 
     [Header("Material configuration")]
     public float ImpactDecayTime = 0.1f;
@@ -39,6 +42,7 @@ public class AnimationController : MonoBehaviour
     private Vector2 _dirVelocity;
     private Vector2 _moveDir;
     private float _impactTime;
+    private Vector3 _toHell = new Vector3(0f, 0.003f, 0f);
 
     void Start()
     {
@@ -51,23 +55,6 @@ public class AnimationController : MonoBehaviour
         {
             Debug.LogErrorFormat("Animation controller requires Animator component: {0}", gameObject.name);
         }
-
-        Debugger.Default.Display("Animation/Play Death", PlayDeathAnimation);
-        Debugger.Default.Display("Animation/Play Attack", PlayAttackAnimation);
-        //Debugger.Default.Display("Animation/Play Cast AoE", () =>
-        //{
-        //    PlayCastAnimation(SubSpell.SpellTypes.Aoe);
-        //});
-        //Debugger.Default.Display("Animation/Play Cast Projectile", () =>
-        //{
-        //    PlayCastAnimation(SubSpell.SpellTypes.Projectile);
-        //});
-        //Debugger.Default.Display("Animation/Play Cast Raycast", () =>
-        //{
-        //    PlayCastAnimation(SubSpell.SpellTypes.Raycast);
-        //});
-        Debugger.Default.Display("Animation/Force enable", () => { _disabled = false; });
-
         _lastPosition = transform.position;
     }
 
@@ -95,25 +82,6 @@ public class AnimationController : MonoBehaviour
         
         Animator.SetTrigger(Attack);
     }
-
-    //public void PlayCastAnimation(Spell.SpellTypes spellType = SubSpell.SpellTypes.Raycast)
-    //{
-    //    if (_disabled)
-    //        return;
-
-    //    switch (spellType)
-    //    {
-    //        case SubSpell.SpellTypes.Raycast:
-    //            Animator.SetTrigger(CastTarget);
-    //            break;
-    //        case SubSpell.SpellTypes.Aoe:
-    //            Animator.SetTrigger(CastAoE);
-    //            break;
-    //        case SubSpell.SpellTypes.Projectile:
-    //            Animator.SetTrigger(CastProjectile);
-    //            break;
-    //    }
-    //}
 
     public void PlayHitImpactAnimation()
     {
@@ -146,6 +114,18 @@ public class AnimationController : MonoBehaviour
 
     private void Update()
     {
+        if (_disabled && _timeUntilDestroy>0f)
+        {
+            _timeUntilDestroy -= Time.deltaTime;
+            GetComponent<NavMeshAgent>().enabled = false;
+        }
+        if (_disabled && _timeUntilDestroy <= 0f)
+        {            
+            transform.position -= _toHell;
+        }
+        if (transform.position.y < -0.5f)
+            Destroy(gameObject);
+
         _impactTime = Mathf.Max(_impactTime - Time.deltaTime, 0);
         if (Renderers != null)
         {
@@ -176,5 +156,13 @@ public class AnimationController : MonoBehaviour
 
             _lastPosition = transform.position;
         }
+    }
+
+    public void PlayCastAnimation()
+    {
+        if(_disabled)
+            return;
+
+        Animator.SetTrigger(CastTarget);
     }
 }

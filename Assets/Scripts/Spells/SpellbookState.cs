@@ -1,9 +1,11 @@
 ﻿using Assets.Scripts.Data;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Assertions.Must;
 
 namespace Spells
 {
+    [RequireComponent(typeof(SpellCaster))]
     public class SpellbookState : MonoBehaviour
     {
         public enum PlaceOptions : int
@@ -32,6 +34,7 @@ namespace Spells
 
         private SpellCaster _spellCaster;
         private CharacterState _characterState;
+        private AnimationController _animationController;
 
         public static readonly int SpellCount = 3;
 
@@ -40,6 +43,7 @@ namespace Spells
         private void Start()
         {
             _spellCaster = GetComponent<SpellCaster>();
+            _animationController = GetComponent<AnimationController>();
             _characterState = GetComponent<CharacterState>();
 
             var initialSpells = _characterState.character.UseSpells;
@@ -129,11 +133,16 @@ namespace Spells
             var slotState = GetSpellSlotState(index);
             if (slotState.State == SpellState.Ready)
             {
-                _spellCaster.CastSpell(slotState.Spell, targets);
+                if (_spellCaster.CastSpell(slotState.Spell, targets))
+                {
+                    // Start cooldown
+                    SpellSlots[index].State = SpellState.Recharging;
+                    SpellSlots[index].RemainingCooldown = slotState.Spell.Cooldown;
 
-                // Start cooldown
-                SpellSlots[index].State = SpellState.Recharging;
-                SpellSlots[index].RemainingCooldown = slotState.Spell.Cooldown;
+                    // Animation
+                    if(_animationController != null)
+                        _animationController.PlayCastAnimation();
+                }
             }
         }
 

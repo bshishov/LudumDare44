@@ -21,8 +21,10 @@ MonoBehaviour:
   IndifferenceDistance: 15
   SpellRange: 8
   FearRange: 5
-  MeleeRange: 1
+  MeleeRange: 3.82
   AttackCooldown: 5
+  ApplyBuffOnAttack: {fileID: 0}
+  AdditionalSpellStacks: 0
   DropRate: 0.05
   DropSpells:
   - {fileID: 0}

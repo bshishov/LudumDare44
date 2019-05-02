@@ -11,7 +11,7 @@ namespace Assets.Scripts.UI
         public TextMeshProUGUI Text;
 
         private CharacterState _playerState;
-        private const string HpBarFormat = "{0:#} / {1:#}";
+        private const string HpBarFormat = "{0:0} / {1:0}";
 
         void Start()
         {
