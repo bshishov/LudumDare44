@@ -277,7 +277,9 @@ public class CharacterState : MonoBehaviour
     public void ApplyModifier(ModificationParameter parameter, float amount, int stacks, float effectiveStacks, out float actualChange)
     {
         actualChange = 0f;
-        
+        if (parameter == ModificationParameter.None)
+            return;
+
         var hpFraction = _hp / MaxHealth;
         switch (parameter)
         {
