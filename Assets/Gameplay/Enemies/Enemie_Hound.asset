@@ -10,25 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
-  m_Name: Player
+  m_Name: Enemie_Hound
   m_EditorClassIdentifier: 
-  Health: 100
-  Damage: 0
-  Speed: 6
+  Health: 1
+  Damage: 3
+  Speed: 2
   Evasion: 0
   Size: 1
-  HealthModifier: 0.5
-  IndifferenceDistance: 10
+  HealthModifier: 1
+  IndifferenceDistance: 20
   SpellRange: 0
   FearRange: 0
-  MeleeRange: 0
+  MeleeRange: 2
   AttackCooldown: 1
   ApplyBuffOnAttack: {fileID: 0}
   AdditionalSpellStacks: 0
-  DropRate: 0
-  DropSpells: []
-  UseSpells:
-  - {fileID: 11400000, guid: 0f5e31d5e7d195e4dbcf8c1f34aa4da3, type: 2}
-  - {fileID: 11400000, guid: 061e3a3f356d7fc489e00711052fd343, type: 2}
-  - {fileID: 11400000, guid: c26cb1742481020428164b5b9dea2f1e, type: 2}
+  DropRate: 0.05
+  DropSpells:
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 4dea2418d8494ae43ba01a378694fbf2, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  UseSpells: []
   UseBuff: {fileID: 0}

@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Bloodsoaked Shield
   m_EditorClassIdentifier: 
   Name: Bloodsoaked Shield
+  Description: This shield has seen many fierce battles. It increases your Max health
+    on 10%, but you move 10% slower
   Cost: 0
   Icon: {fileID: 0}
   Buffs:
-  - {fileID: 11400000, guid: 6589f1de106a6a641bb25a5372a0a376, type: 2}
+  - {fileID: 11400000, guid: 6808205f473b4054bbe157e108075500, type: 2}
+  - {fileID: 11400000, guid: 372c669ef9fc5c248b6baacc3ba53b87, type: 2}
   Prefab: {fileID: 262888836883160003, guid: 63dec5e010ab3ee44b9bff2f372ddd86, type: 3}
