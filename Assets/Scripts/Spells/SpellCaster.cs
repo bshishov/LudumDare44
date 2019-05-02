@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Data;
-using Assets.Scripts.Spells;
 using Assets.Scripts.Utils.Debugger;
 using JetBrains.Annotations;
 using UnityEngine;

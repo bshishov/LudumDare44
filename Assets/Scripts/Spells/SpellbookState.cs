@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Data;
-using Assets.Scripts.Spells;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Assertions.Must;
