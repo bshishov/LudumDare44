@@ -34,8 +34,10 @@ namespace Assets.Scripts.Data
             AffectsOnlyOnce = 1 << 2,
         };
 
+        [Header("Meta")]
         public string Name;
         public Sprite Icon;
+        public string Description;
 
         public int BloodCost = 0;
         public int BloodBack = 0;
