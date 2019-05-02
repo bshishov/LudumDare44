@@ -18,8 +18,8 @@ MonoBehaviour:
   Duration: 2
   Modifiers:
   - Parameter: 8
-    Value: 0.01
-    PerStackMultiplier: 1
+    Value: 0.1
+    EffectiveStacks: 10
   OnApplyBuff: []
   OnTickBuff: []
   OnRemove: []

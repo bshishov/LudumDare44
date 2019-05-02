@@ -460,6 +460,9 @@ public class CharacterState : MonoBehaviour
         Debugger.Default.Display(gameObject.name + "/Damage", Damage);
         Debugger.Default.Display(gameObject.name + "/Damage/FlatModSum", _dmgFlatModSum);
         Debugger.Default.Display(gameObject.name + "/Damage/MultModSum", _dmgMultModSum);
+        Debugger.Default.Display(gameObject.name + "/Size", Size);
+        Debugger.Default.Display(gameObject.name + "/Size/FlatModSum", _sizeFlatModSum);
+        Debugger.Default.Display(gameObject.name + "/Size/MultModSum", _sizeMultModSum);
         Debugger.Default.Display(gameObject.name + "/Evasion", Evasion);
         Debugger.Default.Display(gameObject.name + "/Evasion/MultProd", _evasionModMulProduct);
 
@@ -556,6 +559,6 @@ public class CharacterState : MonoBehaviour
     public static float StackedModifier(float modifierValue, float stacks, float effectiveStacks)
     {
         // DO NOT CHANGE THIS! unless you do not know what you are doing!
-        return modifierValue * stacks / ((stacks - 1) * (1 - 0.3f) / (Mathf.Min(1,effectiveStacks)) + 1);
+        return modifierValue * stacks / ((stacks - 1) * (1 - 0.3f) / (Mathf.Max(1,effectiveStacks)) + 1);
     }
 }
