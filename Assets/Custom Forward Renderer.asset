@@ -16,7 +16,7 @@ MonoBehaviour:
     passTag: XRay Actors
     Event: 300
     filterSettings:
-      RenderQueueType: 1
+      RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
         m_Bits: 256
@@ -52,9 +52,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     passTag: Actors
-    Event: 450
+    Event: 300
     filterSettings:
-      RenderQueueType: 1
+      RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
         m_Bits: 256
