@@ -511,23 +511,25 @@ public class CharacterState : MonoBehaviour
                 SetHp(_hp - amount);
         }
     }
-    
+
     internal void ApplySpell(CharacterState owner, ISpellContext spellContext)
     {
-        if(!IsAlive)
+        if (!IsAlive)
             return;
 
         var currentSub = spellContext.CurrentSubSpell;
-        _combatLog.Log($"<buff>{gameObject.name}</buff> received spell cast <buff>{spellContext.Spell.name}</buff>" +
-                       $" (sub: <buff>{currentSub.name}</buff>) with <buff>{spellContext.Stacks}</buff>");
-        if (owner.CurrentTeam != CurrentTeam)
+        _combatLog.Log($"<buff>{gameObject.name}</buff> received spell cast <buff>{spellContext.Spell.name}</buff>"
+                       + $" (sub: <buff>{currentSub.name}</buff>) with <buff>{spellContext.Stacks}</buff>");
+
+        Assert.IsTrue(SpellCaster.IsEnemy(owner, this, currentSub.AffectedTarget));
+
         {
             foreach (var buff in spellContext.CurrentSubSpell.Buffs)
                 ApplyBuff(buff, spellContext.Stacks);
         }
     }
 
-    
+
     public Transform GetNodeTransform(NodeRole role = NodeRole.Default)
     {
         if (Nodes == null || Nodes.Length == 0)

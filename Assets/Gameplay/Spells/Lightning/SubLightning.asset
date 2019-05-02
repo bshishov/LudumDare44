@@ -15,7 +15,8 @@ MonoBehaviour:
   AffectedTarget: 8
   Area: {fileID: 11400000, guid: 34e14946de751714fb0cf7c8383eb436, type: 2}
   Buffs:
-  - {fileID: 11400000, guid: 96e442dfe34032b4dab6264023b79922, type: 2}
+  - {fileID: 0}
+  Effect: {fileID: 1349204274574646620, guid: 97b50922a392d41499e890a3452714e0, type: 3}
   Flags: 22
   Obstacles: 4
   Origin: 1
@@ -23,5 +24,4 @@ MonoBehaviour:
   PreCastDelay: 0.5
   Projectile: {fileID: 0}
   Targeting: 1
-  TargetLocking: 0
-  Effect: {fileID: 1349204274574646620, guid: 97b50922a392d41499e890a3452714e0, type: 3}
+  NewSource: 1

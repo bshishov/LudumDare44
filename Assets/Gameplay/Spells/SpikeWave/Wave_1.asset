@@ -16,11 +16,12 @@ MonoBehaviour:
   Area: {fileID: 11400000, guid: 1b473f7d2098ec94b97a1fcc79076cd1, type: 2}
   Buffs:
   - {fileID: 0}
+  Effect: {fileID: 1349204274574646620, guid: 969392a480e28e6409a782eb40a9fc1d, type: 3}
   Flags: 6
   Obstacles: 0
-  Origin: 17
-  PostCastDelay: 0
+  Origin: 1
+  PostCastDelay: 0.18
   PreCastDelay: 0.2
   Projectile: {fileID: 0}
   Targeting: 2
-  Effect: {fileID: 1349204274574646620, guid: 969392a480e28e6409a782eb40a9fc1d, type: 3}
+  NewSource: 2
