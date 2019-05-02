@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Riper_wings
-  m_Shader: {fileID: -6465566751694194690, guid: b064998fc34d57845b2cfbe8ea2d7325,
+  m_Shader: {fileID: -6465566751694194690, guid: 61483d9af1151a249b665bde76bbd0d9,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -31,10 +31,10 @@ Material:
     m_Floats:
     - Vector1_6AFBEDFA: 0.056
     - Vector1_A0125159: 0.5
-    - Vector1_B514299D: 0.5
-    - Vector1_EFE96326: 0
+    - Vector1_B514299D: 0.05
+    - Vector1_EFE96326: 0.066
     m_Colors:
-    - Color_150DD57E: {r: 0.69803923, g: 0, b: 0.029121138, a: 0}
+    - Color_150DD57E: {r: 1, g: 1, b: 1, a: 0}
     - Color_9E1D2813: {r: 0.023529412, g: 0.61960787, b: 0.61960787, a: 0}
     - Color_C5953860: {r: 0, g: 0.14775759, b: 1.4980391, a: 0}
     - Color_CD09CF1: {r: 0, g: 1.1259967, b: 1.396078, a: 0}

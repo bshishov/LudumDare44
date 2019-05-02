@@ -19,7 +19,14 @@ MonoBehaviour:
   Modifiers:
   - Parameter: 1
     Value: -5
-    PerStackMultiplier: 1
-  OnApplyBuff: []
+    EffectiveStacks: 10
+  OnApplyBuff:
+  - ApplyModifier:
+      Parameter: 0
+      Value: 0
+      EffectiveStacks: 0
+    CastSpell: {fileID: 0}
+    SpawnObject: {fileID: 3417819086179895440, guid: eb3d40d3f02a40a46bcbc64937987a0b,
+      type: 3}
   OnTickBuff: []
   OnRemove: []
