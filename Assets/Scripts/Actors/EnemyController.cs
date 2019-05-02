@@ -85,6 +85,14 @@ public class EnemyController : MonoBehaviour
                                 {
                                     _navMeshAgent.isStopped = true;
                                     player.ReceiveDamage(_characterState.Damage);
+
+                                    if (_characterState.character.ApplyBuffOnAttack != null)
+                                    {
+                                        player.ApplyBuff(
+                                            _characterState.character.ApplyBuffOnAttack, 
+                                            1 + _characterState.AdditionSpellStacks);
+                                    }
+
                                     transform.rotation = Quaternion.LookRotation(len);
                                     _characterState.GetComponent<AnimationController>().PlayAttackAnimation();
                                 }

@@ -98,8 +98,8 @@ public class CharacterState : MonoBehaviour
     public float Size => (character.Size + _sizeFlatModSum) * (1 + ELU(_sizeMultModSum));
 
     // ========= AdditionSpellStacks
-    private float _assFlatMod;
-    public float AdditionSpellStacks => _assFlatMod;
+    private float _assFlatMod = 0;
+    public int AdditionSpellStacks => character.AdditionalSpellStacks + Mathf.CeilToInt(_assFlatMod);
     public float DropRate => character.DropRate;
     public List<Spell> DropSpells => character.DropSpells;
 

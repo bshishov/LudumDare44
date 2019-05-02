@@ -17,8 +17,8 @@ MonoBehaviour:
   TickCooldown: 1
   Duration: 5
   Modifiers:
-  - Parameter: 10
-    Value: -1
+  - Parameter: 11
+    Value: -0.1
     PerStackMultiplier: 1
   OnApplyBuff: []
   OnTickBuff: []

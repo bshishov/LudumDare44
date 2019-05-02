@@ -18,8 +18,12 @@ namespace Assets.Scripts.Data
         public float IndifferenceDistance = 10f;
         public float SpellRange = 0f;
         public float FearRange = 0f;
+
+        [Header("Melee attack")]
         public float MeleeRange = 0f;
-        public float AttackCooldown = 1f;        
+        public float AttackCooldown = 1f;
+        public Buff ApplyBuffOnAttack;
+        public int AdditionalSpellStacks = 0;
 
         [Header("Drop Info")]
         [Range(0f, 1f)]
