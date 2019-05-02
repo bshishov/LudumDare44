@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using Assets.Scripts.Data;
 using UnityEngine;
@@ -22,6 +25,20 @@ namespace Spells
         public CharacterState Character;
         public Transform Transform;
         public Vector3? Position;
+
+        public TargetInfo()
+        {
+            Character = null;
+            Transform = null;
+            Position = null;
+        }
+
+        public TargetInfo(TargetInfo source)
+        {
+            Character = source.Character;
+            Transform = source.Transform;
+            Position  = source.Position;
+        }
 
         public static TargetInfo Create(CharacterState character, Transform transform, Vector3 position)
             => new TargetInfo
@@ -62,6 +79,12 @@ namespace Spells
         public readonly TargetInfo Source;
         public TargetInfo[] Destinations;
 
+        public SpellTargets(SpellTargets source)
+        {
+            Source = new TargetInfo(source.Source);
+            Destinations = source.Destinations;
+        }
+
         public SpellTargets(TargetInfo source)
         {
             Source = source;
@@ -81,6 +104,8 @@ namespace Spells
                 dst = string.Join("; ", Destinations.Select(d => d.ToString()));
             return $"Source = {Source}, Destinations = {dst}";
         }
+
+
     }
 
     public class SubSpellTargets

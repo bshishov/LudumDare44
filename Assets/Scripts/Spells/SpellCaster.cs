@@ -11,25 +11,22 @@ namespace Spells
 {
 public class SubSpellContext
 {
-    public bool aborted;
-
-    public float activeTime;
+    public float stateActiveTime;
 
     public object          customData;
     public ISubSpellEffect effect;
+    public bool            failedToFindTargets;
     public bool            projectileSpawned;
 
-    public float        startTime;
     public ContextState state;
-    public float        stateActiveTime;
+    public bool         Casting => failedToFindTargets == false && projectileSpawned == false;
 
     public static SubSpellContext Create(SpellContext context)
     {
         return new SubSpellContext
                {
                    effect     = context.CurrentSubSpell.GetEffect(),
-                   startTime  = Time.fixedTime,
-                   activeTime = 0.0f
+                   stateActiveTime = 0.0f
                };
     }
 }
@@ -50,13 +47,14 @@ public class SpellContext : ISpellContext
 
     public List<SubSpellTargets> subSpellTargets;
 
-    public int             CurrentSubspell { get; set; }
+    public int             CurrentSubSpellIndex { get; set; }
     public SubSpellContext SubContext      { get; set; }
 
-    public SubSpellTargets CurrentSubSpellTargets => subSpellTargets[CurrentSubspell - startSubspellIndex];
-    public bool            Aborted                { get; set; }
-    public float           ActiveTime             { get; set; }
-    public CharacterState  InitialSource          { get; private set; }
+    public SubSpellTargets  CurrentSubSpellTargets => subSpellTargets[CurrentSubSpellIndex - startSubspellIndex];
+    public Spell.SpellFlags SpellFlags             => Spell.Flags;
+    public bool             Aborted                { get; set; }
+    public float            ActiveTime             { get; set; }
+    public CharacterState   InitialSource          { get; private set; }
 
     public Spell Spell { get; private set; }
 
@@ -64,10 +62,9 @@ public class SpellContext : ISpellContext
     public ContextState State           { get; set; }
     public float        StateActiveTime { get; set; }
 
-    public bool IsLastSubSpell => CurrentSubspell == Spell.SubSpells.Length - 1;
+    public bool IsLastSubSpell => CurrentSubSpellIndex == Spell.SubSpells.Length - 1;
 
-    public SubSpell CurrentSubSpell => Spell.SubSpells[CurrentSubspell];
-    public Spell.SpellFlags SpellFlags => Spell.Flags;
+    public SubSpell CurrentSubSpell => Spell.SubSpells[CurrentSubSpellIndex];
 
     public static SpellContext Create(SpellCaster caster, Spell spell, SpellTargets targets, int subSpellStartIndex)
     {
@@ -80,7 +77,7 @@ public class SpellContext : ISpellContext
                           State              = subSpellStartIndex == 0 ? ContextState.JustQueued : ContextState.FindTargets,
                           Spell              = spell,
                           startSubspellIndex = subSpellStartIndex,
-                          CurrentSubspell    = subSpellStartIndex,
+                          CurrentSubSpellIndex    = subSpellStartIndex,
                           SubContext         = null,
                           StartTime          = Time.fixedTime,
                           StateActiveTime    = 0.0f,
@@ -186,8 +183,6 @@ public class SpellCaster : MonoBehaviour
             return true;
         }
 
-        if (context.Aborted) Debug.Log($"{context.Spell.Name} aborted");
-
         return context.State == ContextState.Finishing;
     }
 
@@ -228,25 +223,43 @@ public class SpellCaster : MonoBehaviour
                 return true;
 
             case ContextState.Fire:
-                context.SubContext = SubSpellContext.Create(context);
 
-                while (ManageSubContext(context, context.SubContext)) ;
+                if (context.SubContext != null)
+                    context.SubContext.stateActiveTime += context.frameTime;
 
-                if (context.SubContext.aborted)
-                    if ((context.SpellFlags & Spell.SpellFlags.BreakOnFailedTargeting) == Spell.SpellFlags.BreakOnFailedTargeting)
+                while (context.CurrentSubSpellIndex < context.Spell.SubSpells.Length && context.Aborted == false)
+                {
+                    if (context.SubContext == null)
+                        context.SubContext = SubSpellContext.Create(context);
+
+                    if (!ManageSubContext(context, context.SubContext))
+                        return false;
+
+                    if (context.SubContext.failedToFindTargets
+                        && (context.SpellFlags & Spell.SpellFlags.BreakOnFailedTargeting) == Spell.SpellFlags.BreakOnFailedTargeting)
                     {
                         context.Aborted = true;
-                        context.State   = ContextState.PostDelay;
+                        if (context.SubContext.state < ContextState.PostDelay)
+                            context.SubContext.state = ContextState.PostDelay;
 
-                        return true;
+                        context.SubContext.state = ContextState.JustQueued;
+                        break;
                     }
+
+                    if (context.SubContext.state == ContextState.Finishing)
+                    {
+                        ++context.CurrentSubSpellIndex;
+                        context.SubContext = null;
+                    }
+                }
+
 
                 context.SubContext = null;
                 Advance();
                 return true;
 
             case ContextState.PostDelay:
-                if (context.StateActiveTime < context.Spell.PreCastDelay)
+                if (context.StateActiveTime < context.Spell.PostCastDelay)
                     break;
 
                 Advance();
@@ -275,83 +288,55 @@ public class SpellCaster : MonoBehaviour
                 return true;
 
             case ContextState.PreDelays:
-                if (subContext.activeTime < context.CurrentSubSpell.PostCastDelay)
+                if (subContext.stateActiveTime < context.CurrentSubSpell.PostCastDelay)
                     break;
 
                 Advance();
                 return true;
 
             case ContextState.FindTargets:
-                if (!LockTargets(context, subContext))
-                {
-                    Debug.LogWarning($"{context.Spell.Name} Failed to LockTarget subspell {context.CurrentSubspell}");
-                    subContext.aborted = true;
-                }
+                subContext.failedToFindTargets = LockTargets(context, subContext);
+                context.effect?.OnStateChange(context, ContextState.FindTargets);
 
-                NotifyAfterTargeting();
                 Advance();
                 return true;
 
             case ContextState.PreDamageDelay:
-                if (subContext.activeTime < context.CurrentSubSpell.PostCastDelay)
+                if (subContext.stateActiveTime < context.CurrentSubSpell.PostCastDelay)
                     break;
 
                 Advance();
                 return true;
 
             case ContextState.Fire:
-                if (!FinalizeTargets(context, subContext))
-                {
-                    Debug.LogWarning($"{context.Spell.Name} Failed to FinalizeTargets subspell {context.CurrentSubspell}");
-                    subContext.aborted = true;
-                }
-                else
-                {
-                    Execute(context, subContext);
-                    Debug.Log($"{context.Spell.Name} Executed subspell {context.CurrentSubspell}");
-                }
-                
+                subContext.failedToFindTargets = FinalizeTargets(context, subContext);
+
+                Execute(context, subContext);
+                Debug.Log($"{context.Spell.Name} Executed subspell {context.CurrentSubSpellIndex}");
 
                 Advance();
                 return true;
 
             case ContextState.PostDelay:
-                if (subContext.activeTime < context.CurrentSubSpell.PostCastDelay)
+                if (subContext.stateActiveTime < context.CurrentSubSpell.PostCastDelay)
                     break;
 
                 Advance();
                 return true;
 
             case ContextState.Finishing:
-                ++context.CurrentSubspell;
-                subContext.state = ContextState.PreDelays;
-
-                var casting = context.CurrentSubspell < context.Spell.SubSpells.Length && subContext.aborted == false && subContext.projectileSpawned == false;
-
-                if (casting)
-                {
-                    subContext.state           = ContextState.PreDelays;
-                    subContext.stateActiveTime = 0;
-                }
-
-                return casting;
+                return true;
         }
 
         return false;
 
-        void NotifyAfterTargeting() { context.effect?.OnStateChange(context, ContextState.FindTargets); }
-
         void Advance()
         {
-            if (subContext.aborted && subContext.state <= ContextState.FindTargets)
-                subContext.state = ContextState.PostDelay;
-            else
-                ++subContext.state;
-
-            subContext.stateActiveTime = 0;
+            ++context.SubContext.state;
+            context.SubContext.stateActiveTime = 0;
         }
     }
-        
+
     private static bool LockTargets(SpellContext context, SubSpellContext subContext)
     {
         var anyTargetFound = false;
@@ -473,15 +458,33 @@ public class SpellCaster : MonoBehaviour
                 continue;
 
             foreach (var destination in targets.Destinations)
-            {
-                destination.Character.ApplySpell(context.InitialSource, context.CurrentSubSpell);
+                if (destination.Character != null)
+                    destination.Character.ApplySpell(context.InitialSource, context.CurrentSubSpell);
+                else
+                    Debug.LogWarning("Failed to apply spell");
 
-                if (!context.IsLastSubSpell)
-                    newTargets.TargetData.Add(new SpellTargets(destination));
+            if (context.IsLastSubSpell)
+                continue;
+
+            switch (context.CurrentSubSpell.NewSource)
+            {
+                case SubSpell.NewSourceType.AffectedTarget:
+                {
+                    foreach (var destination in targets.Destinations)
+                        newTargets.TargetData.Add(new SpellTargets(destination));
+
+                    break;
+                }
+                case SubSpell.NewSourceType.OriginalTargetData:
+                    newTargets.TargetData.Add(new SpellTargets(targets));
+
+                    break;
+                default: throw new ArgumentOutOfRangeException();
             }
         }
 
-        context.subSpellTargets.Add(newTargets);
+        if (!context.IsLastSubSpell)
+            context.subSpellTargets.Add(newTargets);
     }
 
     private static void SpawnProjectile(TargetInfo source, TargetInfo target, SpellContext context)
@@ -491,7 +494,7 @@ public class SpellCaster : MonoBehaviour
                                     owner           = context.InitialSource,
                                     projectileData  = context.CurrentSubSpell.Projectile,
                                     spell           = context.Spell,
-                                    startSubContext = context.CurrentSubspell,
+                                    startSubContext = context.CurrentSubSpellIndex,
                                     target          = target,
                                     origin          = source
                                 };
