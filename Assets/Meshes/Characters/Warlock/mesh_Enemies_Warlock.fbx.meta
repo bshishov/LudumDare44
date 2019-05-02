@@ -1,15 +1,53 @@
 fileFormatVersion: 2
-guid: 3de0558eafea9804f9ce8b4a6e6efae7
+guid: 6f6114b8d323d3f49bd2ef5c46844491
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
   - first:
-      74: 8573185672648390963
-    second: Armature|Reaper_Atack
+      74: 3876189930960788272
+    second: metarig.002|L_FOOTcontrol|CINEMA_4D_Main|Layer0
   - first:
-      74: -5931100377931971161
-    second: Armature|Reaper_Walk
-  externalObjects: {}
+      74: -1952762769335897646
+    second: metarig.002|Master|CINEMA_4D_Main|Layer0
+  - first:
+      74: -85686173569183716
+    second: metarig.002|mesh_Scull.001Action
+  - first:
+      74: 8271609895139538194
+    second: metarig.002|MN_pants_MN_pants1|Take 001|BaseLayer
+  - first:
+      74: 6858087752163271220
+    second: metarig.002|Ogre_delete
+  - first:
+      74: -1346902284140188960
+    second: metarig.002|Plane.007Action.002
+  - first:
+      74: -7080832204667495970
+    second: metarig.002|Plane.009Action
+  - first:
+      74: 8667535391293629163
+    second: metarig.002|Plane.010Action
+  - first:
+      74: 652707507012755519
+    second: metarig.002|R_FOOTcontrol|CINEMA_4D_Main|Layer0
+  - first:
+      74: -4002739152357140861
+    second: metarig.002|Warlock_Attack
+  - first:
+      74: -6512457634697651298
+    second: metarig.002|Warlock_Death
+  - first:
+      74: 9096048382639414582
+    second: metarig.002|Warlock_Idle
+  - first:
+      74: 7627216438873782649
+    second: metarig.002|Warlock_Run
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Metal
+    second: {fileID: 2100000, guid: c7475f07857303e4fa0ee441f2dda880, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -38,11 +76,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature|Reaper_Atack
-      takeName: Armature|Reaper_Atack
-      internalID: 8573185672648390963
+      name: metarig.002|Warlock_Attack
+      takeName: metarig.002|Warlock_Attack
+      internalID: -4002739152357140861
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 25
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -67,11 +105,69 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Reaper_Walk
-      takeName: Armature|Reaper_Walk
-      internalID: -5931100377931971161
+      name: metarig.002|Warlock_Death
+      takeName: metarig.002|Warlock_Death
+      internalID: -6512457634697651298
       firstFrame: 0
-      lastFrame: 20
+      lastFrame: 45
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: metarig.002|Warlock_Idle
+      takeName: metarig.002|Warlock_Idle
+      internalID: 9096048382639414582
+      firstFrame: 0
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: metarig.002|Warlock_Run
+      takeName: metarig.002|Warlock_Run
+      internalID: 7627216438873782649
+      firstFrame: 0
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eb380cedca636694c98288bfb559d14c
+guid: a73f7da426d3fef4abcb44a3d14e9dfa
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: mat_Scythe
+      name: mat_Enemies_Troll
     second: {fileID: 2100000, guid: a8ae0b1292bb291468385d41f6cdcb85, type: 2}
   materials:
     importMaterials: 1
