@@ -37,6 +37,7 @@ namespace Assets.Scripts.Data
         [Header("Meta")]
         public string Name;
         public Sprite Icon;
+        [TextArea]
         public string Description;
 
         public int BloodCost = 0;

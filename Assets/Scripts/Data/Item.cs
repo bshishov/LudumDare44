@@ -7,6 +7,7 @@ namespace Assets.Scripts.Data
     {
         [Header("Meta")]
         public string Name;
+        [TextArea]
         public string Description;
 
         public int Cost;
