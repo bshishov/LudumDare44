@@ -67,7 +67,7 @@ public class CharacterState : MonoBehaviour
         }
     }
 
-    struct Change
+    public struct Change
     {
         public ModificationParameter Parameter;
         public float Amount;

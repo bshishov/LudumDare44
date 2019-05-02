@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: mat_Enemy_Reaper
-  m_Shader: {fileID: -6465566751694194690, guid: be38755c58ddde14a8bb0d074e7036da,
+  m_Shader: {fileID: -6465566751694194690, guid: f3c3f45d962cd054a8621ccbd1302f6f,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -107,7 +107,7 @@ Material:
     - Color_12DAAE22: {r: 0.4598782, g: 0.41037738, b: 1, a: 0}
     - Color_281A855D: {r: 1, g: 1, b: 1, a: 0}
     - Color_B340782C: {r: 0, g: 1, b: 1, a: 0}
-    - Color_BFD9BFD3: {r: 1, g: 1, b: 1, a: 0}
+    - Color_BFD9BFD3: {r: 0.22828409, g: 0.43361536, b: 0.509434, a: 1}
     - Vector3_A9C3AA14: {r: 30, g: 45, b: 0, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
