@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Data;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace Spells
@@ -55,6 +56,8 @@ namespace Spells
             _direction = _direction.normalized;
 
             _collider = gameObject.GetComponentInChildren<Collider>();
+            Assert.IsNotNull(_collider);
+            Assert.IsTrue(_collider.isTrigger);
 
             if ((_requireCollisionMask & _context.GetProjectileSubSpell().Obstacles) != 0)
             {

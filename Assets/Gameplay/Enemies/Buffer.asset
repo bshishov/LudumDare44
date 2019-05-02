@@ -19,8 +19,8 @@ MonoBehaviour:
   Size: 1
   HealthModifier: 1
   IndifferenceDistance: 10
-  SpellRange: 4
-  FearRange: 2
+  SpellRange: 6
+  FearRange: 3
   MeleeRange: 0
   AttackCooldown: 1
   ApplyBuffOnAttack: {fileID: 0}
@@ -28,4 +28,4 @@ MonoBehaviour:
   DropRate: 0
   DropSpells: []
   UseSpells: []
-  UseBuff: {fileID: 11400000, guid: a7cba04859283e74cafceba690baa3e0, type: 2}
+  UseBuff: {fileID: 11400000, guid: 5357b57d5882fe44eb0bdc60a191e1cc, type: 2}
