@@ -503,19 +503,7 @@ public class CharacterState : MonoBehaviour
         if (IsAlive)
         {
             if (Random.value > Evasion)
-            {
                 SetHp(_hp - amount);
-
-                // Because health changed
-                if (Health <= 0)
-                {
-                    HandleDeath();
-                }
-                else
-                {
-                    _animationController.PlayHitImpactAnimation();
-                }
-            }
         }
     }
     
