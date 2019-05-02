@@ -54,7 +54,7 @@ namespace Spells
 
             for (var i = 0; i < SpellCount && i < initialSpells.Count; ++i)
             {
-                AddSpellToSlot(i, initialSpells[i]);
+                AddSpellToSlot(i, initialSpells[i], 1);
             }
         }
 
@@ -84,7 +84,7 @@ namespace Spells
             return SpellSlots[slotIndex];
         }
 
-        public void PlaceSpell(Spell spell)
+        public void PlaceSpell(Spell spell, int stacks)
         {
             var slot = GetSpellSlot(spell);
             var pickupOptions = GetPickupOptions(spell);
@@ -93,18 +93,18 @@ namespace Spells
             switch (pickupOptions)
             {
                 case PlaceOptions.Place:
-                    AddSpellToSlot(GetSpellSlot(spell), spell);
+                    AddSpellToSlot(GetSpellSlot(spell), spell, stacks);
                     break;
 
                 case PlaceOptions.Upgrade:
                     // Upgrade is just a stack count increase
-                    UpgradeSpellInSlot(slot);
+                    UpgradeSpellInSlot(slot, stacks);
                     break;
 
                 case PlaceOptions.Replace:
                     // Current spell is dropped
                     // Todo: Check!
-                    AddSpellToSlot(GetSpellSlot(spell), spell);
+                    AddSpellToSlot(GetSpellSlot(spell), spell, stacks);
                     break;
             }
         }
@@ -133,7 +133,7 @@ namespace Spells
             var slotState = GetSpellSlotState(index);
             if (slotState.State == SpellState.Ready)
             {
-                if (_spellCaster.CastSpell(slotState.Spell, targets))
+                if (_spellCaster.CastSpell(slotState.Spell, slotState.NumStacks + _characterState.AdditionSpellStacks, targets))
                 {
                     // Start cooldown
                     SpellSlots[index].State = SpellState.Recharging;
@@ -156,7 +156,7 @@ namespace Spells
                     TargetInfo.Create(_characterState, _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter))
                     , target));
 
-        private void AddSpellToSlot(int slotIndex, Spell spell)
+        private void AddSpellToSlot(int slotIndex, Spell spell, int stacks)
         {
             Debug.Log($"Spell {spell.name} placed into slot {slotIndex}");
             SpellSlots[slotIndex] = new SpellSlotState
@@ -164,14 +164,15 @@ namespace Spells
                 Spell = spell,
                 State = SpellState.Ready,
                 RemainingCooldown = 0.0f,
-                NumStacks = 1
+                NumStacks = stacks
             };
         }
 
-        private void UpgradeSpellInSlot(int slotIndex)
+        private void UpgradeSpellInSlot(int slotIndex, int stacks)
         {
+            // Number of stacks increased
             var slotState = GetSpellSlotState(slotIndex);
-            SpellSlots[slotIndex].NumStacks = slotState.NumStacks + 1;
+            SpellSlots[slotIndex].NumStacks = slotState.NumStacks + stacks;
         }
 
         void Update()

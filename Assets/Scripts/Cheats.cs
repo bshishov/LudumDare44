@@ -40,7 +40,7 @@ public class Cheats : MonoBehaviour
         {
             Debugger.Default.Display(string.Format("Cheats/Pickup Spell/{0}", spell.name), () =>
             {
-                _playerState.Pickup(spell);
+                _playerState.Pickup(spell, 1);
             });
 
             Debugger.Default.Display(string.Format("Cheats/Drop Spell/{0}", spell.name), () =>
@@ -53,7 +53,7 @@ public class Cheats : MonoBehaviour
         {
             Debugger.Default.Display(string.Format("Cheats/Pickup Item/{0}", item.name), () =>
             {
-                _playerState.Pickup(item);
+                _playerState.Pickup(item, 1);
             });
         }
 

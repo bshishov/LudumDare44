@@ -39,7 +39,7 @@ namespace Assets.Scripts.Utils.Debugger
 
         public void Draw(Rect rect, Style style)
         {
-            _scrollPosition = GUI.BeginScrollView(rect, _scrollPosition, new Rect(0, 0, 680, style.LineHeight * _messages.Size), false, true);
+            _scrollPosition = GUI.BeginScrollView(rect, _scrollPosition, new Rect(0, 0, 980, style.LineHeight * _messages.Size), false, true);
              
             var currentY = 0f;
             foreach (var message in _messages.Reverse())
