@@ -1,14 +1,13 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts;
 using Assets.Scripts.Data;
-using Assets.Scripts.Utils;
 using Assets.Scripts.Utils.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(UICanvasGroupFader))]
-public class UINotificationBar : Singleton<UINotificationBar>
+public class UINotificationBar : MonoBehaviour
 {
     public Sprite DefaultSprite;
     public Image Icon;
@@ -17,10 +16,17 @@ public class UINotificationBar : Singleton<UINotificationBar>
 
     private UICanvasGroupFader _fader;
     private Coroutine _showRoutine;
+    private CharacterState _character;
 
     void Start()
     {
         _fader = GetComponent<UICanvasGroupFader>();
+        _character = LocatePlayer();
+        if (_character != null)
+        {
+            _character.OnItemPickup += (item, stacks) => { ShowItemInfo(item); };
+            _character.OnSpellPickup += (item, stacks) => { ShowSpellInfo(item); };
+        }
     }
 
     void SetIcon(Sprite sprite)
@@ -32,6 +38,15 @@ public class UINotificationBar : Singleton<UINotificationBar>
     {
         yield return new WaitForSeconds(time);
         _fader.FadeOut();
+    }
+
+    CharacterState LocatePlayer()
+    {
+        var obj = GameObject.FindGameObjectWithTag(Tags.Player);
+        if (obj == null)
+            return null;
+
+        return obj.GetComponent<CharacterState>();
     }
 
     public void ShowItemInfo(Item item, float duration = 2f)

@@ -7,6 +7,7 @@ namespace Actors
 {
     public class DroppedSpell : MonoBehaviour, IInteractable
     {
+        public int Stacks = 1;
         public Spell Spell;
         public InteractableType Type => InteractableType.DroppedSpell;
 
@@ -14,7 +15,7 @@ namespace Actors
         {
             if (interaction == Interaction.Pick)
             {
-                character.Pickup(Spell);
+                character.Pickup(Spell, Stacks);
                 Destroy(gameObject);
                 CameraController.Instance.Shake(0.5f);
             }

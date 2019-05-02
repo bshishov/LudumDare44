@@ -73,6 +73,8 @@ public class CharacterState : MonoBehaviour
     public Team CurrentTeam = Team.Undefined;
 
     public event Action OnDeath;
+    public event Action<Item, int> OnItemPickup;
+    public event Action<Spell, int> OnSpellPickup;
     public CharacterConfig character;
     public CharacterNode[] Nodes;
    
@@ -155,26 +157,23 @@ public class CharacterState : MonoBehaviour
         return false;
     }
 
-    internal void Pickup(Spell spell)
+    internal void Pickup(Spell spell, int stacks)
     {
         if (!IsAlive)
             return;
         
-        _spellBook.PlaceSpell(spell);
-
-        if (CompareTag(Tags.Player))
-            UINotificationBar.Instance.ShowSpellInfo(spell);
+        _spellBook.PlaceSpell(spell, stacks);
+        OnSpellPickup?.Invoke(spell, stacks);
     }
 
-    public void Pickup(Item item)
+    public void Pickup(Item item, int stacks)
     {
         if (!IsAlive)
             return;
 
         _combatLog.Log($"<b>{gameObject.name}</buff> picked up item <buff>{item.name}</buff>");
 
-        if (CompareTag(Tags.Player))
-            UINotificationBar.Instance.ShowItemInfo(item);
+        OnItemPickup?.Invoke(item, stacks);
 
         // Todo: track picked items and their stats
         foreach (var buff in item.Buffs)
