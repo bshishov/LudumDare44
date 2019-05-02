@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
   m_Name: SkullProj
   m_EditorClassIdentifier: 
+  AffectedTarget: 8
+  Area: {fileID: 0}
+  Buffs: []
+  Effect: {fileID: 0}
+  Flags: 10
+  Obstacles: 20
   Origin: 1
   PostCastDelay: 0
   PreCastDelay: 0
-  Flags: 10
-  AffectedTarget: 8
-  Obstacles: 20
-  Targeting: 1
-  Area: {fileID: 0}
   Projectile: {fileID: 11400000, guid: 4948532ce620a14418d1e0e2d5585c61, type: 2}
-  Buffs: []
+  Targeting: 1
+  NewSource: 1

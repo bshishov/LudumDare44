@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
   m_Name: PoisonDaggerProj
   m_EditorClassIdentifier: 
+  AffectedTarget: 8
+  Area: {fileID: 0}
+  Buffs: []
+  Effect: {fileID: 0}
+  Flags: 10
+  Obstacles: 2
   Origin: 1
   PostCastDelay: 0
   PreCastDelay: 0
-  Flags: 10
-  AffectedTarget: 8
-  Obstacles: 2
-  Targeting: 2
-  Area: {fileID: 0}
   Projectile: {fileID: 11400000, guid: 8fb3853ebcae0de4fb6e54df438c206b, type: 2}
-  Buffs: []
+  Targeting: 2
+  NewSource: 1

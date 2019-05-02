@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
+  m_Name: Enemie_Warlock
+  m_EditorClassIdentifier: 
+  Health: 50
+  Damage: 20
+  Speed: 1
+  Evasion: 0
+  Size: 1
+  HealthModifier: 1
+  IndifferenceDistance: 30
+  SpellRange: 10
+  FearRange: 5
+  MeleeRange: 1
+  AttackCooldown: 4
+  ApplyBuffOnAttack: {fileID: 0}
+  AdditionalSpellStacks: 0
+  DropRate: 0
+  DropSpells:
+  - {fileID: 0}
+  UseSpells:
+  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
+  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
+  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
+  UseBuff: {fileID: 0}

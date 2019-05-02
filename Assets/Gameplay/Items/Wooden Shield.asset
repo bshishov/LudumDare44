@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Wooden Shield
   m_EditorClassIdentifier: 
   Name: Wooden Shield
+  Description: This old shiled increases your MaxHealth on 5% but carrying it slowes
+    you down for 5%
   Cost: 0
   Icon: {fileID: 0}
   Buffs:
-  - {fileID: 11400000, guid: 90f72249b32c7cd46875f8fe8b1fb84d, type: 2}
+  - {fileID: 11400000, guid: 38b5147e58f4a9344ba1f21667d3584e, type: 2}
+  - {fileID: 11400000, guid: 2b2f270cea12cf24d88cdf0cc4ed77b0, type: 2}
   Prefab: {fileID: 9083103755503531497, guid: 6fa11f7cb0038894ba98072a2e46b04a, type: 3}

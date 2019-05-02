@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   Damage: 0
-  Speed: 5
+  Speed: 6
   Evasion: 0
   Size: 1
   HealthModifier: 0.5
@@ -23,9 +23,12 @@ MonoBehaviour:
   FearRange: 0
   MeleeRange: 0
   AttackCooldown: 1
+  ApplyBuffOnAttack: {fileID: 0}
+  AdditionalSpellStacks: 0
   DropRate: 0
   DropSpells: []
   UseSpells:
   - {fileID: 11400000, guid: 0f5e31d5e7d195e4dbcf8c1f34aa4da3, type: 2}
   - {fileID: 11400000, guid: 061e3a3f356d7fc489e00711052fd343, type: 2}
   - {fileID: 11400000, guid: c26cb1742481020428164b5b9dea2f1e, type: 2}
+  UseBuff: {fileID: 0}

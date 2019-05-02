@@ -19,7 +19,7 @@ MonoBehaviour:
   DefaultSlot: 0
   Cooldown: 0
   CastingTime: 1
-  Flags: 1
+  Flags: 3
   PreCastDelay: 0
   PostCastDelay: 0
   ChannelTime: 0

@@ -43,5 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57799216d9cc4815885123c19d7604be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WavePrefab: {fileID: 8154496187221009406, guid: 26748c2c0107e8d4aac3f4c32070dd60,
+  SpikePrefab: {fileID: 481753519883666945, guid: 3ffb853ff1f61cb49baa9bbb754266c8,
     type: 3}

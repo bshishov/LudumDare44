@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Data
 {
-
 [CreateAssetMenu(fileName = "SubSpell", menuName = "Spells/SubSpell")]
 [Serializable]
 public class SubSpell : ScriptableObject
@@ -17,6 +16,13 @@ public class SubSpell : ScriptableObject
         Self   = 1 << 1,
         Friend = 1 << 2,
         Enemy  = 1 << 3
+    }
+
+    [Serializable]
+    public enum NewSourceType
+    {
+        AffectedTarget = 1,
+        OriginalTargetData = 2
     }
 
     [Serializable]
@@ -34,23 +40,24 @@ public class SubSpell : ScriptableObject
     [Flags]
     public enum SpellFlags
     {
-        Undefined     = 0,
-        HaveDirection = 1 << 1,
-        Raycast       = 1 << 2,
-        Projectile    = 1 << 3,
-        Special       = 1 << 4,
+        Undefined  = 0,
+        Raycast    = 1 << 2,
+        Projectile = 1 << 3,
+        Special    = 1 << 4,
         SelfTarget,
         ClosestTarget,
-        SpecialEnd = 1 << (5 - 1)
+        SpecialEnd    = (1 << 5) - 1,
+        KeepOldTarget = 1 << 5
     }
 
     [Serializable]
     public enum SpellOrigin
     {
-        None = 0,
-        Self,
-        Cursor
+        None   = 0,
+        Self   = 1,
+        Cursor = 2
     }
+
 
     [Serializable]
     public enum SpellTargeting
@@ -78,6 +85,9 @@ public class SubSpell : ScriptableObject
     [SerializeField]
     public List<Buff> Buffs;
 
+    [Header("FX")]
+    public GameObject Effect;
+
     [Header("Flags")]
     [EnumFlag]
     public SpellFlags Flags;
@@ -93,9 +103,8 @@ public class SubSpell : ScriptableObject
     public ProjectileData Projectile;
 
     public SpellTargeting Targeting;
+    public NewSourceType NewSource;
 
-    [Header("FX")]
-    public GameObject Effect;
     public ISubSpellEffect GetEffect()
     {
         if (Effect == null)
