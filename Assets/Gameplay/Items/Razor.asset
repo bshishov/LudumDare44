@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Razor
   m_EditorClassIdentifier: 
   Name: Razor
-  Description: This very sharp and very dangerous raxor doubles your damage!
+  Description: This very sharp and very dangerous razor doubles your damage!
   Cost: 50
   Icon: {fileID: 0}
   Buffs:

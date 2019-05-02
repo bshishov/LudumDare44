@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Hourglass
   Description: 'Some say this item belonged to a Wizard, who tried to stop his aging.
-    All we know for sure is that this Hourglass reduses speed of nearby enemies by
+    All we know for sure is that this Hourglass reduces speed of nearby enemies by
     30%  '
   Cost: 15
   Icon: {fileID: 0}

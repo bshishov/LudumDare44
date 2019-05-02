@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: SpikeWave
   Icon: {fileID: -768691935143330167, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Description: Launches at a targeted direction a cone of spikes, dealing 4 damage
+    and slowing affected enemies
   BloodCost: 0
   BloodBack: 2
   DefaultSlot: 0

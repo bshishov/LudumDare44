@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Fireball
   Icon: {fileID: -8173168643058176568, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Description: Fires fireballs at a chosen direction, dealing 1 damage each
   BloodCost: 0
   BloodBack: 0
   DefaultSlot: 0
