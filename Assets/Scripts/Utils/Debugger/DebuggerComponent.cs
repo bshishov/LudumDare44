@@ -297,7 +297,7 @@ namespace Assets.Scripts.Utils.Debugger
                 _drawer.DrawCircleSphere(center, radius, col, duration);
         }
 
-        public Logger GetLogger(string path)
+        public Logger GetLogger(string path, int historySize=100, bool unityLog=true)
         {
             var node = GetOrCreateNode(path);
             var payload = GetOrCreateNode(path).Widget as Logger;
@@ -305,7 +305,7 @@ namespace Assets.Scripts.Utils.Debugger
                 return payload;
 
             // New payload
-            var p = new Logger();
+            var p = new Logger(historySize, unityLog);
             node.Widget = p;
             return p;
         }

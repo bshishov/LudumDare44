@@ -36,5 +36,6 @@ namespace Assets.Scripts.Data
         [Header("Spell Info")]
         [SerializeField]
         public List<Spell> UseSpells;
+        public Buff UseBuff;
     }
 }

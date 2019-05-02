@@ -55,11 +55,6 @@ public class AnimationController : MonoBehaviour
         {
             Debug.LogErrorFormat("Animation controller requires Animator component: {0}", gameObject.name);
         }
-
-        Debugger.Default.Display("Animation/Play Death", PlayDeathAnimation);
-        Debugger.Default.Display("Animation/Play Attack", PlayAttackAnimation);
-        Debugger.Default.Display("Animation/Force enable", () => { _disabled = false; });
-
         _lastPosition = transform.position;
     }
 

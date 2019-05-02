@@ -59,8 +59,6 @@ namespace Spells
 
     public class SpellTargets
     {
-        public readonly List<Vector3> Directions = new List<Vector3>();
-
         public readonly TargetInfo Source;
         public TargetInfo[] Destinations;
 

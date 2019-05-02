@@ -445,6 +445,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5600209dc02fcc447b83e3da1c4c2e0f, type: 2}
   - {fileID: 11400000, guid: 9d128dd0e4da77345bc5fe7f2af1127b, type: 2}
   - {fileID: 11400000, guid: 60572bb269a901f4ba98849df220c1f7, type: 2}
+  - {fileID: 11400000, guid: a15ccd68310a8ad42989c9dac85eee63, type: 2}
   - {fileID: 11400000, guid: 009ca85ded63e9c4285c42d3ac947fd9, type: 2}
   Spells:
   - {fileID: 11400000, guid: 1e6940b2adb5d7244a4fbff980a6250e, type: 2}
@@ -467,13 +468,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 59d34d8c5d45a8e4cb06c1c7cd47663b, type: 2}
   Enemies:
   - {fileID: 205645751108992691, guid: df759fcbedd6e534e8423dbde06103f4, type: 3}
-  - {fileID: 5605751023553888412, guid: 64f2eb1e741c99d4e836c85328967c0e, type: 3}
+  - {fileID: 4901772274434240645, guid: 52f22c3481c3be14bbbeafeea4be8133, type: 3}
   - {fileID: 2285543020173185980, guid: 15e74ca2829ab9346add92cf78143575, type: 3}
   - {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4, type: 3}
   - {fileID: 3224937414537292892, guid: 6bf4338e3aeeb644bb48f8239499757c, type: 3}
   - {fileID: 5895122835592941837, guid: d81042b6df17883448650e3bca20f7d0, type: 3}
-  - {fileID: 8559176489418062869, guid: 236ae7ad28c27dc45a9497072c3c2c5b, type: 3}
-  - {fileID: 2165337701075599264, guid: e71cf6eca3deeda488d762b79615dcc3, type: 3}
+  - {fileID: 1861298471682613873, guid: 7aa8cdffddf9cbb46b4e3173fdbc2c8b, type: 3}
+  - {fileID: 8704103856658010905, guid: 816cdcc0a1b3c02479c04878b1aa4186, type: 3}
   - {fileID: 5755960318113453308, guid: 2b66013f7485f5b4582eb209e8fdda92, type: 3}
   - {fileID: 8570711351076420434, guid: b9eb6f47e1a2c8e42a61030b00cfb52d, type: 3}
   - {fileID: 8494352879362307199, guid: e80a99df128aaea4da089215d67ea527, type: 3}

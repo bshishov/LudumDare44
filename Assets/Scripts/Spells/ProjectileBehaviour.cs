@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Data;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Spells
 {
@@ -10,6 +11,7 @@ namespace Spells
         public ProjectileData projectileData;
 
         public Spell spell;
+        public int Stacks;
         public int startSubContext;
 
         public TargetInfo origin;
@@ -55,6 +57,8 @@ namespace Spells
             _direction = _direction.normalized;
 
             _collider = gameObject.GetComponentInChildren<Collider>();
+            Assert.IsNotNull(_collider);
+            Assert.IsTrue(_collider.isTrigger);
 
             if ((_requireCollisionMask & _context.GetProjectileSubSpell().Obstacles) != 0)
             {
@@ -116,7 +120,7 @@ namespace Spells
                 new SpellTargets(
                     TargetInfo.Create(_context.owner, transform, transform.position),
                     target != null ? TargetInfo.Create(target) : new TargetInfo {Position = transform.position}
-                ), _context.startSubContext + 1);
+                ), _context.startSubContext + 1, stacks:_context.Stacks);
         }
 
         private void Update()

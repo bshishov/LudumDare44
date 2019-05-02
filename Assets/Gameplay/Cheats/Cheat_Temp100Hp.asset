@@ -9,11 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3030d9deb419ea245a3f54c0b8afad23, type: 3}
-  m_Name: SkullProjData
+  m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
+  m_Name: Cheat_Temp100Hp
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 4385171735532075985, guid: a6da86c9ac5158e4dacc4471fab35c78,
-    type: 3}
-  Speed: 40
-  MaxDistance: 50
-  Trajectory: 1
+  Name: 
+  Behaviour: 0
+  TickCooldown: 1
+  Duration: 5
+  Modifiers:
+  - Parameter: 1
+    Value: 100
+    EffectiveStacks: 10
+  OnApplyBuff: []
+  OnTickBuff: []
+  OnRemove: []

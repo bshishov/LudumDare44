@@ -133,7 +133,7 @@ namespace Spells
             var slotState = GetSpellSlotState(index);
             if (slotState.State == SpellState.Ready)
             {
-                if (_spellCaster.CastSpell(slotState.Spell, targets))
+                if (_spellCaster.CastSpell(slotState.Spell, slotState.NumStacks + _characterState.AdditionSpellStacks, targets))
                 {
                     // Start cooldown
                     SpellSlots[index].State = SpellState.Recharging;
