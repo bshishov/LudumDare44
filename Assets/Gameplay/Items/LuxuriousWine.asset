@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0306bcbca93430d46a2c6857746f9c76, type: 3}
-  m_Name: Hourglass
+  m_Name: LuxuriousWine
   m_EditorClassIdentifier: 
-  Name: Hourglass
-  Description: 'Some say this item belonged to a Wizard, who tried to stop his aging.
-    All we know for sure is that this Hourglass reduses speed of nearby enemies by
-    30%  '
-  Cost: 15
+  Name: Luxurious Wine
+  Description: This excellent wine gives you 5 health p/s
+  Cost: 20
   Icon: {fileID: 0}
   Buffs:
-  - {fileID: 11400000, guid: d05d9aa562481764f972e6de8b9eb62d, type: 2}
-  Prefab: {fileID: 8353440635793471631, guid: 5ace1e3e1011b01419a520411a5ba2ca, type: 3}
+  - {fileID: 11400000, guid: 6f5960c420ba8ae40aa1fb97e615df95, type: 2}
+  Prefab: {fileID: 7414661946360081799, guid: 87b39e9e18e9a5c4ca4518ef70e97eab, type: 3}
