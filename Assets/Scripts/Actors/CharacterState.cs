@@ -307,7 +307,8 @@ public class CharacterState : MonoBehaviour
                 break;
             case ModificationParameter.EvasionChanceFlat:
                 // TODO: FIX STACKING
-                _evasionModMulProduct *= Mathf.Pow(1 - amount, stacks);
+                actualChange = Mathf.Pow(1 - amount, stacks);
+                _evasionModMulProduct *= actualChange;
                 break;
             case ModificationParameter.CritChanceFlat:
                 break;
@@ -350,7 +351,16 @@ public class CharacterState : MonoBehaviour
     private void RevertChange(Change change)
     {
         // TODO: Revert EVASION and CRIT properly by dividing and not subtracting
-        ApplyModifier(change.Parameter, -change.Amount, 1, 1, out _);
+        // TODO: refactor this hack
+        switch (change.Parameter)
+        {
+            case ModificationParameter.EvasionChanceFlat:
+                _evasionModMulProduct /= change.Amount;
+                break;
+            default:
+                ApplyModifier(change.Parameter, -change.Amount, 1, 1, out _);
+                break;
+        }
     }
 
     private float SetHp(float targetHp)
