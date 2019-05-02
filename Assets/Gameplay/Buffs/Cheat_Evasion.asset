@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
+  m_Name: Cheat_Evasion
+  m_EditorClassIdentifier: 
+  Name: 
+  Behaviour: 1
+  TickCooldown: 1
+  Duration: 60
+  Modifiers:
+  - Parameter: 7
+    Value: 0.5
+    PerStackMultiplier: 1
+  OnApplyBuff: []
+  OnTickBuff:
+  - ApplyModifier:
+      Parameter: 0
+      Value: 0
+      PerStackMultiplier: 0
+    CastSpell: {fileID: 0}
+    SpawnObject: {fileID: 8552020730799290331, guid: 9a49aca64034e4e4ea26228b2a1be5a9,
+      type: 3}
+  OnRemove: []

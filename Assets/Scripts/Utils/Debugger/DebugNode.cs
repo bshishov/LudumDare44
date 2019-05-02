@@ -46,9 +46,13 @@ namespace Assets.Scripts.Utils.Debugger
                     context.CollapseRequested = false;
                 }
             }
-
-            header = string.Format(isExpanded ? "- {0}" : "+ {0}", header);
-            var headerRect = new Rect(x, context.Y, context.Style.HeaderColumn - x, context.Style.LineHeight);
+            
+            var headerRect = new Rect(x + 20, context.Y, context.Style.HeaderColumn - x - 20, context.Style.LineHeight);
+            if (GUI.Button(new Rect(x, headerRect.y, 20, headerRect.height), isExpanded ? "-" : "+"))
+            {
+                isExpanded = !isExpanded;
+            }
+            
             GUI.Label(headerRect, header, style);
 
             if (widget != null)

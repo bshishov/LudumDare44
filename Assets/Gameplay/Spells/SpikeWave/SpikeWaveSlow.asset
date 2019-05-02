@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3303e6a0239599a42a240593fc7c9ead, type: 3}
   m_Name: SpikeWaveSlow
   m_EditorClassIdentifier: 
-  Name: 
+  Name: SpikeWaveSlow
   ChangedProperty: 0
   Addition: 0
-  Multiplier: 0
+  Multiplier: 0.95
   Radius: 0
   PerSecond: 0
   Permanent: 0
-  Duration: 0
+  Duration: 1
   OnAppliedEffect: {fileID: 0}

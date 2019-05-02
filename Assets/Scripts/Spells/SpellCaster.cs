@@ -15,14 +15,23 @@ public class SubSpellContext
 
     public float activeTime;
 
-    public object customData;
-    public bool   projectileSpawned;
+    public object          customData;
+    public ISubSpellEffect effect;
+    public bool            projectileSpawned;
 
     public float        startTime;
     public ContextState state;
     public float        stateActiveTime;
 
-    public static SubSpellContext Create(SpellContext conext) { return new SubSpellContext {startTime = Time.fixedTime, activeTime = 0.0f}; }
+    public static SubSpellContext Create(SpellContext context)
+    {
+        return new SubSpellContext
+               {
+                   effect     = context.CurrentSubSpell.GetEffect(),
+                   startTime  = Time.fixedTime,
+                   activeTime = 0.0f
+               };
+    }
 }
 
 public class SpellContext : ISpellContext
@@ -65,21 +74,21 @@ public class SpellContext : ISpellContext
 
         var context = new SpellContext
                       {
-                          InitialSource        = targets.Source.Character
-                          , caster             = caster
-                          , State              = subSpellStartIndex == 0 ? ContextState.JustQueued : ContextState.FindTargets
-                          , Spell              = spell
-                          , startSubspellIndex = subSpellStartIndex
-                          , CurrentSubspell    = subSpellStartIndex
-                          , SubContext         = null
-                          , StartTime          = Time.fixedTime
-                          , StateActiveTime    = 0.0f
-                          , filteredTargets =
+                          InitialSource      = targets.Source.Character,
+                          caster             = caster,
+                          State              = subSpellStartIndex == 0 ? ContextState.JustQueued : ContextState.FindTargets,
+                          Spell              = spell,
+                          startSubspellIndex = subSpellStartIndex,
+                          CurrentSubspell    = subSpellStartIndex,
+                          SubContext         = null,
+                          StartTime          = Time.fixedTime,
+                          StateActiveTime    = 0.0f,
+                          filteredTargets =
                               (spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce
                                   ? new CharacterState[] { }
-                                  : null
-                          , subSpellTargets = new List<SubSpellTargets> {new SubSpellTargets {targetData = new List<SpellTargets> {targets}}}
-                          , effect          = spell.GetEffect()
+                                  : null,
+                          subSpellTargets = new List<SubSpellTargets> {new SubSpellTargets {TargetData = new List<SpellTargets> {targets}}},
+                          effect          = spell.GetEffect()
                       };
 
         return context;
@@ -272,12 +281,14 @@ public class SpellCaster : MonoBehaviour
                 return true;
 
             case ContextState.FindTargets:
-                if (!FindTargets(context, subContext))
-                {
-                    Debug.LogWarning($"{context.Spell.Name} Failed to FindTargets subspell {context.CurrentSubspell}");
-                    subContext.aborted = true;
-                }
+                if (context.CurrentSubSpell.TargetLocking == SubSpell.TargetLockingType.OnTargeting)
+                    if (!FindTargets(context, subContext))
+                    {
+                        Debug.LogWarning($"{context.Spell.Name} Failed to FindTargets subspell {context.CurrentSubspell}");
+                        subContext.aborted = true;
+                    }
 
+                NotifyAfterTargeting();
                 Advance();
                 return true;
 
@@ -322,12 +333,15 @@ public class SpellCaster : MonoBehaviour
 
         return false;
 
+        void NotifyAfterTargeting()
+        {
+            context.effect?.OnStateChange(context, ContextState.FindTargets);
+        }
+
         void Advance()
         {
-            if (subContext.aborted == true && subContext.state <= ContextState.FindTargets)
-            {
+            if (subContext.aborted && subContext.state <= ContextState.FindTargets)
                 subContext.state = ContextState.PostDelay;
-            }
             else
                 ++subContext.state;
 
@@ -342,7 +356,7 @@ public class SpellCaster : MonoBehaviour
 
         var targets = new List<TargetInfo>();
 
-        foreach (var castData in currentTargets.targetData)
+        foreach (var castData in currentTargets.TargetData)
         {
             var              source           = castData.Source;
             CharacterState[] availableTargets = null;
@@ -376,18 +390,20 @@ public class SpellCaster : MonoBehaviour
             castData.Destinations = targets.ToArray();
 
             if ((context.Spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce)
-                context.filteredTargets = context.filteredTargets.Where(f => !targets.Any(t => t.Character == f)).ToArray();
+                context.filteredTargets = context.filteredTargets.Where(f => targets.All(t => t.Character != f)).ToArray();
+
+            context.SubContext.effect?.OnTargetsPreSelected(context, castData);
         }
 
         return anyTargetFound;
     }
 
-    private static bool ValidateTarget(SpellContext           context
-                                       , TargetInfo           target
-                                       , TargetInfo           source
-                                       , List<TargetInfo>     targets
-                                       , SpellTargets         castData
-                                       , ref CharacterState[] availableTargets)
+    private static bool ValidateTarget(SpellContext         context,
+                                       TargetInfo           target,
+                                       TargetInfo           source,
+                                       List<TargetInfo>     targets,
+                                       SpellTargets         castData,
+                                       ref CharacterState[] availableTargets)
     {
         if (!IsValidTarget(context.CurrentSubSpell, target))
             return false;
@@ -420,22 +436,20 @@ public class SpellCaster : MonoBehaviour
     private static void Execute(SpellContext context, SubSpellContext subContext)
     {
         var currentTargets = context.CurrentSubSpellTargets;
-        var newTargets     = new SubSpellTargets {targetData = new List<SpellTargets>()};
+        var newTargets     = new SubSpellTargets {TargetData = new List<SpellTargets>()};
 
-        if (context.effect != null)
-            context.effect.OnSubSpellStartCast(context.Spell, context.CurrentSubSpell, currentTargets);
-
-        foreach (var targets in currentTargets.targetData)
+        foreach (var targets in currentTargets.TargetData)
         {
             if (targets.Destinations == null)
                 continue;
 
+            context.SubContext.effect?.OnTargetsAffected(context, targets);
             foreach (var destination in targets.Destinations)
             {
                 destination.Character.ApplySpell(context.InitialSource, context.CurrentSubSpell);
 
                 if (!context.IsLastSubSpell)
-                    newTargets.targetData.Add(new SpellTargets(destination));
+                    newTargets.TargetData.Add(new SpellTargets(destination));
             }
         }
 
@@ -446,12 +460,12 @@ public class SpellCaster : MonoBehaviour
     {
         var projectileContext = new ProjectileContext
                                 {
-                                    owner             = context.InitialSource
-                                    , projectileData  = context.CurrentSubSpell.Projectile
-                                    , spell           = context.Spell
-                                    , startSubContext = context.CurrentSubspell
-                                    , target          = target
-                                    , origin          = source
+                                    owner           = context.InitialSource,
+                                    projectileData  = context.CurrentSubSpell.Projectile,
+                                    spell           = context.Spell,
+                                    startSubContext = context.CurrentSubspell,
+                                    target          = target,
+                                    origin          = source
                                 };
 
         var projectilePrefab = Instantiate(new GameObject(), source.Position.Value, Quaternion.identity);

@@ -1,27 +1,18 @@
-﻿using Assets.Scripts.Data;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Spells.Effects
 {
-    public class FireballSpellEffect : MonoBehaviour, ISpellEffect
-    {
-        public GameObject ExplosionPrefab;
+public class FireballSpellEffect : MonoBehaviour, ISubSpellEffect
+{
+    public GameObject ExplosionPrefab;
 
+        public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets){}
 
-        public void OnSpellStateChange(Spell spell, ContextState newState)
+        public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
         {
-        }
-
-        public void OnSubSpellStateChange(Spell spell, SubSpell subSpell, ContextState newSubState)
-        {
-        }
-
-        public void OnSubSpellStartCast(Spell spell, SubSpell subSpell, SubSpellTargets data)
-        {
-            foreach (var target in data.targetData)
-            {
-                Destroy(Instantiate(ExplosionPrefab, target.Source.Position.Value, Quaternion.identity), 2);
-            }
-        }
+            Assert.IsTrue(targets.Source.Position.HasValue, "targets.Source.Position != null");
+            Destroy(Instantiate(ExplosionPrefab, targets.Source.Position.Value, Quaternion.identity), 2);
     }
+}
 }
