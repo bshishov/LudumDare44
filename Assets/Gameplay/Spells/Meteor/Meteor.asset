@@ -16,6 +16,7 @@ MonoBehaviour:
   Area: {fileID: 11400000, guid: 366f9620cd784244f8659e7a520a5e0b, type: 2}
   Buffs:
   - {fileID: 11400000, guid: dc2d28ea50567e648b06ddb37346dd41, type: 2}
+  - {fileID: 0}
   Effect: {fileID: 0}
   Flags: 6
   Obstacles: 0

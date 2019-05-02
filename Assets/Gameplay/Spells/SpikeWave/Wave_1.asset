@@ -15,7 +15,8 @@ MonoBehaviour:
   AffectedTarget: 8
   Area: {fileID: 11400000, guid: 1b473f7d2098ec94b97a1fcc79076cd1, type: 2}
   Buffs:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 71e71f0dc695d0f4ab4925ab764db3ea, type: 2}
+  - {fileID: 11400000, guid: 5b15694beff58df4586b8ef12e754820, type: 2}
   Effect: {fileID: 1349204274574646620, guid: 969392a480e28e6409a782eb40a9fc1d, type: 3}
   Flags: 6
   Obstacles: 0
