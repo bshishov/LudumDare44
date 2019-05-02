@@ -186,7 +186,7 @@ public class CharacterState : MonoBehaviour
         if (!IsAlive)
             return;
 
-        _combatLog.Log($"<b>{gameObject.name}</buff> picked up item <buff>{item.name}</buff>");
+        _combatLog.Log($"<b>{gameObject.name}</b> picked up item <b>{item.name}</b>");
 
         var state = _itemStates.FirstOrDefault(s => s.Item.Equals(item));
 
@@ -237,7 +237,7 @@ public class CharacterState : MonoBehaviour
                     break;
             }
 
-            _combatLog.Log($"<buff>{gameObject.name}</buff> reapplied buff <buff>{newBuff.name}</buff> with <buff>{newBuff.Behaviour}</buff> behaviour. Stack after reapplied: <buff>{existingState.Stacks}</buff>");
+            _combatLog.Log($"<b>{gameObject.name}</b> reapplied buff <b>{newBuff.name}</b> with <b>{newBuff.Behaviour}</b> behaviour. Stack after reapplied: <b>{existingState.Stacks}</b>");
         }
         else
         {
@@ -273,7 +273,7 @@ public class CharacterState : MonoBehaviour
     {
         var s = new BuffState(buff, stacks);
         _buffStates.Add(s);
-        _combatLog.LogFormat("<buff>{0}</buff> received new buff <buff>{1}</buff> with <buff>{2}</buff> stacks",
+        _combatLog.LogFormat("<b>{0}</b> received new buff <b>{1}</b> with <b>{2}</b> stacks",
             gameObject.name,
             buff.name,
             stacks);
@@ -365,8 +365,8 @@ public class CharacterState : MonoBehaviour
                 break;
         }
 
-        _combatLog.Log($"<buff>{gameObject.name}</buff> received modifier <buff>{parameter}</buff> with amount <buff>{amount}</buff>. Actual change: <buff>{actualChange}</buff>" +
-                  $" Stacks: <buff>{stacks}</buff>. EffectiveStacks: <buff>{effectiveStacks}</buff>");
+        _combatLog.Log($"<b>{gameObject.name}</b> received modifier <b>{parameter}</b> with amount <b>{amount}</b>. Actual change: <b>{actualChange}</b>" +
+                  $" Stacks: <b>{stacks}</b>. EffectiveStacks: <b>{effectiveStacks}</b>");
 
         switch (parameter)
         {
@@ -521,7 +521,7 @@ public class CharacterState : MonoBehaviour
             }
         }
         _animationController.PlayDeathAnimation();
-        Debug.Log($"<buff>{gameObject.name}</buff> died");
+        Debug.Log($"<b>{gameObject.name}</b> died");
         OnDeath?.Invoke();
     }
 
@@ -540,8 +540,8 @@ public class CharacterState : MonoBehaviour
             return;
 
         var currentSub = spellContext.CurrentSubSpell;
-        _combatLog.Log($"<buff>{gameObject.name}</buff> received spell cast <buff>{spellContext.Spell.name}</buff>"
-                       + $" (sub: <buff>{currentSub.name}</buff>) with <buff>{spellContext.Stacks}</buff>");
+        _combatLog.Log($"<b>{gameObject.name}</b> received spell cast <b>{spellContext.Spell.name}</b>"
+                       + $" (sub: <b>{currentSub.name}</b>) with <b>{spellContext.Stacks}</b>");
 
         Assert.IsTrue(SpellCaster.IsEnemy(owner, this, currentSub.AffectedTarget));
 
