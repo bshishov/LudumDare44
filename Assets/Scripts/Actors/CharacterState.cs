@@ -31,7 +31,7 @@ public class CharacterState : MonoBehaviour
         public NodeRole Role;
     }
 
-    class BuffState
+    public class BuffState
     {
         public Buff Buff;
         public float TimeRemaining;
@@ -52,6 +52,18 @@ public class CharacterState : MonoBehaviour
         {
             TimeRemaining = Buff.Duration;
             TickCd = 0;
+        }
+    }
+
+    public class ItemState
+    {
+        public Item Item;
+        public int Stacks;
+
+        public ItemState(Item item, int stacks = 1)
+        {
+            Item = item;
+            Stacks = stacks;
         }
     }
 
@@ -77,7 +89,9 @@ public class CharacterState : MonoBehaviour
     public event Action<Spell, int> OnSpellPickup;
     public CharacterConfig character;
     public CharacterNode[] Nodes;
-   
+
+    public IReadOnlyList<ItemState> Items => _itemStates;
+    public IReadOnlyList<BuffState> Buffs => _buffStates;
     public bool IsAlive { get; private set; }
 
     // ========= Hit points
@@ -122,7 +136,8 @@ public class CharacterState : MonoBehaviour
     private float _timeBeforeNextAttack;
     private AnimationController _animationController;
     private SpellbookState _spellBook;
-    private readonly List<BuffState> _states = new List<BuffState>();
+    private readonly List<BuffState> _buffStates = new List<BuffState>();
+    private readonly List<ItemState> _itemStates = new List<ItemState>();
     private Vector3 _baseScale;
     private Logger _combatLog;
 
@@ -173,6 +188,13 @@ public class CharacterState : MonoBehaviour
 
         _combatLog.Log($"<b>{gameObject.name}</buff> picked up item <buff>{item.name}</buff>");
 
+        var state = _itemStates.FirstOrDefault(s => s.Item.Equals(item));
+
+        if (state != null)
+            state.Stacks += stacks;
+        else
+            _itemStates.Add(new ItemState(item, stacks));
+
         OnItemPickup?.Invoke(item, stacks);
 
         // Todo: track picked items and their stats
@@ -189,7 +211,7 @@ public class CharacterState : MonoBehaviour
             foreach (var affect in newBuff.OnApplyBuff)
                 ApplyAffect(affect, stacks);
 
-        var existingState = _states.FirstOrDefault(s => s.Buff.Equals(newBuff));
+        var existingState = _buffStates.FirstOrDefault(s => s.Buff.Equals(newBuff));
         if (existingState != null)
         {
             // State with same buff already exists
@@ -250,7 +272,7 @@ public class CharacterState : MonoBehaviour
     private void AddBuff(Buff buff, int stacks)
     {
         var s = new BuffState(buff, stacks);
-        _states.Add(s);
+        _buffStates.Add(s);
         _combatLog.LogFormat("<buff>{0}</buff> received new buff <buff>{1}</buff> with <buff>{2}</buff> stacks",
             gameObject.name,
             buff.name,
@@ -418,9 +440,9 @@ public class CharacterState : MonoBehaviour
 #endif
 
         // Update buffs
-        for (var i = _states.Count - 1; i >= 0; i--)
+        for (var i = _buffStates.Count - 1; i >= 0; i--)
         {
-            var buffState = _states[i];
+            var buffState = _buffStates[i];
             buffState.TickCd -= Time.deltaTime;
             buffState.TimeRemaining -= Time.deltaTime;
             
@@ -446,7 +468,7 @@ public class CharacterState : MonoBehaviour
                     foreach (var change in buffState.ActiveChanges)
                         RevertChange(change);
 
-                _states.RemoveAt(i);
+                _buffStates.RemoveAt(i);
             }
         }
     }
@@ -455,7 +477,7 @@ public class CharacterState : MonoBehaviour
     void DisplayState()
     {
         var buffs = gameObject.name + "/Buffs states/";
-        foreach (var buffState in _states)
+        foreach (var buffState in _buffStates)
         {
             var path = buffs + buffState.Buff.name;
             Debugger.Default.Display(path + "/Stacks", buffState.Stacks);
