@@ -18,7 +18,7 @@ MonoBehaviour:
   BloodCost: 0
   BloodBack: 2
   DefaultSlot: 0
-  Cooldown: 0.8
+  Cooldown: 0.6
   CastingTime: 1
   Flags: 6
   PreCastDelay: 0

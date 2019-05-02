@@ -12,13 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
   m_Name: BloodDaggerProj
   m_EditorClassIdentifier: 
+  AffectedTarget: 8
+  Area: {fileID: 0}
+  Buffs:
+  - {fileID: 11400000, guid: 8481d00a1ada76949b3dccd932ffa79b, type: 2}
+  Effect: {fileID: 0}
+  Flags: 10
+  Obstacles: 2
   Origin: 1
   PostCastDelay: 0
-  PreCastDelay: 0
-  Flags: 10
-  AffectedTarget: 8
-  Obstacles: 2
-  Targeting: 2
-  Area: {fileID: 0}
+  PreCastDelay: 0.5
   Projectile: {fileID: 11400000, guid: c2b58c8479255004794d1b5a46887ac8, type: 2}
-  Buffs: []
+  Targeting: 2
+  NewSource: 0
