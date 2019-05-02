@@ -7,6 +7,7 @@ namespace Actors
 {
     public class DroppedSpell : MonoBehaviour, IInteractable
     {
+        public int Stacks = 1;
         public Spell Spell;
         public InteractableType Type => InteractableType.DroppedSpell;
 
@@ -14,7 +15,7 @@ namespace Actors
         {
             if (interaction == Interaction.Pick)
             {
-                character.Pickup(Spell);
+                character.Pickup(Spell, Stacks);
                 Destroy(gameObject);
                 CameraController.Instance.Shake(0.5f);
             }
@@ -25,9 +26,10 @@ namespace Actors
             }
         }
 
-        public void Setup(Spell spell)
+        public void Setup(Spell spell, int stacks)
         {
             Spell = spell;
+            Stacks = stacks;
         }
         
         public static GameObject InstantiateDroppedSpell(Spell spell, Vector3 position)
@@ -38,7 +40,7 @@ namespace Actors
                 var dSpell = go.GetComponent<DroppedSpell>();
                 if (dSpell != null)
                 {
-                    dSpell.Setup(spell);
+                    dSpell.Setup(spell, 1);
                 }
             }
 

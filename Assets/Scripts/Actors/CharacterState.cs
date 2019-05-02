@@ -73,6 +73,8 @@ public class CharacterState : MonoBehaviour
     public Team CurrentTeam = Team.Undefined;
 
     public event Action OnDeath;
+    public event Action<Item, int> OnItemPickup;
+    public event Action<Spell, int> OnSpellPickup;
     public CharacterConfig character;
     public CharacterNode[] Nodes;
    
@@ -155,104 +157,107 @@ public class CharacterState : MonoBehaviour
         return false;
     }
 
-    internal void Pickup(Spell spell)
+    internal void Pickup(Spell spell, int stacks)
     {
         if (!IsAlive)
             return;
         
-        _spellBook.PlaceSpell(spell);
+        _spellBook.PlaceSpell(spell, stacks);
+        OnSpellPickup?.Invoke(spell, stacks);
     }
 
-    public void Pickup(Item item)
+    public void Pickup(Item item, int stacks)
     {
         if (!IsAlive)
             return;
 
-        _combatLog.Log($"<b>{gameObject.name}</b> picked up item <b>{item.name}</b>");
+        _combatLog.Log($"<b>{gameObject.name}</buff> picked up item <buff>{item.name}</buff>");
+
+        OnItemPickup?.Invoke(item, stacks);
 
         // Todo: track picked items and their stats
         foreach (var buff in item.Buffs)
             ApplyBuff(buff);
     }
 
-    public void ApplyBuff(Buff buff, int stacks=1)
+    public void ApplyBuff(Buff newBuff, int stacks=1)
     {
-        if(buff == null)
+        if(newBuff == null)
             return;
 
-        if(buff.OnApplyBuff != null)
-            foreach (var affect in buff.OnApplyBuff)
+        if(newBuff.OnApplyBuff != null)
+            foreach (var affect in newBuff.OnApplyBuff)
                 ApplyAffect(affect, stacks);
 
-        var state = _states.FirstOrDefault(s => s.Buff.Equals(buff));
-        if (state != null)
+        var existingState = _states.FirstOrDefault(s => s.Buff.Equals(newBuff));
+        if (existingState != null)
         {
             // State with same buff already exists
-            switch (buff.Behaviour)
+            switch (newBuff.Behaviour)
             {
                 case BuffStackBehaviour.MaxStacksOfTwo:
-                    RevertBuffChanges(state);
-                    state.Stacks = Mathf.Max(stacks, state.Stacks);
-                    ApplyBuffModifiers(state);
-                    state.Refresh();
+                    RevertBuffChanges(existingState);
+                    existingState.Stacks = Mathf.Max(stacks, existingState.Stacks);
+                    ApplyBuffModifiers(existingState);
+                    existingState.Refresh();
                     break;
                 case BuffStackBehaviour.AddNewAsSeparate:
-                    AddBuff();
+                    AddBuff(newBuff, stacks);
                     break;
                 case BuffStackBehaviour.SumStacks:
-                    RevertBuffChanges(state);
-                    state.Stacks += stacks;
-                    ApplyBuffModifiers(state);
-                    state.Refresh();
+                    RevertBuffChanges(existingState);
+                    existingState.Stacks += stacks;
+                    ApplyBuffModifiers(existingState);
+                    existingState.Refresh();
                     break;
                 case BuffStackBehaviour.Discard:
+                    // Do nothing. newBuff wont be added
                     break;
             }
 
-            _combatLog.Log($"<b>{gameObject.name}</b> reapplied buff <b>{buff.name}</b> with <b>{buff.Behaviour}</b> behaviour. Stack after reapplied: <b>{state.Stacks}</b>");
+            _combatLog.Log($"<buff>{gameObject.name}</buff> reapplied buff <buff>{newBuff.name}</buff> with <buff>{newBuff.Behaviour}</buff> behaviour. Stack after reapplied: <buff>{existingState.Stacks}</buff>");
         }
         else
         {
-            AddBuff();
-        }
-
-        void RevertBuffChanges(BuffState s)
-        {
-            if (s.ActiveChanges != null)
-            {
-                for (var i = s.ActiveChanges.Count - 1; i >= 0; i--)
-                {
-                    RevertChange(s.ActiveChanges[i]);
-                    s.ActiveChanges.RemoveAt(i);
-                }
-            }
-        }
-
-        void ApplyBuffModifiers(BuffState s)
-        {
-            if (s.Buff.Modifiers != null)
-                foreach (var mod in s.Buff.Modifiers)
-                {
-                    ApplyModifier(mod, s.Stacks, out var change);
-                    s.ActiveChanges.Add(new Change
-                    {
-                        Parameter = mod.Parameter,
-                        Amount = change
-                    });
-                }
-        }
-
-        void AddBuff()
-        {
-            var s = new BuffState(buff, stacks);
-            _states.Add(s);
-            _combatLog.LogFormat("<b>{0}</b> received buff <b>{1}</b> with <b>{2}</b> stacks", 
-                gameObject.name,
-                buff.name,
-                stacks);
-            ApplyBuffModifiers(s);
+            AddBuff(newBuff, stacks);
         }
     }
+
+    private void RevertBuffChanges(BuffState s)
+    {
+        if (s.ActiveChanges == null) return;
+        for (var i = s.ActiveChanges.Count - 1; i >= 0; i--)
+        {
+            RevertChange(s.ActiveChanges[i]);
+            s.ActiveChanges.RemoveAt(i);
+        }
+    }
+
+    private void ApplyBuffModifiers(BuffState s)
+    {
+        if (s.Buff.Modifiers == null) return;
+        foreach (var mod in s.Buff.Modifiers)
+        {
+            ApplyModifier(mod, s.Stacks, out var change);
+            s.ActiveChanges.Add(new Change
+            {
+                Parameter = mod.Parameter,
+                Amount = change
+            });
+        }
+    }
+
+    private void AddBuff(Buff buff, int stacks)
+    {
+        var s = new BuffState(buff, stacks);
+        _states.Add(s);
+        _combatLog.LogFormat("<buff>{0}</buff> received new buff <buff>{1}</buff> with <buff>{2}</buff> stacks",
+            gameObject.name,
+            buff.name,
+            stacks);
+        ApplyBuffModifiers(s);
+    }
+
 
     public void ApplyAffect(Affect affect, int stacks)
     {
@@ -338,8 +343,8 @@ public class CharacterState : MonoBehaviour
                 break;
         }
 
-        _combatLog.Log($"<b>{gameObject.name}</b> received modifier <b>{parameter}</b> with amount <b>{amount}</b>. Actual change: <b>{actualChange}</b>" +
-                  $" Stacks: <b>{stacks}</b>. EffectiveStacks: <b>{effectiveStacks}</b>");
+        _combatLog.Log($"<buff>{gameObject.name}</buff> received modifier <buff>{parameter}</buff> with amount <buff>{amount}</buff>. Actual change: <buff>{actualChange}</buff>" +
+                  $" Stacks: <buff>{stacks}</buff>. EffectiveStacks: <buff>{effectiveStacks}</buff>");
 
         switch (parameter)
         {
@@ -494,7 +499,7 @@ public class CharacterState : MonoBehaviour
             }
         }
         _animationController.PlayDeathAnimation();
-        Debug.Log($"<b>{gameObject.name}</b> died");
+        Debug.Log($"<buff>{gameObject.name}</buff> died");
         OnDeath?.Invoke();
     }
 
@@ -513,8 +518,8 @@ public class CharacterState : MonoBehaviour
             return;
 
         var currentSub = spellContext.CurrentSubSpell;
-        _combatLog.Log($"<b>{gameObject.name}</b> received spell cast <b>{spellContext.Spell.name}</b>" +
-                       $" (sub: <b>{currentSub.name}</b>) with <b>{spellContext.Stacks}</b>");
+        _combatLog.Log($"<buff>{gameObject.name}</buff> received spell cast <buff>{spellContext.Spell.name}</buff>" +
+                       $" (sub: <buff>{currentSub.name}</buff>) with <buff>{spellContext.Stacks}</buff>");
         if (owner.CurrentTeam != CurrentTeam)
         {
             foreach (var buff in spellContext.CurrentSubSpell.Buffs)

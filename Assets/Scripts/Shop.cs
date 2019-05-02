@@ -81,7 +81,8 @@ namespace Assets.Scripts
 
             if (character.SpendCurrency(CurrentPrice))
             {
-                character.Pickup(ActiveItem);
+                // TODO: Add stacks from shop
+                character.Pickup(ActiveItem, 1);
                 RemoveItemAndClose();
 
                 if (BuyEffect != null)
