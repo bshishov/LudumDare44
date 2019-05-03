@@ -35,7 +35,7 @@ public class CameraController : Singleton<CameraController>
 
     void Start()
     {
-        var t = GameObject.FindGameObjectWithTag(Tags.Player).transform;
+        var t = GameObject.FindGameObjectWithTag(Common.Tags.Player).transform;
         SetTarget(t);
         SetSecondaryTarget(t);
     }

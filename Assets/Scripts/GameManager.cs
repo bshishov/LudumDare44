@@ -30,7 +30,7 @@ namespace Assets.Scripts
         void Start()
         {
             _surface = GetComponent<NavMeshSurface>();
-            _player = GameObject.FindGameObjectWithTag(Tags.Player);
+            _player = GameObject.FindGameObjectWithTag(Common.Tags.Player);
 
             SpawnNextChunk();
 

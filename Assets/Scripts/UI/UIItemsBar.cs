@@ -14,7 +14,7 @@ public class UIItemsBar : MonoBehaviour
 
     void Start()
     {
-        var player = GameObject.FindGameObjectWithTag(Tags.Player);
+        var player = GameObject.FindGameObjectWithTag(Common.Tags.Player);
         if (player != null)
         {
             _playerState = player.GetComponent<CharacterState>();

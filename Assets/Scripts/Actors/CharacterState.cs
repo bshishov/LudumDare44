@@ -435,7 +435,7 @@ public class CharacterState : MonoBehaviour
         }
         
 #if DEBUG
-        if(gameObject.CompareTag(Tags.Player))
+        if(gameObject.CompareTag(Common.Tags.Player))
             DisplayState();
 #endif
 

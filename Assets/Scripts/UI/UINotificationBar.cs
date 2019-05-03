@@ -42,7 +42,7 @@ public class UINotificationBar : MonoBehaviour
 
     CharacterState LocatePlayer()
     {
-        var obj = GameObject.FindGameObjectWithTag(Tags.Player);
+        var obj = GameObject.FindGameObjectWithTag(Common.Tags.Player);
         if (obj == null)
             return null;
 

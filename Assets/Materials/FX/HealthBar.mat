@@ -68,7 +68,7 @@ Material:
     - _Cutoff: 0.5
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _Fill: 0.5
+    - _Fill: 0.446
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0

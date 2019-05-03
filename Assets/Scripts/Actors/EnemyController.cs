@@ -41,7 +41,7 @@ public class EnemyController : MonoBehaviour
         _meleeRange = _characterState.character.MeleeRange;
         _navMeshAgent.speed = _characterState.Speed;
         CharacterUtils.ApplySettings(_characterState, _navMeshAgent, true);       
-        _players = GameObject.FindGameObjectsWithTag(Tags.Player).Select(o => o.GetComponent<CharacterState>()).ToArray();
+        _players = GameObject.FindGameObjectsWithTag(Common.Tags.Player).Select(o => o.GetComponent<CharacterState>()).ToArray();
         _useBuff = _characterState.character.UseBuff;
         if (_useBuff == null)
             gameObject.tag = "Enemy";
@@ -81,7 +81,7 @@ public class EnemyController : MonoBehaviour
                     {
                         if (_buffTarget == null || _buffTarget.Health<=0)
                         {
-                            var _allies = GameObject.FindGameObjectsWithTag(Tags.Enemy).Select(o => o.GetComponent<CharacterState>()).ToArray();
+                            var _allies = GameObject.FindGameObjectsWithTag(Common.Tags.Enemy).Select(o => o.GetComponent<CharacterState>()).ToArray();
                             if (_allies.Count() > 0)
                                 _buffTarget = RandomUtils.Choice(_allies);                            
                         }
