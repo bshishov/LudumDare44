@@ -245,10 +245,10 @@ public class SpellCaster : MonoBehaviour
 
                     if (context.SubContext.state == ContextState.Finishing)
                     {
-                        ++context.CurrentSubSpellIndex;
                         if (context.CurrentSubSpell.Effect != null)
                             context.CurrentSubSpell.DestoryEffectInstance();
                         context.SubContext = null;
+                        ++context.CurrentSubSpellIndex;
                     }
                 }
 
@@ -288,7 +288,7 @@ public class SpellCaster : MonoBehaviour
                 return true;
 
             case ContextState.PreDelays:
-                if (subContext.stateActiveTime < context.CurrentSubSpell.PostCastDelay)
+                if (subContext.stateActiveTime < context.CurrentSubSpell.PreCastDelay)
                     break;
 
                 Advance();
@@ -302,7 +302,7 @@ public class SpellCaster : MonoBehaviour
                 return true;
 
             case ContextState.PreDamageDelay:
-                if (subContext.stateActiveTime < context.CurrentSubSpell.PostCastDelay)
+                if (subContext.stateActiveTime < context.CurrentSubSpell.PreDamageDelay)
                     break;
 
                 Advance();

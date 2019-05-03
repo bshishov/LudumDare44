@@ -97,8 +97,9 @@ public class SubSpell : ScriptableObject
 
     public SpellOrigin Origin;
 
-    public float PostCastDelay;
-    public float PreCastDelay;
+        public float PreCastDelay;
+        public float PreDamageDelay;
+        public float PostCastDelay;
 
     public ProjectileData Projectile;
 

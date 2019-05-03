@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
   m_Name: Spell_MeteorStrike
   m_EditorClassIdentifier: 
-  Name: SpikeWave
+  Name: Meteor Strike
   Icon: {fileID: 8409708482411832467, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Description: After a short delay, launches a meteor at a targettet location, dealing
     7 instant damage and setting enemies on fire
@@ -27,7 +27,7 @@ MonoBehaviour:
   ChannelTime: 0
   SubSpells:
   - {fileID: 11400000, guid: 4cb3d184c6ea43d42a389a862c9449ad, type: 2}
-  SpellEffect: {fileID: 1349204274574646620, guid: 969392a480e28e6409a782eb40a9fc1d,
-    type: 3}
+  - {fileID: 11400000, guid: fe5fce75e6cf6f2489a653f9cf8d3315, type: 2}
+  SpellEffect: {fileID: 0}
   DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
     type: 3}
