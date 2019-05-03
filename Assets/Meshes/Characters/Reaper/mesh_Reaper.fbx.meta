@@ -22,7 +22,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: mat_Reaper_wings
-    second: {fileID: 2100000, guid: 65b7d9412aaebc047b00ccbb54ba23e5, type: 2}
+    second: {fileID: 2100000, guid: ce83d7e2d7a39b248ab5244f2bbb2c5b, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

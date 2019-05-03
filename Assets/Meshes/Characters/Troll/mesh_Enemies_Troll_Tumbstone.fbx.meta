@@ -3,7 +3,12 @@ guid: a73f7da426d3fef4abcb44a3d14e9dfa
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Enemies_Troll
+    second: {fileID: 2100000, guid: 5366b884c9081cd4d8893660a1cdc922, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

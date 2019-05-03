@@ -54,10 +54,10 @@ public class Cheats : MonoBehaviour
         {
             Debugger.Default.Display($"Cheats/Spawn Enemy/{enemy.name}",
                                      () => { GameObject.Instantiate(enemy, _playerState.transform.position, Quaternion.identity); });
-            Debugger.Default.Display($"Cheats/Spawn Enemy/{enemy.name} x 100",
+            Debugger.Default.Display($"Cheats/Spawn Enemy/{enemy.name}/x10",
                                      () =>
                                      {
-                                         for (int i = 0; i < 10; ++i)
+                                         for (var i = 0; i < 10; ++i)
                                          {
                                              GameObject.Instantiate(enemy, _playerState.transform.position, Quaternion.identity);
                                          }

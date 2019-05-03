@@ -1,61 +1,36 @@
 fileFormatVersion: 2
-guid: ac46cd07e64e1f94da21fb3d579167bf
+guid: 9a6dfde963710f34f806200c44a42b39
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
   - first:
-      74: 2944855941006285045
-    second: Fanatic_Attack
+      74: 8331712763785550011
+    second: Warlock Armature|Warlock_Attack
   - first:
-      74: -6716847476621964617
-    second: Fanatic_Death
+      74: 5600308796632147184
+    second: Warlock Armature|Warlock_Death
   - first:
-      74: -1021835432075433594
-    second: Fanatic_Idle
+      74: 4387162285155308949
+    second: Warlock Armature|Warlock_Idle
   - first:
-      74: 126317983755079002
-    second: Fanatic_Run
-  - first:
-      74: 7409116551471118945
-    second: Fanatic_Spawn
-  - first:
-      74: 4682928455411400512
-    second: Armature.001|L_FOOTcontrol|CINEMA_4D_Main|Layer0
-  - first:
-      74: 3543285266840486073
-    second: Armature.001|Master|CINEMA_4D_Main|Layer0
-  - first:
-      74: 1137989408434907267
-    second: Armature.001|mesh_Scull.001Action
-  - first:
-      74: 8170769075860487187
-    second: Armature.001|MN_pants_MN_pants1|Take 001|BaseLayer
-  - first:
-      74: 8972531383914401576
-    second: Armature.001|Ogre_delete
-  - first:
-      74: 4136887679033547288
-    second: Armature.001|Plane.007Action.002
-  - first:
-      74: 3942160014827433885
-    second: Armature.001|Plane.009Action
-  - first:
-      74: -976637953299934787
-    second: Armature.001|Plane.010Action
-  - first:
-      74: 2317139851406629702
-    second: Armature.001|R_FOOTcontrol|CINEMA_4D_Main|Layer0
+      74: 7474589498613044919
+    second: Warlock Armature|Warlock_Run
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: mat_Fanatic_Earth
-    second: {fileID: 2100000, guid: 071d4ca5971db1d428b9eda769c9b940, type: 2}
+      name: mat_Enemies_Warlock
+    second: {fileID: 2100000, guid: e92546586eae9c24db1a90451683c87f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: mat_Fanatic_Mane
-    second: {fileID: 2100000, guid: 644feb961d189e64682f80140d4aebf2, type: 2}
+      name: mat_Enemies_Warlock_Skull
+    second: {fileID: 2100000, guid: 9d57e99e305ed1144bf7732d496c0f52, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Metal
+    second: {fileID: 2100000, guid: 9d57e99e305ed1144bf7732d496c0f52, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -84,9 +59,9 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Fanatic_Attack
-      takeName: Armature.001|Fanatic_Attack
-      internalID: 2944855941006285045
+      name: Warlock Armature|Warlock_Attack
+      takeName: Warlock Armature|Warlock_Attack
+      internalID: 8331712763785550011
       firstFrame: 0
       lastFrame: 25
       wrapMode: 0
@@ -113,98 +88,69 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Fanatic_Death
-      takeName: Armature.001|Fanatic_Death
-      internalID: -6716847476621964617
-      firstFrame: 0
-      lastFrame: 35
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Fanatic_Idle
-      takeName: Armature.001|Fanatic_Idle
-      internalID: -1021835432075433594
-      firstFrame: 0
-      lastFrame: 25
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Fanatic_Run
-      takeName: Armature.001|Fanatic_Run
-      internalID: 126317983755079002
-      firstFrame: 0
-      lastFrame: 30
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Fanatic_Spawn
-      takeName: Armature.001|Fanatic_Spawn
-      internalID: 7409116551471118945
+      name: Warlock Armature|Warlock_Death
+      takeName: Warlock Armature|Warlock_Death
+      internalID: 5600308796632147184
       firstFrame: 0
       lastFrame: 45
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Warlock Armature|Warlock_Idle
+      takeName: Warlock Armature|Warlock_Idle
+      internalID: 4387162285155308949
+      firstFrame: 0
+      lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Warlock Armature|Warlock_Run
+      takeName: Warlock Armature|Warlock_Run
+      internalID: 7474589498613044919
+      firstFrame: 0
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
