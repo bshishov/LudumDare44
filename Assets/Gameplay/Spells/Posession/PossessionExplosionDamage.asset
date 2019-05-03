@@ -17,12 +17,12 @@ MonoBehaviour:
   TickCooldown: 2
   Duration: 4
   Modifiers: []
-  OnApplyBuff:
+  OnApplyBuff: []
+  OnTickBuff:
   - ApplyModifier:
       Parameter: 1
       Value: -1
       EffectiveStacks: 20
     CastSpell: {fileID: 0}
     SpawnObject: {fileID: 0}
-  OnTickBuff: []
   OnRemove: []

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Buff_Bleed
   m_EditorClassIdentifier: 
   Name: Bleed
-  Behaviour: 0
+  Behaviour: 1
   TickCooldown: 1
   Duration: 3
   Modifiers: []
