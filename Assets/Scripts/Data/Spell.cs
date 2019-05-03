@@ -41,8 +41,9 @@ namespace Assets.Scripts.Data
         public string Description;
 
         public Buff ApplyBuffOnDismantle;
-        public int BloodCost = 0;
-        public int BloodBack = 0;
+
+        [Tooltip("LifeSteal is in range from 0 to +inf. '0' means 0% lifesteal. 1 means 100% lifesteal. 1.5 = 150%")]
+        public float LifeSteal = 0f;
 
         public Slot DefaultSlot;
         public float Cooldown;

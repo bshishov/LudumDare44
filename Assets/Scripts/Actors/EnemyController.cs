@@ -102,7 +102,9 @@ public class EnemyController : MonoBehaviour
                             else
                             {
                                 _navMeshAgent.isStopped = true;
-                                _buffTarget.GetComponent<CharacterState>().ApplyBuff(_useBuff);
+                                var buffTarget = _buffTarget.GetComponent<CharacterState>();
+
+                                buffTarget.ApplyBuff(_useBuff, sourceCharacter: buffTarget, null, 1);
                                 GetComponent<AnimationController>().PlayCastAnimation();
                             }
                         }
@@ -123,12 +125,14 @@ public class EnemyController : MonoBehaviour
                                     if (_characterState.CanDealDamage())
                                     {
                                         _navMeshAgent.isStopped = true;
-                                        player.ReceiveDamage(_characterState.Damage);
+                                        player.ReceiveDamage(_characterState, _characterState.Damage, null);
 
                                         if (_characterState.character.ApplyBuffOnAttack != null)
                                         {
                                             player.ApplyBuff(
                                                 _characterState.character.ApplyBuffOnAttack,
+                                                _characterState,
+                                                spell: null,
                                                 1 + _characterState.AdditionSpellStacks);
                                         }
 

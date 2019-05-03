@@ -30,7 +30,7 @@ public class Cheats : MonoBehaviour
         if (Buffs != null)
             foreach (var buff in Buffs)
             {
-                Debugger.Default.Display($"Cheats/Apply Buffs/{buff.name}", () => { _playerState.ApplyBuff(buff); });
+                Debugger.Default.Display($"Cheats/Apply Buffs/{buff.name}", () => { _playerState.ApplyBuff(buff, _playerState, null, 1); });
             }
 
         foreach (var spell in Spells)
