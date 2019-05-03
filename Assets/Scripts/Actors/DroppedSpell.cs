@@ -14,16 +14,16 @@ namespace Actors
         public void Interact(CharacterState character, Interaction interaction)
         {
             if (interaction == Interaction.Pick)
-            {
                 character.Pickup(Spell, Stacks);
-                Destroy(gameObject);
-                CameraController.Instance.Shake(0.5f);
+
+            if (interaction == Interaction.Dismantle)
+            {
+                if(Spell.ApplyBuffOnDismantle != null)
+                    character.ApplyBuff(Spell.ApplyBuffOnDismantle, Stacks);
             }
 
-            if (interaction == Interaction.Discard)
-            {
-                throw new NotImplementedException();
-            }
+            Destroy(gameObject);
+            CameraController.Instance.Shake(0.5f);
         }
 
         public void Setup(Spell spell, int stacks)

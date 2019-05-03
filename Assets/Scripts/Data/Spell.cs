@@ -40,6 +40,7 @@ namespace Assets.Scripts.Data
         [TextArea]
         public string Description;
 
+        public Buff ApplyBuffOnDismantle;
         public int BloodCost = 0;
         public int BloodBack = 0;
 
