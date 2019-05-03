@@ -8,7 +8,10 @@ namespace Spells.Effects
     {
         public GameObject LightningPrefab;
 
-        void Start() { Destroy(gameObject, 1f); }
+        void Start()
+        {
+            Destroy(gameObject, 1f);
+        } 
 
         public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
         {
@@ -21,10 +24,6 @@ namespace Spells.Effects
                 lObj.GetComponent<Lightning>().SetupLine(targets.Source.Position.Value, dst.Position.Value);
             }
         }
-
-        public void OnTargetsAffected(ISpellContext context, SpellTargets targets) { }
+        public void OnTargetsAffected(ISpellContext context, SpellTargets targets) {  }
     }
 }
-
-namespace Spells.Effects
-{}
