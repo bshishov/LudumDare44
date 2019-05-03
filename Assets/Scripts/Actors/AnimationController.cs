@@ -73,6 +73,7 @@ public class AnimationController : MonoBehaviour
         {
             Animator.SetTrigger(RandomUtils.Choice(DeathVariations));
         }
+        _impactTime = ImpactDecayTime;
     }
 
     public void PlayAttackAnimation()
