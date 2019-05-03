@@ -8,20 +8,20 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Shader Graphs_Toon_Disolve 1
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: f3c3f45d962cd054a8621ccbd1302f6f,
+    type: 3}
   m_ShaderKeywords: _ENVIRONMENTREFLECTIONS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2050
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_97B584ED:
-        m_Texture: {fileID: 2800000, guid: 27697b987b7655a4ebdc897dfa426c7e, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -60,6 +60,7 @@ Material:
     - Vector1_C60959E6: 3
     - Vector1_C7706716: 0
     - Vector1_E93467C6: 0.3
+    - Vector1_F9E2BB74: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1

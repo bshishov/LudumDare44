@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Blade
   Description: This blade sharpens you damage on 10%
   Cost: 5
-  Icon: {fileID: 0}
+  Icon: {fileID: 294179135353329459, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Buffs:
   - {fileID: 11400000, guid: b12e9106ccedaf54c82f2ae61bae806e, type: 2}
   Prefab: {fileID: 2985585622209771592, guid: 7de4fe281d2fd22478895e20d42956cb, type: 3}
