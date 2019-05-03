@@ -107,7 +107,7 @@ Material:
     - Color_12DAAE22: {r: 0.514151, g: 0.8622238, b: 1, a: 0}
     - Color_281A855D: {r: 1, g: 1, b: 1, a: 0}
     - Color_B340782C: {r: 0, g: 1, b: 1, a: 0}
-    - Color_BFD9BFD3: {r: 0.4295123, g: 0.6528826, b: 0.7169812, a: 1}
+    - Color_BFD9BFD3: {r: 0.6232645, g: 0.8254229, b: 0.8867924, a: 1}
     - Vector3_A9C3AA14: {r: 30, g: 45, b: 0, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}

@@ -5,17 +5,27 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -7273750785214896819
-    second: metarig|Banshee_Attack
+    second: Banshee_Attack
   - first:
       74: 6913343469640095177
-    second: metarig|Banshee_Death
+    second: Banshee_Death
   - first:
       74: -7258753864147013382
-    second: metarig|Banshee_Idle
+    second: Banshee_Idle
   - first:
       74: 7400538738283384356
-    second: metarig|Banshee_Walk
-  externalObjects: {}
+    second: Banshee_Walk
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Enemy_Banshee_01
+    second: {fileID: 2100000, guid: 17da4f81ba7a1ab459fc6cdb0195c569, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Enemy_Banshee_02
+    second: {fileID: 2100000, guid: bf0b8cad01a2b434baae863ea0d63f01, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -25,7 +35,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
-    optimizeGameObjects: 0
+    optimizeGameObjects: 1
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -40,11 +50,15 @@ ModelImporter:
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - mesh_Enemy_Banshee
+    - metarig/spine/spine.001/spine.002/spine.003
+    - metarig/spine/spine.001/spine.002/spine.003/upper_arm.R/forearm.R/hand.R
+    - metarig/spine/spine.001/spine.002/spine.003/spine.004/spine.005/spine.006/spine.006_end
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: metarig|Banshee_Attack
+      name: Banshee_Attack
       takeName: metarig|Banshee_Attack
       internalID: -7273750785214896819
       firstFrame: 0
@@ -73,7 +87,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: metarig|Banshee_Death
+      name: Banshee_Death
       takeName: metarig|Banshee_Death
       internalID: 6913343469640095177
       firstFrame: 0
@@ -102,7 +116,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: metarig|Banshee_Idle
+      name: Banshee_Idle
       takeName: metarig|Banshee_Idle
       internalID: -7258753864147013382
       firstFrame: 0
@@ -131,7 +145,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: metarig|Banshee_Walk
+      name: Banshee_Walk
       takeName: metarig|Banshee_Walk
       internalID: 7400538738283384356
       firstFrame: 0

@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mat_Enemy_Banshee_01
+  m_Name: mat_Enemy_Banshee_02
   m_Shader: {fileID: -6465566751694194690, guid: f3c3f45d962cd054a8621ccbd1302f6f,
     type: 3}
   m_ShaderKeywords: 
@@ -107,7 +107,7 @@ Material:
     - Color_12DAAE22: {r: 0.514151, g: 0.8622238, b: 1, a: 0}
     - Color_281A855D: {r: 1, g: 1, b: 1, a: 0}
     - Color_B340782C: {r: 0, g: 1, b: 1, a: 0}
-    - Color_BFD9BFD3: {r: 0.4295123, g: 0.6528826, b: 0.7169812, a: 1}
+    - Color_BFD9BFD3: {r: 0.32498217, g: 0.5605605, b: 0.6320754, a: 1}
     - Vector3_A9C3AA14: {r: 30, g: 45, b: 0, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}

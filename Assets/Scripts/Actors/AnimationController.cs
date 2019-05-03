@@ -91,7 +91,8 @@ public class AnimationController : MonoBehaviour
         _impactTime = ImpactDecayTime;
         if (TakeDamageVariations == null || TakeDamageVariations.Length == 0)
         {
-            Animator.SetTrigger(TakeDamage);
+            if(!string.IsNullOrEmpty(TakeDamage))
+                Animator.SetTrigger(TakeDamage);
         }
         else
         {
