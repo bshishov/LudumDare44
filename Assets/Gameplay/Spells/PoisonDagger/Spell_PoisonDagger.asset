@@ -16,6 +16,8 @@ MonoBehaviour:
   Icon: {fileID: 294179135353329459, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Description: Throws a poisoned dagger at a chosen direction, dealing 1 damage and
     poisoning affected enemy
+  ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
+    type: 2}
   BloodCost: 0
   BloodBack: 0
   DefaultSlot: 0
