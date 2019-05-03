@@ -140,13 +140,13 @@ MonoBehaviour:
   CurrentTeam: 2
   character: {fileID: 11400000, guid: c06eb861257cd6e49a341fddd47f2f5d, type: 2}
   Nodes:
-  - Transform: {fileID: 0}
+  - Transform: {fileID: 4044722232106718872}
     Role: 0
-  - Transform: {fileID: 0}
+  - Transform: {fileID: 3535313186006381474}
     Role: 1
-  - Transform: {fileID: 0}
+  - Transform: {fileID: 6210514359278865864}
     Role: 2
-  - Transform: {fileID: 0}
+  - Transform: {fileID: 4044722232106718872}
     Role: 3
 --- !u!195 &9211937381392984914
 NavMeshAgent:
@@ -379,6 +379,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: bb2d9f1755039684d9e937c93a5b25df,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: bb2d9f1755039684d9e937c93a5b25df,
         type: 3}
