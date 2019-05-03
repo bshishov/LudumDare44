@@ -76,7 +76,7 @@ namespace Spells
 
     public class SpellTargets
     {
-        public readonly TargetInfo Source;
+        public TargetInfo Source;
         public TargetInfo[] Destinations;
 
         public SpellTargets(SpellTargets source)
@@ -91,10 +91,16 @@ namespace Spells
             Destinations = new TargetInfo[0];
         }
 
-        public  SpellTargets(TargetInfo source, TargetInfo target)
+        public SpellTargets(TargetInfo source, TargetInfo target)
         {
             Source = source;
-            Destinations = new []{ target };
+            Destinations = new[] { target };
+        }
+
+        public SpellTargets(TargetInfo source, TargetInfo[] targets)
+        {
+            Source = source;
+            Destinations = targets;
         }
 
         public override string ToString()
@@ -108,10 +114,10 @@ namespace Spells
 
     }
 
-    public class SubSpellTargets
+    public struct SubSpellTargets
     {
         public List<SpellTargets> TargetData;
-    }
+        }
 
     public interface ISpellEffect
     {

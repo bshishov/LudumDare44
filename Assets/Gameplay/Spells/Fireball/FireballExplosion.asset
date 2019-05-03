@@ -19,9 +19,9 @@ MonoBehaviour:
   Effect: {fileID: 1349204274574646620, guid: a55be5abd6fc4954e81a606e64d716c3, type: 3}
   Flags: 21
   Obstacles: 0
-  Origin: 2
+  Origin: 1
   PreCastDelay: 0
-  PreDamageDelay: 2
+  PreDamageDelay: 0
   PostCastDelay: 0
   Projectile: {fileID: 0}
   Targeting: 2

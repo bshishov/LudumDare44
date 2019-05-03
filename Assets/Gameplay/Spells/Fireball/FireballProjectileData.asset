@@ -15,5 +15,5 @@ MonoBehaviour:
   ProjectilePrefab: {fileID: 2905237645726948510, guid: 40d6c2c3d5b89954597f3915deca0139,
     type: 3}
   Speed: 15
-  MaxDistance: 50
+  MaxDistance: 10
   Trajectory: 1

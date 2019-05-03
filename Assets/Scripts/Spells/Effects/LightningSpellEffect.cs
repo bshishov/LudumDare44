@@ -7,9 +7,7 @@ namespace Spells.Effects
     public class LightningSpellEffect : MonoBehaviour, ISubSpellEffect
     {
         public GameObject LightningPrefab;
-
-        void Start() { Destroy(gameObject, 1f); }
-
+        
         public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
         {
             Assert.IsTrue(targets.Source.Position.HasValue, "targets.Source.Position != null");

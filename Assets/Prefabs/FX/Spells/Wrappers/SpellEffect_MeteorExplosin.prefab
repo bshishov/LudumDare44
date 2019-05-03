@@ -46,4 +46,4 @@ MonoBehaviour:
   ExplosionPrefab: {fileID: 1947871717301538, guid: a990e3ac1318b834488c784d851f42a9,
     type: 3}
   Origin: 1
-  StartEffectOnPreSelected: 0
+  StartEffectOnPreSelected: 1

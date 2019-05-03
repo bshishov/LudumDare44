@@ -108,7 +108,7 @@ namespace Spells
         private void DestroyParticle()
         {
             _destroying = true;
-            Destroy(gameObject.transform.parent.gameObject);
+            Destroy(gameObject);
         }
 
         private void ContinueSpellSequence(CharacterState target)
