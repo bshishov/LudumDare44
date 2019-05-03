@@ -15,10 +15,21 @@ public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
 
     public GameObject      ExplosionPrefab;
     public ExplosionOrigin Origin;
+    public bool            StartEffectOnPreSelected;
 
-    public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets) { }
+    public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
+    {
+        if (StartEffectOnPreSelected)
+            SpawnEffect(targets);
+    }
 
     public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
+    {
+        if (!StartEffectOnPreSelected)
+            SpawnEffect(targets);
+    }
+
+    private void SpawnEffect(SpellTargets targets)
     {
         switch (Origin)
         {

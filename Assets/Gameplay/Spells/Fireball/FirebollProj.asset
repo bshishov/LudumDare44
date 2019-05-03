@@ -15,12 +15,13 @@ MonoBehaviour:
   AffectedTarget: 8
   Area: {fileID: 0}
   Buffs: []
+  Effect: {fileID: 0}
   Flags: 10
   Obstacles: -1
   Origin: 1
-  PostCastDelay: 0
   PreCastDelay: 0
+  PreDamageDelay: 0
+  PostCastDelay: 0
   Projectile: {fileID: 11400000, guid: 68e80e8896f3eb444ac6fa47990c4eba, type: 2}
   Targeting: 2
-  TargetLocking: 1
-  Effect: {fileID: 0}
+  NewSource: 1
