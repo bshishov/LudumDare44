@@ -17,8 +17,7 @@ MonoBehaviour:
   Description: Launches a homing skull, which deals 2 damage
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
     type: 2}
-  BloodCost: 0
-  BloodBack: 0
+  LifeSteal: 2
   DefaultSlot: 0
   Cooldown: 0.9
   CastingTime: 1

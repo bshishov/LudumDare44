@@ -272,7 +272,7 @@ public class CharacterState : MonoBehaviour
             // Применить все что в On Apply
             if (newBuff.OnApplyBuff != null)
                 foreach (var affect in newBuff.OnApplyBuff)
-                    ApplyAffect(affect, existingState.Stacks, sourceCharacter, spell);
+                    ApplyAffect(affect, stacks, sourceCharacter, spell);
 
             AddBuff(newBuff, stacks, sourceCharacter, spell);
         }
