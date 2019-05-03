@@ -10,25 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
-  m_Name: Enemie_Fanatic
+  m_Name: Enemy_Reaper
   m_EditorClassIdentifier: 
-  Health: 5
-  Damage: 2
-  Speed: 1.3
-  Evasion: 0
-  Size: 1
+  Health: 75
+  Damage: 50
+  Speed: 10
+  Evasion: 0.2
+  Size: 1.5
   HealthModifier: 1
-  IndifferenceDistance: 15
-  SpellRange: 8
-  FearRange: 5
-  MeleeRange: 3.82
-  AttackCooldown: 5
+  IndifferenceDistance: 30
+  SpellRange: 10
+  FearRange: 0
+  MeleeRange: 2
+  AttackCooldown: 3
   ApplyBuffOnAttack: {fileID: 0}
   AdditionalSpellStacks: 0
   DropRate: 0.05
-  DropSpells:
-  - {fileID: 0}
-  - {fileID: 0}
-  UseSpells:
-  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
+  DropSpells: []
+  UseSpells: []
   UseBuff: {fileID: 0}

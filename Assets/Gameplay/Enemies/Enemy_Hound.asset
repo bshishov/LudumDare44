@@ -10,25 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
-  m_Name: Enemie_Troll
+  m_Name: Enemy_Hound
   m_EditorClassIdentifier: 
-  Health: 20
-  Damage: 10
-  Speed: 0.7
+  Health: 1
+  Damage: 3
+  Speed: 2
   Evasion: 0
   Size: 1
   HealthModifier: 1
   IndifferenceDistance: 20
-  SpellRange: 5
+  SpellRange: 0
   FearRange: 0
-  MeleeRange: 3
-  AttackCooldown: 5
+  MeleeRange: 2
+  AttackCooldown: 1
   ApplyBuffOnAttack: {fileID: 0}
   AdditionalSpellStacks: 0
-  DropRate: 0.05
+  DropRate: 0.02
   DropSpells:
   - {fileID: 0}
+  - {fileID: 11400000, guid: 4dea2418d8494ae43ba01a378694fbf2, type: 2}
   - {fileID: 0}
-  UseSpells:
-  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  UseSpells: []
   UseBuff: {fileID: 0}
