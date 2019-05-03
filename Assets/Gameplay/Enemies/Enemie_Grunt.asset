@@ -25,7 +25,7 @@ MonoBehaviour:
   AttackCooldown: 1
   ApplyBuffOnAttack: {fileID: 11400000, guid: 9d128dd0e4da77345bc5fe7f2af1127b, type: 2}
   AdditionalSpellStacks: 10
-  DropRate: 0.05
+  DropRate: 0.01
   DropSpells:
   - {fileID: 11400000, guid: 1e6940b2adb5d7244a4fbff980a6250e, type: 2}
   - {fileID: 11400000, guid: 0f5e31d5e7d195e4dbcf8c1f34aa4da3, type: 2}
