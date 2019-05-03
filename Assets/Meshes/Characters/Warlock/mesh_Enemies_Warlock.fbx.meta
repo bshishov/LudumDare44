@@ -5,16 +5,16 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: 8331712763785550011
-    second: Warlock Armature|Warlock_Attack
+    second: Warlock_Attack
   - first:
       74: 5600308796632147184
-    second: Warlock Armature|Warlock_Death
+    second: Warlock_Death
   - first:
       74: 4387162285155308949
-    second: Warlock Armature|Warlock_Idle
+    second: Warlock_Idle
   - first:
       74: 7474589498613044919
-    second: Warlock Armature|Warlock_Run
+    second: Warlock_Run
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -40,7 +40,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
-    optimizeGameObjects: 0
+    optimizeGameObjects: 1
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -55,11 +55,15 @@ ModelImporter:
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - mesh_Enemies_Warlock
+    - Warlock Armature/spine/spine.001/spine.002/spine.003/Head
+    - Warlock Armature/spine/spine.001/spine.002/spine.003
+    - Warlock Armature/spine/spine.001/spine.002/spine.003/upper_arm.R/forearm.R/hand.R
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Warlock Armature|Warlock_Attack
+      name: Warlock_Attack
       takeName: Warlock Armature|Warlock_Attack
       internalID: 8331712763785550011
       firstFrame: 0
@@ -88,7 +92,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Warlock Armature|Warlock_Death
+      name: Warlock_Death
       takeName: Warlock Armature|Warlock_Death
       internalID: 5600308796632147184
       firstFrame: 0
@@ -117,7 +121,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Warlock Armature|Warlock_Idle
+      name: Warlock_Idle
       takeName: Warlock Armature|Warlock_Idle
       internalID: 4387162285155308949
       firstFrame: 0
@@ -146,7 +150,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Warlock Armature|Warlock_Run
+      name: Warlock_Run
       takeName: Warlock Armature|Warlock_Run
       internalID: 7474589498613044919
       firstFrame: 0
