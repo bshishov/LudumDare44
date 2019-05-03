@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Name: Spell_Posession
+  m_EditorClassIdentifier: 
+  Name: Lightning
+  Icon: {fileID: -8252871216045270066, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Description: Cast a chain lightning, dealing 1 damage to every affected enemy
+  BloodCost: 0
+  BloodBack: 2
+  DefaultSlot: 0
+  Cooldown: 0.6
+  CastingTime: 1
+  Flags: 6
+  PreCastDelay: 0
+  PostCastDelay: 0
+  ChannelTime: 0
+  SubSpells:
+  - {fileID: 11400000, guid: 99413742bfe09ad44a729e0a8559d31e, type: 2}
+  SpellEffect: {fileID: 0}
+  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
+    type: 3}

@@ -9,15 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3303e6a0239599a42a240593fc7c9ead, type: 3}
-  m_Name: Slow(Bloodsoaked Shield)
+  m_Script: {fileID: 11500000, guid: ba8401e1d8afc8f40b51d81697cae08f, type: 3}
+  m_Name: PosessionArea
   m_EditorClassIdentifier: 
-  Name: Slow(Bloodsoaked Shield)
-  ChangedProperty: 0
-  Addition: 0
-  Multiplier: 0.9
-  Radius: 0
-  PerSecond: 0
-  Permanent: 1
-  Duration: 1
-  VisualEffect: {fileID: 0}
+  Size: 4
+  MinSize: 0
+  Angle: 0
+  Area: 1
