@@ -18,10 +18,10 @@ MonoBehaviour:
   BloodCost: 0
   BloodBack: 0
   DefaultSlot: 0
-  Cooldown: 0.9
+  Cooldown: 0.8
   CastingTime: 1
   Flags: 0
-  PreCastDelay: 0.1
+  PreCastDelay: 0
   PostCastDelay: 0
   ChannelTime: 0
   SubSpells:
