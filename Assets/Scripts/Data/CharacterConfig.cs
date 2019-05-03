@@ -15,6 +15,7 @@ namespace Assets.Scripts.Data
         public float Evasion = 0f;
         public float Size = 1f;
         public float HealthModifier = 1f;
+        public float SpellDamageAmp = 0f;
 
         [Header("AI")]
         public float IndifferenceDistance = 10f;

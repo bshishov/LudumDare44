@@ -127,8 +127,13 @@ public class CharacterState : MonoBehaviour
         1, 10f);
 
     // ========= AdditionSpellStacks
-    private float _assFlatMod = 0;
-    public int AdditionSpellStacks => character.AdditionalSpellStacks + Mathf.CeilToInt(_assFlatMod);
+    private float _assFlatModSum = 0;
+    public int AdditionSpellStacks => character.AdditionalSpellStacks + Mathf.CeilToInt(_assFlatModSum);
+
+    // ========= SpellDamage amplifiaction
+    private float _spellDamageAmpFlatModSum = 0f;
+    public float SpellDamageMultiplier => 1f + ELU(character.SpellDamageAmp + _spellDamageAmpFlatModSum);
+
     public float DropRate => character.DropRate;
     public List<Spell> DropSpells => character.DropSpells;
 
@@ -359,7 +364,11 @@ public class CharacterState : MonoBehaviour
                 break;
             case ModificationParameter.SpellStacksFlat:
                 actualChange = StackedModifier(amount, stacks, effectiveStacks);
-                _assFlatMod += actualChange;
+                _assFlatModSum += actualChange;
+                break;
+            case ModificationParameter.SpellDamageAmpFlat:
+                actualChange = StackedModifier(amount, stacks, effectiveStacks);
+                _spellDamageAmpFlatModSum += actualChange;
                 break;
             default:
                 break;
@@ -504,6 +513,8 @@ public class CharacterState : MonoBehaviour
         Debugger.Default.Display(gameObject.name + "/Size/MultModSum", _sizeMultModSum);
         Debugger.Default.Display(gameObject.name + "/Evasion", Evasion);
         Debugger.Default.Display(gameObject.name + "/Evasion/MultProd", _evasionModMulProduct);
+        Debugger.Default.Display(gameObject.name + "/SpellDamageMultiplier", SpellDamageMultiplier);
+        Debugger.Default.Display(gameObject.name + "/SpellDamageMultiplier/AmpFlatModSum", _spellDamageAmpFlatModSum);
 
 
     }

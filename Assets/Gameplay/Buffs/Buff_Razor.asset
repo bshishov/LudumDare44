@@ -20,6 +20,9 @@ MonoBehaviour:
   - Parameter: 6
     Value: 1
     EffectiveStacks: 0
+  - Parameter: 14
+    Value: 1
+    EffectiveStacks: 0
   OnApplyBuff: []
   OnTickBuff: []
   OnRemove: []
