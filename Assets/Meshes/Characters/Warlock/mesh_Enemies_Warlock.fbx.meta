@@ -15,7 +15,22 @@ ModelImporter:
   - first:
       74: 7474589498613044919
     second: Warlock Armature|Warlock_Run
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Enemies_Warlock
+    second: {fileID: 2100000, guid: a6349cf9a324e3b459db719a450e10e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Enemies_Warlock_Skull
+    second: {fileID: 2100000, guid: d5426adcc8409cf4790c982a7492432d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Metal
+    second: {fileID: 2100000, guid: d5426adcc8409cf4790c982a7492432d, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

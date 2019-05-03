@@ -1,28 +1,34 @@
 fileFormatVersion: 2
-guid: abeb1d947490fb343973d64639d33031
+guid: 42f8b8b1fa003f147b66c3445889c589
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
   - first:
-      74: 8573185672648390963
-    second: Reaper_Atack
+      74: 6057059371985552666
+    second: Troll_Armature|Ogre_Attack
   - first:
-      74: 3012886588839314923
-    second: Reaper_Idle
+      74: 8273596715839683100
+    second: Troll_Armature|Ogre_Death
   - first:
-      74: -5931100377931971161
-    second: Reaper_Walk
+      74: 7254944764539816038
+    second: Troll_Armature|Ogre_delete
+  - first:
+      74: 8456200374700463252
+    second: Troll_Armature|Ogre_Idle
+  - first:
+      74: -5667255459762840787
+    second: Troll_Armature|Ogre_walk
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: mat_Reaper
-    second: {fileID: 2100000, guid: a8ae0b1292bb291468385d41f6cdcb85, type: 2}
+      name: mat_Enemies_Troll
+    second: {fileID: 2100000, guid: 1a176da83822f824bb29f2f5b8573a9d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: mat_Reaper_wings
-    second: {fileID: 2100000, guid: ce83d7e2d7a39b248ab5244f2bbb2c5b, type: 2}
+      name: mat_Metal
+    second: {fileID: 2100000, guid: c7475f07857303e4fa0ee441f2dda880, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -32,7 +38,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
-    optimizeGameObjects: 1
+    optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -47,18 +53,15 @@ ModelImporter:
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths:
-    - mesh_Reaper
-    - Armature/Bone/Bone.001/Upper_Arm_R/Arm_R/Hand_R
-    - Armature/Bone/Bone.001
+    extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Reaper_Atack
-      takeName: Armature|Reaper_Atack
-      internalID: 8573185672648390963
+      name: Troll_Armature|Ogre_Attack
+      takeName: Troll_Armature|Ogre_Attack
+      internalID: 6057059371985552666
       firstFrame: 0
-      lastFrame: 42
+      lastFrame: 55
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -83,11 +86,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Reaper_Idle
-      takeName: Armature|Reaper_Idle
-      internalID: 3012886588839314923
+      name: Troll_Armature|Ogre_Death
+      takeName: Troll_Armature|Ogre_Death
+      internalID: 8273596715839683100
       firstFrame: 0
-      lastFrame: 60
+      lastFrame: 26
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -112,11 +115,40 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Reaper_Walk
-      takeName: Armature|Reaper_Walk
-      internalID: -5931100377931971161
+      name: Troll_Armature|Ogre_Idle
+      takeName: Troll_Armature|Ogre_Idle
+      internalID: 8456200374700463252
       firstFrame: 0
       lastFrame: 40
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Troll_Armature|Ogre_walk
+      takeName: Troll_Armature|Ogre_walk
+      internalID: -5667255459762840787
+      firstFrame: 0
+      lastFrame: 20
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
