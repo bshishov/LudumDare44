@@ -23,46 +23,45 @@ public class Cheats : MonoBehaviour
 
     void Start()
     {
-        _playerController = FindObjectOfType<PlayerController>();
-        _playerState = _playerController.GetComponent<CharacterState>();
+        _playerController     = FindObjectOfType<PlayerController>();
+        _playerState          = _playerController.GetComponent<CharacterState>();
         _playerSpellbookState = _playerController.GetComponent<SpellbookState>();
 
-        if(Buffs != null)
-        foreach (var buff in Buffs)
-        {
-            Debugger.Default.Display(string.Format("Cheats/Apply Buffs/{0}", buff.name), () =>
+        if (Buffs != null)
+            foreach (var buff in Buffs)
             {
-                _playerState.ApplyBuff(buff);
-            });
-        }
+                Debugger.Default.Display($"Cheats/Apply Buffs/{buff.name}", () => { _playerState.ApplyBuff(buff); });
+            }
 
         foreach (var spell in Spells)
         {
-            Debugger.Default.Display(string.Format("Cheats/Pickup Spell/{0}", spell.name), () =>
-            {
-                _playerState.Pickup(spell, 1);
-            });
+            Debugger.Default.Display($"Cheats/Pickup Spell/{spell.name}", () => { _playerState.Pickup(spell, 1); });
 
-            Debugger.Default.Display(string.Format("Cheats/Drop Spell/{0}", spell.name), () =>
-            {
-                DroppedSpell.InstantiateDroppedSpell(spell, _playerState.GetNodeTransform(CharacterState.NodeRole.Chest).transform.position);
-            });
+            Debugger.Default.Display($"Cheats/Drop Spell/{spell.name}",
+                                     () =>
+                                     {
+                                         DroppedSpell.InstantiateDroppedSpell(spell,
+                                                                              _playerState.GetNodeTransform(CharacterState.NodeRole.Chest).transform.position);
+                                     });
         }
 
         foreach (var item in Items)
         {
-            Debugger.Default.Display(string.Format("Cheats/Pickup Item/{0}", item.name), () =>
-            {
-                _playerState.Pickup(item, 1);
-            });
+            Debugger.Default.Display($"Cheats/Pickup Item/{item.name}", () => { _playerState.Pickup(item, 1); });
         }
 
         foreach (var enemy in Enemies)
         {
-            Debugger.Default.Display(string.Format("Cheats/Spawn Enemy/{0}", enemy.name), () =>
-                {
-                    GameObject.Instantiate(enemy, _playerState.transform.position, Quaternion.identity);
-                });
+            Debugger.Default.Display($"Cheats/Spawn Enemy/{enemy.name}",
+                                     () => { GameObject.Instantiate(enemy, _playerState.transform.position, Quaternion.identity); });
+            Debugger.Default.Display($"Cheats/Spawn Enemy/{enemy.name} x 100",
+                                     () =>
+                                     {
+                                         for (int i = 0; i < 10; ++i)
+                                         {
+                                             GameObject.Instantiate(enemy, _playerState.transform.position, Quaternion.identity);
+                                         }
+                                     });
         }
     }
 
@@ -97,7 +96,7 @@ public class Cheats : MonoBehaviour
     public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
     {
         List<T> assets = new List<T>();
-        string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
+        string[] guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
         for (int i = 0; i < guids.Length; i++)
         {
             string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);

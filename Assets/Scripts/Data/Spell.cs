@@ -62,12 +62,24 @@ namespace Assets.Scripts.Data
 
         public GameObject DropItem;
 
+        private GameObject _effect = null;
+
         public ISpellEffect GetEffect()
         {
             if (SpellEffect == null)
                 return null;
 
-            return Instantiate(SpellEffect).GetComponent<ISpellEffect>();
+            if (_effect == null)
+                _effect = Instantiate(SpellEffect);
+            return _effect.GetComponent<ISpellEffect>();
+        }
+
+        public void DestoryEffectInstance()
+        {
+            if (_effect == null)
+                return;
+
+            Destroy(_effect, 2);
         }
     }
 }

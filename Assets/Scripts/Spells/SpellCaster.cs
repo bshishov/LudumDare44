@@ -11,23 +11,18 @@ namespace Spells
 {
 public class SubSpellContext
 {
-    public float stateActiveTime;
-
     public object          customData;
     public ISubSpellEffect effect;
     public bool            failedToFindTargets;
     public bool            projectileSpawned;
 
     public ContextState state;
+    public float        stateActiveTime;
     public bool         Casting => failedToFindTargets == false && projectileSpawned == false;
 
     public static SubSpellContext Create(SpellContext context)
     {
-        return new SubSpellContext
-               {
-                   effect     = context.CurrentSubSpell.GetEffect(),
-                   stateActiveTime = 0.0f
-               };
+        return new SubSpellContext {effect = context.CurrentSubSpell.GetEffect(), stateActiveTime = 0.0f};
     }
 }
 
@@ -48,7 +43,7 @@ public class SpellContext : ISpellContext
     public List<SubSpellTargets> subSpellTargets;
 
     public int             CurrentSubSpellIndex { get; set; }
-    public SubSpellContext SubContext      { get; set; }
+    public SubSpellContext SubContext           { get; set; }
 
     public SubSpellTargets  CurrentSubSpellTargets => subSpellTargets[CurrentSubSpellIndex - startSubspellIndex];
     public Spell.SpellFlags SpellFlags             => Spell.Flags;
@@ -58,7 +53,7 @@ public class SpellContext : ISpellContext
 
     public Spell Spell { get; private set; }
 
-    public int Stacks { get; set; } = 1;
+    public int          Stacks          { get; set; } = 1;
     public float        StartTime       { get; set; }
     public ContextState State           { get; set; }
     public float        StateActiveTime { get; set; }
@@ -73,16 +68,16 @@ public class SpellContext : ISpellContext
 
         var context = new SpellContext
                       {
-                          InitialSource      = targets.Source.Character,
-                          caster             = caster,
-                          State              = subSpellStartIndex == 0 ? ContextState.JustQueued : ContextState.FindTargets,
-                          Spell              = spell,
-                          Stacks             = stacks,
-                          startSubspellIndex = subSpellStartIndex,
-                          CurrentSubSpellIndex    = subSpellStartIndex,
-                          SubContext         = null,
-                          StartTime          = Time.fixedTime,
-                          StateActiveTime    = 0.0f,
+                          InitialSource        = targets.Source.Character,
+                          caster               = caster,
+                          State                = subSpellStartIndex == 0 ? ContextState.JustQueued : ContextState.FindTargets,
+                          Spell                = spell,
+                          Stacks               = stacks,
+                          startSubspellIndex   = subSpellStartIndex,
+                          CurrentSubSpellIndex = subSpellStartIndex,
+                          SubContext           = null,
+                          StartTime            = Time.fixedTime,
+                          StateActiveTime      = 0.0f,
                           filteredTargets =
                               (spell.Flags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce
                                   ? new CharacterState[] { }
@@ -161,7 +156,7 @@ public class SpellCaster : MonoBehaviour
         return true;
     }
 
-    internal void ContinueCastSpell(Spell spell, SpellTargets targets, int subSpellStartIndex = 0, int stacks=1)
+    internal void ContinueCastSpell(Spell spell, SpellTargets targets, int subSpellStartIndex = 0, int stacks = 1)
     {
         lock (_nestedContexts)
         {
@@ -251,10 +246,11 @@ public class SpellCaster : MonoBehaviour
                     if (context.SubContext.state == ContextState.Finishing)
                     {
                         ++context.CurrentSubSpellIndex;
+                        if (context.CurrentSubSpell.Effect != null)
+                            context.CurrentSubSpell.DestoryEffectInstance();
                         context.SubContext = null;
                     }
                 }
-
 
                 context.SubContext = null;
                 Advance();
@@ -269,7 +265,9 @@ public class SpellCaster : MonoBehaviour
 
             case ContextState.Finishing:
                 Debug.Log($"{context.Spell.Name} finishing");
-                return false;
+                if (context.effect != null)
+                        context.Spell.DestoryEffectInstance();
+                    return false;
         }
 
         return false;
@@ -599,10 +597,11 @@ public class SpellCaster : MonoBehaviour
                 var pos    = target.Position.Value;
                 var origin = (context.CurrentSubSpell.Origin & SubSpell.SpellOrigin.Self) == SubSpell.SpellOrigin.Self ? source.Position.Value : pos;
 
-                var sphereSize = context.CurrentSubSpell.Area.Size;
-                var maxAngle   = context.CurrentSubSpell.Area.Angle;
+                var sphereMinRadius = context.CurrentSubSpell.Area.Size;
+                var sphereMaxRadius = context.CurrentSubSpell.Area.Size;
+                var maxAngle        = context.CurrentSubSpell.Area.Angle;
 
-                Debugger.Default.DrawCone(origin, direction, sphereSize, maxAngle, Color.blue, 1.0f);
+                Debugger.Default.DrawCone(origin, direction, sphereMinRadius, maxAngle, Color.blue, 1.0f);
 
                 return avalibleTargets.Where(t =>
                                              {
@@ -612,7 +611,7 @@ public class SpellCaster : MonoBehaviour
                                                  var directionTo = position - origin;
                                                  directionTo.y = 0;
 
-                                                 var inSphere = directionTo.magnitude < sphereSize;
+                                                 var inSphere = directionTo.magnitude >= sphereMinRadius && directionTo.magnitude > sphereMaxRadius;
                                                  if (!inSphere)
                                                      return false;
 

@@ -1,14 +1,15 @@
-﻿using Assets.Scripts.Data;
+﻿using System.Collections.Generic;
+using Assets.Scripts.Data;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Serialization;
 
 namespace Spells.Effects
 {
 public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
 {
-    public ParticleSystem SpikePrefab;
-    public float SpikesPerDistance = 7.5f;
+    private List<GameObject> _spawnedParticles = new List<GameObject>(1);
+    public  ParticleSystem   SpikePrefab;
+    public  float            SpikesPerDistance = 7.5f;
 
     public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
     {
@@ -37,13 +38,17 @@ public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
         if (SpikePrefab == null)
             return;
         for (var i = 1; i < 6; ++i)
-            SpawnParticle(gameObject.transform.position, Quaternion.identity,  i, 60, gameObject.transform);
+            SpawnParticle(gameObject.transform.position, Quaternion.identity, i, 60, gameObject.transform);
     }
 
     private void SpawnParticle(Vector3 origin, Quaternion rotation, float distance, float angle, Transform root = null)
     {
-        var instance  = Instantiate(SpikePrefab, origin, rotation);
+        var instance = Instantiate(SpikePrefab, gameObject.transform, false);
+        instance.transform.position = origin;
+        instance.transform.rotation = rotation;
+
         var particles = instance.GetComponent<ParticleSystem>();
+        _spawnedParticles.Add(gameObject);
 
         var shape = particles.shape;
         shape.arc      = angle;
@@ -57,6 +62,12 @@ public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
         emission.SetBurst(0, burst);
 
         particles.Play();
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var particle in _spawnedParticles)
+            Destroy(particle);
     }
 }
 }

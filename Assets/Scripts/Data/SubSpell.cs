@@ -21,7 +21,7 @@ public class SubSpell : ScriptableObject
     [Serializable]
     public enum NewSourceType
     {
-        AffectedTarget = 1,
+        AffectedTarget     = 1,
         OriginalTargetData = 2
     }
 
@@ -103,14 +103,25 @@ public class SubSpell : ScriptableObject
     public ProjectileData Projectile;
 
     public SpellTargeting Targeting;
-    public NewSourceType NewSource;
+    public NewSourceType  NewSource;
 
+    private GameObject _effect = null;
     public ISubSpellEffect GetEffect()
     {
         if (Effect == null)
             return null;
 
-        return Instantiate(Effect).GetComponent<ISubSpellEffect>();
+        if(_effect == null)
+            _effect = Instantiate(Effect);
+        return _effect.GetComponent<ISubSpellEffect>();
+    }
+
+    public void DestoryEffectInstance()
+    {
+        if (_effect == null)
+            return;
+
+        Destroy(_effect, 2);
     }
 }
 }
