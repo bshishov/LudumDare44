@@ -16,7 +16,7 @@ MonoBehaviour:
   Description: This old shiled increases your MaxHealth on 5%, but carrying it slows
     you down for 5%
   Cost: 0
-  Icon: {fileID: 0}
+  Icon: {fileID: 294179135353329459, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Buffs:
   - {fileID: 11400000, guid: 38b5147e58f4a9344ba1f21667d3584e, type: 2}
   - {fileID: 11400000, guid: 2b2f270cea12cf24d88cdf0cc4ed77b0, type: 2}

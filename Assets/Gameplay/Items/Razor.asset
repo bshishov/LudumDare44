@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Razor
   Description: This very sharp and very dangerous razor doubles your damage!
   Cost: 50
-  Icon: {fileID: 0}
+  Icon: {fileID: 294179135353329459, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Buffs:
   - {fileID: 11400000, guid: f7e54e1d573014c46bd1f36ca3cf8d06, type: 2}
   Prefab: {fileID: 7619096980188076982, guid: ac49a2b98fec57b4f89e9d3d6fa3e51c, type: 3}

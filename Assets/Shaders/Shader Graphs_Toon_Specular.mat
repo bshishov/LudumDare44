@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Shader Graphs_Toon_Specular
-  m_Shader: {fileID: -6465566751694194690, guid: 2290f25df2f8c114483ac983bc21143e,
+  m_Shader: {fileID: -6465566751694194690, guid: f3c3f45d962cd054a8621ccbd1302f6f,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -26,13 +26,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_10154199: 1
+    - Vector1_24DC7CB6: 30
+    - Vector1_89F14894: 1
     - Vector1_951CFA77: 0.5
     - Vector1_C60959E6: 3
     - Vector1_C7706716: 0
     - Vector1_E93467C6: 0.3
+    - Vector1_F9E2BB74: 1
     - _TintMultiplier: 0
     m_Colors:
     - Color_10EBBCA2: {r: 0.9926699, g: 1, b: 0.8820755, a: 0}
     - Color_12DAAE22: {r: 0.25490198, g: 0.12928037, b: 0.09803922, a: 0}
     - Color_281A855D: {r: 1, g: 0, b: 0, a: 0}
+    - Color_B340782C: {r: 0, g: 1, b: 1, a: 0}
+    - Color_BFD9BFD3: {r: 1, g: 1, b: 1, a: 0}
     - Vector3_A9C3AA14: {r: 30, g: 58.5, b: 0, a: 0}

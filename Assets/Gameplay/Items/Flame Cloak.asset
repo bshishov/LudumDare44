@@ -16,7 +16,7 @@ MonoBehaviour:
   Description: A royal cloak from a firecrazed Blood Harvester. Gives you an aura
     of 5 fire damage per second.
   Cost: 20
-  Icon: {fileID: 0}
+  Icon: {fileID: 294179135353329459, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Buffs:
   - {fileID: 11400000, guid: 3646ffd067000954baa08bac65a91f70, type: 2}
   Prefab: {fileID: 3121115164540932662, guid: aaa2fe678e3c0324fbfb531ba02ea010, type: 3}
