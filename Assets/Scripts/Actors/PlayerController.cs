@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
             target.Position = ray.GetPoint(enter);
         }
 
-        if (Physics.Raycast(ray, out var hit, LayerMask.GetMask("Actors")))
+        if (Physics.Raycast(ray, out var hit, Common.LayerMasks.Actors))
         {
             target.Character = hit.transform.GetComponent<CharacterState>();
         }
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
             var targetPosition = target.Position.Value;
 
             // Try locate target character located in target position
-            var results = Physics.OverlapSphere(targetPosition, 1f, LayerMask.GetMask("Actors"));
+            var results = Physics.OverlapSphere(targetPosition, 1f, Common.LayerMasks.Actors);
             foreach (var result in results)
             {
                 var character = result.GetComponent<CharacterState>();
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
         }
 
         RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo, 100, LayerMask.GetMask("Actors")))
+        if (Physics.Raycast(ray, out hitInfo, 100, Common.LayerMasks.Actors))
         {
             Gizmos.DrawWireCube(hitInfo.transform.position, Vector3.one);
         }
