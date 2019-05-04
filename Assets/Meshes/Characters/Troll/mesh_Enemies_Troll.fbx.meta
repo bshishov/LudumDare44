@@ -5,19 +5,19 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: 6057059371985552666
-    second: Troll_Armature|Ogre_Attack
+    second: Troll_Attack
   - first:
       74: 8273596715839683100
-    second: Troll_Armature|Ogre_Death
+    second: Troll_Death
   - first:
       74: 7254944764539816038
     second: Troll_Armature|Ogre_delete
   - first:
       74: 8456200374700463252
-    second: Troll_Armature|Ogre_Idle
+    second: Troll_Idle
   - first:
       74: -5667255459762840787
-    second: Troll_Armature|Ogre_walk
+    second: Troll_Walk
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -38,7 +38,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
-    optimizeGameObjects: 0
+    optimizeGameObjects: 1
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -53,11 +53,15 @@ ModelImporter:
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - mesh_Enemies_Troll
+    - Troll_Armature/spine/spine.001
+    - Troll_Armature/spine/spine.001/spine.002/upper_arm.R/forearm.R/hand.R
+    - Troll_Armature/spine/spine.001/spine.002/spine.004/spine.005/spine.006/spine.007/spine.007_end
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Troll_Armature|Ogre_Attack
+      name: Troll_Attack
       takeName: Troll_Armature|Ogre_Attack
       internalID: 6057059371985552666
       firstFrame: 0
@@ -86,7 +90,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Troll_Armature|Ogre_Death
+      name: Troll_Death
       takeName: Troll_Armature|Ogre_Death
       internalID: 8273596715839683100
       firstFrame: 0
@@ -115,7 +119,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Troll_Armature|Ogre_Idle
+      name: Troll_Idle
       takeName: Troll_Armature|Ogre_Idle
       internalID: 8456200374700463252
       firstFrame: 0
@@ -144,7 +148,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Troll_Armature|Ogre_walk
+      name: Troll_Walk
       takeName: Troll_Armature|Ogre_walk
       internalID: -5667255459762840787
       firstFrame: 0

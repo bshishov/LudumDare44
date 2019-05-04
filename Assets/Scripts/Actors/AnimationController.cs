@@ -42,7 +42,7 @@ public class AnimationController : MonoBehaviour
     private Vector2 _dirVelocity;
     private Vector2 _moveDir;
     private float _impactTime;
-    private Vector3 _toHell = new Vector3(0f, 0.003f, 0f);
+    private Vector3 _toHell = new Vector3(0f, 0.01f, 0f);
 
     void Start()
     {
@@ -125,7 +125,7 @@ public class AnimationController : MonoBehaviour
         {            
             transform.position -= _toHell;
         }
-        if (transform.position.y < -0.5f)
+        if (transform.position.y < -1f)
             Destroy(gameObject);
 
         _impactTime = Mathf.Max(_impactTime - Time.deltaTime, 0);
