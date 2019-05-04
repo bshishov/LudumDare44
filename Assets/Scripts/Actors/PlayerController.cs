@@ -169,4 +169,14 @@ public class PlayerController : MonoBehaviour
             Gizmos.DrawWireCube(hitInfo.transform.position, Vector3.one);
         }
     }
+
+    public static Vector3? GetGroundPositionUnderCursor()
+    {
+        if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit, 100f, Common.LayerMasks.Ground))
+        {
+            return hit.point;
+        }
+
+        return null;
+    }
 }
