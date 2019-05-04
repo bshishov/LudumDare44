@@ -18,8 +18,8 @@ MonoBehaviour:
     and slowing affected enemies
   ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
     type: 2}
-  BloodCost: 0
-  BloodBack: 2
+  LifeSteal: 0
+  BloodCost: 1
   DefaultSlot: 0
   Cooldown: 1
   CastingTime: 1

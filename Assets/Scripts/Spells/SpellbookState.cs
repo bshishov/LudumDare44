@@ -123,11 +123,12 @@ namespace Spells
             return (int)spell.DefaultSlot;
         }
 
-        private void FireSpell(int index, SpellTargets targets)
+        private bool FireSpell(int index, SpellTargets targets)
         {
             // Disable self cast
+            // TODO: ARE WE SURE ABOUT THAT?
             if (_characterState.Equals(targets.Destinations[0].Character))
-                return;
+                return false;
 
             Assert.IsTrue(index >= 0 && index <= SpellCount);
             var slotState = GetSpellSlotState(index);
@@ -144,20 +145,24 @@ namespace Spells
                     // Animation
                     if(_animationController != null)
                         _animationController.PlayCastAnimation();
+
+                    return true;
                 }
             }
+
+            return false;
         }
 
 
-        public void TryFireSpellToTarget(int slotIndex, CharacterState target)
+        public bool TryFireSpellToTarget(int slotIndex, CharacterState target)
         {
-            TryFireSpellToTarget(slotIndex,
+            return TryFireSpellToTarget(slotIndex,
                 TargetInfo.Create(target, target.GetNodeTransform(CharacterState.NodeRole.Chest)));
         }
 
-        public void TryFireSpellToTarget(int slotIndex, TargetInfo target)
+        public bool TryFireSpellToTarget(int slotIndex, TargetInfo target)
         {
-            FireSpell(slotIndex,
+            return FireSpell(slotIndex,
                 new SpellTargets(
                     TargetInfo.Create(_characterState,
                         _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter))

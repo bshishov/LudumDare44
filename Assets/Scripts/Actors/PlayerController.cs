@@ -54,18 +54,23 @@ public class PlayerController : MonoBehaviour
 
     private void FireSpell(int slotIndex)
     {
-        if (!_spellbook.IsSpellReady(slotIndex))
+        var slotState = _spellbook.GetSpellSlotState(slotIndex);
+        if (slotState.State != SpellbookState.SpellState.Ready)
         {
             // Spell is not ready or missing - just exit
             return;
         }
 
-        var target = new TargetInfo();
+        if (_characterState.Health <= slotState.Spell.BloodCost)
+        {
+            // Not enough hp
+            return;
+        }
         
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out var hit, Common.LayerMasks.ActorsOrGround))
         {
-            target.Position = ray.GetPoint(hit.distance);
+            var target = new TargetInfo { Position = ray.GetPoint(hit.distance) };
             var tgt = hit.transform.GetComponent<CharacterState>();
             if (tgt != null && tgt.IsAlive)
             {
@@ -73,16 +78,27 @@ public class PlayerController : MonoBehaviour
                 target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
                 target.Position = target.Transform.position;
             }
-            else if(target.Position.HasValue)
+            else
             {
                 // TODO: FIX targets for ground-parallel projectiles
                 var adoptedTarget = target.Position.Value;
                 adoptedTarget.y = _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter).position.y;
                 target.Position = adoptedTarget;
             }
-        }        
 
-        _spellbook.TryFireSpellToTarget(slotIndex, target);
+            if (_spellbook.TryFireSpellToTarget(slotIndex, target))
+            {
+                // If cast was successful, reduce hp by cost amount
+                _characterState.ApplyModifier(
+                    ModificationParameter.HpFlat, 
+                    -slotState.Spell.BloodCost, 
+                    1, 
+                    1, 
+                    _characterState, 
+                    null, 
+                    out _);
+            }
+        }
     }
 
     private void TryInteract(Interaction interaction)

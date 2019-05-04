@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using Spells;
+using Utils;
 
 namespace Assets.Scripts.Data
 {
@@ -43,7 +44,9 @@ namespace Assets.Scripts.Data
         public Buff ApplyBuffOnDismantle;
 
         [Tooltip("LifeSteal is in range from 0 to +inf. '0' means 0% lifesteal. 1 means 100% lifesteal. 1.5 = 150%")]
+        [Percentage(0, 1)]
         public float LifeSteal = 0f;
+        public float BloodCost = 0f;
 
         public Slot DefaultSlot;
         public float Cooldown;
