@@ -75,7 +75,21 @@ namespace Assets.Scripts
                 return;
             }
 
-            var chunk = Instantiate(chunkData.Prefab).GetComponent<MapChunk>();
+            var position = Vector3.zero;
+            var rotation = Quaternion.identity;
+
+            if (_lastChunk != null)
+            {
+                position = _lastChunk.Exit.position;
+                rotation = _lastChunk.Exit.rotation;
+            }
+
+            var pMapChunk = chunkData.Prefab.GetComponent<MapChunk>();
+
+            var chunk = Instantiate(chunkData.Prefab, 
+                    position - pMapChunk.EntryPosition,
+                    rotation * Quaternion.Inverse(pMapChunk.EntryRotation))
+                .GetComponent<MapChunk>();
             if (chunk == null)
             {
                 Debug.LogWarning("Failed to instantiate next chunk");
@@ -83,12 +97,6 @@ namespace Assets.Scripts
             }
             
             chunk.name = $"Chunk_{_chunksSpawned}";
-
-            if (_lastChunk != null)
-            {
-                var offset = _lastChunk.WorldExitLocation - chunk.WorldEntryLocation;
-                chunk.transform.position += offset;
-            }
             
             _lastChunk = chunk;
             _lastChunkData = chunkData;

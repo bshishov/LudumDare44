@@ -152,7 +152,7 @@ MonoBehaviour:
   EnemySpawns: []
   Entry: {fileID: 0}
   Exit: {fileID: 7744899561826291219}
-  DrawGizmos: 0
+  DrawGizmos: 1
 --- !u!1 &3581206078257871743
 GameObject:
   m_ObjectHideFlags: 0
