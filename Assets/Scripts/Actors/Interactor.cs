@@ -43,7 +43,7 @@ namespace Actors
             return Physics.OverlapSphere(pos, InteractionRadius, Common.LayerMasks.Interactable)
                 .OrderBy(go => Vector3.Distance(go.transform.position, pos))
                 .Select(c => c.GetComponent<IInteractable>())
-                .FirstOrDefault(interactable => interactable != null);
+                .FirstOrDefault(interactable => interactable != null && interactable.IsActive);
         }
     }
 }

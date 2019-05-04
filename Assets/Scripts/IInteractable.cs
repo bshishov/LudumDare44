@@ -17,6 +17,7 @@
 
     public interface IInteractable
     {
+        bool IsActive { get; }
         InteractableType Type { get; }
         void Interact(CharacterState character, Interaction interaction);
         string GetInteractionText(Interaction interaction);

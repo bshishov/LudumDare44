@@ -100,6 +100,7 @@ namespace Assets.Scripts
             }
         }
 
+        public bool IsActive => ActiveItem != null;
         public InteractableType Type => InteractableType.Shop;
 
         public void Interact(CharacterState character, Interaction interaction)
