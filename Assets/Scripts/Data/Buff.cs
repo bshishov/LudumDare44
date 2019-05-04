@@ -3,14 +3,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Data
 {
-    [Serializable]
-    public class Affect
-    {
-        public Modifier ApplyModifier;
-        public Spell CastSpell;
-        public GameObject SpawnObject;
-    }
-
     public enum ModificationParameter
     {
         None = 0,
@@ -62,9 +54,13 @@ namespace Assets.Scripts.Data
         // and will be REVERTED when buff removed
         public Modifier[] Modifiers;
 
-        [Header("Affects")]
+        [Header("Affects on buff applied")]
         public Affect[] OnApplyBuff;
+
+        [Header("Affects each tick")]
         public Affect[] OnTickBuff;
+
+        [Header("Affects after buff remove")]
         public Affect[] OnRemove;
     }
 }
