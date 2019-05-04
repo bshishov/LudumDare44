@@ -131,7 +131,9 @@ namespace Spells
 
             Assert.IsTrue(index >= 0 && index <= SpellCount);
             var slotState = GetSpellSlotState(index);
-            if (slotState.State == SpellState.Ready)
+            
+            if (slotState.State == SpellState.Ready && 
+                SpellCaster.IsValidTarget(slotState.Spell, targets))
             {
                 if (_spellCaster.CastSpell(slotState.Spell, slotState.NumStacks + _characterState.AdditionSpellStacks, targets))
                 {
@@ -148,13 +150,19 @@ namespace Spells
 
 
         public void TryFireSpellToTarget(int slotIndex, CharacterState target)
-            =>  TryFireSpellToTarget(slotIndex, TargetInfo.Create(target, target.GetNodeTransform(CharacterState.NodeRole.Chest)));
+        {
+            TryFireSpellToTarget(slotIndex,
+                TargetInfo.Create(target, target.GetNodeTransform(CharacterState.NodeRole.Chest)));
+        }
 
         public void TryFireSpellToTarget(int slotIndex, TargetInfo target)
-            => FireSpell(slotIndex, 
+        {
+            FireSpell(slotIndex,
                 new SpellTargets(
-                    TargetInfo.Create(_characterState, _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter))
+                    TargetInfo.Create(_characterState,
+                        _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter))
                     , target));
+        }
 
         private void AddSpellToSlot(int slotIndex, Spell spell, int stacks)
         {

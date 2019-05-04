@@ -12,8 +12,7 @@ public class PlayerController : MonoBehaviour
 {
     public float maxSpeed = 7;
     private Vector3 moveDirection = new Vector3();
-
-    private Plane _ground;
+    
     private CharacterState _characterState;
     private SpellbookState _spellbook;
 
@@ -22,8 +21,6 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        _ground = new Plane(Vector3.up, Vector3.zero);
-
         _characterState = GetComponent<CharacterState>();
         _animator = GetComponent<AnimationController>();
         _spellbook = GetComponent<SpellbookState>();
@@ -64,50 +61,26 @@ public class PlayerController : MonoBehaviour
         }
 
         var target = new TargetInfo();
-        var groundPoint = Vector3.zero;
+        
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (_ground.Raycast(ray, out var enter))
+        if (Physics.Raycast(ray, out var hit, Common.LayerMasks.ActorsOrGround))
         {
-            target.Position = ray.GetPoint(enter);
-        }
-
-        if (Physics.Raycast(ray, out var hit, Common.LayerMasks.Actors))
-        {
-            target.Character = hit.transform.GetComponent<CharacterState>();
-        }
-        else if(target.Position.HasValue)
-        {
-            var targetPosition = target.Position.Value;
-
-            // Try locate target character located in target position
-            var results = Physics.OverlapSphere(targetPosition, 1f, Common.LayerMasks.Actors);
-            foreach (var result in results)
+            target.Position = ray.GetPoint(hit.distance);
+            var tgt = hit.transform.GetComponent<CharacterState>();
+            if (tgt != null && tgt.IsAlive)
             {
-                var character = result.GetComponent<CharacterState>();
-                if (character == null)
-                    continue;
-                
-                target.Character = character;
-                break;
+                target.Character = tgt;
+                target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
+                target.Position = target.Transform.position;
             }
-        }
-        else
-        {
-            Debug.LogWarning("Cant find any spell target");
-            return;
-        }
-
-        if (target.Character)
-        {
-            target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
-            target.Position = target.Transform.position;
-        }
-        else if(target.Position.HasValue)
-        {
-            var adoptedTarget = target.Position.Value;
-            adoptedTarget.y = _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter).position.y;
-            target.Position = adoptedTarget;
-        }
+            else if(target.Position.HasValue)
+            {
+                // TODO: FIX targets for ground-parallel projectiles
+                var adoptedTarget = target.Position.Value;
+                adoptedTarget.y = _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter).position.y;
+                target.Position = adoptedTarget;
+            }
+        }        
 
         _spellbook.TryFireSpellToTarget(slotIndex, target);
     }
@@ -150,9 +123,9 @@ public class PlayerController : MonoBehaviour
     private void LookAt()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (_ground.Raycast(ray, out var enter))
+        if (Physics.Raycast(ray, out var hit, Common.LayerMasks.Ground))
         {
-            var hitPoint = ray.GetPoint(enter);
+            var hitPoint = ray.GetPoint(hit.distance);
             transform.LookAt(hitPoint);
 
             var q = transform.rotation;
@@ -168,9 +141,9 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Gizmos.DrawRay(ray);
 
-        if (_ground.Raycast(ray, out var enter))
+        if (Physics.Raycast(ray, out var hit, Common.LayerMasks.Ground))
         {
-            var hitPoint = ray.GetPoint(enter);
+            var hitPoint = ray.GetPoint(hit.distance);
             Gizmos.DrawSphere(hitPoint, 0.2f);
         }
 

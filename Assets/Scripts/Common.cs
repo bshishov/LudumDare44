@@ -24,6 +24,7 @@ namespace Assets.Scripts
         {
             public static int Actors = LayerMask.GetMask(LayerNames.Actors);
             public static int Ground = LayerMask.GetMask(LayerNames.Ground);
+            public static int ActorsOrGround = LayerMask.GetMask(LayerNames.Ground, LayerNames.Actors);
         }
 
         public static class BaseLevelNames
