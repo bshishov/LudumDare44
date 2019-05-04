@@ -103,7 +103,18 @@ public class SpellCaster : MonoBehaviour
     // Start is called before the first frame update
     private void Start() { _owner = GetComponent<CharacterState>(); }
 
-    public static bool IsValidTarget(SubSpell subSpell, TargetInfo target)
+    public static bool IsValidTarget(Spell spell, SpellTargets targets)
+    {
+        if ((spell.SubSpells[0].Flags & SubSpell.SpellFlags.SpecialEnd) != 0)
+            return true;
+
+        if (!targets.Destinations.Any(t => IsValidTarget(spell.SubSpells[0], t)))
+            return false;
+
+        return true;
+    }
+
+    private static bool IsValidTarget(SubSpell subSpell, TargetInfo target)
     {
         switch (subSpell.Targeting)
         {
@@ -147,7 +158,7 @@ public class SpellCaster : MonoBehaviour
             return false;
         }
 
-        if (!targets.Destinations.Any(t => IsValidTarget(spell.SubSpells[0], t)))
+        if (!IsValidTarget(spell, targets))
             return false;
 
         _context = SpellContext.Create(this, spell, stacks, targets, 0);

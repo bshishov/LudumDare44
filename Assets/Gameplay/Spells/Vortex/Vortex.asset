@@ -18,12 +18,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1cd840fa93c216f418920ca876470847, type: 2}
   - {fileID: 11400000, guid: be48bc41589fe9444bfb0a8c635898d5, type: 2}
   Effect: {fileID: 1349204274574646620, guid: f2d4cfd1fbb0b4242a48f9950056d22e, type: 3}
-  Flags: 0
+  Flags: 21
   Obstacles: 0
   Origin: 1
   PreCastDelay: 0
   PreDamageDelay: 0
   PostCastDelay: 0
   Projectile: {fileID: 0}
-  Targeting: 2
+  Targeting: 1
   NewSource: 1
