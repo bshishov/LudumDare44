@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
-  m_Name: Spell_Burn
+  m_Name: Spell_Hourglass
   m_EditorClassIdentifier: 
-  Name: Spell_Burn
+  Name: Hourglass
   Icon: {fileID: 0}
   Description: 
   ApplyBuffOnDismantle: {fileID: 0}
@@ -26,6 +26,7 @@ MonoBehaviour:
   PostCastDelay: 0
   ChannelTime: 0
   SubSpells:
-  - {fileID: 11400000, guid: 86bb423f41fa3a941a1e49ec9731f44c, type: 2}
-  SpellEffect: {fileID: 0}
+  - {fileID: 11400000, guid: 58e2ba4e679da9d46840b8f5e8c9eb56, type: 2}
+  SpellEffect: {fileID: 3194528183578555780, guid: ddbd5bc898215eb45bad24f9f6821cb7,
+    type: 3}
   DropItem: {fileID: 0}

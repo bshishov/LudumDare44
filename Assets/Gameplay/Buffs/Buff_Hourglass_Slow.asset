@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
-  m_Name: Buff_Burn
+  m_Name: Buff_Hourglass_Slow
   m_EditorClassIdentifier: 
-  Name: Burn
+  Name: Hourglass_slow
   Behaviour: 3
-  TickCooldown: 0.5
+  TickCooldown: 1
   Duration: 5
   Modifiers: []
   OnApplyBuff: []
   OnTickBuff:
   - ApplyModifier:
-      Parameter: 1
-      Value: -2.5
+      Parameter: 11
+      Value: -0.3
       EffectiveStacks: 1
     CastSpell:
       SpellStacks: 0
