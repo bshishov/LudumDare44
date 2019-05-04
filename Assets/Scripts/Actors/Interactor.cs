@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Assets.Scripts;
-using UI;
 using UnityEngine;
 
 namespace Actors
@@ -46,7 +45,5 @@ namespace Actors
                 .Select(c => c.GetComponent<IInteractable>())
                 .FirstOrDefault(interactable => interactable != null);
         }
-
-       
     }
 }

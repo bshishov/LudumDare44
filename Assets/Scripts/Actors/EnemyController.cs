@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.InteropServices;
 using Assets.Scripts;
 using Assets.Scripts.Data;
 using Assets.Scripts.Utils;
@@ -8,20 +9,19 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(AnimationController))]
 [RequireComponent(typeof(CharacterState))]
-[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(MovementController))]
 public class EnemyController : MonoBehaviour
 {
     private AnimationController _animationController;
     private CharacterState      _buffTarget;
 
     private CharacterState _characterState;
+    private MovementController _movement;
+    private SpellbookState _spellbookState;
     private float          _fearRange;
     private float          _indifferenceDistance;
     private float          _meleeRange;
-    private NavMeshAgent   _navMeshAgent;
-
     private CharacterState[] _players;
-    private SpellbookState   _spellbookState;
     private float            _spellRange;
     private float            _timeCount;
     private Buff             _useBuff;
@@ -30,17 +30,16 @@ public class EnemyController : MonoBehaviour
     {
         _animationController = GetComponent<AnimationController>();
         _characterState      = GetComponent<CharacterState>();
-        _navMeshAgent        = GetComponent<NavMeshAgent>();
+        _movement            = GetComponent<MovementController>();
         _spellbookState      = GetComponent<SpellbookState>();
 
         _indifferenceDistance = _characterState.character.IndifferenceDistance;
         _spellRange           = _characterState.character.SpellRange;
         _fearRange            = _characterState.character.FearRange;
         _meleeRange           = _characterState.character.MeleeRange;
-        _navMeshAgent.speed   = _characterState.Speed;
-        CharacterUtils.ApplySettings(_characterState, _navMeshAgent, true);
         _players = GameObject.FindGameObjectsWithTag(Common.Tags.Player).Select(o => o.GetComponent<CharacterState>()).ToArray();
         _useBuff = _characterState.character.UseBuff;
+
         if (_useBuff == null)
             gameObject.tag = "Enemy";
         else
@@ -83,20 +82,20 @@ public class EnemyController : MonoBehaviour
                 {
                     if (distance > _meleeRange)
                     {
-                        _navMeshAgent.isStopped = false;
-                        _navMeshAgent.SetDestination(player.transform.position);
+                        _movement.SetDestination(player.transform.position);
+                        _movement.LookAt(player.transform.position);
                     }
                     else
                     {
                         if (_characterState.CanDealDamage())
                         {
-                            _navMeshAgent.isStopped = true;
+                            _movement.Stop();
                             player.ReceiveDamage(_characterState, _characterState.Damage, null);
 
                             if (_characterState.character.ApplyBuffOnAttack != null)
                                 player.ApplyBuff(_characterState.character.ApplyBuffOnAttack, _characterState, null, 1 + _characterState.AdditionSpellStacks);
 
-                            transform.rotation = Quaternion.LookRotation(len);
+                            _movement.LookAt(player.transform.position);
                             _characterState.GetComponent<AnimationController>().PlayAttackAnimation();
                         }
                     }
@@ -105,9 +104,8 @@ public class EnemyController : MonoBehaviour
                 {
                     if (distance > _spellRange)
                     {
-                        _navMeshAgent.speed     = _characterState.Speed;
-                        _navMeshAgent.isStopped = false;
-                        _navMeshAgent.SetDestination(player.transform.position);
+                        _movement.SetDestination(player.transform.position);
+                        _movement.LookAt(player.transform.position);
                     }
                     else
                     {
@@ -115,16 +113,16 @@ public class EnemyController : MonoBehaviour
                         {
                             if (_characterState.CanDealDamage())
                             {
-                                transform.LookAt(player.transform);
+                                _movement.LookAt(player.transform.position);
                                 _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player);
-                                _navMeshAgent.isStopped = true;
+                                _movement.Stop();
                             }
                         }
                         else
                         {
-                            _navMeshAgent.speed     = 10 * _characterState.Speed;
-                            _navMeshAgent.isStopped = false;
-                            _navMeshAgent.SetDestination(transform.position - _fearRange * len.normalized);
+                            var tgt = transform.position - _fearRange * len.normalized;
+                            _movement.SetDestination(tgt);
+                            _movement.LookAt(tgt);
                         }
                     }
                 }
@@ -146,8 +144,7 @@ public class EnemyController : MonoBehaviour
 
         if (_buffTarget == null || distance < _fearRange)
         {
-            _navMeshAgent.isStopped = false;
-            _navMeshAgent.SetDestination(transform.position - _fearRange * len.normalized);
+            _movement.SetDestination(transform.position - _fearRange * len.normalized);
         }
         else
         {
@@ -155,12 +152,11 @@ public class EnemyController : MonoBehaviour
             var buffDistance = lenBuffed.magnitude;
             if (_spellRange < buffDistance)
             {
-                _navMeshAgent.isStopped = false;
-                _navMeshAgent.SetDestination(_buffTarget.transform.position);
+                _movement.SetDestination(_buffTarget.transform.position);
             }
             else
             {
-                _navMeshAgent.isStopped = true;
+                _movement.Stop();
                 var buffTarget = _buffTarget.GetComponent<CharacterState>();
 
                 buffTarget.ApplyBuff(_useBuff, buffTarget, null, 1);

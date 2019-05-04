@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1861298471682613878}
   - component: {fileID: 1861298471682613879}
   - component: {fileID: 1861298471682613880}
+  - component: {fileID: 9216672389895688709}
   m_Layer: 8
   m_Name: Enemy_Reaper
   m_TagString: Untagged
@@ -190,6 +191,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSpellDistance: 100
+--- !u!114 &9216672389895688709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861298471682613873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75b96e40aec69af44897a4624b4f864a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotationSlerpFactor: 0.4
 --- !u!1 &6261942886306487419
 GameObject:
   m_ObjectHideFlags: 0

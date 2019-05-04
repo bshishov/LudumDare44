@@ -390,6 +390,7 @@ GameObject:
   - component: {fileID: 2690621711745313145}
   - component: {fileID: 2677229216203359800}
   - component: {fileID: 8523321657340168352}
+  - component: {fileID: 957484766950601025}
   m_Layer: 8
   m_Name: Vlad
   m_TagString: Player
@@ -582,6 +583,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InteractionRadius: 1
   PollCooldown: 0.2
+--- !u!114 &957484766950601025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996985578712122520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75b96e40aec69af44897a4624b4f864a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotationSlerpFactor: 0.4
 --- !u!1 &2202749416782511908
 GameObject:
   m_ObjectHideFlags: 0
@@ -2683,6 +2697,10 @@ PrefabInstance:
       propertyPath: Target
       value: 
       objectReference: {fileID: 7019640288374360038}
+    - target: {fileID: 4526798630084876583}
+      propertyPath: Target
+      value: 
+      objectReference: {fileID: 7019640288374360038}
     - target: {fileID: 1812588461452642573, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2741,32 +2759,32 @@ PrefabInstance:
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Center.x
-      value: 0.026684642
+      value: 0.026750088
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Center.y
-      value: -0.8045373
+      value: -0.80480385
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Center.z
-      value: -0.2171936
+      value: -0.21722221
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Extent.x
-      value: 0.5053214
+      value: 0.50532746
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Extent.y
-      value: 0.85508835
+      value: 0.8553498
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
       propertyPath: m_AABB.m_Extent.z
-      value: 0.26118958
+      value: 0.26119503
       objectReference: {fileID: 0}
     - target: {fileID: 8403789291214226977, guid: c9761731baf7c024888ce0342953b503,
         type: 3}
@@ -2780,15 +2798,15 @@ PrefabInstance:
       objectReference: {fileID: 7019640288374360038}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9761731baf7c024888ce0342953b503, type: 3}
---- !u!137 &5844071593621202287 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
-    type: 3}
-  m_PrefabInstance: {fileID: 2718505062554952512}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4367799398628534861 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1812588461452642573, guid: c9761731baf7c024888ce0342953b503,
+    type: 3}
+  m_PrefabInstance: {fileID: 2718505062554952512}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &5844071593621202287 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
     type: 3}
   m_PrefabInstance: {fileID: 2718505062554952512}
   m_PrefabAsset: {fileID: 0}

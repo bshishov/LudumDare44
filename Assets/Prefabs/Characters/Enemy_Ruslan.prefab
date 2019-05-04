@@ -2072,6 +2072,7 @@ GameObject:
   - component: {fileID: 2805373213057678178}
   - component: {fileID: 5765074902293039123}
   - component: {fileID: 284663270069053068}
+  - component: {fileID: -5222694102165131264}
   m_Layer: 8
   m_Name: Enemy_Ruslan
   m_TagString: Untagged
@@ -2243,6 +2244,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSpellDistance: 100
+--- !u!114 &-5222694102165131264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8494352879362307199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75b96e40aec69af44897a4624b4f864a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotationSlerpFactor: 0.4
 --- !u!1 &8603995454659070595
 GameObject:
   m_ObjectHideFlags: 0

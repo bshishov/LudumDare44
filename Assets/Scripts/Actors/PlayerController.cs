@@ -1,13 +1,8 @@
 ﻿using UnityEngine;
-using UnityEditor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Actors;
 using Assets.Scripts;
 using Assets.Scripts.Data;
 using Spells;
-using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,8 +11,8 @@ public class PlayerController : MonoBehaviour
     
     private CharacterState _characterState;
     private SpellbookState _spellbook;
+    private MovementController _movement;
 
-    private NavMeshAgent _agent;
     private AnimationController _animator;
     private const float InteractRadius = 1f;
     private Interactor _interactor;
@@ -28,11 +23,7 @@ public class PlayerController : MonoBehaviour
         _animator = GetComponent<AnimationController>();
         _spellbook = GetComponent<SpellbookState>();
         _interactor = GetComponent<Interactor>();
-
-        _agent = GetComponent<NavMeshAgent>();
-        _agent.updateRotation = false;
-
-        CharacterUtils.ApplySettings(_characterState, _agent, false);
+        _movement = GetComponent<MovementController>();
     }
 
     void HandleInput()
@@ -110,38 +101,20 @@ public class PlayerController : MonoBehaviour
         _interactor.ClosestInRange?.Interact(_characterState, interaction);
     }
 
-    
-
     void Update()
     {
         if (_characterState.IsAlive)
         {
             HandleInput();
-            Move();
-            LookAt();
-        }
-    }
 
-    void Move()
-    {
-        _agent.speed = _characterState.Speed;
-        var motionVector = moveDirection.normalized * _characterState.Speed * Time.deltaTime;
-        
-        _agent.Move(motionVector);
-        //_agent.SetDestination(transform.position + motionVector);
-    }
+            var motionVector = moveDirection.normalized * _characterState.Speed * Time.deltaTime;
+            _movement.Move(motionVector);
 
-    private void LookAt()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out var hit, Common.LayerMasks.Ground))
-        {
-            var hitPoint = ray.GetPoint(hit.distance);
-            transform.LookAt(hitPoint);
-
-            var q = transform.rotation;
-            q.eulerAngles = new Vector3(0, q.eulerAngles.y, q.eulerAngles.z);
-            transform.rotation = q;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out var hit, Common.LayerMasks.Ground))
+            {
+                _movement.LookAt(hit.point);
+            }
         }
     }
 
