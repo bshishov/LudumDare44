@@ -7,8 +7,8 @@ namespace Spells.Effects
 {
 public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
 {
-    public  ParticleSystem   SpikePrefab;
-    public  float            SpikesPerDistance = 7.5f;
+    public ParticleSystem SpikePrefab;
+    public float          SpikesPerDistance = 7.5f;
 
     public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
     {
@@ -65,3 +65,5 @@ public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
     }
 }
 }
+
+    

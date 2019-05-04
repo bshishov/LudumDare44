@@ -4,18 +4,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+namespace Spells.Effects {
 [ExecuteInEditMode]
 public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
 {
-    public enum ExplosionOrigin
-    {
-        InSource,
-        InDestination
-    }
 
-    public GameObject      ExplosionPrefab;
-    public ExplosionOrigin Origin;
-    public bool            StartEffectOnPreSelected;
+    public GameObject   ExplosionPrefab;
+    public EffectOrigin Origin;
+    public bool         StartEffectOnPreSelected;
 
     public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
     {
@@ -33,10 +29,10 @@ public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
     {
         switch (Origin)
         {
-            case ExplosionOrigin.InSource:
+            case EffectOrigin.InSource:
                 SpawnEffect(targets.Source);
                 break;
-            case ExplosionOrigin.InDestination:
+            case EffectOrigin.InDestination:
                 foreach (var destination in targets.Destinations)
                     SpawnEffect(destination);
                 break;
@@ -53,4 +49,5 @@ public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
 
     [MenuItem("Assets/Create/Effect Wrappers/Explosion", false, 1)]
     public static void ExplosionSpellEffect1() { ScriptableObjectUtility.CreateAsset<ExplosionSpellEffect>(); }
+}
 }
