@@ -11,21 +11,18 @@ namespace Spells
 {
 public class SubSpellContext
 {
-    public object          customData;
-    public ISubSpellEffect effect;
-    public bool            failedToFindTargets;
-    public bool            projectileSpawned;
-
-    public ContextState     state;
-    public float            stateActiveTime = 0.0f;
+    public object             customData;
+    public ISubSpellEffect    effect;
+    public bool               failedToFindTargets;
     public List<SpellTargets> newTargets = new List<SpellTargets>();
+    public bool               projectileSpawned;
 
-    public bool             Casting => failedToFindTargets == false && projectileSpawned == false;
+    public ContextState state;
+    public float        stateActiveTime;
 
-    public static SubSpellContext Create(SpellContext context)
-    {
-        return new SubSpellContext {effect = context.CurrentSubSpell.GetEffect()};
-    }
+    public bool Casting => failedToFindTargets == false && projectileSpawned == false;
+
+    public static SubSpellContext Create(SpellContext context) { return new SubSpellContext {effect = context.CurrentSubSpell.GetEffect()}; }
 }
 
 public class SpellContext : ISpellContext
@@ -42,9 +39,9 @@ public class SpellContext : ISpellContext
 
     private int startSubspellIndex;
 
-        public List<SubSpellTargets> subSpellTargets;
+    public List<SubSpellTargets> subSpellTargets;
 
-        public int             CurrentSubSpellIndex { get; set; }
+    public int             CurrentSubSpellIndex { get; set; }
     public SubSpellContext SubContext           { get; set; }
 
     public SubSpellTargets  CurrentSubSpellTargets => subSpellTargets[CurrentSubSpellIndex - startSubspellIndex];
@@ -271,8 +268,8 @@ public class SpellCaster : MonoBehaviour
             case ContextState.Finishing:
                 Debug.Log($"{context.Spell.Name} finishing");
                 if (context.effect != null)
-                        context.Spell.DestoryEffectInstance();
-                    return false;
+                    context.Spell.DestoryEffectInstance();
+                return false;
         }
 
         return false;
@@ -319,22 +316,25 @@ public class SpellCaster : MonoBehaviour
                 Execute(context, subContext);
                 Debug.Log($"{context.Spell.Name} Executed subspell {context.CurrentSubSpellIndex}");
 
-                if(!context.IsLastSubSpell)
-                switch (context.CurrentSubSpell.NewSource) {
-                    case SubSpell.NewSourceType.OriginalTargetData: context.subSpellTargets.Add(context.CurrentSubSpellTargets);
-                        break;
-                    case SubSpell.NewSourceType.AffectedTarget:
-                        context.subSpellTargets.Add(new SubSpellTargets
-                                                    {
-                                                        TargetData = subContext
-                                                                     .newTargets.SelectMany(t => t.Destinations)
-                                                                     .Select(d => new SpellTargets(new TargetInfo(d))).ToList()
-                                                    });
-                        break;
-                    default: throw new ArgumentOutOfRangeException();
-                }
+                if (!context.IsLastSubSpell)
+                    switch (context.CurrentSubSpell.NewSource)
+                    {
+                        case SubSpell.NewSourceType.OriginalTargetData:
+                            context.subSpellTargets.Add(context.CurrentSubSpellTargets);
+                            break;
+                        case SubSpell.NewSourceType.AffectedTarget:
+                            context.subSpellTargets.Add(new SubSpellTargets
+                                                        {
+                                                            TargetData = subContext
+                                                                         .newTargets.SelectMany(t => t.Destinations)
+                                                                         .Select(d => new SpellTargets(new TargetInfo(d)))
+                                                                         .ToList()
+                                                        });
+                            break;
+                        default: throw new ArgumentOutOfRangeException();
+                    }
 
-                    Advance();
+                Advance();
                 return true;
 
             case ContextState.PostDelay:
@@ -375,7 +375,10 @@ public class SpellCaster : MonoBehaviour
             {
                 Assert.IsTrue(source.Position.HasValue, "source.Position != null");
 
-                var availableTargets = GetFilteredCharacters(context.InitialSource, source.Character, context.CurrentSubSpell.AffectedTarget, context.filteredTargets);
+                var availableTargets = GetFilteredCharacters(context.InitialSource,
+                                                             source.Character,
+                                                             context.CurrentSubSpell.AffectedTarget,
+                                                             context.filteredTargets);
                 castData.Destinations = new[]
                                         {
                                             TargetInfo.Create(availableTargets
@@ -416,11 +419,8 @@ public class SpellCaster : MonoBehaviour
                 if (LockTarget(context, target, source, targets, castData, ref availableTargets))
                     return true;
 
-
             if ((context.SpellFlags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce)
-            {
                 context.filteredTargets.AddRange(targets.Select(t => t.Character));
-            }
 
             anyTargetFound        = targets.Count != 0;
             castData.Destinations = targets.ToArray();
@@ -509,7 +509,9 @@ public class SpellCaster : MonoBehaviour
 
     private static CharacterState[] GetAllCharacters() { return FindObjectsOfType<CharacterState>().ToArray(); }
 
-    private static CharacterState[] GetFilteredCharacters(CharacterState owner, CharacterState source, SubSpell.AffectedTargets target,
+    private static CharacterState[] GetFilteredCharacters(CharacterState              owner,
+                                                          CharacterState              source,
+                                                          SubSpell.AffectedTargets    target,
                                                           IEnumerable<CharacterState> filteredCharacters)
     {
         var characters = FilterCharacters(owner, GetAllCharacters(), target, filteredCharacters);
@@ -535,7 +537,10 @@ public class SpellCaster : MonoBehaviour
         return (mask & target) != 0;
     }
 
-    private static CharacterState[] FilterCharacters(CharacterState owner, CharacterState[] characters, SubSpell.AffectedTargets target, IEnumerable<CharacterState> filteredCharacters)
+    private static CharacterState[] FilterCharacters(CharacterState              owner,
+                                                     CharacterState[]            characters,
+                                                     SubSpell.AffectedTargets    target,
+                                                     IEnumerable<CharacterState> filteredCharacters)
     {
         var availibleCharacters = characters.Where(c => IsEnemy(c, owner, target));
         if (filteredCharacters != null)
@@ -552,9 +557,7 @@ public class SpellCaster : MonoBehaviour
             {
                 if (target.Character != null)
                     if (context.CurrentSubSpell.Obstacles == SubSpell.ObstacleHandling.Break)
-                    {
                         return new[] {target};
-                    }
 
                 //Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10, Color.green, 2);
 

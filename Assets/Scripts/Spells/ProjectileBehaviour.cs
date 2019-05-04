@@ -16,6 +16,7 @@ namespace Spells
 
         public TargetInfo origin;
         public TargetInfo target;
+        public ProjectileTrajectory trajectory;
 
         public SubSpell GetProjectileSubSpell()
         {
@@ -37,9 +38,7 @@ namespace Spells
             SubSpell.ObstacleHandling.ExecuteSpellSequence | SubSpell.ObstacleHandling.Break | SubSpell.ObstacleHandling.IgnoreButTarget;
 
         private Rigidbody _rigidbody;
-        private Collider _collider
-            ;
-
+        private Collider _collider;
 
         public void Initialize(ProjectileContext context, SpellCaster caster)
         {
@@ -51,10 +50,17 @@ namespace Spells
 
             _caster = caster;
             _context = context;
+            _context.trajectory = _context.projectileData.Trajectory;
 
-            transform.LookAt(_context.target.Position.Value);
-            _direction = _context.target.Position.Value - transform.position;
+            var position = transform.position;
+            _direction = _context.target.Position.Value - position;
+
+            position += Quaternion.LookRotation(_direction) * _context.projectileData.Offset;
+            transform.position = position;
+
+            _direction = _context.target.Position.Value - position;
             _direction = _direction.normalized;
+            transform.LookAt(_context.target.Position.Value);
 
             _collider = gameObject.GetComponentInChildren<Collider>();
             Assert.IsNotNull(_collider);
@@ -67,11 +73,11 @@ namespace Spells
                 _rigidbody.useGravity = false;
             }
 
-            switch (_context.projectileData.Trajectory)
+            switch (_context.trajectory)
             {
                 case ProjectileTrajectory.Line:
                     break;
-                case ProjectileTrajectory.Folow:
+                case ProjectileTrajectory.Follow:
                     break;
             }
         }
@@ -130,16 +136,26 @@ namespace Spells
 
             var moveDistance = _context.projectileData.Speed * Time.deltaTime;
 
-            switch (_context.projectileData.Trajectory)
+            switch (_context.trajectory)
             {
                 case ProjectileTrajectory.Line:
                     _trevaledDistance += moveDistance;
                     transform.position += _direction * moveDistance;
                     break;
 
-                case ProjectileTrajectory.Folow:
+                case ProjectileTrajectory.Follow:
                     _trevaledDistance += moveDistance;
                     transform.position += (_context.target.Transform.position - transform.position).normalized * moveDistance;
+                    break;
+
+                case ProjectileTrajectory.Falling:
+                    if (transform.position.y < 1.0f)
+                    {
+                        _direction.y = 0;
+                        _direction = _direction.normalized;
+                        _context.trajectory = ProjectileTrajectory.Line;
+                    }
+                    transform.position += _direction * _context.projectileData.FallingSpeed * Time.deltaTime;
                     break;
             }
 

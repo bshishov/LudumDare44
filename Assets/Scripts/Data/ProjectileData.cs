@@ -6,7 +6,8 @@ public enum ProjectileTrajectory
 {
     None = 0,
     Line,
-    Folow
+    Follow,
+    Falling,
 }
 
 public interface IProjectileTrajectory
@@ -17,10 +18,14 @@ public interface IProjectileTrajectory
 [CreateAssetMenu(fileName = "ProjectileData", menuName = "Spells/Projectile")]
 public class ProjectileData : ScriptableObject
 {
-    [NotNull] public GameObject ProjectilePrefab;
+    [NotNull]
+    public GameObject ProjectilePrefab;
 
-    public float Speed = 10;
+    public float Speed       = 10;
     public float MaxDistance = 100;
 
+    public Vector3 Offset;
+
     public ProjectileTrajectory Trajectory;
+    public float                FallingSpeed = 0.0f;
 }

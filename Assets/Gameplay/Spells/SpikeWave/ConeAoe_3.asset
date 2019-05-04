@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8401e1d8afc8f40b51d81697cae08f, type: 3}
   m_Name: ConeAoe_3
   m_EditorClassIdentifier: 
-  Size: 6
-  MinSize: 4
+  Size: 3
+  MinSize: 2
   Angle: 90
   Area: 3

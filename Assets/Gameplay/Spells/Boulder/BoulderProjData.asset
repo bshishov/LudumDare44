@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3030d9deb419ea245a3f54c0b8afad23, type: 3}
-  m_Name: SkullProjData
+  m_Name: BoulderProjData
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 4385171735532075985, guid: a6da86c9ac5158e4dacc4471fab35c78,
+  ProjectilePrefab: {fileID: 2905237645726948510, guid: 40d6c2c3d5b89954597f3915deca0139,
     type: 3}
-  Speed: 10
-  MaxDistance: 50
-  Trajectory: 1
+  Speed: 3
+  MaxDistance: 6
+  Offset: {x: 0, y: 10, z: -10}
+  Trajectory: 3
+  FallingSpeed: 10
