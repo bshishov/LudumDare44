@@ -123,7 +123,7 @@ namespace Spells
             return (int)spell.DefaultSlot;
         }
 
-        private bool FireSpell(int index, SpellTargets targets)
+        private bool FireSpell(int index, SpellTargets targets, IChannelingInfo channelingInfo)
         {
             // Disable self cast
             // TODO: ARE WE SURE ABOUT THAT?
@@ -136,7 +136,7 @@ namespace Spells
             if (slotState.State == SpellState.Ready && 
                 SpellCaster.IsValidTarget(slotState.Spell, targets))
             {
-                if (_spellCaster.CastSpell(slotState.Spell, slotState.NumStacks + _characterState.AdditionSpellStacks, targets))
+                if (_spellCaster.CastSpell(slotState.Spell, slotState.NumStacks + _characterState.AdditionSpellStacks, targets, channelingInfo))
                 {
                     // Start cooldown
                     SpellSlots[index].State = SpellState.Recharging;
@@ -154,19 +154,20 @@ namespace Spells
         }
 
 
-        public bool TryFireSpellToTarget(int slotIndex, CharacterState target)
+        public bool TryFireSpellToTarget(int slotIndex, CharacterState target, IChannelingInfo channelingInfo)
         {
             return TryFireSpellToTarget(slotIndex,
-                TargetInfo.Create(target, target.GetNodeTransform(CharacterState.NodeRole.Chest)));
+                TargetInfo.Create(target, target.GetNodeTransform(CharacterState.NodeRole.Chest)), channelingInfo);
         }
 
-        public bool TryFireSpellToTarget(int slotIndex, TargetInfo target)
+        public bool TryFireSpellToTarget(int slotIndex, TargetInfo target, IChannelingInfo channelingInfo)
         {
             return FireSpell(slotIndex,
                 new SpellTargets(
                     TargetInfo.Create(_characterState,
                         _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter))
-                    , target));
+                    , target),
+                channelingInfo);
         }
 
         private void AddSpellToSlot(int slotIndex, Spell spell, int stacks)

@@ -1,14 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using Assets.Scripts;
 using Assets.Scripts.Data;
-using Assets.Scripts.Utils.Debugger;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Debug = UnityEngine.Debug;
+using Debugger = Assets.Scripts.Utils.Debugger.Debugger;
 
 namespace Spells
 {
+public interface IChannelingInfo
+{
+    TargetInfo GetNewTarget();
+}
+
+[DebuggerStepThrough]
 public class SubSpellContext
 {
     public object             customData;
@@ -25,11 +34,14 @@ public class SubSpellContext
     public static SubSpellContext Create(SpellContext context) { return new SubSpellContext {effect = context.CurrentSubSpell.GetEffect()}; }
 }
 
+[DebuggerStepThrough]
 public class SpellContext : ISpellContext
 {
     private SubSpell _currentSubSpell;
 
     public SpellCaster caster;
+
+    public IChannelingInfo channelingInfo;
 
     public ISpellEffect effect;
 
@@ -61,7 +73,7 @@ public class SpellContext : ISpellContext
 
     public SubSpell CurrentSubSpell => Spell.SubSpells[CurrentSubSpellIndex];
 
-    public static SpellContext Create(SpellCaster caster, Spell spell, int stacks, SpellTargets targets, int subSpellStartIndex)
+    public static SpellContext Create(SpellCaster caster, Spell spell, int stacks, SpellTargets targets, IChannelingInfo channelingInfo, int subSpellStartIndex)
     {
         Debug.Log(targets);
 
@@ -69,6 +81,7 @@ public class SpellContext : ISpellContext
                       {
                           InitialSource        = targets.Source.Character,
                           caster               = caster,
+                          channelingInfo       = channelingInfo,
                           State                = subSpellStartIndex == 0 ? ContextState.JustQueued : ContextState.FindTargets,
                           Spell                = spell,
                           Stacks               = stacks,
@@ -93,15 +106,6 @@ public class SpellCaster : MonoBehaviour
 {
     private SpellContext       _context;
     private List<SpellContext> _nestedContexts = new List<SpellContext>();
-
-    private CharacterState _owner;
-    public  float          MaxSpellDistance = 100.0f;
-
-    [CanBeNull]
-    public ISpellContext ActiveSpellContext => _context;
-
-    // Start is called before the first frame update
-    private void Start() { _owner = GetComponent<CharacterState>(); }
 
     public static bool IsValidTarget(Spell spell, SpellTargets targets)
     {
@@ -150,7 +154,7 @@ public class SpellCaster : MonoBehaviour
         return true;
     }
 
-    public bool CastSpell(Spell spell, int stacks, SpellTargets targets)
+    public bool CastSpell(Spell spell, int stacks, SpellTargets targets, IChannelingInfo channelingInfo)
     {
         if (_context != null)
         {
@@ -161,7 +165,7 @@ public class SpellCaster : MonoBehaviour
         if (!IsValidTarget(spell, targets))
             return false;
 
-        _context = SpellContext.Create(this, spell, stacks, targets, 0);
+        _context = SpellContext.Create(this, spell, stacks, targets, channelingInfo, 0);
         return true;
     }
 
@@ -169,7 +173,7 @@ public class SpellCaster : MonoBehaviour
     {
         lock (_nestedContexts)
         {
-            _nestedContexts.Add(SpellContext.Create(this, spell, stacks, targets, subSpellStartIndex));
+            _nestedContexts.Add(SpellContext.Create(this, spell, stacks, targets, null, subSpellStartIndex));
         }
     }
 
@@ -259,7 +263,11 @@ public class SpellCaster : MonoBehaviour
                         break;
 
                     context.SubContext = null;
-                    ++context.CurrentSubSpellIndex;
+
+                    if ((context.CurrentSubSpell.Flags & SubSpell.SpellFlags.Channeling) == 0)
+                        ++context.CurrentSubSpellIndex;
+                    else
+                        return false;
                 }
 
                 context.SubContext = null;
@@ -363,10 +371,40 @@ public class SpellCaster : MonoBehaviour
         }
     }
 
+    private static bool PullChannelingTargetInfo(SpellContext context, SubSpellContext subContext, IReadOnlyList<SpellTargets> currentTargets)
+    {
+        Assert.IsTrue(currentTargets.Count == 1);
+        Assert.IsTrue((context.SpellFlags & Spell.SpellFlags.BreakOnFailedTargeting) == 0);
+        Assert.IsNotNull(context.channelingInfo);
+
+        var newTarget = context.channelingInfo.GetNewTarget();
+        if (newTarget == null)
+            return false;
+
+        if (!IsValidTarget(context.CurrentSubSpell, newTarget))
+        {
+            Debug.LogWarning("Channeling target is invalid!");
+            return false;
+        }
+
+        var newSpellTargets = new SpellTargets(currentTargets[0].Source, newTarget);
+
+        subContext.newTargets.Add(newSpellTargets);
+        subContext.effect?.OnTargetsPreSelected(context, newSpellTargets);
+        return true;
+    }
+
     private static bool LockTargets(SpellContext context, SubSpellContext subContext)
     {
         var anyTargetFound = false;
         var currentTargets = context.CurrentSubSpellTargets;
+
+        if ((context.CurrentSubSpell.Flags & SubSpell.SpellFlags.Channeling) == SubSpell.SpellFlags.Channeling)
+        {
+            context.Aborted = !PullChannelingTargetInfo(context, subContext, currentTargets.TargetData);
+            return !context.Aborted;
+        }
+
 
         foreach (var castData in currentTargets.TargetData)
         {
@@ -422,7 +460,7 @@ public class SpellCaster : MonoBehaviour
             CharacterState[] availableTargets = null;
 
             foreach (var target in castData.Destinations)
-                if (LockTarget(context, target, source, targets, castData, ref availableTargets))
+                if (FinalizeTarget(context, target, source, targets, castData, ref availableTargets))
                     return true;
 
             if ((context.SpellFlags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce)
@@ -435,12 +473,12 @@ public class SpellCaster : MonoBehaviour
         return anyTargetFound;
     }
 
-    private static bool LockTarget(SpellContext         context,
-                                   TargetInfo           target,
-                                   TargetInfo           source,
-                                   List<TargetInfo>     targets,
-                                   SpellTargets         castData,
-                                   ref CharacterState[] availableTargets)
+    private static bool FinalizeTarget(SpellContext         context,
+                                       TargetInfo           target,
+                                       TargetInfo           source,
+                                       List<TargetInfo>     targets,
+                                       SpellTargets         castData,
+                                       ref CharacterState[] availableTargets)
     {
         Assert.IsTrue(IsValidTarget(context.CurrentSubSpell, target));
 
@@ -563,37 +601,26 @@ public class SpellCaster : MonoBehaviour
             case AreaOfEffect.AreaType.Ray:
             {
                 if (target.Character != null)
-                    if (context.CurrentSubSpell.Obstacles == SubSpell.ObstacleHandling.Break)
+                {
+                    if ((context.CurrentSubSpell.Obstacles & SubSpell.ObstacleHandling.Break) == SubSpell.ObstacleHandling.Break)
                         return new[] {target};
+                }
 
-                //Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10, Color.green, 2);
-
-                //CharacterState closest = null;
-                //float minDist = float.MaxValue;
-                //var hitedTargets = new List<CharacterState>(characters.Length / 5);
-
-                //foreach (var target in characters)
-                //{
-                //    var collider = target.GetComponent<Collider>();
-                //    if (collider == null)
-                //        continue;
-
-                //    if (collider.Raycast(ray, out var hit, maxSpellDistance))
-                //    {
-                //        if (obstacles == ObstacleHandling.Break)
-                //        {
-                //            if (hit.distance < minDist)
-                //            {
-                //                minDist = hit.distance;
-                //                closest = target;
-                //            }
-                //        }
-                //        else
-                //        {
-                //            hitedTargets.Add(target);
-                //        }
-                //    }
-                //}
+                if ((context.CurrentSubSpell.Obstacles & SubSpell.ObstacleHandling.ExecuteSpellSequence) == SubSpell.ObstacleHandling.ExecuteSpellSequence)
+                    return Physics.RaycastAll(source.Position.Value, target.Position.Value, context.CurrentSubSpell.Area.Size, Common.LayerMasks.ActorsOrGround)
+                                  .Select(hitInfo => hitInfo.transform.GetComponent<CharacterState>())
+                                  .Where(characterState => characterState != null)
+                                  .Select(characterState =>
+                                          {
+                                              var transform = characterState.GetNodeTransform(CharacterState.NodeRole.Chest);
+                                              return new TargetInfo
+                                                     {
+                                                         Character = characterState,
+                                                         Transform = transform,
+                                                         Position  = transform.position
+                                                     };
+                                          })
+                                  .ToArray();
 
                 Debug.LogWarning("Not Implemented Ray Option Combo");
                 return null;

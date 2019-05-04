@@ -41,6 +41,7 @@ public class SubSpell : ScriptableObject
     public enum SpellFlags
     {
         Undefined  = 0,
+        Channeling = 1 << 1,
         Raycast    = 1 << 2,
         Projectile = 1 << 3,
         Special    = 1 << 4,

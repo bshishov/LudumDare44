@@ -4,7 +4,7 @@ using Assets.Scripts;
 using Assets.Scripts.Data;
 using Spells;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IChannelingInfo
 {
     public float maxSpeed = 7;
     private Vector3 moveDirection = new Vector3();
@@ -62,38 +62,47 @@ public class PlayerController : MonoBehaviour
             return;
         }
         
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out var hit, Common.LayerMasks.ActorsOrGround))
-        {
-            var target = new TargetInfo { Position = ray.GetPoint(hit.distance) };
-            var tgt = hit.transform.GetComponent<CharacterState>();
-            if (tgt != null && tgt.IsAlive)
-            {
-                target.Character = tgt;
-                target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
-                target.Position = target.Transform.position;
-            }
-            else
-            {
-                // TODO: FIX targets for ground-parallel projectiles
-                var adoptedTarget = target.Position.Value;
-                adoptedTarget.y = _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter).position.y;
-                target.Position = adoptedTarget;
-            }
+        var target = GetTarget();
+        if(target == null)
+            return;
 
-            if (_spellbook.TryFireSpellToTarget(slotIndex, target))
-            {
-                // If cast was successful, reduce hp by cost amount
-                _characterState.ApplyModifier(
-                    ModificationParameter.HpFlat, 
-                    -slotState.Spell.BloodCost, 
-                    1, 
-                    1, 
-                    _characterState, 
-                    null, 
-                    out _);
-            }
+        if (_spellbook.TryFireSpellToTarget(slotIndex, target, this))
+        {
+            // If cast was successful, reduce hp by cost amount
+            _characterState.ApplyModifier(
+                                          ModificationParameter.HpFlat, 
+                                          -slotState.Spell.BloodCost, 
+                                          1, 
+                                          1, 
+                                          _characterState, 
+                                          null, 
+                                          out _);
         }
+    }
+
+    private TargetInfo GetTarget()
+    {
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out var hit, Common.LayerMasks.ActorsOrGround))
+            return null;
+
+        var target = new TargetInfo {Position = ray.GetPoint(hit.distance)};
+        var tgt = hit.transform.GetComponent<CharacterState>();
+        if (tgt != null && tgt.IsAlive)
+        {
+            target.Character = tgt;
+            target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
+            target.Position  = target.Transform.position;
+        }
+        else
+        {
+            // TODO: FIX targets for ground-parallel projectiles
+            var adoptedTarget = target.Position.Value;
+            adoptedTarget.y = _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter).position.y;
+            target.Position = adoptedTarget;
+        }
+
+        return target;
     }
 
     private void TryInteract(Interaction interaction)
@@ -125,6 +134,13 @@ public class PlayerController : MonoBehaviour
             return hit.point;
         }
 
+        return null;
+    }
+
+    public TargetInfo GetNewTarget()
+    {
+        if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetButton("Ult"))
+            return GetTarget();
         return null;
     }
 }

@@ -29,7 +29,7 @@ MonoBehaviour:
   DropRate: 0
   DropSpells: []
   UseSpells:
-  - {fileID: 11400000, guid: 4baa6089aa9eda643ba4e2ddbfff3f5b, type: 2}
+  - {fileID: 11400000, guid: 41bc41e4122d0d5448573d2df74d1bb3, type: 2}
   - {fileID: 11400000, guid: 061e3a3f356d7fc489e00711052fd343, type: 2}
   - {fileID: 11400000, guid: c26cb1742481020428164b5b9dea2f1e, type: 2}
   UseBuff: {fileID: 0}

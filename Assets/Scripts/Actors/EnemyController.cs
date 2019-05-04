@@ -114,7 +114,7 @@ public class EnemyController : MonoBehaviour
                             if (_characterState.CanDealDamage())
                             {
                                 _movement.LookAt(player.transform.position);
-                                _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player);
+                                _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player, null);
                                 _movement.Stop();
                             }
                         }
