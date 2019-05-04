@@ -43,6 +43,7 @@ public class CharacterState : MonoBehaviour
         public Spell Spell;
 
         public List<Change> ActiveChanges = new List<Change>();
+        public List<GameObject> TrackedObjects = new List<GameObject>();
 
         public BuffState(Buff buff, CharacterState sourceCharacter, int stacks, Spell spell = null)
         {
@@ -147,6 +148,7 @@ public class CharacterState : MonoBehaviour
     private float _timeBeforeNextAttack;
     private AnimationController _animationController;
     private SpellbookState _spellBook;
+    private SpellCaster _spellCaster;
     private readonly List<BuffState> _buffStates = new List<BuffState>();
     private readonly List<ItemState> _itemStates = new List<ItemState>();
     private Vector3 _baseScale;
@@ -163,6 +165,7 @@ public class CharacterState : MonoBehaviour
         IsAlive = true;
 
         _spellBook = GetComponent<SpellbookState>();
+        _spellCaster = GetComponent<SpellCaster>();
         _animationController = GetComponent<AnimationController>();
         _timeBeforeNextAttack = 0f;
         _hp = character.HealthModifier * MaxHealth;
@@ -223,15 +226,10 @@ public class CharacterState : MonoBehaviour
         if(newBuff == null)
             return;
 
-        // Применить все что в On Apply
-        if(newBuff.OnApplyBuff != null)
-            foreach (var affect in newBuff.OnApplyBuff)
-                ApplyAffect(affect, stacks, sourceCharacter, spell);
-
+        // Try find buff state with the same buff that is going to be applied
         var existingState = _buffStates.FirstOrDefault(s => s.Buff.Equals(newBuff));
         if (existingState != null)
         {
-            // Если такой бафф уже есть
             // State with same buff already exists
             switch (newBuff.Behaviour)
             {
@@ -240,30 +238,26 @@ public class CharacterState : MonoBehaviour
                     existingState.Stacks = Mathf.Max(stacks, existingState.Stacks);
                     ApplyBuffModifiers(existingState);
                     existingState.Refresh();
-
-                    // Применить все что в On Apply
+                    
                     if (newBuff.OnApplyBuff != null)
                         foreach (var affect in newBuff.OnApplyBuff)
-                            ApplyAffect(affect, existingState.Stacks, sourceCharacter, spell);
+                            ApplyAffect(affect, existingState);
 
                     break;
                 case BuffStackBehaviour.AddNewAsSeparate:
-                    // Применить все что в On Apply
+                    var s =  AddBuff(newBuff, stacks, sourceCharacter, spell);
                     if (newBuff.OnApplyBuff != null)
                         foreach (var affect in newBuff.OnApplyBuff)
-                            ApplyAffect(affect, stacks, sourceCharacter, spell);
-                    AddBuff(newBuff, stacks, sourceCharacter, spell);
+                            ApplyAffect(affect, s);
                     break;
                 case BuffStackBehaviour.SumStacks:
                     RevertBuffChanges(existingState);
                     existingState.Stacks += stacks;
                     ApplyBuffModifiers(existingState);
                     existingState.Refresh();
-
-                    // Применить все что в On Apply
                     if (newBuff.OnApplyBuff != null)
                         foreach (var affect in newBuff.OnApplyBuff)
-                            ApplyAffect(affect, existingState.Stacks, sourceCharacter, spell);
+                            ApplyAffect(affect, existingState);
 
                     break;
                 case BuffStackBehaviour.Discard:
@@ -276,13 +270,11 @@ public class CharacterState : MonoBehaviour
         }
         else
         {
-            // Если такого баффа еще нет
-            // Применить все что в On Apply
+            // The buff is completely new. So create and store new buffstate and apply all effects
+            var newBuffState =  AddBuff(newBuff, stacks, sourceCharacter, spell);
             if (newBuff.OnApplyBuff != null)
                 foreach (var affect in newBuff.OnApplyBuff)
-                    ApplyAffect(affect, stacks, sourceCharacter, spell);
-
-            AddBuff(newBuff, stacks, sourceCharacter, spell);
+                    ApplyAffect(affect, newBuffState);
         }
     }
 
@@ -315,7 +307,7 @@ public class CharacterState : MonoBehaviour
         }
     }
 
-    private void AddBuff(Buff buff, int stacks, CharacterState sourceCharacter, Spell spell)
+    private BuffState AddBuff(Buff buff, int stacks, CharacterState sourceCharacter, Spell spell)
     {
         var s = new BuffState(buff, sourceCharacter, stacks, spell);
         _buffStates.Add(s);
@@ -327,26 +319,65 @@ public class CharacterState : MonoBehaviour
             stacks);
 #endif
         ApplyBuffModifiers(s);
+        return s;
     }
 
 
-    public void ApplyAffect(
-        Affect affect, 
-        int stacks,
-        CharacterState sourceCharacter,
-        Spell spell)
+    public void ApplyAffect(Affect affect, BuffState buffState)
     {
+        // Apply affect modifiers
         if (affect.ApplyModifier != null)
-            ApplyModifier(affect.ApplyModifier, stacks, sourceCharacter, spell, out _);
+            ApplyModifier(affect.ApplyModifier, buffState.Stacks, buffState.SourceCharacter, buffState.Spell, out _);
 
+        // Cast affect spells
         if (affect.CastSpell != null)
-            throw new NotImplementedException();
+        {
+            TargetInfo tgt = null;
+            var spellStacks = 1;
+            switch (affect.CastSpell.Target)
+            {
+                case Affect.SpellCastInfo.SpellTarget.Source:
+                    tgt = TargetInfo.Create(buffState.SourceCharacter);
+                    break;
+                case Affect.SpellCastInfo.SpellTarget.Self:
+                    tgt = TargetInfo.Create(this);
+                    break;
+                case Affect.SpellCastInfo.SpellTarget.CurrentSpellEmitter:
+                    tgt = new TargetInfo {Transform = GetNodeTransform(NodeRole.SpellEmitter)};
+                    break;
+                default:
+                    break;
+            }
+
+            switch (affect.CastSpell.SpellStacks)
+            {
+                case Affect.SpellCastInfo.StacksBehaviour.SameStacksAsBuff:
+                    spellStacks = buffState.Stacks;
+                    break;
+                case Affect.SpellCastInfo.StacksBehaviour.Override:
+                    spellStacks = affect.CastSpell.StacksOverride;
+                    break;
+            }
+
+            _spellCaster.CastSpell(
+                affect.CastSpell.Spell,
+                spellStacks,
+                new SpellTargets(TargetInfo.Create(this,
+                    GetNodeTransform(NodeRole.SpellEmitter)), tgt));
+        }
 
         if (affect.SpawnObject != null)
-            GameObject.Instantiate(
-                affect.SpawnObject, 
-                GetNodeTransform(NodeRole.Chest), 
-                false);
+        {
+            var spawnAt = GetNodeTransform(affect.SpawnObject.CharacterNode);
+            GameObject go;
+            if(affect.SpawnObject.AttachToTransform)
+                go = GameObject.Instantiate(affect.SpawnObject.Prefab, spawnAt, false);
+            else
+                go = GameObject.Instantiate(affect.SpawnObject.Prefab, spawnAt.position, Quaternion.identity);
+
+            if(affect.SpawnObject.AutoDestroyAfterBuff)
+                buffState.TrackedObjects.Add(go);
+        }
     }
 
     public void ApplyModifier(
@@ -577,7 +608,7 @@ public class CharacterState : MonoBehaviour
             {
                 if (buffState.Buff.OnTickBuff != null)
                     foreach (var affect in buffState.Buff.OnTickBuff)
-                        ApplyAffect(affect, buffState.Stacks, buffState.SourceCharacter, buffState.Spell);
+                        ApplyAffect(affect, buffState);
                 
                 buffState.TickCd = buffState.Buff.TickCooldown;
             }
@@ -587,13 +618,17 @@ public class CharacterState : MonoBehaviour
             {
                 if(buffState.Buff.OnRemove != null)
                     foreach (var affect in buffState.Buff.OnRemove)
-                        ApplyAffect(affect, buffState.Stacks, buffState.SourceCharacter, buffState.Spell);
+                        ApplyAffect(affect, buffState);
 
 
                 if(buffState.ActiveChanges != null)
                     foreach (var change in buffState.ActiveChanges)
                         RevertChange(change);
 
+                if (buffState.TrackedObjects != null)
+                    foreach (var trackedObject in buffState.TrackedObjects)
+                        Destroy(trackedObject);
+                        
                 _buffStates.RemoveAt(i);
             }
         }
