@@ -76,15 +76,8 @@ namespace Assets.Scripts.Data
 
             if (_effect == null)
                 _effect = Instantiate(SpellEffect);
+
             return _effect.GetComponent<ISpellEffect>();
-        }
-
-        public void DestoryEffectInstance()
-        {
-            if (_effect == null)
-                return;
-
-            Destroy(_effect, 2);
         }
     }
 }
