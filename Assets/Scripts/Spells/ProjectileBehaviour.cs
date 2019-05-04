@@ -91,9 +91,9 @@ namespace Spells
             }
 
             bool ignoreEnemyCheck = ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.IgnoreButTarget) ==
-                SubSpell.ObstacleHandling.IgnoreButTarget) && character == _context.target.Character;
+                SubSpell.ObstacleHandling.IgnoreButTarget) && character != _context.target.Character;
 
-            if (!ignoreEnemyCheck && !SpellCaster.IsEnemy(_context.owner, character, _context.GetProjectileSubSpell().AffectedTarget))
+            if (ignoreEnemyCheck || !SpellCaster.IsEnemy(_context.owner, character, _context.GetProjectileSubSpell().AffectedTarget))
                 return;
 
             if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.ExecuteSpellSequence) ==

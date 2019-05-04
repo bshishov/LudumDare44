@@ -244,13 +244,17 @@ public class SpellCaster : MonoBehaviour
                         break;
                     }
 
-                    if (context.SubContext.state == ContextState.Finishing)
-                    {
-                        if (context.CurrentSubSpell.Effect != null)
-                            context.CurrentSubSpell.DestoryEffectInstance();
-                        context.SubContext = null;
-                        ++context.CurrentSubSpellIndex;
-                    }
+                    if (context.SubContext.state != ContextState.Finishing)
+                        continue;
+
+                    if (context.CurrentSubSpell.Effect != null)
+                        context.CurrentSubSpell.DestoryEffectInstance();
+
+                    if (context.SubContext.projectileSpawned)
+                        break;
+
+                    context.SubContext = null;
+                    ++context.CurrentSubSpellIndex;
                 }
 
                 context.SubContext = null;
@@ -515,14 +519,17 @@ public class SpellCaster : MonoBehaviour
         return characters;
     }
 
-    public static bool IsEnemy(CharacterState owner, CharacterState otherTharacter, SubSpell.AffectedTargets target)
+    public static bool IsEnemy(CharacterState owner, CharacterState otherCharacter, SubSpell.AffectedTargets target)
     {
         Assert.IsNotNull(owner);
-        Assert.IsNotNull(otherTharacter);
+        Assert.IsNotNull(otherCharacter);
 
-        var sameTeam = otherTharacter.CurrentTeam == owner.CurrentTeam && owner.CurrentTeam != CharacterState.Team.AgainstTheWorld;
+        if (!otherCharacter.IsAlive)
+            return false;
+
+        var sameTeam = otherCharacter.CurrentTeam == owner.CurrentTeam && owner.CurrentTeam != CharacterState.Team.AgainstTheWorld;
         var mask     = sameTeam ? SubSpell.AffectedTargets.Friend : SubSpell.AffectedTargets.Enemy;
-        if (otherTharacter == owner)
+        if (otherCharacter == owner)
             mask |= SubSpell.AffectedTargets.Self;
 
         return (mask & target) != 0;
@@ -546,7 +553,6 @@ public class SpellCaster : MonoBehaviour
                 if (target.Character != null)
                     if (context.CurrentSubSpell.Obstacles == SubSpell.ObstacleHandling.Break)
                     {
-                        Debugger.Default.DrawLine(source.Transform.position, target.Transform.position, Color.blue, 1);
                         return new[] {target};
                     }
 
