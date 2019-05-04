@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Flame Cloak
   Behaviour: 1
   TickCooldown: 1
-  Duration: 5
+  Duration: 100000
   Modifiers: []
   OnApplyBuff: []
   OnTickBuff:
@@ -26,7 +26,7 @@ MonoBehaviour:
     CastSpell:
       SpellStacks: 0
       Spell: {fileID: 11400000, guid: 2a8dd3ba9c3fbc9469d8766cbd46f7e8, type: 2}
-      Target: 0
+      Target: 2
       StacksOverride: 1
     SpawnObject:
       Prefab: {fileID: 0}

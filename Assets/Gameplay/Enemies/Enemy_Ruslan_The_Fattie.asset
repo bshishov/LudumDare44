@@ -16,7 +16,7 @@ MonoBehaviour:
   Damage: 0
   Speed: 2
   Evasion: 0
-  Size: 1
+  Size: 2
   HealthModifier: 1
   SpellDamageAmp: 0
   IndifferenceDistance: 20

@@ -10,12 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23f8653abe5f7c848af935988e982ced, type: 3}
-  m_Name: Chunk1
+  m_Name: Chunk_Boss
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 6599112483676503871, guid: a0f4004e7d7b0b2468423ddd3e8cc8c6, type: 3}
-  Type: 0
+  Prefab: {fileID: 1263189694679266580, guid: f3dd07f1ceb9a154fb7f62ed8bb1d11d, type: 3}
+  Type: 3
   EnemyBudgetModifier: 1
-  Enemies: {fileID: 11400000, guid: dcdc0c768bdd50a4bad9968f703ce229, type: 2}
-  Adjacent:
-  - Chunk: {fileID: 11400000}
-    Weight: 1
+  Enemies: {fileID: 0}
+  Adjacent: []

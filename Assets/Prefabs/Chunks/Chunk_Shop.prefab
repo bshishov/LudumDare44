@@ -427,6 +427,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6407444437515000906, guid: c82285ab096c39a4a8f2cd8ac2a73ab6,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6407444437515000906, guid: c82285ab096c39a4a8f2cd8ac2a73ab6,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6407444437515000906, guid: c82285ab096c39a4a8f2cd8ac2a73ab6,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6407444437515000906, guid: c82285ab096c39a4a8f2cd8ac2a73ab6,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2992473847807315036, guid: c82285ab096c39a4a8f2cd8ac2a73ab6,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6834472406712912895, guid: c82285ab096c39a4a8f2cd8ac2a73ab6,
         type: 3}
       propertyPath: m_Mesh
@@ -448,31 +473,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3437473201146616809, guid: c82285ab096c39a4a8f2cd8ac2a73ab6,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2992473847807315036, guid: c82285ab096c39a4a8f2cd8ac2a73ab6,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6407444437515000906, guid: c82285ab096c39a4a8f2cd8ac2a73ab6,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6407444437515000906, guid: c82285ab096c39a4a8f2cd8ac2a73ab6,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6407444437515000906, guid: c82285ab096c39a4a8f2cd8ac2a73ab6,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6407444437515000906, guid: c82285ab096c39a4a8f2cd8ac2a73ab6,
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 1
