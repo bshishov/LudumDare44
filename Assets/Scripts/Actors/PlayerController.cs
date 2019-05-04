@@ -3,6 +3,7 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Actors;
 using Assets.Scripts;
 using Assets.Scripts.Data;
 using Spells;
@@ -18,12 +19,15 @@ public class PlayerController : MonoBehaviour
 
     private NavMeshAgent _agent;
     private AnimationController _animator;
+    private const float InteractRadius = 1f;
+    private Interactor _interactor;
 
     void Start()
     {
         _characterState = GetComponent<CharacterState>();
         _animator = GetComponent<AnimationController>();
         _spellbook = GetComponent<SpellbookState>();
+        _interactor = GetComponent<Interactor>();
 
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = false;
@@ -103,19 +107,10 @@ public class PlayerController : MonoBehaviour
 
     private void TryInteract(Interaction interaction)
     {
-        foreach (var interactable in GetUsableItemsInRange())
-        {
-            interactable.Interact(_characterState, interaction);
-        }
+        _interactor.ClosestInRange?.Interact(_characterState, interaction);
     }
 
-    private IEnumerable<IInteractable> GetUsableItemsInRange()
-    {
-        var pos = _characterState.GetNodeTransform(CharacterState.NodeRole.Chest).position;
-        return Physics.OverlapSphere(pos, 1f)
-            .Select(c => c.GetComponent<IInteractable>())
-            .Where(i => i != null);
-    }
+    
 
     void Update()
     {
@@ -147,26 +142,6 @@ public class PlayerController : MonoBehaviour
             var q = transform.rotation;
             q.eulerAngles = new Vector3(0, q.eulerAngles.y, q.eulerAngles.z);
             transform.rotation = q;
-        }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = new Color(1, 1, 0, 0.75F);
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Gizmos.DrawRay(ray);
-
-        if (Physics.Raycast(ray, out var hit, Common.LayerMasks.Ground))
-        {
-            var hitPoint = ray.GetPoint(hit.distance);
-            Gizmos.DrawSphere(hitPoint, 0.2f);
-        }
-
-        RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo, 100, Common.LayerMasks.Actors))
-        {
-            Gizmos.DrawWireCube(hitInfo.transform.position, Vector3.one);
         }
     }
 

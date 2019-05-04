@@ -11,6 +11,19 @@ namespace Actors
         public Spell Spell;
         public InteractableType Type => InteractableType.DroppedSpell;
 
+        public string GetInteractionText(Interaction interaction)
+        {
+            switch (interaction)
+            {
+                case Interaction.Pick:
+                    return $"Pickup <color=red>{Spell.Name}</color>";
+                case Interaction.Dismantle:
+                    return $"Dismantle <color=red>{Spell.Name}</color>";
+                default:
+                    return string.Empty;
+            }
+        }
+
         public void Interact(CharacterState character, Interaction interaction)
         {
             if (interaction == Interaction.Pick)

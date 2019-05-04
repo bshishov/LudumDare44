@@ -107,5 +107,16 @@ namespace Assets.Scripts
             if (interaction == Interaction.Buy)
                 Buy(character);
         }
+
+        public string GetInteractionText(Interaction interaction)
+        {
+            switch (interaction)
+            {
+                case Interaction.Buy:
+                    return $"Buy {ActiveItem.Name}";
+                default:
+                    return String.Empty;
+            }
+        }
     }
 }

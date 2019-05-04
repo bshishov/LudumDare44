@@ -18,12 +18,14 @@ namespace Assets.Scripts
         {
             public static string Actors = "Actors";
             public static string Ground = "Ground";
+            public static string Interactable = "Interactable";
         }
 
         public static class LayerMasks
         {
             public static int Actors = LayerMask.GetMask(LayerNames.Actors);
             public static int Ground = LayerMask.GetMask(LayerNames.Ground);
+            public static int Interactable = LayerMask.GetMask(LayerNames.Interactable);
             public static int ActorsOrGround = LayerMask.GetMask(LayerNames.Ground, LayerNames.Actors);
         }
 

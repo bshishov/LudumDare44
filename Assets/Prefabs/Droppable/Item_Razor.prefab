@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2502918588814676883}
   - component: {fileID: 8178728621667430250}
   - component: {fileID: 1598237906991792077}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Item_Razor
   m_TagString: Untagged
   m_Icon: {fileID: 0}

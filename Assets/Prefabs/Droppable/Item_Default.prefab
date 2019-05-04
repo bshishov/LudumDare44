@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5315307719032165812}
   - component: {fileID: -6043219106841034181}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Item_Default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 2720445664662936433}
   - component: {fileID: 6825648084229292350}
   - component: {fileID: 7819869296877648003}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
