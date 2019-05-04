@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 7670126893164771343}
-  SpeedMultiplier: 1
+  SpeedMultiplier: 40
   ImpactDecayTime: 0.1
   DissolveTime: 10
   Renderers:

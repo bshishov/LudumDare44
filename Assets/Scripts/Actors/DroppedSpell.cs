@@ -9,7 +9,7 @@ namespace Actors
     {
         public int Stacks = 1;
         public Spell Spell;
-        public bool IsActive => false;
+        public bool IsActive => true;
         public InteractableType Type => InteractableType.DroppedSpell;
 
         public string GetInteractionText(Interaction interaction)
