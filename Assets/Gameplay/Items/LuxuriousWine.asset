@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Luxurious Wine
   Description: This excellent wine gives you 5 health p/s
   Cost: 20
-  Icon: {fileID: 294179135353329459, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Icon: {fileID: 2222553508390231835, guid: 79f8526ca8b62344a9fc6dfbb87b4366, type: 3}
   Buffs:
   - {fileID: 11400000, guid: 6f5960c420ba8ae40aa1fb97e615df95, type: 2}
   Prefab: {fileID: 7414661946360081799, guid: 87b39e9e18e9a5c4ca4518ef70e97eab, type: 3}

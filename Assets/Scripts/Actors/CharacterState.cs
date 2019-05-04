@@ -467,23 +467,42 @@ public class CharacterState : MonoBehaviour
     {
         targetHp = Mathf.Clamp(targetHp, -1, MaxHealth);
         var delta = targetHp - _hp;
+
+        // If taking damage
         if (delta < 0)
         {
+            if (spell != null)
+            {
+                delta *= sourceCharacter.SpellDamageMultiplier;
+                targetHp = Mathf.Clamp(_hp + delta, -1, MaxHealth);
+                delta = targetHp - _hp;
+
+                _combatLog.Log($"Receiving in total <b>{-delta}</b> spell multiplied ({100 * sourceCharacter.SpellDamageMultiplier}%) damage from <b>{sourceCharacter.name}</b> " +
+                               $"from spell <b>{spell.name}</b>");
+            }
+
+            if (sourceCharacter != null && spell != null)
+            {
+                var lifesteal = -delta * spell.LifeSteal;
+                if (lifesteal > 0)
+                {
+                    _combatLog.Log($"Returning <b>{-delta * spell.LifeSteal}</b> hp back to <b>{sourceCharacter.name}</b> " +
+                                   $"because spell <b>{spell.name}</b> has <b>{100 * spell.LifeSteal}%</b> lifesteal");
+                    sourceCharacter.ApplyModifier(ModificationParameter.HpFlat,
+                        lifesteal,
+                        1,
+                        1,
+                        this,
+                        spell,
+                        out _);
+                }
+            }
+
             if (targetHp <= 0)
                 HandleDeath();
             else
             {
                 _animationController.PlayHitImpactAnimation();
-                if (sourceCharacter != null && spell != null)
-                {
-                    sourceCharacter.ApplyModifier(ModificationParameter.HpFlat, 
-                        delta * spell.LifeSteal, 
-                        1, 
-                        1, 
-                        this, 
-                        spell, 
-                        out _);
-                }
             }
         }
         // Change

@@ -16,7 +16,7 @@ MonoBehaviour:
   Description: This shield has seen many fierce battles. It increases your Max health
     on 10%, but you move 10% slower
   Cost: 0
-  Icon: {fileID: 294179135353329459, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Icon: {fileID: -6773044066538175845, guid: 79f8526ca8b62344a9fc6dfbb87b4366, type: 3}
   Buffs:
   - {fileID: 11400000, guid: 6808205f473b4054bbe157e108075500, type: 2}
   - {fileID: 11400000, guid: 372c669ef9fc5c248b6baacc3ba53b87, type: 2}
