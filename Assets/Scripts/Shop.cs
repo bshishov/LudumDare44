@@ -110,6 +110,8 @@ namespace Assets.Scripts
 
         public string GetInteractionText(Interaction interaction)
         {
+            if (ActiveItem == null)
+                return string.Empty;
             switch (interaction)
             {
                 case Interaction.Buy:
