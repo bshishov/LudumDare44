@@ -111,7 +111,6 @@ public class SpellCaster : MonoBehaviour
         switch (subSpell.Targeting)
         {
             case SubSpell.SpellTargeting.Target when target.Transform == null && target.Character == null:
-                Debug.LogError("No valid target to cast!");
                 return false;
 
             case SubSpell.SpellTargeting.Target:
@@ -372,7 +371,7 @@ public class SpellCaster : MonoBehaviour
             {
                 Assert.IsTrue(source.Position.HasValue, "source.Position != null");
 
-                var availableTargets = GetFilteredCharacters(context.InitialSource, source.Character, context.CurrentSubSpell.AffectedTarget);
+                var availableTargets = GetFilteredCharacters(context.InitialSource, source.Character, context.CurrentSubSpell.AffectedTarget, context.filteredTargets);
                 castData.Destinations = new[]
                                         {
                                             TargetInfo.Create(availableTargets
@@ -416,7 +415,6 @@ public class SpellCaster : MonoBehaviour
 
             if ((context.SpellFlags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce)
             {
-                Assert.IsTrue(context.CurrentSubSpell.Targeting == SubSpell.SpellTargeting.Target);
                 context.filteredTargets.AddRange(targets.Select(t => t.Character));
             }
 
@@ -445,7 +443,7 @@ public class SpellCaster : MonoBehaviour
         Assert.IsFalse(context.SubContext.projectileSpawned);
 
         if (availableTargets == null)
-            availableTargets = GetFilteredCharacters(context.InitialSource, source.Character, context.CurrentSubSpell.AffectedTarget);
+            availableTargets = GetFilteredCharacters(context.InitialSource, source.Character, context.CurrentSubSpell.AffectedTarget, context.filteredTargets);
 
         if ((context.SpellFlags & Spell.SpellFlags.AffectsOnlyOnce) == Spell.SpellFlags.AffectsOnlyOnce)
             availableTargets = availableTargets.Except(context.filteredTargets).ToArray();
@@ -507,9 +505,10 @@ public class SpellCaster : MonoBehaviour
 
     private static CharacterState[] GetAllCharacters() { return FindObjectsOfType<CharacterState>().ToArray(); }
 
-    private static CharacterState[] GetFilteredCharacters(CharacterState owner, CharacterState source, SubSpell.AffectedTargets target)
+    private static CharacterState[] GetFilteredCharacters(CharacterState owner, CharacterState source, SubSpell.AffectedTargets target,
+                                                          IEnumerable<CharacterState> filteredCharacters)
     {
-        var characters = FilterCharacters(owner, GetAllCharacters(), target);
+        var characters = FilterCharacters(owner, GetAllCharacters(), target, filteredCharacters);
         if ((target & SubSpell.AffectedTargets.Self) == 0)
             characters = characters.Where(t => t != source).ToArray();
 
@@ -529,9 +528,12 @@ public class SpellCaster : MonoBehaviour
         return (mask & target) != 0;
     }
 
-    private static CharacterState[] FilterCharacters(CharacterState owner, CharacterState[] characters, SubSpell.AffectedTargets target)
+    private static CharacterState[] FilterCharacters(CharacterState owner, CharacterState[] characters, SubSpell.AffectedTargets target, IEnumerable<CharacterState> filteredCharacters)
     {
-        return characters.Where(c => IsEnemy(c, owner, target)).ToArray();
+        var availibleCharacters = characters.Where(c => IsEnemy(c, owner, target));
+        if (filteredCharacters != null)
+            availibleCharacters = availibleCharacters.Except(filteredCharacters);
+        return availibleCharacters.ToArray();
     }
 
     private static TargetInfo[] GetAllCharacterInArea(SpellContext context, CharacterState[] avalibleTargets, TargetInfo source, TargetInfo target)
@@ -592,7 +594,7 @@ public class SpellCaster : MonoBehaviour
                 var pos    = target.Position.Value;
                 var origin = (context.CurrentSubSpell.Origin & SubSpell.SpellOrigin.Self) == SubSpell.SpellOrigin.Self ? source.Position.Value : pos;
 
-                var sphereMinRadius = context.CurrentSubSpell.Area.Size;
+                var sphereMinRadius = context.CurrentSubSpell.Area.MinSize;
                 var sphereMaxRadius = context.CurrentSubSpell.Area.Size;
                 var maxAngle        = context.CurrentSubSpell.Area.Angle;
 
@@ -606,7 +608,7 @@ public class SpellCaster : MonoBehaviour
                                                  var directionTo = position - origin;
                                                  directionTo.y = 0;
 
-                                                 var inSphere = directionTo.magnitude >= sphereMinRadius && directionTo.magnitude > sphereMaxRadius;
+                                                 var inSphere = directionTo.magnitude >= sphereMinRadius && directionTo.magnitude < sphereMaxRadius;
                                                  if (!inSphere)
                                                      return false;
 
