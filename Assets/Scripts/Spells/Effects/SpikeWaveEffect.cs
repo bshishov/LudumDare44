@@ -42,7 +42,7 @@ public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
 
     private void SpawnParticle(Vector3 origin, Quaternion rotation, float distance, float angle, Transform root = null)
     {
-        var instance = Instantiate(SpikePrefab, gameObject.transform, false);
+        var instance = Instantiate(SpikePrefab);
         Destroy(instance.gameObject, 1.0f);
 
         instance.transform.position = origin;
@@ -53,7 +53,7 @@ public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
         var shape = particles.shape;
         shape.arc      = angle;
         shape.radius   = distance;
-        shape.rotation = new Vector3(shape.rotation.x, shape.rotation.y, angle / 2);
+        shape.rotation = new Vector3(shape.rotation.x, shape.rotation.y, 90 - angle / 2);
 
         var emission = particles.emission;
         var burst    = emission.GetBurst(0);
