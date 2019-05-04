@@ -17,7 +17,7 @@ MonoBehaviour:
     All we know for sure is that this Hourglass reduces speed of nearby enemies by
     30%  '
   Cost: 15
-  Icon: {fileID: 294179135353329459, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Icon: {fileID: -2173064856017149207, guid: 79f8526ca8b62344a9fc6dfbb87b4366, type: 3}
   Buffs:
   - {fileID: 11400000, guid: d05d9aa562481764f972e6de8b9eb62d, type: 2}
   Prefab: {fileID: 8353440635793471631, guid: 5ace1e3e1011b01419a520411a5ba2ca, type: 3}

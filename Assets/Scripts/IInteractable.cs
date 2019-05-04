@@ -11,7 +11,7 @@ namespace Assets.Scripts
         Use = 0,
         Pick = 0,
         Buy = 0,
-        Discard = 1
+        Dismantle = 1
     }
 
     public enum InteractableType

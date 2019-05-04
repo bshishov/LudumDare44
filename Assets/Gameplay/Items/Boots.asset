@@ -16,7 +16,7 @@ MonoBehaviour:
   Description: These shoes may not be very fashionable, but traveling on your bare
     feet is worse. Increases your speed by 5%.
   Cost: 5
-  Icon: {fileID: 294179135353329459, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Icon: {fileID: -5241530780421866181, guid: 79f8526ca8b62344a9fc6dfbb87b4366, type: 3}
   Buffs:
   - {fileID: 11400000, guid: fed751b7e7e1a144187ce6213ce2b553, type: 2}
   Prefab: {fileID: 7110239382461080118, guid: 16d0481cac307f6489c4092962e112de, type: 3}

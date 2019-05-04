@@ -15,8 +15,9 @@ MonoBehaviour:
   Name: Skull
   Icon: {fileID: -8055246306674290579, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Description: Launches a homing skull, which deals 2 damage
-  BloodCost: 0
-  BloodBack: 0
+  ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
+    type: 2}
+  LifeSteal: 2
   DefaultSlot: 0
   Cooldown: 0.9
   CastingTime: 1

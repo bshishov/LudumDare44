@@ -40,8 +40,10 @@ namespace Assets.Scripts.Data
         [TextArea]
         public string Description;
 
-        public int BloodCost = 0;
-        public int BloodBack = 0;
+        public Buff ApplyBuffOnDismantle;
+
+        [Tooltip("LifeSteal is in range from 0 to +inf. '0' means 0% lifesteal. 1 means 100% lifesteal. 1.5 = 150%")]
+        public float LifeSteal = 0f;
 
         public Slot DefaultSlot;
         public float Cooldown;

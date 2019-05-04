@@ -17,7 +17,7 @@ MonoBehaviour:
   TickCooldown: 10000
   Duration: 1000000
   Modifiers:
-  - Parameter: 11
+  - Parameter: 7
     Value: 0.05
     EffectiveStacks: 20
   OnApplyBuff: []

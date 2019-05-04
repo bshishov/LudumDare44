@@ -36,16 +36,20 @@ public class CharacterState : MonoBehaviour
         public Buff Buff;
         public float TimeRemaining;
         public float TickCd;
-        public int Stacks = 1;
+        public int Stacks;
+        public CharacterState SourceCharacter;
+        public Spell Spell;
 
         public List<Change> ActiveChanges = new List<Change>();
 
-        public BuffState(Buff buff, int stacks = 1)
+        public BuffState(Buff buff, CharacterState sourceCharacter, int stacks, Spell spell = null)
         {
-            Stacks = 1;
+            Stacks = stacks;
             Buff = buff;
             TimeRemaining = buff.Duration;
             TickCd = 0;
+            SourceCharacter = sourceCharacter;
+            Spell = spell;
         }
 
         public void Refresh()
@@ -127,8 +131,13 @@ public class CharacterState : MonoBehaviour
         1, 10f);
 
     // ========= AdditionSpellStacks
-    private float _assFlatMod = 0;
-    public int AdditionSpellStacks => character.AdditionalSpellStacks + Mathf.CeilToInt(_assFlatMod);
+    private float _assFlatModSum = 0;
+    public int AdditionSpellStacks => character.AdditionalSpellStacks + Mathf.CeilToInt(_assFlatModSum);
+
+    // ========= SpellDamage amplifiaction
+    private float _spellDamageAmpFlatModSum = 0f;
+    public float SpellDamageMultiplier => 1f + ELU(character.SpellDamageAmp + _spellDamageAmpFlatModSum);
+
     public float DropRate => character.DropRate;
     public List<Spell> DropSpells => character.DropSpells;
 
@@ -199,21 +208,23 @@ public class CharacterState : MonoBehaviour
 
         // Todo: track picked items and their stats
         foreach (var buff in item.Buffs)
-            ApplyBuff(buff);
+            ApplyBuff(buff, this, spell:null, stacks=1);
     }
 
-    public void ApplyBuff(Buff newBuff, int stacks=1)
+    public void ApplyBuff(Buff newBuff, CharacterState sourceCharacter, Spell spell, int stacks)
     {
         if(newBuff == null)
             return;
 
+        // Применить все что в On Apply
         if(newBuff.OnApplyBuff != null)
             foreach (var affect in newBuff.OnApplyBuff)
-                ApplyAffect(affect, stacks);
+                ApplyAffect(affect, stacks, sourceCharacter, spell);
 
         var existingState = _buffStates.FirstOrDefault(s => s.Buff.Equals(newBuff));
         if (existingState != null)
         {
+            // Если такой бафф уже есть
             // State with same buff already exists
             switch (newBuff.Behaviour)
             {
@@ -222,15 +233,31 @@ public class CharacterState : MonoBehaviour
                     existingState.Stacks = Mathf.Max(stacks, existingState.Stacks);
                     ApplyBuffModifiers(existingState);
                     existingState.Refresh();
+
+                    // Применить все что в On Apply
+                    if (newBuff.OnApplyBuff != null)
+                        foreach (var affect in newBuff.OnApplyBuff)
+                            ApplyAffect(affect, existingState.Stacks, sourceCharacter, spell);
+
                     break;
                 case BuffStackBehaviour.AddNewAsSeparate:
-                    AddBuff(newBuff, stacks);
+                    // Применить все что в On Apply
+                    if (newBuff.OnApplyBuff != null)
+                        foreach (var affect in newBuff.OnApplyBuff)
+                            ApplyAffect(affect, stacks, sourceCharacter, spell);
+                    AddBuff(newBuff, stacks, sourceCharacter, spell);
                     break;
                 case BuffStackBehaviour.SumStacks:
                     RevertBuffChanges(existingState);
                     existingState.Stacks += stacks;
                     ApplyBuffModifiers(existingState);
                     existingState.Refresh();
+
+                    // Применить все что в On Apply
+                    if (newBuff.OnApplyBuff != null)
+                        foreach (var affect in newBuff.OnApplyBuff)
+                            ApplyAffect(affect, existingState.Stacks, sourceCharacter, spell);
+
                     break;
                 case BuffStackBehaviour.Discard:
                     // Do nothing. newBuff wont be added
@@ -241,7 +268,13 @@ public class CharacterState : MonoBehaviour
         }
         else
         {
-            AddBuff(newBuff, stacks);
+            // Если такого баффа еще нет
+            // Применить все что в On Apply
+            if (newBuff.OnApplyBuff != null)
+                foreach (var affect in newBuff.OnApplyBuff)
+                    ApplyAffect(affect, stacks, sourceCharacter, spell);
+
+            AddBuff(newBuff, stacks, sourceCharacter, spell);
         }
     }
 
@@ -255,13 +288,18 @@ public class CharacterState : MonoBehaviour
         }
     }
 
-    private void ApplyBuffModifiers(BuffState s)
+    private void ApplyBuffModifiers(BuffState state)
     {
-        if (s.Buff.Modifiers == null) return;
-        foreach (var mod in s.Buff.Modifiers)
+        if (state.Buff.Modifiers == null) return;
+        foreach (var mod in state.Buff.Modifiers)
         {
-            ApplyModifier(mod, s.Stacks, out var change);
-            s.ActiveChanges.Add(new Change
+            ApplyModifier(
+                mod, 
+                state.Stacks, 
+                state.SourceCharacter,
+                state.Spell,
+                out var change);
+            state.ActiveChanges.Add(new Change
             {
                 Parameter = mod.Parameter,
                 Amount = change
@@ -269,9 +307,9 @@ public class CharacterState : MonoBehaviour
         }
     }
 
-    private void AddBuff(Buff buff, int stacks)
+    private void AddBuff(Buff buff, int stacks, CharacterState sourceCharacter, Spell spell)
     {
-        var s = new BuffState(buff, stacks);
+        var s = new BuffState(buff, sourceCharacter, stacks, spell);
         _buffStates.Add(s);
         _combatLog.LogFormat("<b>{0}</b> received new buff <b>{1}</b> with <b>{2}</b> stacks",
             gameObject.name,
@@ -281,10 +319,14 @@ public class CharacterState : MonoBehaviour
     }
 
 
-    public void ApplyAffect(Affect affect, int stacks)
+    public void ApplyAffect(
+        Affect affect, 
+        int stacks,
+        CharacterState sourceCharacter,
+        Spell spell)
     {
         if (affect.ApplyModifier != null)
-            ApplyModifier(affect.ApplyModifier, stacks, out _);
+            ApplyModifier(affect.ApplyModifier, stacks, sourceCharacter, spell, out _);
 
         if (affect.CastSpell != null)
             throw new NotImplementedException();
@@ -296,12 +338,31 @@ public class CharacterState : MonoBehaviour
                 false);
     }
 
-    public void ApplyModifier(Modifier modifier, int stacks, out float change)
+    public void ApplyModifier(
+        Modifier modifier, 
+        int stacks,
+        CharacterState source,
+        Spell spell,
+        out float change)
     {
-        ApplyModifier(modifier.Parameter, modifier.Value, stacks, modifier.EffectiveStacks, out change);
+        ApplyModifier(
+            modifier.Parameter, 
+            modifier.Value, 
+            stacks, 
+            modifier.EffectiveStacks, 
+            source,
+            spell,
+            out change);
     }
 
-    public void ApplyModifier(ModificationParameter parameter, float amount, int stacks, float effectiveStacks, out float actualChange)
+    public void ApplyModifier(
+        ModificationParameter parameter, 
+        float amount, 
+        int stacks, 
+        float effectiveStacks, 
+        CharacterState sourceCharacter,
+        Spell spell,
+        out float actualChange)
     {
         actualChange = 0f;
         if (parameter == ModificationParameter.None)
@@ -311,10 +372,10 @@ public class CharacterState : MonoBehaviour
         switch (parameter)
         {
             case ModificationParameter.HpFlat:
-                actualChange = SetHp(_hp + StackedModifier(amount, stacks, effectiveStacks));
+                actualChange = UpdateHp(_hp + StackedModifier(amount, stacks, effectiveStacks), sourceCharacter, spell);
                 break;
             case ModificationParameter.HpMult:
-                actualChange = SetHp(_hp * (1 + StackedModifier(amount, stacks, effectiveStacks)));
+                actualChange = UpdateHp(_hp * (1 + StackedModifier(amount, stacks, effectiveStacks)), sourceCharacter, spell);
                 break;
             case ModificationParameter.MaxHpFlat:
                 actualChange = StackedModifier(amount, stacks, effectiveStacks);
@@ -359,7 +420,11 @@ public class CharacterState : MonoBehaviour
                 break;
             case ModificationParameter.SpellStacksFlat:
                 actualChange = StackedModifier(amount, stacks, effectiveStacks);
-                _assFlatMod += actualChange;
+                _assFlatModSum += actualChange;
+                break;
+            case ModificationParameter.SpellDamageAmpFlat:
+                actualChange = StackedModifier(amount, stacks, effectiveStacks);
+                _spellDamageAmpFlatModSum += actualChange;
                 break;
             default:
                 break;
@@ -387,21 +452,58 @@ public class CharacterState : MonoBehaviour
                 _evasionModMulProduct /= change.Amount;
                 break;
             default:
-                ApplyModifier(change.Parameter, -change.Amount, 1, 1, out _);
+                ApplyModifier(change.Parameter, 
+                    -change.Amount, 
+                    1, 
+                    1, 
+                    this, 
+                    null, 
+                    out _);
                 break;
         }
     }
 
-    private float SetHp(float targetHp)
+    private float UpdateHp(float targetHp, CharacterState sourceCharacter, Spell spell)
     {
         targetHp = Mathf.Clamp(targetHp, -1, MaxHealth);
         var delta = targetHp - _hp;
+
+        // If taking damage
         if (delta < 0)
         {
+            if (spell != null)
+            {
+                delta *= sourceCharacter.SpellDamageMultiplier;
+                targetHp = Mathf.Clamp(_hp + delta, -1, MaxHealth);
+                delta = targetHp - _hp;
+
+                _combatLog.Log($"Receiving in total <b>{-delta}</b> spell multiplied ({100 * sourceCharacter.SpellDamageMultiplier}%) damage from <b>{sourceCharacter.name}</b> " +
+                               $"from spell <b>{spell.name}</b>");
+            }
+
+            if (sourceCharacter != null && spell != null)
+            {
+                var lifesteal = -delta * spell.LifeSteal;
+                if (lifesteal > 0)
+                {
+                    _combatLog.Log($"Returning <b>{-delta * spell.LifeSteal}</b> hp back to <b>{sourceCharacter.name}</b> " +
+                                   $"because spell <b>{spell.name}</b> has <b>{100 * spell.LifeSteal}%</b> lifesteal");
+                    sourceCharacter.ApplyModifier(ModificationParameter.HpFlat,
+                        lifesteal,
+                        1,
+                        1,
+                        this,
+                        spell,
+                        out _);
+                }
+            }
+
             if (targetHp <= 0)
                 HandleDeath();
             else
+            {
                 _animationController.PlayHitImpactAnimation();
+            }
         }
         // Change
         _hp = targetHp;
@@ -419,7 +521,14 @@ public class CharacterState : MonoBehaviour
             return false;
         }
 
-        ApplyModifier(ModificationParameter.MaxHpFlat, -amount, 1, 1, out _);
+        ApplyModifier(
+            ModificationParameter.MaxHpFlat, 
+            -amount, 
+            1, 
+            1, 
+            this,
+            null,
+            out _);
         return true;
     }
     
@@ -451,7 +560,7 @@ public class CharacterState : MonoBehaviour
             {
                 if (buffState.Buff.OnTickBuff != null)
                     foreach (var affect in buffState.Buff.OnTickBuff)
-                        ApplyAffect(affect, buffState.Stacks);
+                        ApplyAffect(affect, buffState.Stacks, buffState.SourceCharacter, buffState.Spell);
                 
                 buffState.TickCd = buffState.Buff.TickCooldown;
             }
@@ -461,7 +570,7 @@ public class CharacterState : MonoBehaviour
             {
                 if(buffState.Buff.OnRemove != null)
                     foreach (var affect in buffState.Buff.OnRemove)
-                        ApplyAffect(affect, buffState.Stacks);
+                        ApplyAffect(affect, buffState.Stacks, buffState.SourceCharacter, buffState.Spell);
 
 
                 if(buffState.ActiveChanges != null)
@@ -504,6 +613,8 @@ public class CharacterState : MonoBehaviour
         Debugger.Default.Display(gameObject.name + "/Size/MultModSum", _sizeMultModSum);
         Debugger.Default.Display(gameObject.name + "/Evasion", Evasion);
         Debugger.Default.Display(gameObject.name + "/Evasion/MultProd", _evasionModMulProduct);
+        Debugger.Default.Display(gameObject.name + "/SpellDamageMultiplier", SpellDamageMultiplier);
+        Debugger.Default.Display(gameObject.name + "/SpellDamageMultiplier/AmpFlatModSum", _spellDamageAmpFlatModSum);
 
 
     }
@@ -525,12 +636,12 @@ public class CharacterState : MonoBehaviour
         OnDeath?.Invoke();
     }
 
-    public void ReceiveDamage(float amount)
+    public void ReceiveDamage(CharacterState sourceCharacter, float amount, Spell spell)
     {
         if (IsAlive)
         {
             if (Random.value > Evasion)
-                SetHp(_hp - amount);
+                UpdateHp(_hp - amount, sourceCharacter, spell);
         }
     }
 
@@ -547,7 +658,7 @@ public class CharacterState : MonoBehaviour
 
         {
             foreach (var buff in spellContext.CurrentSubSpell.Buffs)
-                ApplyBuff(buff, spellContext.Stacks);
+                ApplyBuff(buff, owner, spellContext.Spell, spellContext.Stacks);
         }
     }
 

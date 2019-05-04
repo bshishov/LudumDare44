@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BloodDagerDamage
   m_EditorClassIdentifier: 
   Name: Lightning Damage
-  Behaviour: 2
+  Behaviour: 3
   TickCooldown: 1
   Duration: 1
   Modifiers: []

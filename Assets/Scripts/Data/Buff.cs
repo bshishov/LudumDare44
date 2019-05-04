@@ -27,6 +27,7 @@ namespace Assets.Scripts.Data
         SpeedMult,
         SpellStacksFlat,
         CritChanceFlat,
+        SpellDamageAmpFlat
     }
     
     public enum BuffStackBehaviour

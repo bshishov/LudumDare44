@@ -16,10 +16,13 @@ MonoBehaviour:
   Behaviour: 1
   TickCooldown: 1
   Duration: 1000000
-  Modifiers:
-  - Parameter: 1
-    Value: 5
-    EffectiveStacks: 10000
+  Modifiers: []
   OnApplyBuff: []
-  OnTickBuff: []
+  OnTickBuff:
+  - ApplyModifier:
+      Parameter: 1
+      Value: 5
+      EffectiveStacks: 1000
+    CastSpell: {fileID: 0}
+    SpawnObject: {fileID: 0}
   OnRemove: []

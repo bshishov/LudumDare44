@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Feather
   Description: A feather from an evasive Fullmoon Owl. Increases your evasion by 5%
   Cost: 5
-  Icon: {fileID: 294179135353329459, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Icon: {fileID: 5541140945621423325, guid: 79f8526ca8b62344a9fc6dfbb87b4366, type: 3}
   Buffs:
   - {fileID: 11400000, guid: 356939162505e194b9c09a493f7f070f, type: 2}
   Prefab: {fileID: 2965901277832055091, guid: d06b1d1068df3bc46a1ae48363fb8002, type: 3}

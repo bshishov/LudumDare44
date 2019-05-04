@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Buff_Razor
   m_EditorClassIdentifier: 
   Name: Razor
-  Behaviour: 0
-  TickCooldown: 1
-  Duration: 1
+  Behaviour: 1
+  TickCooldown: 10000
+  Duration: 1000000
   Modifiers:
-  - Parameter: 6
+  - Parameter: 14
     Value: 1
-    EffectiveStacks: 0
+    EffectiveStacks: 5
   OnApplyBuff: []
   OnTickBuff: []
   OnRemove: []
