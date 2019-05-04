@@ -255,9 +255,6 @@ public class SpellCaster : MonoBehaviour
                     if (context.SubContext.state != ContextState.Finishing)
                         continue;
 
-                    if (context.CurrentSubSpell.Effect != null)
-                        context.CurrentSubSpell.DestoryEffectInstance();
-
                     if (context.SubContext.projectileSpawned)
                         break;
 
@@ -278,8 +275,6 @@ public class SpellCaster : MonoBehaviour
 
             case ContextState.Finishing:
                 Debug.Log($"{context.Spell.Name} finishing");
-                if (context.effect != null)
-                    context.Spell.DestoryEffectInstance();
                 return false;
         }
 

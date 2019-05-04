@@ -215,7 +215,7 @@ public class CharacterState : MonoBehaviour
 
         // Todo: track picked items and their stats
         foreach (var buff in item.Buffs)
-            ApplyBuff(buff, this, spell:null, stacks=1);
+            ApplyBuff(buff, this, null, stacks=1);
     }
 
     public void ApplyBuff(Buff newBuff, CharacterState sourceCharacter, Spell spell, int stacks)

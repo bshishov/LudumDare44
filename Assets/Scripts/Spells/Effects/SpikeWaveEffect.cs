@@ -7,7 +7,6 @@ namespace Spells.Effects
 {
 public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
 {
-    private List<GameObject> _spawnedParticles = new List<GameObject>(1);
     public  ParticleSystem   SpikePrefab;
     public  float            SpikesPerDistance = 7.5f;
 
@@ -43,17 +42,18 @@ public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
 
     private void SpawnParticle(Vector3 origin, Quaternion rotation, float distance, float angle, Transform root = null)
     {
-        var instance = Instantiate(SpikePrefab, gameObject.transform, false);
+        var instance = Instantiate(SpikePrefab);
+        Destroy(instance.gameObject, 1.0f);
+
         instance.transform.position = origin;
         instance.transform.rotation = rotation;
 
         var particles = instance.GetComponent<ParticleSystem>();
-        _spawnedParticles.Add(gameObject);
 
         var shape = particles.shape;
         shape.arc      = angle;
         shape.radius   = distance;
-        shape.rotation = new Vector3(shape.rotation.x, shape.rotation.y, angle / 2);
+        shape.rotation = new Vector3(shape.rotation.x, shape.rotation.y, 90 - angle / 2);
 
         var emission = particles.emission;
         var burst    = emission.GetBurst(0);
@@ -62,12 +62,6 @@ public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
         emission.SetBurst(0, burst);
 
         particles.Play();
-    }
-
-    private void OnDestroy()
-    {
-        foreach (var particle in _spawnedParticles)
-            Destroy(particle);
     }
 }
 }

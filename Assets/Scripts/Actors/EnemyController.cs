@@ -163,7 +163,7 @@ public class EnemyController : MonoBehaviour
                 _navMeshAgent.isStopped = true;
                 var buffTarget = _buffTarget.GetComponent<CharacterState>();
 
-                buffTarget.ApplyBuff(_useBuff, sourceCharacter: buffTarget, null, 1);
+                buffTarget.ApplyBuff(_useBuff, buffTarget, null, 1);
                 GetComponent<AnimationController>().PlayCastAnimation();
             }
         }

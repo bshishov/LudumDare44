@@ -32,7 +32,7 @@ namespace Actors
             if (interaction == Interaction.Dismantle)
             {
                 if(Spell.ApplyBuffOnDismantle != null)
-                    character.ApplyBuff(Spell.ApplyBuffOnDismantle, character, spell:null, Stacks);
+                    character.ApplyBuff(Spell.ApplyBuffOnDismantle, character, null, Stacks);
             }
 
             Destroy(gameObject);

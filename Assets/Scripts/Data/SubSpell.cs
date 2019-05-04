@@ -97,9 +97,9 @@ public class SubSpell : ScriptableObject
 
     public SpellOrigin Origin;
 
-        public float PreCastDelay;
-        public float PreDamageDelay;
-        public float PostCastDelay;
+    public float PreCastDelay;
+    public float PreDamageDelay;
+    public float PostCastDelay;
 
     public ProjectileData Projectile;
 
@@ -107,22 +107,16 @@ public class SubSpell : ScriptableObject
     public NewSourceType  NewSource;
 
     private GameObject _effect = null;
+
     public ISubSpellEffect GetEffect()
     {
         if (Effect == null)
             return null;
 
-        if(_effect == null)
-            _effect = Instantiate(Effect);
-        return _effect.GetComponent<ISubSpellEffect>();
-    }
-
-    public void DestoryEffectInstance()
-    {
         if (_effect == null)
-            return;
+            _effect = Instantiate(Effect);
 
-        Destroy(_effect, 2);
+        return _effect.GetComponent<ISubSpellEffect>();
     }
 }
 }
