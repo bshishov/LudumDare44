@@ -10,26 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
-  m_Name: Enemie_Warlock
+  m_Name: Enemy_Banshee
   m_EditorClassIdentifier: 
-  Health: 50
-  Damage: 20
-  Speed: 1
-  Evasion: 0
-  Size: 1.5
+  Health: 10
+  Damage: 10
+  Speed: 2
+  Evasion: 0.15
+  Size: 1
   HealthModifier: 1
-  IndifferenceDistance: 30
-  SpellRange: 10
-  FearRange: 5
+  SpellDamageAmp: 0
+  IndifferenceDistance: 10
+  SpellRange: 5
+  FearRange: 3
   MeleeRange: 1
-  AttackCooldown: 4
+  AttackCooldown: 3
   ApplyBuffOnAttack: {fileID: 0}
   AdditionalSpellStacks: 0
-  DropRate: 0
+  DropRate: 0.05
   DropSpells:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 5177d30fc3c5dc740b36004dca0c4475, type: 2}
+  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
+  - {fileID: 11400000, guid: 061e3a3f356d7fc489e00711052fd343, type: 2}
+  - {fileID: 11400000, guid: b68c04cbeb37eda4a99856ef5358d680, type: 2}
   UseSpells:
-  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
-  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
-  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
+  - {fileID: 11400000, guid: 061e3a3f356d7fc489e00711052fd343, type: 2}
+  - {fileID: 11400000, guid: b68c04cbeb37eda4a99856ef5358d680, type: 2}
   UseBuff: {fileID: 0}

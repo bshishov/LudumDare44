@@ -20,9 +20,9 @@ MonoBehaviour:
   Flags: 6
   Obstacles: 0
   Origin: 1
-  PreCastDelay: 0.03
+  PreCastDelay: 0.5
   PreDamageDelay: 0
-  PostCastDelay: 0.03
+  PostCastDelay: 0
   Projectile: {fileID: 0}
   Targeting: 2
   NewSource: 2

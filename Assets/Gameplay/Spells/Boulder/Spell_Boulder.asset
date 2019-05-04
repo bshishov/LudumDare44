@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Meteor Strike
   Icon: {fileID: 7420673300757599502, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 
+  Description: 'Launches a boulder at a targetted spot which rolles after impact
+
+    Deals 7 damage'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
     type: 2}
   LifeSteal: 0
   BloodCost: 13
-  DefaultSlot: 0
+  DefaultSlot: 1
   Cooldown: 1
   CastingTime: 1
   Flags: 0

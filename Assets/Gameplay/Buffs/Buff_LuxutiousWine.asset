@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Luxurious Wine
   Behaviour: 1
-  TickCooldown: 1
+  TickCooldown: 5
   Duration: 1000000
   Modifiers: []
   OnApplyBuff: []

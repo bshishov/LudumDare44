@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
-  m_Name: Enemy_Huge Troll
+  m_Name: Enemy_Ruslan_The_Fattie
   m_EditorClassIdentifier: 
-  Health: 75
-  Damage: 50
+  Health: 100000
+  Damage: 0
   Speed: 2
   Evasion: 0
-  Size: 2
+  Size: 1
   HealthModifier: 1
   SpellDamageAmp: 0
-  IndifferenceDistance: 30
-  SpellRange: 10
+  IndifferenceDistance: 20
+  SpellRange: 0
   FearRange: 0
-  MeleeRange: 5
-  AttackCooldown: 4
-  ApplyBuffOnAttack: {fileID: 0}
-  AdditionalSpellStacks: 0
+  MeleeRange: 1
+  AttackCooldown: 0.5
+  ApplyBuffOnAttack: {fileID: 11400000, guid: 9d128dd0e4da77345bc5fe7f2af1127b, type: 2}
+  AdditionalSpellStacks: 10
   DropRate: 0.05
   DropSpells:
-  - {fileID: 0}
-  UseSpells:
+  - {fileID: 11400000, guid: 5177d30fc3c5dc740b36004dca0c4475, type: 2}
   - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
-  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
-  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
+  - {fileID: 11400000, guid: 061e3a3f356d7fc489e00711052fd343, type: 2}
+  - {fileID: 11400000, guid: b68c04cbeb37eda4a99856ef5358d680, type: 2}
+  UseSpells: []
   UseBuff: {fileID: 0}

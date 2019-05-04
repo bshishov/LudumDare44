@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FireballExplosionDamage
   m_EditorClassIdentifier: 
   Name: Lightning Damage
-  Behaviour: 0
+  Behaviour: 2
   TickCooldown: 1
   Duration: 1
   Modifiers: []

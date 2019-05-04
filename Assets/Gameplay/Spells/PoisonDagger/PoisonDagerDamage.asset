@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PoisonDagerDamage
   m_EditorClassIdentifier: 
   Name: Lightning Damage
-  Behaviour: 0
+  Behaviour: 1
   TickCooldown: 0.5
   Duration: 2
   Modifiers: []

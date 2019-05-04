@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SkullDamage 1
   m_EditorClassIdentifier: 
   Name: Skull Damage
-  Behaviour: 1
+  Behaviour: 2
   TickCooldown: 1
   Duration: 1
   Modifiers: []

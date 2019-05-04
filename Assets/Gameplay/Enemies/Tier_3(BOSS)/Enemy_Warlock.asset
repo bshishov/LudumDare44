@@ -10,22 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
-  m_Name: Enemy_Reaper
+  m_Name: Enemy_Warlock
   m_EditorClassIdentifier: 
-  Health: 75
-  Damage: 50
-  Speed: 10
-  Evasion: 0.2
+  Health: 50
+  Damage: 20
+  Speed: 1
+  Evasion: 0
   Size: 1.5
   HealthModifier: 1
+  SpellDamageAmp: 0
   IndifferenceDistance: 30
   SpellRange: 10
-  FearRange: 0
-  MeleeRange: 2
-  AttackCooldown: 3
+  FearRange: 5
+  MeleeRange: 1
+  AttackCooldown: 4
   ApplyBuffOnAttack: {fileID: 0}
   AdditionalSpellStacks: 0
-  DropRate: 0.05
-  DropSpells: []
-  UseSpells: []
+  DropRate: 0
+  DropSpells:
+  - {fileID: 0}
+  UseSpells:
+  - {fileID: 11400000, guid: b68c04cbeb37eda4a99856ef5358d680, type: 2}
+  - {fileID: 11400000, guid: 4dea2418d8494ae43ba01a378694fbf2, type: 2}
+  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
   UseBuff: {fileID: 0}
