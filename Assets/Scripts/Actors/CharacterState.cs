@@ -330,7 +330,7 @@ public class CharacterState : MonoBehaviour
             ApplyModifier(affect.ApplyModifier, buffState.Stacks, buffState.SourceCharacter, buffState.Spell, out _);
 
         // Cast affect spells
-        if (affect.CastSpell != null)
+        if (affect.CastSpell != null && affect.CastSpell.Spell != null)
         {
             TargetInfo tgt = null;
             var spellStacks = 1;
@@ -366,7 +366,7 @@ public class CharacterState : MonoBehaviour
                     GetNodeTransform(NodeRole.SpellEmitter)), tgt));
         }
 
-        if (affect.SpawnObject != null)
+        if (affect.SpawnObject != null && affect.SpawnObject.Prefab != null)
         {
             var spawnAt = GetNodeTransform(affect.SpawnObject.CharacterNode);
             GameObject go;
