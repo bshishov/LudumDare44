@@ -1,4 +1,4 @@
-﻿//#define DEBUG_COMBAT
+﻿#define DEBUG_COMBAT
 
 using System.Collections;
 using System.Collections.Generic;
