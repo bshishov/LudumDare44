@@ -497,12 +497,13 @@ public class SpellCaster : MonoBehaviour
                                     Stacks          = context.Stacks
                                 };
 
-        var projectilePrefab = Instantiate(new GameObject("Projectile_root"), source.Position.Value, Quaternion.identity);
+        var projectilePrefab = new GameObject("Projectile_root", typeof(ProjectileBehaviour));
+        projectilePrefab.transform.position = source.Position.Value;
+        projectilePrefab.transform.rotation = Quaternion.identity;
 
-        var projectileData = projectilePrefab.AddComponent<ProjectileBehaviour>();
         Instantiate(context.CurrentSubSpell.Projectile.ProjectilePrefab, projectilePrefab.transform);
 
-        projectileData.Initialize(projectileContext, context.caster);
+        projectilePrefab.GetComponent<ProjectileBehaviour>().Initialize(projectileContext, context.caster);
 
         context.SubContext.projectileSpawned = true;
     }
