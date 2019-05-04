@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3822981976392220108}
   - component: {fileID: 7363803967280628021}
   - component: {fileID: 4631539693893903136}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Item_Wooden_Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}

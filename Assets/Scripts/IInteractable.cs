@@ -25,5 +25,6 @@ namespace Assets.Scripts
     {
         InteractableType Type { get; }
         void Interact(CharacterState character, Interaction interaction);
+        string GetInteractionText(Interaction interaction);
     }
 }

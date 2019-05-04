@@ -18,8 +18,9 @@ MonoBehaviour:
   ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
     type: 2}
   LifeSteal: 0
+  BloodCost: 7
   DefaultSlot: 1
-  Cooldown: 1
+  Cooldown: 0.5
   CastingTime: 1
   Flags: 0
   PreCastDelay: 0

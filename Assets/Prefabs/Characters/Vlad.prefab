@@ -389,6 +389,7 @@ GameObject:
   - component: {fileID: 4220444930057774738}
   - component: {fileID: 2690621711745313145}
   - component: {fileID: 2677229216203359800}
+  - component: {fileID: 8523321657340168352}
   m_Layer: 8
   m_Name: Vlad
   m_TagString: Player
@@ -567,6 +568,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSpellDistance: 100
+--- !u!114 &8523321657340168352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996985578712122520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1a1f7a268aea04ab89f19c61721980, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InteractionRadius: 1
+  PollCooldown: 0.2
 --- !u!1 &2202749416782511908
 GameObject:
   m_ObjectHideFlags: 0
@@ -2760,15 +2775,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9761731baf7c024888ce0342953b503, type: 3}
---- !u!4 &4367799398628534861 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1812588461452642573, guid: c9761731baf7c024888ce0342953b503,
-    type: 3}
-  m_PrefabInstance: {fileID: 2718505062554952512}
-  m_PrefabAsset: {fileID: 0}
 --- !u!137 &5844071593621202287 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8403789291214226991, guid: c9761731baf7c024888ce0342953b503,
+    type: 3}
+  m_PrefabInstance: {fileID: 2718505062554952512}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4367799398628534861 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1812588461452642573, guid: c9761731baf7c024888ce0342953b503,
     type: 3}
   m_PrefabInstance: {fileID: 2718505062554952512}
   m_PrefabAsset: {fileID: 0}

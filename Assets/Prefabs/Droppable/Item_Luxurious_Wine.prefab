@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3307459234999821730}
   - component: {fileID: 9140897453966629211}
   - component: {fileID: 4925076087678557906}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Item_Luxurious_Wine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
