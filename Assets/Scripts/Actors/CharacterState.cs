@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//#define DEBUG_COMBAT
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Data;
@@ -148,11 +150,15 @@ public class CharacterState : MonoBehaviour
     private readonly List<BuffState> _buffStates = new List<BuffState>();
     private readonly List<ItemState> _itemStates = new List<ItemState>();
     private Vector3 _baseScale;
+#if DEBUG_COMBAT
     private Logger _combatLog;
+#endif
 
     void Start()
     {
+#if DEBUG_COMBAT
         _combatLog = Debugger.Default.GetLogger(gameObject.name + "/StatLog", unityLog:false);
+#endif
         _baseScale = transform.localScale;
         IsAlive = true;
 
@@ -194,8 +200,9 @@ public class CharacterState : MonoBehaviour
     {
         if (!IsAlive)
             return;
-
+#if DEBUG_COMBAT
         _combatLog.Log($"<b>{gameObject.name}</b> picked up item <b>{item.name}</b>");
+#endif
 
         var state = _itemStates.FirstOrDefault(s => s.Item.Equals(item));
 
@@ -263,8 +270,9 @@ public class CharacterState : MonoBehaviour
                     // Do nothing. newBuff wont be added
                     break;
             }
-
+#if DEBUG_COMBAT
             _combatLog.Log($"<b>{gameObject.name}</b> reapplied buff <b>{newBuff.name}</b> with <b>{newBuff.Behaviour}</b> behaviour. Stack after reapplied: <b>{existingState.Stacks}</b>");
+#endif
         }
         else
         {
@@ -311,10 +319,13 @@ public class CharacterState : MonoBehaviour
     {
         var s = new BuffState(buff, sourceCharacter, stacks, spell);
         _buffStates.Add(s);
+
+#if DEBUG_COMBAT
         _combatLog.LogFormat("<b>{0}</b> received new buff <b>{1}</b> with <b>{2}</b> stacks",
             gameObject.name,
             buff.name,
             stacks);
+#endif
         ApplyBuffModifiers(s);
     }
 
@@ -430,8 +441,10 @@ public class CharacterState : MonoBehaviour
                 break;
         }
 
+#if DEBUG_COMBAT
         _combatLog.Log($"<b>{gameObject.name}</b> received modifier <b>{parameter}</b> with amount <b>{amount}</b>. Actual change: <b>{actualChange}</b>" +
                   $" Stacks: <b>{stacks}</b>. EffectiveStacks: <b>{effectiveStacks}</b>");
+#endif
 
         switch (parameter)
         {
@@ -477,8 +490,10 @@ public class CharacterState : MonoBehaviour
                 targetHp = Mathf.Clamp(_hp + delta, -1, MaxHealth);
                 delta = targetHp - _hp;
 
+#if DEBUG_COMBAT
                 _combatLog.Log($"Receiving in total <b>{-delta}</b> spell multiplied ({100 * sourceCharacter.SpellDamageMultiplier}%) damage from <b>{sourceCharacter.name}</b> " +
                                $"from spell <b>{spell.name}</b>");
+#endif
             }
 
             if (sourceCharacter != null && spell != null)
@@ -486,8 +501,10 @@ public class CharacterState : MonoBehaviour
                 var lifesteal = -delta * spell.LifeSteal;
                 if (lifesteal > 0)
                 {
+#if DEBUG_COMBAT
                     _combatLog.Log($"Returning <b>{-delta * spell.LifeSteal}</b> hp back to <b>{sourceCharacter.name}</b> " +
                                    $"because spell <b>{spell.name}</b> has <b>{100 * spell.LifeSteal}%</b> lifesteal");
+#endif
                     sourceCharacter.ApplyModifier(ModificationParameter.HpFlat,
                         lifesteal,
                         1,
@@ -585,7 +602,8 @@ public class CharacterState : MonoBehaviour
 #if DEBUG
     void DisplayState()
     {
-        var buffs = gameObject.name + "/Buffs states/";
+        var goName = gameObject.name;
+        var buffs = goName + "/Buffs states/";
         foreach (var buffState in _buffStates)
         {
             var path = buffs + buffState.Buff.name;
@@ -598,25 +616,23 @@ public class CharacterState : MonoBehaviour
             }
         }
 
-        Debugger.Default.Display(gameObject.name + "/Health", Health);
-        Debugger.Default.Display(gameObject.name + "/MaxHealth", MaxHealth);
-        Debugger.Default.Display(gameObject.name + "/MaxHealth/MultModSum", _maxHpMultModSum);
-        Debugger.Default.Display(gameObject.name + "/MaxHealth/FlatModSum", _maxHpFlatModSum);
-        Debugger.Default.Display(gameObject.name + "/Speed", Speed);
-        Debugger.Default.Display(gameObject.name + "/Speed/FlatModSum", _speedFlatModSum);
-        Debugger.Default.Display(gameObject.name + "/Speed/MultModSum", _speedMultModSum);
-        Debugger.Default.Display(gameObject.name + "/Damage", Damage);
-        Debugger.Default.Display(gameObject.name + "/Damage/FlatModSum", _dmgFlatModSum);
-        Debugger.Default.Display(gameObject.name + "/Damage/MultModSum", _dmgMultModSum);
-        Debugger.Default.Display(gameObject.name + "/Size", Size);
-        Debugger.Default.Display(gameObject.name + "/Size/FlatModSum", _sizeFlatModSum);
-        Debugger.Default.Display(gameObject.name + "/Size/MultModSum", _sizeMultModSum);
-        Debugger.Default.Display(gameObject.name + "/Evasion", Evasion);
-        Debugger.Default.Display(gameObject.name + "/Evasion/MultProd", _evasionModMulProduct);
-        Debugger.Default.Display(gameObject.name + "/SpellDamageMultiplier", SpellDamageMultiplier);
-        Debugger.Default.Display(gameObject.name + "/SpellDamageMultiplier/AmpFlatModSum", _spellDamageAmpFlatModSum);
-
-
+        Debugger.Default.Display(goName + "/Health", Health);
+        Debugger.Default.Display(goName + "/MaxHealth", MaxHealth);
+        Debugger.Default.Display(goName + "/MaxHealth/MultModSum", _maxHpMultModSum);
+        Debugger.Default.Display(goName + "/MaxHealth/FlatModSum", _maxHpFlatModSum);
+        Debugger.Default.Display(goName + "/Speed", Speed);
+        Debugger.Default.Display(goName + "/Speed/FlatModSum", _speedFlatModSum);
+        Debugger.Default.Display(goName + "/Speed/MultModSum", _speedMultModSum);
+        Debugger.Default.Display(goName + "/Damage", Damage);
+        Debugger.Default.Display(goName + "/Damage/FlatModSum", _dmgFlatModSum);
+        Debugger.Default.Display(goName + "/Damage/MultModSum", _dmgMultModSum);
+        Debugger.Default.Display(goName + "/Size", Size);
+        Debugger.Default.Display(goName + "/Size/FlatModSum", _sizeFlatModSum);
+        Debugger.Default.Display(goName + "/Size/MultModSum", _sizeMultModSum);
+        Debugger.Default.Display(goName + "/Evasion", Evasion);
+        Debugger.Default.Display(goName + "/Evasion/MultProd", _evasionModMulProduct);
+        Debugger.Default.Display(goName + "/SpellDamageMultiplier", SpellDamageMultiplier);
+        Debugger.Default.Display(goName + "/SpellDamageMultiplier/AmpFlatModSum", _spellDamageAmpFlatModSum);
     }
 #endif
 
@@ -651,8 +667,10 @@ public class CharacterState : MonoBehaviour
             return;
 
         var currentSub = spellContext.CurrentSubSpell;
+#if DEBUG_COMBAT
         _combatLog.Log($"<b>{gameObject.name}</b> received spell cast <b>{spellContext.Spell.name}</b>"
                        + $" (sub: <b>{currentSub.name}</b>) with <b>{spellContext.Stacks}</b>");
+#endif
 
         Assert.IsTrue(SpellCaster.IsEnemy(owner, this, currentSub.AffectedTarget));
 
