@@ -10,16 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
-  m_Name: SpikeWaveSlow
+  m_Name: Buff_ZeroSolution_Release
   m_EditorClassIdentifier: 
-  Name: SpikeWaveSlow
+  Name: 
   Behaviour: 1
-  TickCooldown: 0.5
-  Duration: 3
-  Modifiers:
-  - Parameter: 11
-    Value: -0.05
-    EffectiveStacks: 10
-  OnApplyBuff: []
+  TickCooldown: 1
+  Duration: 1
+  Modifiers: []
+  OnApplyBuff:
+  - ApplyModifier:
+      Parameter: 1
+      Value: -1
+      EffectiveStacks: 10000
+    CastSpell:
+      SpellStacks: 0
+      Spell: {fileID: 0}
+      Target: 0
+      StacksOverride: 0
+    SpawnObject:
+      Prefab: {fileID: 0}
+      CharacterNode: 0
+      AttachToTransform: 0
+      AutoDestroyAfterBuff: 0
   OnTickBuff: []
   OnRemove: []
