@@ -5,8 +5,16 @@ using UnityEngine.Assertions.Must;
 
 namespace Spells
 {
-    [RequireComponent(typeof(SpellCaster))]
-    public class SpellbookState : MonoBehaviour
+public interface ISpellCastListener
+{
+    void OnAbortedtFiring(Spell spell);
+    void OnStartFiring(Spell    spell);
+    void OnEndFiring(Spell      spell);
+    void OnEndCastinng(Spell    spell);
+}
+
+[RequireComponent(typeof(SpellCaster))]
+    public abstract class SpellbookState : MonoBehaviour, ISpellCastListener
     {
         public enum PlaceOptions : int
         {
@@ -19,9 +27,9 @@ namespace Spells
         public enum SpellState : int
         {
             None = 0,
-            Recharging,
-            Channeling,
-            Ready
+            Ready, 
+            Casting,
+            Recharging
         }
 
         public struct SpellSlotState
@@ -38,6 +46,7 @@ namespace Spells
 
         public static readonly int SpellCount = 3;
 
+        public bool IsCasting { get; private set; }
         public readonly SpellSlotState[] SpellSlots = new SpellSlotState[SpellCount];
 
         private void Start()
@@ -125,32 +134,36 @@ namespace Spells
 
         private bool FireSpell(int index, SpellTargets targets, IChannelingInfo channelingInfo)
         {
+            if (IsCasting == true)
+            {
+                Debug.Log("Already casting");
+                return false;
+            }
+
             // Disable self cast
-            // TODO: ARE WE SURE ABOUT THAT?
             if (_characterState.Equals(targets.Destinations[0].Character))
                 return false;
 
             Assert.IsTrue(index >= 0 && index <= SpellCount);
             var slotState = GetSpellSlotState(index);
-            
-            if (slotState.State == SpellState.Ready && 
-                SpellCaster.IsValidTarget(slotState.Spell, targets))
-            {
-                if (_spellCaster.CastSpell(slotState.Spell, slotState.NumStacks + _characterState.AdditionSpellStacks, targets, channelingInfo))
-                {
-                    // Start cooldown
-                    SpellSlots[index].State = SpellState.Recharging;
-                    SpellSlots[index].RemainingCooldown = slotState.Spell.Cooldown;
 
-                    // Animation
-                    if(_animationController != null)
-                        _animationController.PlayCastAnimation();
+            if (slotState.State != SpellState.Ready || !SpellCaster.IsValidTarget(slotState.Spell, targets))
+                return false;
 
-                    return true;
-                }
-            }
+            if (!_spellCaster.CastSpell(slotState.Spell, slotState.NumStacks + _characterState.AdditionSpellStacks, targets, channelingInfo, this))
+                return false;
 
-            return false;
+            // Start cooldown
+            SpellSlots[index].State             = SpellState.Recharging;
+            SpellSlots[index].RemainingCooldown = slotState.Spell.Cooldown;
+
+            IsCasting = true;
+
+            // Animation
+            if (_animationController != null)
+                _animationController.PlayCastAnimation();
+
+            return true;
         }
 
 
@@ -205,5 +218,10 @@ namespace Spells
                 }
             }
         }
+
+        public void OnAbortedtFiring(Spell spell) { }
+        public void OnStartFiring(Spell spell) { }
+        public void OnEndFiring(Spell spell) { }
+        public void OnEndCastinng(Spell spell) { }
     }
 }

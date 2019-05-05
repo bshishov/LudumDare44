@@ -68,7 +68,7 @@ public class Cheats : MonoBehaviour
     void Update()
     {
 #if DEBUG
-        if(_playerController == null || _playerSpellbookState)
+        if(_playerController == null || _playerSpellbookState == null)
             return;
 
         var spellSlotIdx = 0;

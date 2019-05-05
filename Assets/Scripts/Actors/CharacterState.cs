@@ -363,7 +363,9 @@ public class CharacterState : MonoBehaviour
                 affect.CastSpell.Spell,
                 spellStacks,
                 new SpellTargets(TargetInfo.Create(this,
-                    GetNodeTransform(NodeRole.SpellEmitter)), tgt), null);
+                    GetNodeTransform(NodeRole.SpellEmitter)), tgt),
+                null,
+                null);
         }
 
         if (affect.SpawnObject != null && affect.SpawnObject.Prefab != null)

@@ -20,11 +20,11 @@ public interface IChannelingInfo
 [DebuggerStepThrough]
 public class SubSpellContext
 {
-    public object             customData;
-    public ISubSpellEffect    effect;
-    public bool               failedToFindTargets;
-    public List<SpellTargets> newTargets = new List<SpellTargets>();
-    public bool               projectileSpawned;
+    public          object             customData;
+    public          ISubSpellEffect    effect;
+    public          bool               failedToFindTargets;
+    public readonly List<SpellTargets> newTargets = new List<SpellTargets>();
+    public          bool               projectileSpawned;
 
     public ContextState state;
     public float        stateActiveTime;
@@ -40,8 +40,9 @@ public class SpellContext : ISpellContext
     private SubSpell _currentSubSpell;
 
     public SpellCaster caster;
-
-    public IChannelingInfo ChannelingInfo { get; private set; }
+        
+    public ISpellCastListener listener;
+    public IChannelingInfo    ChannelingInfo { get; private set; }
 
     public ISpellEffect effect;
 
@@ -73,7 +74,13 @@ public class SpellContext : ISpellContext
 
     public SubSpell CurrentSubSpell => Spell.SubSpells[CurrentSubSpellIndex];
 
-    public static SpellContext Create(SpellCaster caster, Spell spell, int stacks, SpellTargets targets, IChannelingInfo channelingInfo, int subSpellStartIndex)
+    public static SpellContext Create(SpellCaster        caster,
+                                      Spell              spell,
+                                      int                stacks,
+                                      SpellTargets       targets,
+                                      IChannelingInfo    channelingInfo,
+                                      ISpellCastListener listener,
+                                      int                subSpellStartIndex)
     {
         Debug.Log(targets);
 
@@ -82,6 +89,7 @@ public class SpellContext : ISpellContext
                           InitialSource        = targets.Source.Character,
                           caster               = caster,
                           ChannelingInfo       = channelingInfo,
+                          listener             = listener,
                           State                = subSpellStartIndex == 0 ? ContextState.JustQueued : ContextState.FindTargets,
                           Spell                = spell,
                           Stacks               = stacks,
@@ -154,7 +162,7 @@ public class SpellCaster : MonoBehaviour
         return true;
     }
 
-    public bool CastSpell(Spell spell, int stacks, SpellTargets targets, IChannelingInfo channelingInfo)
+    public bool CastSpell(Spell spell, int stacks, SpellTargets targets, IChannelingInfo channelingInfo, ISpellCastListener listener)
     {
         if (_context != null)
         {
@@ -165,7 +173,7 @@ public class SpellCaster : MonoBehaviour
         if (!IsValidTarget(spell, targets))
             return false;
 
-        _context = SpellContext.Create(this, spell, stacks, targets, channelingInfo, 0);
+        _context = SpellContext.Create(this, spell, stacks, targets, channelingInfo, listener, 0);
         return true;
     }
 
@@ -173,7 +181,7 @@ public class SpellCaster : MonoBehaviour
     {
         lock (_nestedContexts)
         {
-            _nestedContexts.Add(SpellContext.Create(this, spell, stacks, targets, null, subSpellStartIndex));
+            _nestedContexts.Add(SpellContext.Create(this, spell, stacks, targets, null, null, subSpellStartIndex));
         }
     }
 
@@ -255,7 +263,6 @@ public class SpellCaster : MonoBehaviour
                         if (context.SubContext.state < ContextState.PostDelay)
                             context.SubContext.state = ContextState.PostDelay;
 
-                        context.SubContext.state = ContextState.JustQueued;
                         break;
                     }
 
@@ -273,6 +280,10 @@ public class SpellCaster : MonoBehaviour
                         return false;
                 }
 
+                if (context.Aborted == true)
+                    context.listener?.OnAbortedtFiring(context.Spell);
+                else
+                    context.listener?.OnEndFiring(context.Spell);
                 context.SubContext = null;
                 Advance();
                 return true;
@@ -286,6 +297,7 @@ public class SpellCaster : MonoBehaviour
 
             case ContextState.Finishing:
                 Debug.Log($"{context.Spell.Name} finishing");
+                context.listener?.OnEndCastinng(context.Spell);
                 return false;
         }
 
@@ -332,7 +344,8 @@ public class SpellCaster : MonoBehaviour
             case ContextState.Fire:
                 subContext.failedToFindTargets = !FinalizeTargets(context, subContext);
 
-                Execute(context, subContext);
+                    context.listener?.OnStartFiring(context.Spell);
+                    Execute(context, subContext);
                 Debug.Log($"{context.Spell.Name} Executed subspell {context.CurrentSubSpellIndex}");
 
                 if (!context.IsLastSubSpell)
