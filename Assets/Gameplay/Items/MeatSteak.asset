@@ -20,4 +20,4 @@ MonoBehaviour:
   Buffs:
   - {fileID: 11400000, guid: dff4a9c1edc6d8c4286fd0f0ab58fdeb, type: 2}
   - {fileID: 11400000, guid: f59f455ca5dc2374982e4e63157301aa, type: 2}
-  Prefab: {fileID: -927199367670048503, guid: cda093763b0e6244e8f2c37846b72f6a, type: 3}
+  Prefab: {fileID: 4854425305294657759, guid: 60feb7494f92ea4428d95d32b6ebb476, type: 3}
