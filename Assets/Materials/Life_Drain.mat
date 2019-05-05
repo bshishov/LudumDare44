@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Riper_wings
-  m_Shader: {fileID: -6465566751694194690, guid: 61483d9af1151a249b665bde76bbd0d9,
+  m_Name: Life_Drain
+  m_Shader: {fileID: -6465566751694194690, guid: d8c4492bc6032b84fbe18825bf678410,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_516AB38F:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 5e0ea57abada0c44bbfe4add01173e31, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_C53837FD:
@@ -29,13 +29,17 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_6AFBEDFA: 0.056
+    - Vector1_31FEDFD9: 0.08
+    - Vector1_4480B40E: 6
+    - Vector1_6AFBEDFA: 0.03
+    - Vector1_990003B3: 2
     - Vector1_A0125159: 0.5
-    - Vector1_B514299D: 0.05
-    - Vector1_EFE96326: 0.066
+    - Vector1_B514299D: 0
+    - Vector1_EFE96326: 0
     m_Colors:
-    - Color_150DD57E: {r: 1, g: 1, b: 1, a: 0}
-    - Color_9E1D2813: {r: 0.023529412, g: 0.61960787, b: 0.61960787, a: 0}
-    - Color_C5953860: {r: 0, g: 0.14775759, b: 1.4980391, a: 0}
-    - Color_CD09CF1: {r: 0, g: 1.1259967, b: 1.396078, a: 0}
+    - Color_150DD57E: {r: 0.41509432, g: 0.09594162, b: 0.39063412, a: 0}
+    - Color_9E1D2813: {r: 0.023529395, g: 0.41215262, b: 0.61960787, a: 0}
+    - Color_C5953860: {r: 0, g: 1.9999999, b: 0.09631347, a: 0}
+    - Color_CD09CF1: {r: 0.20802517, g: 0, b: 1.396078, a: 0}
     - Vector2_1FA87274: {r: 3, g: 3, b: 0, a: 0}
+    - Vector4_28FAE5A3: {r: 0.11, g: 1, b: 0, a: 0}
