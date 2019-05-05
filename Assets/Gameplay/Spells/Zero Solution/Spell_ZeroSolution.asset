@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Name: Spell_ZeroSolution
+  m_EditorClassIdentifier: 
+  Name: Zero Solution
+  Icon: {fileID: 0}
+  Description: Channel your blood into a sphere of power and deal huge damage on release
+  ApplyBuffOnDismantle: {fileID: 0}
+  LifeSteal: 0
+  BloodCost: 1
+  DefaultSlot: 2
+  Cooldown: 0
+  CastingTime: 4
+  Flags: 0
+  PreCastDelay: 0
+  PostCastDelay: 0
+  ChannelTime: 0
+  SubSpells:
+  - {fileID: 11400000, guid: 4759ceccee052c14e88ef26fd5844d44, type: 2}
+  SpellEffect: {fileID: 0}
+  DropItem: {fileID: 0}
