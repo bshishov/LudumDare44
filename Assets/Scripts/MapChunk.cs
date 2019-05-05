@@ -29,7 +29,7 @@ namespace Assets.Scripts
             get
             {
                 if (Entry != null)
-                    return Entry.transform.position;
+                    return Entry.position;
                 return Vector3.zero;
             }
         }
@@ -39,7 +39,7 @@ namespace Assets.Scripts
             get
             {
                 if (Entry != null)
-                    return Entry.transform.rotation;
+                    return Entry.rotation;
                 return Quaternion.identity;
             }
         }
@@ -49,7 +49,7 @@ namespace Assets.Scripts
             get
             {
                 if (Exit != null)
-                    return Exit.transform.position;
+                    return Exit.position;
                 return Vector3.zero;
             }
         }
@@ -58,8 +58,8 @@ namespace Assets.Scripts
         {
             get
             {
-                if (Entry != null)
-                    return Exit.transform.rotation;
+                if (Exit != null)
+                    return Exit.rotation;
                 return Quaternion.identity;
             }
         }

@@ -17,5 +17,5 @@ MonoBehaviour:
   EnemyBudgetModifier: 1
   Enemies: {fileID: 0}
   Adjacent:
-  - Chunk: {fileID: 11400000, guid: 75475344c6e5bf04c941a67000eed2b3, type: 2}
-    Weight: 0
+  - Chunk: {fileID: 11400000, guid: 969fbfae3910b20468ef66bf2034f2fd, type: 2}
+    Weight: 1

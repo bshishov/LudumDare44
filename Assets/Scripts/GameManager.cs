@@ -32,10 +32,10 @@ namespace Assets.Scripts
             _surface = GetComponent<NavMeshSurface>();
             _player = GameObject.FindGameObjectWithTag(Common.Tags.Player);
 
-            SpawnNextChunk();
-
             Debugger.Default.Display("GameManager/Spawn next chunk", SpawnNextChunk);
             Debugger.Default.Display("GameManager/Pause", Pause);
+            
+            SpawnNextChunk();
         }
         
         void Update()
@@ -47,7 +47,7 @@ namespace Assets.Scripts
                 _lastChunkData.HasAdjacent)
             {
                 var distanceToExit = Vector3.Distance(_lastChunk.Exit.position, _player.transform.position);
-                if (distanceToExit < 20f)
+                if (distanceToExit < 30f)
                 {
                     SpawnNextChunk();
                 }
@@ -75,21 +75,42 @@ namespace Assets.Scripts
                 return;
             }
 
-            var position = Vector3.zero;
-            var rotation = Quaternion.identity;
+            // World-spaced entry position and rotation
+            Vector3 entryPosition;
+            Quaternion entryRotation;
 
             if (_lastChunk != null)
             {
-                position = _lastChunk.Exit.position;
-                rotation = _lastChunk.Exit.rotation;
+                entryPosition = _lastChunk.ExitPosition;
+                entryRotation = _lastChunk.ExitRotation;
             }
+            else
+            {
+                entryPosition = transform.position;
+                entryRotation = transform.rotation;
+            }
+            
 
             var pMapChunk = chunkData.Prefab.GetComponent<MapChunk>();
 
-            var chunk = Instantiate(chunkData.Prefab, 
-                    position - pMapChunk.EntryPosition,
-                    rotation * Quaternion.Inverse(pMapChunk.EntryRotation))
-                .GetComponent<MapChunk>();
+            // Instantiate new chunk so that exit of the last chunk matches the entry of the new one
+            // Assuming that prefabs are at zero
+
+            /*
+            var chunkObject = Instantiate(chunkData.Prefab,
+                entryPosition - pMapChunk.EntryPosition,
+                entryRotation * Quaternion.Inverse(pMapChunk.EntryRotation));
+                */
+            
+            var entryOffset = pMapChunk.EntryPosition;
+            var entryRotationOffset = pMapChunk.EntryRotation;
+
+            var chunkObject = Instantiate(chunkData.Prefab,
+                entryPosition + entryRotation * Quaternion.Inverse(entryRotationOffset) * (-pMapChunk.EntryPosition),
+                entryRotation * Quaternion.Inverse(entryRotationOffset));
+
+            var chunk = chunkObject.GetComponent<MapChunk>();
+            
             if (chunk == null)
             {
                 Debug.LogWarning("Failed to instantiate next chunk");
@@ -97,10 +118,20 @@ namespace Assets.Scripts
             }
             
             chunk.name = $"Chunk_{_chunksSpawned}";
+
             
+
             _lastChunk = chunk;
             _lastChunkData = chunkData;
             Debugger.Default.Display("Last chunk position", _lastChunk.transform.position.ToString());
+            Debugger.Default.DrawCircleSphere(chunk.EntryPosition, 2f, Color.blue, 1000f);
+            Debugger.Default.DrawAxis(chunk.EntryPosition, chunk.EntryRotation, 1000f);
+
+            Debugger.Default.DrawCircleSphere(chunk.ExitPosition, 2f, Color.red, 1000f);
+            Debugger.Default.DrawAxis(chunk.ExitPosition, chunk.ExitRotation, 1000f);
+
+            Debugger.Default.DrawCircleSphere(chunk.transform.position, 2f, Color.white, 1000f);
+            Debugger.Default.DrawAxis(chunk.transform.position, chunk.transform.rotation, 1000f);
 
             _surface.BuildNavMesh();
 

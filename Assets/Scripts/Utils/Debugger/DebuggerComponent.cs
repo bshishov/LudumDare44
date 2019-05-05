@@ -275,26 +275,22 @@ namespace Assets.Scripts.Utils.Debugger
 
         public void DrawRay(Ray ray, Color col, float maxRange = 100f, float duration = 0.0f)
         {
-            if (_isDrawingDebugLines)
-                _drawer.DrawLine(ray.origin, ray.origin + ray.direction * maxRange, col, duration);
+            _drawer.DrawLine(ray.origin, ray.origin + ray.direction * maxRange, col, duration);
         }
 
         public void DrawLine(Vector3 from, Vector3 to, Color col, float duration = 0.0f)
         {
-            if(_isDrawingDebugLines)
-                _drawer.DrawLine(from, to, col, duration);
+            _drawer.DrawLine(from, to, col, duration);
         }
 
         public void DrawCircle(Vector3 center, Vector3 normal, float radius, Color col, float duration = 0.0f)
         {
-            if (_isDrawingDebugLines)
-                _drawer.DrawCircle(center, normal, radius, col, duration);
+            _drawer.DrawCircle(center, normal, radius, col, duration);
         }
 
         public void DrawCircleSphere(Vector3 center, float radius, Color col, float duration = 0.0f)
         {
-            if (_isDrawingDebugLines)
-                _drawer.DrawCircleSphere(center, radius, col, duration);
+            _drawer.DrawCircleSphere(center, radius, col, duration);
         }
 
         public Logger GetLogger(string path, int historySize=100, bool unityLog=true)
@@ -332,8 +328,14 @@ namespace Assets.Scripts.Utils.Debugger
 
         public void DrawCone(Vector3 origin, Vector3 direction, float sphereSize, float angle, Color color, float duration)
         {
-            if (_isDrawingDebugLines)
-                _drawer.DrawCone(origin, direction, sphereSize, angle, color, duration);
+            _drawer.DrawCone(origin, direction, sphereSize, angle, color, duration);
+        }
+
+        public void DrawAxis(Vector3 pos, Quaternion rot, float duration)
+        {
+            Debugger.Default.DrawLine(pos, pos + rot * Vector3.forward, Color.blue, duration);
+            Debugger.Default.DrawLine(pos, pos + rot * Vector3.right, Color.red, duration);
+            Debugger.Default.DrawLine(pos, pos + rot * Vector3.up, Color.green, duration);
         }
     }
 }

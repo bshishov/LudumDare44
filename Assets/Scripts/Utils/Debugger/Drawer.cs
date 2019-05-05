@@ -16,12 +16,14 @@ namespace Assets.Scripts.Utils.Debugger
             public Mesh Mesh;
             public Material Material;
             public Matrix4x4 Transform;
+            public float Until;
         }
 
         private readonly Material _material;
         private readonly Mesh _lineMesh;
         private readonly Mesh _circleMesh;
-        private List<(float until, RenderData data)> _queuedMeshes = new List<(float until, RenderData data)>(0);
+        private readonly List<RenderData> _queuedMeshes = new List<RenderData>();
+        private readonly Dictionary<Color, Material> _materials = new Dictionary<Color, Material>();
 
         public Drawer()
         {
@@ -30,19 +32,30 @@ namespace Assets.Scripts.Utils.Debugger
             _material = new Material(Shader.Find("Unlit/Color"));
         }
 
+        public Material GetMaterial(Color col)
+        {
+            // TODO: FIX! Way to inefficient. Use MaterialPropertyBlock instead
+            if (_materials.ContainsKey(col))
+                return _materials[col];
+
+            var mat = GameObject.Instantiate(_material);
+            mat.color = col;
+            _materials.Add(col, mat);
+            return mat;
+        }
+
         public void DrawLine(Vector3 from, Vector3 to, Color col, float duration)
         {
             _material.color = col; 
-            QueueRenderData(_lineMesh, GetLineTransform(from, to), _material, duration);
+            QueueRenderData(_lineMesh, GetLineTransform(from, to), GetMaterial(col), duration);
         }
-
 
         public void DrawCircle(Vector3 center, Vector3 normal, float radius, Color col, float duration)
         {
             _material.color = col;
 
             var transform = Matrix4x4.TRS(center, Quaternion.LookRotation(normal), Vector3.one * radius);
-            QueueRenderData(_circleMesh, transform, _material, duration);
+            QueueRenderData(_circleMesh, transform, GetMaterial(col), duration);
         }
 
         public void DrawCircleSphere(Vector3 center, float radius, Color col, float duration)
@@ -58,27 +71,23 @@ namespace Assets.Scripts.Utils.Debugger
             return Matrix4x4.TRS(from, Quaternion.LookRotation(direction), Vector3.one * direction.magnitude);
         }
 
-        private void QueueRenderData(RenderData data, float duration)
-        {
-            _queuedMeshes.Add((duration == 0 ? 0 : Time.time + duration, data));
-        }
-
         private void QueueRenderData(Mesh mesh, Matrix4x4 transform, Material material, float duration) =>
-            QueueRenderData(new RenderData
+            _queuedMeshes.Add(new RenderData
             {
                 Mesh = mesh,
                 Material = material,
-                Transform = transform
-            }, duration);
+                Transform = transform,
+                Until = Time.time + duration
+            });
 
         public void LateUpdate()
         {
-            foreach (var (_, data) in _queuedMeshes)
+            foreach (var data in _queuedMeshes)
             {
                 Graphics.DrawMesh(data.Mesh, data.Transform, data.Material, 0, null);
             }
 
-            _queuedMeshes.RemoveAll((pair) => pair.until < Time.time);
+            _queuedMeshes.RemoveAll((data) => data.Until < Time.time);
         }
 
         public void DrawCone(Vector3 origin, Vector3 direction, float sphereSize, float angle, Color color, float duration)
