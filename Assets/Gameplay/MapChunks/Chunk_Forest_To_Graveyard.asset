@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23f8653abe5f7c848af935988e982ced, type: 3}
-  m_Name: Chunk_Spawn_To_Forest
+  m_Name: Chunk_Forest_To_Graveyard
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 736269882813363555, guid: f35ad50e58dba2d4fa7f4f88fd90aef0, type: 3}
+  Prefab: {fileID: 7991749453121067915, guid: 2f0a9761e48601d4b83201d0feb745b2, type: 3}
   Type: 0
   EnemyBudgetModifier: 1
   Enemies: {fileID: 0}
   Adjacent:
-  - Chunk: {fileID: 11400000, guid: a5cffc516944be94c9de3c8a3d9e6084, type: 2}
+  - Chunk: {fileID: 11400000, guid: 4893fd79a0a115d479849a2378f909a9, type: 2}
     Weight: 1

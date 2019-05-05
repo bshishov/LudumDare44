@@ -18,4 +18,4 @@ MonoBehaviour:
   Enemies: {fileID: 0}
   Adjacent:
   - Chunk: {fileID: 0}
-    Weight: 0
+    Weight: 1
