@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using Assets.Scripts;
 using Assets.Scripts.Data;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Debug = UnityEngine.Debug;
@@ -20,10 +19,10 @@ public interface IChannelingInfo
 [DebuggerStepThrough]
 public class SubSpellContext
 {
+    public readonly List<SpellTargets> newTargets = new List<SpellTargets>();
     public          object             customData;
     public          ISubSpellEffect    effect;
     public          bool               failedToFindTargets;
-    public readonly List<SpellTargets> newTargets = new List<SpellTargets>();
     public          bool               projectileSpawned;
 
     public ContextState state;
@@ -40,15 +39,14 @@ public class SpellContext : ISpellContext
     private SubSpell _currentSubSpell;
 
     public SpellCaster caster;
-        
-    public ISpellCastListener listener;
-    public IChannelingInfo    ChannelingInfo { get; private set; }
 
     public ISpellEffect effect;
 
     public List<CharacterState> filteredTargets;
 
     public float frameTime;
+
+    public ISpellCastListener listener;
 
     private int startSubspellIndex;
 
@@ -59,6 +57,7 @@ public class SpellContext : ISpellContext
 
     public SubSpellTargets  CurrentSubSpellTargets => subSpellTargets[CurrentSubSpellIndex - startSubspellIndex];
     public Spell.SpellFlags SpellFlags             => Spell.Flags;
+    public IChannelingInfo  ChannelingInfo         { get; private set; }
     public bool             Aborted                { get; set; }
     public float            ActiveTime             { get; set; }
     public CharacterState   InitialSource          { get; private set; }
@@ -280,7 +279,7 @@ public class SpellCaster : MonoBehaviour
                         return false;
                 }
 
-                if (context.Aborted == true)
+                if (context.Aborted)
                     context.listener?.OnAbortedtFiring(context.Spell);
                 else
                     context.listener?.OnEndFiring(context.Spell);
@@ -344,8 +343,8 @@ public class SpellCaster : MonoBehaviour
             case ContextState.Fire:
                 subContext.failedToFindTargets = !FinalizeTargets(context, subContext);
 
-                    context.listener?.OnStartFiring(context.Spell);
-                    Execute(context, subContext);
+                context.listener?.OnStartFiring(context.Spell);
+                Execute(context, subContext);
                 Debug.Log($"{context.Spell.Name} Executed subspell {context.CurrentSubSpellIndex}");
 
                 if (!context.IsLastSubSpell)
@@ -423,7 +422,6 @@ public class SpellCaster : MonoBehaviour
             context.Aborted = !PullChannelingTargetInfo(context, subContext, currentTargets.TargetData);
             return !context.Aborted;
         }
-
 
         foreach (var castData in currentTargets.TargetData)
         {
@@ -622,14 +620,10 @@ public class SpellCaster : MonoBehaviour
             case AreaOfEffect.AreaType.Ray:
             {
                 if (target.Character != null)
-                {
                     if ((context.CurrentSubSpell.Obstacles & SubSpell.ObstacleHandling.Break) == SubSpell.ObstacleHandling.Break)
                         return new[] {target};
-                }
 
                 if ((context.CurrentSubSpell.Obstacles & SubSpell.ObstacleHandling.ExecuteSpellSequence) == SubSpell.ObstacleHandling.ExecuteSpellSequence)
-                {
-
                     return Physics.RaycastAll(source.Position.Value, target.Position.Value, context.CurrentSubSpell.Area.Size, Common.LayerMasks.ActorsOrGround)
                                   .Select(hitInfo => hitInfo.transform.GetComponent<CharacterState>())
                                   .Where(characterState => characterState != null)
@@ -644,7 +638,6 @@ public class SpellCaster : MonoBehaviour
                                                      };
                                           })
                                   .ToArray();
-                }
 
                 Debug.LogWarning("Not Implemented Ray Option Combo");
                 return null;
