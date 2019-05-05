@@ -7,7 +7,7 @@ public class BloodTube : MonoBehaviour
     public  int          Points   = 10;
     private LineRenderer _renderer;
 
-    public void Start()
+    public void Awake()
     {
         _renderer = GetComponent<LineRenderer>();
     }

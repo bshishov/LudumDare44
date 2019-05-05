@@ -1758,6 +1758,26 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8658615076169327712, guid: ed5f238d178362442a34260775e854df,
+        type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264047534414309428, guid: ed5f238d178362442a34260775e854df,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264047534414309428, guid: ed5f238d178362442a34260775e854df,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264047534414309428, guid: ed5f238d178362442a34260775e854df,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed5f238d178362442a34260775e854df, type: 3}
 --- !u!1001 &5359113314572177380

@@ -20,7 +20,8 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
     {
         None = 0,
         Ready,
-        Casting,
+        Preparing,
+        Firing,
         Recharging
     }
 
@@ -143,8 +144,8 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
             return false;
 
         // Start cooldown
-        SpellSlots[index].State             = SpellState.Recharging;
-        SpellSlots[index].RemainingCooldown = slotState.Spell.Cooldown;
+        SpellSlots[index].State             = SpellState.Preparing;
+        SpellSlots[index].RemainingCooldown = 0;
 
         IsCasting = true;
 
@@ -193,20 +194,75 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
         for (var slotIndex = 0; slotIndex < SpellSlots.Length; slotIndex++)
         {
             var slotState = SpellSlots[slotIndex];
-            if (slotState.State == SpellState.Recharging)
-            {
+
+            if (SpellSlots[slotIndex].RemainingCooldown > 0)
                 SpellSlots[slotIndex].RemainingCooldown = slotState.RemainingCooldown - Time.deltaTime;
-                if (slotState.RemainingCooldown <= 0f)
-                {
-                    SpellSlots[slotIndex].State = SpellState.Ready;
-                }
+            if (slotState.RemainingCooldown <= 0f && SpellSlots[slotIndex].State == SpellState.Recharging)
+            {
+                SpellSlots[slotIndex].State = SpellState.Ready;
             }
         }
     }
 
-    public void OnAbortedtFiring(Spell spell) { }
-    public void OnStartFiring(Spell    spell) { }
-    public void OnEndFiring(Spell      spell) { }
-    public void OnEndCastinng(Spell    spell) { }
+    public void OnAbortedFiring(Spell spell)
+    {
+        Assert.IsTrue(IsCasting);
+
+        var slotIndex = GetSpellSlot(spell);
+
+        Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
+        if (SpellSlots[slotIndex].State == SpellState.Preparing)
+        {
+            Debug.Log("Spell was aborted at preparing stage");
+            SpellSlots[slotIndex].State             = SpellState.Ready;
+            SpellSlots[slotIndex].RemainingCooldown = 0;
+
+            return;
+        }
+
+        Debug.Log("Spell was aborted after preparing stage");
+        SpellSlots[slotIndex].State = SpellState.Recharging;
+            SpellSlots[slotIndex].RemainingCooldown = spell.Cooldown;
+
+        }
+
+    public void OnStartFiring(Spell spell)
+    {
+        Debug.Log("OnStartFiring");
+        Assert.IsTrue(IsCasting);
+
+        var slotIndex = GetSpellSlot(spell);
+
+        Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
+        Assert.IsTrue(SpellSlots[slotIndex].State == SpellState.Preparing || SpellSlots[slotIndex].State == SpellState.Firing);
+
+        SpellSlots[slotIndex].State             = SpellState.Firing;
+    }
+
+    public void OnEndFiring(Spell spell)
+    {
+        Debug.Log("OnEndFiring");
+        Assert.IsTrue(IsCasting);
+
+        var slotIndex = GetSpellSlot(spell);
+
+        Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
+        Assert.IsTrue(SpellSlots[slotIndex].State != SpellState.Recharging);
+
+        SpellSlots[slotIndex].State             = SpellState.Recharging;
+        SpellSlots[slotIndex].RemainingCooldown = spell.Cooldown;
+    }
+
+    public void OnEndCasting(Spell spell)
+    {
+        Debug.Log("OnEndCasting");
+        Assert.IsTrue(IsCasting);
+
+        var slotIndex = GetSpellSlot(spell);
+
+        Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
+        Assert.IsTrue(SpellSlots[slotIndex].State == SpellState.Recharging || SpellSlots[slotIndex].State == SpellState.Ready);
+        IsCasting = false;
+    }
 }
 }

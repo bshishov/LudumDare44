@@ -280,9 +280,10 @@ public class SpellCaster : MonoBehaviour
                 }
 
                 if (context.Aborted)
-                    context.listener?.OnAbortedtFiring(context.Spell);
+                    context.listener?.OnAbortedFiring(context.Spell);
                 else
                     context.listener?.OnEndFiring(context.Spell);
+
                 context.SubContext = null;
                 Advance();
                 return true;
@@ -296,7 +297,7 @@ public class SpellCaster : MonoBehaviour
 
             case ContextState.Finishing:
                 Debug.Log($"{context.Spell.Name} finishing");
-                context.listener?.OnEndCastinng(context.Spell);
+                context.listener?.OnEndCasting(context.Spell);
                 return false;
         }
 
