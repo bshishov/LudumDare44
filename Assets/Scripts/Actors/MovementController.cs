@@ -67,13 +67,19 @@ public class MovementController : MonoBehaviour
 
     public void Lock()
     {
-        _locked = false;
-        _navMeshAgent.isStopped = true;
+        if (!_locked)
+        {
+            _locked = false;
+            _navMeshAgent.isStopped = true;
+        }
     }
 
     public void Unlock()
     {
-        _locked = true;
-        _navMeshAgent.isStopped = false;
+        if (_locked)
+        {
+            _locked = true;
+            _navMeshAgent.isStopped = false;
+        }
     }
 }
