@@ -24,9 +24,9 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -50,7 +50,7 @@ LightmapSettings:
     m_BounceScale: 1
     m_IndirectOutputScale: 1
     m_AlbedoBoost: 1
-    m_EnvironmentLightingMode: 0
+    m_EnvironmentLightingMode: 1
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
@@ -71,7 +71,7 @@ LightmapSettings:
     m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
-    m_MixedBakeMode: 2
+    m_MixedBakeMode: 1
     m_BakeBackend: 1
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ShowResolutionOverlay: 1
     m_ExportTrainingData: 0
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -349,13 +349,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 723290739}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!114 &723290742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,7 +417,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 723290739}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6999ac0911c4d7e439e3dd790e228f29, type: 3}
   m_Name: 
@@ -445,11 +445,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 356939162505e194b9c09a493f7f070f, type: 2}
   - {fileID: 11400000, guid: 3646ffd067000954baa08bac65a91f70, type: 2}
   - {fileID: 11400000, guid: d05d9aa562481764f972e6de8b9eb62d, type: 2}
-  - {fileID: 11400000, guid: de8fb8b5d5abd0447887db6db68621e3, type: 2}
   - {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5, type: 2}
-  - {fileID: 11400000, guid: 6f5960c420ba8ae40aa1fb97e615df95, type: 2}
   - {fileID: 11400000, guid: f59f455ca5dc2374982e4e63157301aa, type: 2}
-  - {fileID: 11400000, guid: dff4a9c1edc6d8c4286fd0f0ab58fdeb, type: 2}
   - {fileID: 11400000, guid: 96604123eba8f304689151b33f60c625, type: 2}
   - {fileID: 11400000, guid: f7e54e1d573014c46bd1f36ca3cf8d06, type: 2}
   - {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd, type: 2}
@@ -470,16 +467,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 60572bb269a901f4ba98849df220c1f7, type: 2}
   - {fileID: 11400000, guid: a15ccd68310a8ad42989c9dac85eee63, type: 2}
   - {fileID: 11400000, guid: 8481d00a1ada76949b3dccd932ffa79b, type: 2}
-  - {fileID: 11400000, guid: 22295571e78b7fd46871208fee4721c0, type: 2}
   - {fileID: 11400000, guid: d8b08e03dc24ced42b9f73e73f382830, type: 2}
-  - {fileID: 11400000, guid: 9c702456310773d44a951398ac115d36, type: 2}
   - {fileID: 11400000, guid: 009ca85ded63e9c4285c42d3ac947fd9, type: 2}
   - {fileID: 11400000, guid: dc2d28ea50567e648b06ddb37346dd41, type: 2}
   - {fileID: 11400000, guid: 48a2e603e4b57024893ebeda2370f927, type: 2}
-  - {fileID: 11400000, guid: 2c7380b28509e7a4194badc6c4d6b0b4, type: 2}
   - {fileID: 11400000, guid: ae45d5655398761418047c98f2c54f9f, type: 2}
-  - {fileID: 11400000, guid: cbd0eb0aade71ef4eba60daab0c475cb, type: 2}
-  - {fileID: 11400000, guid: 736c79006a33c1041a831e1f13c6912d, type: 2}
   - {fileID: 11400000, guid: 5b15694beff58df4586b8ef12e754820, type: 2}
   - {fileID: 11400000, guid: 71e71f0dc695d0f4ab4925ab764db3ea, type: 2}
   - {fileID: 11400000, guid: 1cd840fa93c216f418920ca876470847, type: 2}
@@ -493,10 +485,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4baa6089aa9eda643ba4e2ddbfff3f5b, type: 2}
   - {fileID: 11400000, guid: c26cb1742481020428164b5b9dea2f1e, type: 2}
   - {fileID: 11400000, guid: d7808e7fb811ac247a488fdf8e4a970d, type: 2}
-  - {fileID: 11400000, guid: 41bc41e4122d0d5448573d2df74d1bb3, type: 2}
   - {fileID: 11400000, guid: 31be8eca39c7d5246bcbf291c434efdc, type: 2}
   - {fileID: 11400000, guid: 2a8dd3ba9c3fbc9469d8766cbd46f7e8, type: 2}
-  - {fileID: 11400000, guid: 1e4dc4a1ca881e746b585b58e61eb0a4, type: 2}
   - {fileID: 11400000, guid: 061e3a3f356d7fc489e00711052fd343, type: 2}
   - {fileID: 11400000, guid: b68c04cbeb37eda4a99856ef5358d680, type: 2}
   Items:
