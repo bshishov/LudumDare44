@@ -29,6 +29,15 @@ namespace Assets.Scripts
             public static int ActorsOrGround = LayerMask.GetMask(LayerNames.Ground, LayerNames.Actors);
         }
 
+        public static class Input
+        {
+            public static string VerticalAxis = "Vertical";
+            public static string HorizontalAxis = "Horizontal";
+            public static string UseButton1 = "Use";
+            public static string UseButton2 = "Use2";
+            public static string UltButton = "Ult";
+        }
+
         public static class BaseLevelNames
         {
             public static string MainMenu = "Scenes/MainMenu";
