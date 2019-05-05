@@ -41,7 +41,7 @@ public class SpellContext : ISpellContext
 
     public SpellCaster caster;
 
-    public IChannelingInfo channelingInfo;
+    public IChannelingInfo ChannelingInfo { get; private set; }
 
     public ISpellEffect effect;
 
@@ -81,7 +81,7 @@ public class SpellContext : ISpellContext
                       {
                           InitialSource        = targets.Source.Character,
                           caster               = caster,
-                          channelingInfo       = channelingInfo,
+                          ChannelingInfo       = channelingInfo,
                           State                = subSpellStartIndex == 0 ? ContextState.JustQueued : ContextState.FindTargets,
                           Spell                = spell,
                           Stacks               = stacks,
@@ -380,9 +380,9 @@ public class SpellCaster : MonoBehaviour
     {
         Assert.IsTrue(currentTargets.Count == 1);
         Assert.IsTrue((context.SpellFlags & Spell.SpellFlags.BreakOnFailedTargeting) == 0);
-        Assert.IsNotNull(context.channelingInfo);
+        Assert.IsNotNull(context.ChannelingInfo);
 
-        var newTarget = context.channelingInfo.GetNewTarget();
+        var newTarget = context.ChannelingInfo.GetNewTarget();
         if (newTarget == null)
             return false;
 
@@ -615,6 +615,8 @@ public class SpellCaster : MonoBehaviour
                 }
 
                 if ((context.CurrentSubSpell.Obstacles & SubSpell.ObstacleHandling.ExecuteSpellSequence) == SubSpell.ObstacleHandling.ExecuteSpellSequence)
+                {
+
                     return Physics.RaycastAll(source.Position.Value, target.Position.Value, context.CurrentSubSpell.Area.Size, Common.LayerMasks.ActorsOrGround)
                                   .Select(hitInfo => hitInfo.transform.GetComponent<CharacterState>())
                                   .Where(characterState => characterState != null)
@@ -629,6 +631,7 @@ public class SpellCaster : MonoBehaviour
                                                      };
                                           })
                                   .ToArray();
+                }
 
                 Debug.LogWarning("Not Implemented Ray Option Combo");
                 return null;

@@ -12,6 +12,7 @@ namespace Spells
     public interface ISpellContext
     {
         Spell Spell { get; }
+        IChannelingInfo ChannelingInfo { get;}
         CharacterState InitialSource { get; }
 
         bool Aborted { get; }

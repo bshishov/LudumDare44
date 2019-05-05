@@ -1,40 +1,67 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using JetBrains.Annotations;
+using UnityEngine;
 
 namespace Spells.Effects
 {
 public class RageRayEffect : MonoBehaviour, ISpellEffect
 {
-    private BloodTube _tube;
+    private struct Data
+    {
+        [NotNull]
+        public BloodTube tube;
 
-    public BloodTube Prefab;
+        [NotNull]
+        public Transform source;
+    }
+
+    private Dictionary<ISpellContext, Data> _tubes = new Dictionary<ISpellContext, Data>(1);
+    public  BloodTube                       Prefab;
 
     public void OnStateChange(ISpellContext context, ContextState oldState)
     {
-        if (context.State == ContextState.Fire)
-            StartFiring(context);
         if (context.State > ContextState.Fire)
             StopFiring(context);
     }
 
     public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
     {
-        if (_tube == null)
+        if (_tubes.ContainsKey(context))
             return;
-        _tube.SetupLine(targets.Source.Transform.position, targets.Destinations[0].Position.Value);
+
+        Debug.Log($"Create new Rage ray, current entity {gameObject.GetInstanceID()}");
+        var data = new Data {tube = Instantiate(Prefab), source = targets.Source.Transform};
+        _tubes.Add(context, data);
     }
 
     public void OnTargetsAffected(ISpellContext context, SpellTargets targets) { }
 
-    private void StartFiring(ISpellContext context)
+    private void StopFiring(ISpellContext context)
     {
-        if (_tube != null)
-            return;
-
-        Debug.Log($"Create new Rage ray, current entity {gameObject.GetInstanceID()}");
-        _tube = Instantiate(Prefab);
+        if (_tubes.TryGetValue(context, out var data))
+        {
+            Destroy(data.tube.gameObject);
+            _tubes.Remove(context);
+        }
     }
 
+    private void Update()
+    {
+        foreach (var entry in _tubes)
+        {
+            var context = entry.Key;
+            var data    = entry.Value;
 
-    private void StopFiring(ISpellContext context) { Destroy(_tube.gameObject); }
+            var target = context.ChannelingInfo.GetNewTarget();
+            if (target == null)
+                continue;
+
+            var origin    = data.source.position;
+            var direction = (target.Position.Value - origin);
+            direction.Normalize();
+
+            data.tube.SetupLine(origin, origin + direction * context.CurrentSubSpell.Area.Size);
+        }
+    }
 }
 }
