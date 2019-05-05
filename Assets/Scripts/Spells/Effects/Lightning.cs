@@ -13,12 +13,10 @@ namespace Spells.Effects
         {
             _renderer = GetComponent<LineRenderer>();
             _renderer.material.SetFloat("_TargetTime", Time.time + Lifetime);
-            Destroy(gameObject, Lifetime);
         }
 
         public void SetupLine(Vector3 from, Vector3 to)
         {
-            _renderer = GetComponent<LineRenderer>();
             var positions = new Vector3[Points];
             for (var i = 0; i < Points; i++)
             {

@@ -16,7 +16,7 @@ MonoBehaviour:
   Area: {fileID: 0}
   Buffs: []
   Effect: {fileID: 0}
-  Flags: 10
+  Flags: 8
   Obstacles: 22
   Origin: 1
   PreCastDelay: 0

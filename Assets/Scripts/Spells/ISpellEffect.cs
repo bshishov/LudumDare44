@@ -123,15 +123,16 @@ public struct SubSpellTargets
     public List<SpellTargets> TargetData;
 }
 
-public interface ISpellEffect
-{
-    void OnStateChange(ISpellContext context, ContextState oldState);
-}
 
 public interface ISubSpellEffect
 {
     void OnTargetsPreSelected(ISpellContext context, SpellTargets targets);
 
     void OnTargetsAffected(ISpellContext context, SpellTargets targets);
-}
+    }
+
+    public interface ISpellEffect : ISubSpellEffect
+    {
+        void OnStateChange(ISpellContext context, ContextState oldState);
+    }
 }

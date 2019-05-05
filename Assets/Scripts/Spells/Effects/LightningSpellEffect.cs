@@ -10,7 +10,7 @@ namespace Spells.Effects
         
         public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
         {
-            Assert.IsTrue(targets.Source.Position.HasValue, "targets.Source.Position != null");
+            Assert.IsTrue(targets.Source.Transform);
             foreach (var dst in targets.Destinations)
             {
                 Assert.IsTrue(dst.Position.HasValue, "dst.Position.Position != null");
@@ -23,6 +23,3 @@ namespace Spells.Effects
         public void OnTargetsAffected(ISpellContext context, SpellTargets targets) { }
     }
 }
-
-namespace Spells.Effects
-{}

@@ -17,11 +17,12 @@ MonoBehaviour:
   Buffs:
   - {fileID: 11400000, guid: 736c79006a33c1041a831e1f13c6912d, type: 2}
   Effect: {fileID: 0}
-  Flags: 4
-  Obstacles: 4
+  Flags: 8
+  Obstacles: 22
   Origin: 1
-  PostCastDelay: 0
   PreCastDelay: 0
+  PreDamageDelay: 0
+  PostCastDelay: 0
   Projectile: {fileID: 0}
   Targeting: 1
   NewSource: 1

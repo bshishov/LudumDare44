@@ -229,7 +229,10 @@ public class SpellCaster : MonoBehaviour
 
             case ContextState.FindTargets:
             case ContextState.PreDamageDelay:
+                var oldState = context.State;
                 context.State = ContextState.Fire;
+                context.effect?.OnStateChange(context, oldState);
+                context.StateActiveTime = 0;
                 return true;
 
             case ContextState.Fire:
@@ -290,7 +293,10 @@ public class SpellCaster : MonoBehaviour
 
         void Advance()
         {
+            var oldState = context.State;
             ++context.State;
+
+            context.effect?.OnStateChange(context, oldState);
             context.StateActiveTime = 0;
         }
     }
@@ -312,7 +318,6 @@ public class SpellCaster : MonoBehaviour
 
             case ContextState.FindTargets:
                 subContext.failedToFindTargets = !LockTargets(context, subContext);
-                context.effect?.OnStateChange(context, ContextState.FindTargets);
 
                 Advance();
                 return true;
@@ -391,6 +396,7 @@ public class SpellCaster : MonoBehaviour
 
         subContext.newTargets.Add(newSpellTargets);
         subContext.effect?.OnTargetsPreSelected(context, newSpellTargets);
+        context.effect?.OnTargetsPreSelected(context, newSpellTargets);
         return true;
     }
 
@@ -442,6 +448,7 @@ public class SpellCaster : MonoBehaviour
             subContext.newTargets.Add(newSpellTargets);
 
             subContext.effect?.OnTargetsPreSelected(context, newSpellTargets);
+            context.effect?.OnTargetsPreSelected(context, newSpellTargets);
         }
 
         return anyTargetFound;
@@ -516,6 +523,7 @@ public class SpellCaster : MonoBehaviour
                 continue;
 
             context.SubContext.effect?.OnTargetsAffected(context, targets);
+            context.effect?.OnTargetsAffected(context, targets);
 
             if (context.SubContext.projectileSpawned)
                 continue;
