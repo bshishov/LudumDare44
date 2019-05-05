@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
-  m_Name: SubSpell_Burn
+  m_Name: SubSpell_Hourglass
   m_EditorClassIdentifier: 
   AffectedTarget: 8
   Area: {fileID: 11400000, guid: da172d88c950a63498f1912e8c202383, type: 2}
   Buffs:
-  - {fileID: 11400000, guid: 2684ceb65ffb0dd45ad24eec30706679, type: 2}
-  Effect: {fileID: 3417819086179895440, guid: eb3d40d3f02a40a46bcbc64937987a0b, type: 3}
+  - {fileID: 11400000, guid: de8fb8b5d5abd0447887db6db68621e3, type: 2}
+  Effect: {fileID: 0}
   Flags: 21
   Obstacles: 0
   Origin: 1

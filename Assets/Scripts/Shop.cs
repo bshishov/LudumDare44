@@ -53,8 +53,10 @@ namespace Assets.Scripts
 
             if (ActiveItem != null && ActiveItem.Prefab != null)
             {
-                _itemObject = GameObject.Instantiate(ActiveItem.Prefab, 
-                    PlaceTransform.position, Quaternion.identity);
+                _itemObject = GameObject.Instantiate(
+                    ActiveItem.Prefab, 
+                    PlaceTransform,
+                    false);
             }
         }
     

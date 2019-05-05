@@ -24,8 +24,45 @@ namespace Assets.Scripts
         public Transform Exit;
         public bool DrawGizmos;
 
-        public Vector3 WorldEntryLocation => Entry.position;
-        public Vector3 WorldExitLocation => Exit.position;
+        public Vector3 EntryPosition
+        {
+            get
+            {
+                if (Entry != null)
+                    return Entry.transform.position;
+                return Vector3.zero;
+            }
+        }
+
+        public Quaternion EntryRotation
+        {
+            get
+            {
+                if (Entry != null)
+                    return Entry.transform.rotation;
+                return Quaternion.identity;
+            }
+        }
+
+        public Vector3 ExitPosition
+        {
+            get
+            {
+                if (Exit != null)
+                    return Exit.transform.position;
+                return Vector3.zero;
+            }
+        }
+
+        public Quaternion ExitRotation
+        {
+            get
+            {
+                if (Entry != null)
+                    return Exit.transform.rotation;
+                return Quaternion.identity;
+            }
+        }
 
         void Start()
         {

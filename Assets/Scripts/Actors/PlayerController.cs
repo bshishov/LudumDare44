@@ -2,53 +2,28 @@
 using Actors;
 using Assets.Scripts;
 using Assets.Scripts.Data;
+using Assets.Scripts.Utils.Debugger;
 using Spells;
 
 public class PlayerController : MonoBehaviour, IChannelingInfo
 {
-    public float maxSpeed = 7;
-    private Vector3 moveDirection = new Vector3();
-    
+    private Vector3 _inputMoveDirection;
     private CharacterState _characterState;
     private SpellbookState _spellbook;
     private MovementController _movement;
-
-    private AnimationController _animator;
-    private const float InteractRadius = 1f;
     private Interactor _interactor;
 
     void Start()
     {
         _characterState = GetComponent<CharacterState>();
-        _animator = GetComponent<AnimationController>();
         _spellbook = GetComponent<SpellbookState>();
         _interactor = GetComponent<Interactor>();
         _movement = GetComponent<MovementController>();
     }
 
-    void HandleInput()
-    {
-        moveDirection.x = Input.GetAxis("Horizontal");
-        moveDirection.z = Input.GetAxis("Vertical");
-
-        if (Input.GetMouseButton(0))
-            FireSpell((int)Spell.Slot.LMB);
-
-        if (Input.GetMouseButton(1))
-            FireSpell((int)Spell.Slot.RMB);
-
-        if (Input.GetButton("Ult"))
-            FireSpell((int)Spell.Slot.ULT);
-
-        if (Input.GetButtonDown("Use"))
-            TryInteract((Interaction)0);
-
-        if (Input.GetButtonDown("Use2"))
-            TryInteract((Interaction)1);
-    }
-
     private void FireSpell(int slotIndex)
     {
+        // TODO: Separate/decouple logic into spellbook
         var slotState = _spellbook.GetSpellSlotState(slotIndex);
         if (slotState.State != SpellbookState.SpellState.Ready)
         {
@@ -83,7 +58,7 @@ public class PlayerController : MonoBehaviour, IChannelingInfo
     private TargetInfo GetTarget()
     {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out var hit, Common.LayerMasks.ActorsOrGround))
+        if (!Physics.Raycast(ray, out var hit, 100f, Common.LayerMasks.ActorsOrGround))
             return null;
 
         var target = new TargetInfo {Position = ray.GetPoint(hit.distance)};
@@ -105,36 +80,50 @@ public class PlayerController : MonoBehaviour, IChannelingInfo
         return target;
     }
 
-    private void TryInteract(Interaction interaction)
-    {
-        _interactor.ClosestInRange?.Interact(_characterState, interaction);
-    }
 
     void Update()
     {
-        if (_characterState.IsAlive)
+        if (!_characterState.IsAlive)
         {
-            HandleInput();
-
-            var motionVector = moveDirection.normalized * _characterState.Speed * Time.deltaTime;
-            _movement.Move(motionVector);
-
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out var hit, Common.LayerMasks.Ground))
-            {
-                _movement.LookAt(hit.point);
-            }
-        }
-    }
-
-    public static Vector3? GetGroundPositionUnderCursor()
-    {
-        if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit, 100f, Common.LayerMasks.Ground))
-        {
-            return hit.point;
+            // Character is dead no need to move and handle input controls
+            return;
         }
 
-        return null;
+        // Get input movement direction
+        _inputMoveDirection.x = Input.GetAxis(Common.Input.HorizontalAxis);
+        _inputMoveDirection.z = Input.GetAxis(Common.Input.VerticalAxis);
+
+        // Check buttons
+        if (Input.GetMouseButton(0))
+            FireSpell((int)Spell.Slot.LMB);
+
+        if (Input.GetMouseButton(1))
+            FireSpell((int)Spell.Slot.RMB);
+
+        if (Input.GetButton(Common.Input.UltButton))
+            FireSpell((int)Spell.Slot.ULT);
+
+        // If there is an interactable in range and corresponding button is pressed
+        // then interact with it
+        if (_interactor.ClosestInRange != null)
+        {
+            if (Input.GetButtonDown(Common.Input.UseButton1))
+                _interactor.ClosestInRange.Interact(_characterState, (Interaction)0);
+
+            if (Input.GetButtonDown(Common.Input.UseButton2))
+                _interactor.ClosestInRange.Interact(_characterState, (Interaction)1);
+        }
+
+        // Finally move using movement controller
+        var motionVector = _inputMoveDirection.normalized * _characterState.Speed * Time.deltaTime;
+        _movement.Move(motionVector);
+
+        // Rotate towards location under the cursor
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out var hit, 100f, Common.LayerMasks.Ground))
+        {
+            _movement.LookAt(hit.point);
+        }
     }
 
     public TargetInfo GetNewTarget()
