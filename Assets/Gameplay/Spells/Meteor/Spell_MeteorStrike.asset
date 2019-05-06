@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Meteor Strike
   Icon: {fileID: 8409708482411832467, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: After a short delay, launches a meteor at a targettet location, dealing
-    7 instant damage and setting enemies on fire
+  Description: "After a short delay, launches a meteor at a targettet location\nDamage:
+    7 \nFire Damage: 5 p/s    Duration: 5 seconds"
   ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
     type: 2}
   LifeSteal: 0

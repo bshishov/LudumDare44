@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Blood Dagger
   Icon: {fileID: 3770519954012001039, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: Fires a blood dagger at a chosen direction dealing 1 damage and piercing
+  Description: 'Fires a blood dagger at a chosen direction dealing damage and piercing
     enemies
+
+    Damage: 1'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
     type: 2}
   LifeSteal: 1
+  BloodCost: 0
   DefaultSlot: 0
   Cooldown: 0.6
   CastingTime: 1

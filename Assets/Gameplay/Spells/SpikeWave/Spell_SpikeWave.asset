@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: SpikeWave
   Icon: {fileID: -768691935143330167, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: Launches at a targeted direction a cone of spikes, dealing 4 damage
+  Description: 'Launches at a targeted direction a cone of spikes, dealing damage
     and slowing affected enemies
+
+    Damage: 4                             5% Stackable slow'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
     type: 2}
   LifeSteal: 0
