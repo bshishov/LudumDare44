@@ -1078,7 +1078,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39c7fa4db14d44e44859e56b6af01a59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CastPanel: {fileID: 4281087136742908338}
 --- !u!1 &1047447748
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,6 +1125,7 @@ GameObject:
   - component: {fileID: 1074639824}
   - component: {fileID: 1074639826}
   - component: {fileID: 1074639825}
+  - component: {fileID: 4586914582981410294}
   m_Layer: 5
   m_Name: SoundsControlsPanel
   m_TagString: Untagged
@@ -1192,6 +1192,21 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &4586914582981410294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074639823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6999ac0911c4d7e439e3dd790e228f29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioMixer: {fileID: 24100000, guid: 6aeecf4bd1bfa6d43a76745e7a611a1f, type: 2}
+  SoundSlider: {fileID: 894478712}
+  MusicSlider: {fileID: 247850350}
 --- !u!1 &1076943322
 GameObject:
   m_ObjectHideFlags: 0

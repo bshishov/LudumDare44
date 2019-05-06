@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts;
+using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI
+namespace Utils.UI
 {
     public class UIVolumeControl : MonoBehaviour
     {

@@ -1,80 +1,71 @@
-﻿using Assets.Scripts.UI;
+﻿using Assets.Scripts;
+using Assets.Scripts.UI;
 using Assets.Scripts.Utils;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
-namespace Assets.Scripts.Utils
+
+public class LevelManager : Singleton<LevelManager>
 {
-    public class LevelManager : Singleton<LevelManager>
+    public Assets.Scripts.Utils.UI.UICanvasGroupFader ScreenFader;
+    public Assets.Scripts.Utils.Sound.Sound Music;
+    private string _nextLevelRequest;
+
+    void Start()
     {
-        public UI.UICanvasGroupFader ScreenFader;
-        public Sound.Sound Music;
-        private string _nextLevelRequest;
+        if (ScreenFader == null)
+            ScreenFader = GetComponent<Assets.Scripts.Utils.UI.UICanvasGroupFader>();
 
-        void Start()
+        ScreenFader.StateChanged += StateChanged;
+        ScreenFader.FadeOut();
+
+        if (Music != null)
+            Assets.Scripts.Utils.Sound.SoundManager.Instance.PlayMusic(Music);
+
+        SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
+    }
+
+    private void SceneManagerOnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Time.timeScale = 1f;
+        throw new System.NotImplementedException();
+    }
+
+    private void StateChanged()
+    {
+        if (ScreenFader.State == Assets.Scripts.Utils.UI.UICanvasGroupFader.FaderState.FadedIn)
         {
-            if (ScreenFader == null)
-                ScreenFader = GetComponent<UI.UICanvasGroupFader>();
-
-            ScreenFader.StateChanged += StateChanged;
-            ScreenFader.FadeOut();
-
-            if (Music != null)
-                Sound.SoundManager.Instance.PlayMusic(Music);
-        }
-
-        void OnLevelWasLoaded(int level)
-        {
-            // Unpause
-            Time.timeScale = 1f;
-        }
-
-
-        private void StateChanged()
-        {
-            if (ScreenFader.State == UI.UICanvasGroupFader.FaderState.FadedIn)
+            if (!string.IsNullOrEmpty(_nextLevelRequest))
             {
-                if (!string.IsNullOrEmpty(_nextLevelRequest))
-                {
-                    SceneManager.LoadScene(_nextLevelRequest);
-                    _nextLevelRequest = null;
-                }
+                SceneManager.LoadScene(_nextLevelRequest);
+                _nextLevelRequest = null;
             }
         }
+    }
 
-        public void LoadLevel(string levelName)
-        {
-            _nextLevelRequest = levelName;
-            ScreenFader.FadeIn();
-        }
+    public void LoadLevel(string levelName)
+    {
+        _nextLevelRequest = levelName;
+        ScreenFader.FadeIn();
+    }
 
-        public void Restart()
-        {
-            LoadLevel(SceneManager.GetActiveScene().name);
-        }
+    public void Restart()
+    {
+        LoadLevel(SceneManager.GetActiveScene().name);
+    }
 
-        public void MainMenu()
-        {
-            LoadLevel(Common.BaseLevelNames.MainMenu);
-        }
+    public void MainMenu()
+    {
+        LoadLevel(Common.BaseLevelNames.MainMenu);
+    }
 
-        /*
-        public void IntroLevel()
-        {
-            LoadLevel(Common.BaseLevelNames.Intro);
-        }
-        */
-
-        public void Quit()
-        {
+    public void Quit()
+    {
 #if UNITY_EDITOR
-            EditorApplication.isPlaying = false;
+        EditorApplication.isPlaying = false;
 #else
-            Application.Quit();
+        Application.Quit();
 #endif
-        }
     }
 }

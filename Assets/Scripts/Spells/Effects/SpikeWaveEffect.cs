@@ -14,6 +14,7 @@ public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
     {
         Assert.AreEqual(context.CurrentSubSpell.Area.Area, AreaOfEffect.AreaType.Cone);
 
+        // TODO: Figure out why do we need to spawn for every target
         foreach (var target in targets.Destinations)
         {
             var orient          = Quaternion.LookRotation(target.Position.Value - targets.Source.Position.Value);
