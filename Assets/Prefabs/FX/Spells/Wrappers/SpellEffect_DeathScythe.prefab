@@ -45,3 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Object: {fileID: 3429925772731152146, guid: 71f4a83a92875de4d8057b7de896bf60, type: 3}
   StartEffectOnPreSelected: 1
+  LifeTime: 2
+  Node: 1

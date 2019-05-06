@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Utils.Sound;
 using UnityEngine;
 
-public class Effect : MonoBehaviour
+public class Effect : MonoBehaviour, IAttachable
 {
     [Header("Camera shake")]
     [Range(0f, 1f)]
@@ -13,6 +13,8 @@ public class Effect : MonoBehaviour
     [Header("Lifecycle")]
     public bool AutoDestroy = false;
     public float LifeTime = 1f;
+
+    private Transform _target;
     
     void Start()
     {
@@ -23,5 +25,16 @@ public class Effect : MonoBehaviour
             CameraController.Instance.Shake(CameraImpact);
 
         SoundManager.Instance.Play(Sound, transform);
+    }
+
+    void Update()
+    {
+        if (_target != null)
+            transform.position = _target.position;
+    }
+
+    public void Attach(Transform t)
+    {
+        _target = t;
     }
 }

@@ -236,6 +236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 505273594233107216}
   - component: {fileID: -1163149684500038505}
+  - component: {fileID: 5562004712185558720}
   m_Layer: 0
   m_Name: FX_DeathScythe
   m_TagString: Untagged
@@ -250,7 +251,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3429925772731152146}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -266,7 +267,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3429925772731152146}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: a00cb79b0e62e8e4986d76318e3f4c82, type: 2}
   m_CullingMode: 0
@@ -277,6 +278,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5562004712185558720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3429925772731152146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 133c74ea3a889df4b9950741bc022c53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraImpact: 0
+  Sound:
+    Clip: {fileID: 0}
+    VolumeModifier: 1
+    MixerGroup: {fileID: 0}
+    Loop: 0
+    IgnoreListenerPause: 0
+    Pitch: 1
+    RandomizePitch: 0
+    MaxPitchShift: 0.05
+    Delay: 0
+    RandomizeDelay: 0
+    MaxAdditionalDelay: 0
+  AutoDestroy: 1
+  LifeTime: 4
 --- !u!1 &6658090942215112679
 GameObject:
   m_ObjectHideFlags: 0

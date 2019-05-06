@@ -19,3 +19,5 @@ MonoBehaviour:
   Adjacent:
   - Chunk: {fileID: 11400000}
     Weight: 1
+  - Chunk: {fileID: 11400000, guid: 75475344c6e5bf04c941a67000eed2b3, type: 2}
+    Weight: 0.5
