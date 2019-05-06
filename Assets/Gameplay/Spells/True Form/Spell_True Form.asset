@@ -21,7 +21,7 @@ MonoBehaviour:
   LifeSteal: 0
   BloodCost: 25
   DefaultSlot: 2
-  Cooldown: 20
+  Cooldown: 125
   CastingTime: 1
   Flags: 0
   PreCastDelay: 0
