@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Lightning
   Icon: {fileID: -8252871216045270066, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: Cast a chain lightning, dealing 1 damage to every affected enemy
+  Description: 'Cast a chain lightning
+
+    Damage: 1 for each affected enemy'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
     type: 2}
   LifeSteal: 1
+  BloodCost: 0
   DefaultSlot: 0
   Cooldown: 0.6
   CastingTime: 1

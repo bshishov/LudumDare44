@@ -14,11 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Poison Dagger
   Icon: {fileID: 294179135353329459, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: Throws a poisoned dagger at a chosen direction, dealing 1 damage and
+  Description: 'Throws a poisoned dagger at a chosen direction, dealing damage and
     poisoning affected enemy
+
+    Damage: 1
+
+    Poison Damage: 2 p/s   Duration: 2 seconds'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
     type: 2}
   LifeSteal: 1
+  BloodCost: 0
   DefaultSlot: 0
   Cooldown: 0.5
   CastingTime: 1
