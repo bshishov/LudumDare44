@@ -3,6 +3,7 @@ using UnityEngine;
 using Assets.Scripts.Utils;
 using Assets.Scripts.Utils.Debugger;
 using UnityEngine.AI;
+using UnityEngine.Assertions;
 
 namespace Assets.Scripts
 {
@@ -24,6 +25,7 @@ namespace Assets.Scripts
         
         void Awake()
         {
+            Assert.raiseExceptions = false;
             DontDestroyOnLoad(gameObject);
         }
 
