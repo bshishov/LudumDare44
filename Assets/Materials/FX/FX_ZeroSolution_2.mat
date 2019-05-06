@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4158349210381140917
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
@@ -7,33 +20,33 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FX_Vortex
+  m_Name: FX_ZeroSolution_2
   m_Shader: {fileID: -6465566751694194690, guid: 2399999df20aabf44b6809ddec9b7245,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3010
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_15088A8A:
-        m_Texture: {fileID: 2800000, guid: 85d0d282c528cf94ab064dd470ecb234, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_48E3BB9B:
-        m_Texture: {fileID: 2800000, guid: 05ea8503afe95c645b721486aa982bff, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3f8a152094c8a7a4d8fd63f9f91ff20d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_4FD3CB0A:
-        m_Texture: {fileID: 2800000, guid: 05ea8503afe95c645b721486aa982bff, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1dd6bd005e20bba40a81feaf59ceffac, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_F8244BFE:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 3f8a152094c8a7a4d8fd63f9f91ff20d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -87,24 +100,11 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_14E89485: {r: 1.7731022, g: 0, b: 0, a: 1}
-    - Vector2_ACFDE099: {r: -5, g: 2, b: 0, a: 0}
-    - Vector2_B0C27635: {r: 1, g: 2, b: 0, a: 0}
-    - Vector2_C874A739: {r: 0, g: 2, b: 0, a: 0}
+    - Color_14E89485: {r: 6.964404, g: 0, b: 0, a: 1}
+    - Vector2_ACFDE099: {r: 1, g: 0, b: 0, a: 0}
+    - Vector2_B0C27635: {r: 2, g: 0, b: 0, a: 0}
+    - Vector2_C874A739: {r: 1, g: 0.5, b: 0, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
---- !u!114 &4401352291212497311
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1

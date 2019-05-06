@@ -23,7 +23,8 @@ public class CharacterState : MonoBehaviour
         Default = 0,
         SpellEmitter = 1,
         Head = 2,
-        Chest = 3
+        Chest = 3,
+        Root
     }
 
     [Serializable]
@@ -729,6 +730,9 @@ public class CharacterState : MonoBehaviour
 
     public Transform GetNodeTransform(NodeRole role = NodeRole.Default)
     {
+        if (role == NodeRole.Root)
+            return transform;
+
         if (Nodes == null || Nodes.Length == 0)
             return transform;
 
