@@ -9,10 +9,13 @@ public class UIBloodScreen : MonoBehaviour
     public float MaxAlpha = 0.5f;
     public Image Image;
     public float SmoothTime = 0.05f;
+    public Color NormalColor = new Color(1, 0, 0, 0);
+    public Color ColorWhenDamaged = Color.red;
 
     private CharacterState _playerState;
     private float _hpFraction;
     private float _velocity;
+    private Color _color;
 
     void Start()
     {
@@ -25,10 +28,9 @@ public class UIBloodScreen : MonoBehaviour
                 Debug.LogWarning("PlayerState not found");
             }
         }
-    }
 
-    
-        
+        _color = Image.color;
+    }
     
     void Update()
     {
@@ -36,7 +38,8 @@ public class UIBloodScreen : MonoBehaviour
         {
             _hpFraction = Mathf.SmoothDamp(_hpFraction, _playerState.Health / _playerState.MaxHealth, ref _velocity,
                 SmoothTime);
-            Image.color = new Color(1, 1, 1, Mathf.Clamp01((1 - 5 * _hpFraction)) * MaxAlpha);
+
+            Image.color = Color.Lerp(NormalColor, ColorWhenDamaged, Mathf.Clamp01((1 - 5 * _hpFraction)) * MaxAlpha);
         }
     }
 
