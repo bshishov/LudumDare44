@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LuxuriousWine
   m_EditorClassIdentifier: 
   Name: Luxurious Wine
-  Description: This excellent wine gives you 5 health p/s
+  Description: This excellent wine gives you 1 health p/s
   Cost: 20
   Icon: {fileID: 2222553508390231835, guid: 79f8526ca8b62344a9fc6dfbb87b4366, type: 3}
   Buffs:
