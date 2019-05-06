@@ -22,8 +22,8 @@ MonoBehaviour:
   Obstacles: 0
   Origin: 1
   PreCastDelay: 0
-  PreDamageDelay: 0
-  PostCastDelay: 0
+  PreDamageDelay: 0.2
+  PostCastDelay: 0.4
   Projectile: {fileID: 0}
   Targeting: 1
   NewSource: 1
