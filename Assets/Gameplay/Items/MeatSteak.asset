@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: MeatSteak
   m_EditorClassIdentifier: 
   Name: Meat steak
-  Description: Very tasty steak, that increases your health by 5%. Be wary, for eating
-    too much may turn you on wider side
+  Description: Very tasty steak, that increases your <b>health</b> by 5%. Be wary,
+    for eating too much may turn you on wider side
   Cost: 0
   Icon: {fileID: 8069834388951066663, guid: 79f8526ca8b62344a9fc6dfbb87b4366, type: 3}
   Buffs:

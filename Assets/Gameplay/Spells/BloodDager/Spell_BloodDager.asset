@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: 'Fires a blood dagger at a chosen direction dealing damage and piercing
     enemies
 
-    Damage: 1'
+    <b>Damage</b>: 1'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
     type: 2}
   LifeSteal: 1

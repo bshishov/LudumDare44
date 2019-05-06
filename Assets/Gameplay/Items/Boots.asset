@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Boots
   Description: These shoes may not be very fashionable, but traveling on your bare
-    feet is worse. Increases your speed by 5%.
+    feet is worse. Increases your <b>speed</b> by 5%.
   Cost: 5
   Icon: {fileID: -5241530780421866181, guid: 79f8526ca8b62344a9fc6dfbb87b4366, type: 3}
   Buffs:

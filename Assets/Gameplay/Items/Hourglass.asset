@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hourglass
   m_EditorClassIdentifier: 
   Name: Hourglass
-  Description: 'This Hourglass reduces speed of all nearby enemies by 30%  '
+  Description: 'This Hourglass <b>slowes</b> all nearby enemies by 30%  '
   Cost: 15
   Icon: {fileID: -2173064856017149207, guid: 79f8526ca8b62344a9fc6dfbb87b4366, type: 3}
   Buffs:
