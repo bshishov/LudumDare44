@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Buff_Burn
   m_EditorClassIdentifier: 
   Name: Burn
-  Behaviour: 3
+  Behaviour: 0
   TickCooldown: 0.5
   Duration: 5
   Modifiers: []
