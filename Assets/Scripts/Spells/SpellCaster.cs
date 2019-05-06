@@ -271,23 +271,28 @@ public class SpellCaster : MonoBehaviour
                     if (context.SubContext.projectileSpawned)
                         break;
 
+                    var effect = context.SubContext?.effect;
                     context.SubContext = null;
 
                     if ((context.CurrentSubSpell.Flags & SubSpell.SpellFlags.Channeling) == 0)
                     {
-                        context.SubContext.effect?.OnEndSubSpell(context);
+                        effect?.OnEndSubSpell(context);
                         ++context.CurrentSubSpellIndex;
                     }
                     else
                         return false;
                 }
 
-                context.SubContext.effect?.OnEndSubSpell(context);
-
                 if (context.Aborted)
+                {
+                    context.SubContext.effect?.OnEndSubSpell(context);
                     context.listener?.OnAbortedFiring(context.Spell);
+                }
                 else
+                {
+
                     context.listener?.OnEndFiring(context.Spell);
+                }
 
                 context.SubContext = null;
                 Advance();
