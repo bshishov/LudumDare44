@@ -25,6 +25,7 @@ namespace Assets.Scripts.Data
         [Header("Melee attack")]
         public float MeleeRange = 0f;
         public float AttackCooldown = 1f;
+        public float AnimationDelay = 0.9f;
         public Buff ApplyBuffOnAttack;
         public int AdditionalSpellStacks = 0;
 
