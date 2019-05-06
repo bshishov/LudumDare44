@@ -9,7 +9,7 @@ namespace Spells.Effects
         public float Lifetime = 0.2f;
         private LineRenderer _renderer;
 
-        public void Start()
+        public void Awake()
         {
             _renderer = GetComponent<LineRenderer>();
             _renderer.material.SetFloat("_TargetTime", Time.time + Lifetime);
