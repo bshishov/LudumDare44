@@ -43,7 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee3d48d108b6134e9476d472adc2a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExplosionPrefab: {fileID: 400720515767265403, guid: 1f00738ea2b37cd4cbeeaf89b9044069,
+  ExplosionPrefab: {fileID: 400720515767265403, guid: 56fb697e378a2a14aa64dbc634b94b89,
     type: 3}
   Origin: 1
+  SpawnInGround: 1
   StartEffectOnPreSelected: 1

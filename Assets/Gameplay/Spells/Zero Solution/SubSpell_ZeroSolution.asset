@@ -21,7 +21,7 @@ MonoBehaviour:
   Flags: 23
   Obstacles: 6
   Origin: 1
-  PreCastDelay: 0.2
+  PreCastDelay: 0.05
   PreDamageDelay: 0
   PostCastDelay: 0
   Projectile: {fileID: 0}
