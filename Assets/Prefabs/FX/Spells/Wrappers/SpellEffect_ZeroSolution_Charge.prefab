@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1813403284607086691}
-  - component: {fileID: 1813403284607086690}
+  - component: {fileID: -6730108281146255799}
   m_Layer: 0
   m_Name: SpellEffect_ZeroSolution_Charge
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1813403284607086690
+--- !u!114 &-6730108281146255799
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,10 +40,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1813403284607086689}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e9238565e584cc4b832f11cf54f3b99, type: 3}
+  m_Script: {fileID: 11500000, guid: 0be1a524df8ed2c45821f8eedcaeaa92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Object: {fileID: 2361784445018168812, guid: 8c279eaa42127864abd719f65a5995a7, type: 3}
-  StartEffectOnPreSelected: 1
-  LifeTime: 0
+  Prefab: {fileID: 2361784445018168812, guid: 8c279eaa42127864abd719f65a5995a7, type: 3}
+  SpawnOn: 0
   Node: 4

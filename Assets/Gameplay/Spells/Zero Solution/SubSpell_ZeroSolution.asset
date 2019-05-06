@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: SubSpell_ZeroSolution
   m_EditorClassIdentifier: 
   AffectedTarget: 2
-  Area: {fileID: 11400000, guid: abdd4d8b66c36494eaaec77d8ec24e42, type: 2}
+  Area: {fileID: 11400000, guid: dc951b5673dedf4489ded62ad2789312, type: 2}
   Buffs:
   - {fileID: 11400000, guid: de3e868bfd76a494f89432dc2f7382c0, type: 2}
   - {fileID: 0}
   Effect: {fileID: 1813403284607086689, guid: 18b282ade0220eb479713948fab8ad9d, type: 3}
-  Flags: 21
-  Obstacles: 0
+  Flags: 23
+  Obstacles: 4
   Origin: 1
-  PreCastDelay: 0
+  PreCastDelay: 0.2
   PreDamageDelay: 0
   PostCastDelay: 0
   Projectile: {fileID: 0}
