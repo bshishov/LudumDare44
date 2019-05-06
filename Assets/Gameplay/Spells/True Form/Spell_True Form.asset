@@ -16,7 +16,8 @@ MonoBehaviour:
   Icon: {fileID: -623178654355100470, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Description: Transcend in your true form and temporary increase the effectiveness
     of your LMB and RMB abilities
-  ApplyBuffOnDismantle: {fileID: 0}
+  ApplyBuffOnDismantle: {fileID: 11400000, guid: c2bf24e4004b1954e99e4ce13852e4fb,
+    type: 2}
   LifeSteal: 0
   BloodCost: 25
   DefaultSlot: 2

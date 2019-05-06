@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: 
   Behaviour: 1
   TickCooldown: 0.1
-  Duration: 0.2
+  Duration: 0.3
   Modifiers: []
   OnApplyBuff: []
   OnTickBuff: []

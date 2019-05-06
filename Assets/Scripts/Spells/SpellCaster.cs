@@ -285,7 +285,7 @@ public class SpellCaster : MonoBehaviour
 
                 if (context.Aborted)
                 {
-                    context.SubContext.effect?.OnEndSubSpell(context);
+                    context.SubContext?.effect?.OnEndSubSpell(context);
                     context.listener?.OnAbortedFiring(context.Spell);
                 }
                 else
@@ -354,7 +354,7 @@ public class SpellCaster : MonoBehaviour
             case ContextState.Fire:
                 subContext.failedToFindTargets = !FinalizeTargets(context, subContext);
 
-                context.listener?.OnStartFiring(context.Spell);
+                context.listener?.OnStartFiring(context.Spell, context.CurrentSubSpell);
                 Execute(context, subContext);
                 Debug.Log($"{context.Spell.Name} Executed subspell {context.CurrentSubSpellIndex}");
 

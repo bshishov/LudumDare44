@@ -15,12 +15,12 @@ MonoBehaviour:
   Name: Rage Ray
   Icon: {fileID: 5774029788521294264, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Description: Cast a chain lightning, dealing 1 damage to every affected enemy
-  ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
+  ApplyBuffOnDismantle: {fileID: 11400000, guid: c2bf24e4004b1954e99e4ce13852e4fb,
     type: 2}
-  LifeSteal: 1
+  LifeSteal: 0
   BloodCost: 0
-  DefaultSlot: 0
-  Cooldown: 0.6
+  DefaultSlot: 2
+  Cooldown: 0
   CastingTime: 1
   Flags: 1
   PreCastDelay: 0

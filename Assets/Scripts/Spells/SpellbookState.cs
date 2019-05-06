@@ -226,7 +226,7 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
 
         }
 
-    public void OnStartFiring(Spell spell)
+    public void OnStartFiring(Spell spell, SubSpell subSpell)
     {
         Debug.Log("OnStartFiring");
         Assert.IsTrue(IsCasting);
@@ -237,6 +237,9 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
         Assert.IsTrue(SpellSlots[slotIndex].State == SpellState.Preparing || SpellSlots[slotIndex].State == SpellState.Firing);
 
         SpellSlots[slotIndex].State             = SpellState.Firing;
+
+        // TODO: refactor this. Move it to another place
+        _characterState.ApplyModifier(ModificationParameter.HpFlat, -subSpell.BloodCost, 1, 1, _characterState, null, out _);
     }
 
     public void OnEndFiring(Spell spell)
