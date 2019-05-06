@@ -14,8 +14,13 @@ public class Effect : MonoBehaviour, IAttachable
     public bool AutoDestroy = false;
     public float LifeTime = 1f;
 
+    [Header("IAttachable")]
+    public bool AttachPosition;
+    public bool AttachRotation;
+
     private Transform _target;
-    
+    private Quaternion _initialRotation;
+
     void Start()
     {
         if(AutoDestroy)
@@ -29,12 +34,23 @@ public class Effect : MonoBehaviour, IAttachable
 
     void Update()
     {
-        if (_target != null)
+        if (_target == null)
+            return;
+        if (AttachPosition)
             transform.position = _target.position;
+        if (AttachRotation)
+        {
+            var rotation                    = _target.rotation * _initialRotation;
+            rotation.x         = rotation.z = 0;
+            transform.rotation = rotation;
+        }
     }
 
     public void Attach(Transform t)
     {
         _target = t;
+
+        _initialRotation = transform.rotation;
+        _initialRotation = Quaternion.Inverse(_initialRotation);
     }
 }

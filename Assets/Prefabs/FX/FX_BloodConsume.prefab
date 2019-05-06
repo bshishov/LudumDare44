@@ -27,6 +27,8 @@ MonoBehaviour:
     MaxAdditionalDelay: 0
   AutoDestroy: 1
   LifeTime: 2
+  AttachPosition: 1
+  AttachRotation: 0
 --- !u!1001 &4608172406133494959
 PrefabInstance:
   m_ObjectHideFlags: 0

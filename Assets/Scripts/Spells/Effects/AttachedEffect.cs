@@ -29,7 +29,16 @@ namespace Spells.Effects
         {
             // TODO : set rotation towards target or pass target transform to IAttachable
             var attachTo = targets.Source.Character.GetNodeTransform(Node);
-            var instance = Instantiate(Object, attachTo.transform.position, Quaternion.identity);
+
+            var origin = attachTo.transform.position;
+            var rotation = Quaternion.identity;
+
+            if (targets.Destinations.Length > 0)
+            {
+                rotation = Quaternion.LookRotation(targets.Destinations[0].Position.Value - origin);
+            }
+
+            var instance = Instantiate(Object, origin, rotation);
             instance.transform.SetParent(transform);
 
             var attachable = instance.GetComponent<IAttachable>();
