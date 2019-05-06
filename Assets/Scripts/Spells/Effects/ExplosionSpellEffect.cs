@@ -1,16 +1,15 @@
 ﻿using System;
-using Spells;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Spells.Effects {
-[ExecuteInEditMode]
+namespace Spells.Effects
+{
 public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
 {
-
     public GameObject   ExplosionPrefab;
     public EffectOrigin Origin;
+    public bool         SpawnInGround;
     public bool         StartEffectOnPreSelected;
 
     public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
@@ -25,7 +24,7 @@ public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
             SpawnEffect(targets);
     }
 
-    public void OnEndSubSpell(SpellContext context) {  }
+    public void OnEndSubSpell(SpellContext context) { }
 
     private void SpawnEffect(SpellTargets targets)
     {
@@ -46,7 +45,11 @@ public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
     private void SpawnEffect(TargetInfo target)
     {
         Assert.IsTrue(target.Position.HasValue, "targets.Source.Position != null");
-        Destroy(Instantiate(ExplosionPrefab, target.Position.Value, Quaternion.identity), 2);
+        var position = target.Position.Value;
+        if (SpawnInGround)
+            if (Physics.Raycast(position, Vector3.down, out var hitInfo, 2.0f, Common.LayerMasks.ActorsOrGround))
+                position = hitInfo.point;
+        Destroy(Instantiate(ExplosionPrefab, position, Quaternion.identity), 2);
     }
 
     [MenuItem("Assets/Create/Effect Wrappers/Explosion", false, 1)]
