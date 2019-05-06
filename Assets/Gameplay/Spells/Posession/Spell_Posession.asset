@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spell_Posession
   m_EditorClassIdentifier: 
   Name: Possession
-  Icon: {fileID: 7698805923673104258, guid: 31ec042ca000c8346a1fbbc8cbdd9b6f, type: 3}
+  Icon: {fileID: -456571013877038631, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Description: 'Possess a group of enemies in a targetted area making bleed
 
     Damage: 0.5 p/s    Duration: 4 seconds    Stackable'

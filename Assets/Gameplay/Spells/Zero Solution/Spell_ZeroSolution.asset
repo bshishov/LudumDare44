@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spell_ZeroSolution
   m_EditorClassIdentifier: 
   Name: Zero Solution
-  Icon: {fileID: 0}
+  Icon: {fileID: 7431186755973459390, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Description: 'Channel your blood into a sphere of power and deal huge damage on
     release
 

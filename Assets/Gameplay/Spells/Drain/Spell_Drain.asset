@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spell_Drain
   m_EditorClassIdentifier: 
   Name: Drain
-  Icon: {fileID: 0}
+  Icon: {fileID: -5485510380186969285, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Description: Drain targetted enemy, dealing damage and healing yourself per second
   ApplyBuffOnDismantle: {fileID: 0}
   LifeSteal: 0
