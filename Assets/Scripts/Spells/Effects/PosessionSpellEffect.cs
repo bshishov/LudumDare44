@@ -21,5 +21,7 @@ public class PosessionSpellEffect : MonoBehaviour, ISubSpellEffect
             lObj.GetComponent<Lightning>().SetupLine(targets.Source.Position.Value, dst.Position.Value);
         }
     }
+
+    public void OnEndSubSpell(SpellContext context) {  }
 }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Spells.Effects
 {
-public class RageRayEffect : MonoBehaviour, ISpellEffect
+public class RageRayEffect : MonoBehaviour, ISubSpellEffect
 {
     private struct Data
     {
@@ -18,11 +18,6 @@ public class RageRayEffect : MonoBehaviour, ISpellEffect
     private Dictionary<ISpellContext, Data> _tubes = new Dictionary<ISpellContext, Data>(1);
     public  BloodTube                       Prefab;
 
-    public void OnStateChange(ISpellContext context, ContextState oldState)
-    {
-        if (context.State > ContextState.Fire)
-            StopFiring(context);
-    }
 
     public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
     {
@@ -36,7 +31,7 @@ public class RageRayEffect : MonoBehaviour, ISpellEffect
 
     public void OnTargetsAffected(ISpellContext context, SpellTargets targets) { }
 
-    private void StopFiring(ISpellContext context)
+    public void OnEndSubSpell(SpellContext context)
     {
         if (_tubes.TryGetValue(context, out var data))
         {

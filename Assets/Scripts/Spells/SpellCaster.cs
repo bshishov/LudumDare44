@@ -274,10 +274,15 @@ public class SpellCaster : MonoBehaviour
                     context.SubContext = null;
 
                     if ((context.CurrentSubSpell.Flags & SubSpell.SpellFlags.Channeling) == 0)
+                    {
+                        context.SubContext.effect?.OnEndSubSpell(context);
                         ++context.CurrentSubSpellIndex;
+                    }
                     else
                         return false;
                 }
+
+                context.SubContext.effect?.OnEndSubSpell(context);
 
                 if (context.Aborted)
                     context.listener?.OnAbortedFiring(context.Spell);

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Spells.Effects
 {
-    public class AttachedEffectController : MonoBehaviour, ISpellEffect
+    public class AttachedEffectController : MonoBehaviour, ISubSpellEffect
     {
         public GameObject Prefab;
         public CharacterState.NodeRole Node = CharacterState.NodeRole.Chest;
@@ -23,16 +23,13 @@ namespace Spells.Effects
 
         }
 
-        public void OnStateChange(ISpellContext context, ContextState oldState)
+        public void OnEndSubSpell(SpellContext context)
         {
-            if (context.State == ContextState.Finishing)
-            {
-                if (_instances.TryGetValue(context, out var instance))
-                {
-                    Destroy(instance.gameObject);
-                    _instances.Remove(context);
-                }
-            }
+            if (!_instances.TryGetValue(context, out var instance))
+                return;
+
+            Destroy(instance.gameObject);
+            _instances.Remove(context);
         }
 
         GameObject CreateInstance(SpellTargets targets)

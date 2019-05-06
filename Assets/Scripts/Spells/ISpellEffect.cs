@@ -129,7 +129,8 @@ public interface ISubSpellEffect
     void OnTargetsPreSelected(ISpellContext context, SpellTargets targets);
 
     void OnTargetsAffected(ISpellContext context, SpellTargets targets);
-    }
+    void OnEndSubSpell(SpellContext context);
+}
 
     public interface ISpellEffect : ISubSpellEffect
     {

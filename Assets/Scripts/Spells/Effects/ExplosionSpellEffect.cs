@@ -25,6 +25,8 @@ public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
             SpawnEffect(targets);
     }
 
+    public void OnEndSubSpell(SpellContext context) {  }
+
     private void SpawnEffect(SpellTargets targets)
     {
         switch (Origin)

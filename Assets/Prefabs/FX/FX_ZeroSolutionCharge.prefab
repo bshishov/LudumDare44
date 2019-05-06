@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4318625903824844634}
+  - component: {fileID: 1263061307477853145}
   m_Layer: 0
   m_Name: FX_ZeroSolutionCharge
   m_TagString: Untagged
@@ -32,6 +33,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1263061307477853145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2361784445018168812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 133c74ea3a889df4b9950741bc022c53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraImpact: 0
+  Sound:
+    Clip: {fileID: 0}
+    VolumeModifier: 1
+    MixerGroup: {fileID: 0}
+    Loop: 0
+    IgnoreListenerPause: 0
+    Pitch: 1
+    RandomizePitch: 0
+    MaxPitchShift: 0.05
+    Delay: 0
+    RandomizeDelay: 0
+    MaxAdditionalDelay: 0
+  AutoDestroy: 0
+  LifeTime: 1
 --- !u!1001 &2479470361304936925
 PrefabInstance:
   m_ObjectHideFlags: 0
