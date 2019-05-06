@@ -94,6 +94,11 @@ public class CharacterState : MonoBehaviour
     public event Action OnDeath;
     public event Action<Item, int> OnItemPickup;
     public event Action<Spell, int> OnSpellPickup;
+
+#if DEBUG
+    public event Action<ModificationParameter, Spell, int, float> OnModifierApplied;
+#endif
+
     public CharacterConfig character;
     public CharacterNode[] Nodes;
 
@@ -486,6 +491,10 @@ public class CharacterState : MonoBehaviour
                 transform.localScale = _baseScale * Size;
                 break;
         }
+
+#if DEBUG
+        OnModifierApplied?.Invoke(parameter, spell, stacks, actualChange);
+#endif
     }
 
     private void RevertChange(Change change)
