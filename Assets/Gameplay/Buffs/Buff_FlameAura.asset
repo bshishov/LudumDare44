@@ -17,7 +17,22 @@ MonoBehaviour:
   TickCooldown: 1
   Duration: 100000
   Modifiers: []
-  OnApplyBuff: []
+  OnApplyBuff:
+  - ApplyModifier:
+      Parameter: 0
+      Value: 0
+      EffectiveStacks: 0
+    CastSpell:
+      SpellStacks: 0
+      Spell: {fileID: 0}
+      Target: 0
+      StacksOverride: 0
+    SpawnObject:
+      Prefab: {fileID: 4870443499398435086, guid: aa40de8e742a8cf47b201c85ecd0e809,
+        type: 3}
+      CharacterNode: 4
+      AttachToTransform: 1
+      AutoDestroyAfterBuff: 1
   OnTickBuff:
   - ApplyModifier:
       Parameter: 1
