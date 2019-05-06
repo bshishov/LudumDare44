@@ -18,7 +18,7 @@ MonoBehaviour:
     at a targetted cone and applies heavy bleed to enemies
 
     <b>Damage</b>: 4'
-  ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
+  ApplyBuffOnDismantle: {fileID: 11400000, guid: c2bf24e4004b1954e99e4ce13852e4fb,
     type: 2}
   LifeSteal: 0
   BloodCost: 0
