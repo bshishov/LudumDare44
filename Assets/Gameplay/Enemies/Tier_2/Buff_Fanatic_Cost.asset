@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
-  m_Name: Buff_LuxutiousWine
+  m_Name: Buff_Fanatic_Cost
   m_EditorClassIdentifier: 
-  Name: Luxurious Wine
-  Behaviour: 1
+  Name: 
+  Behaviour: 2
   TickCooldown: 1
-  Duration: 1000000
+  Duration: 1
   Modifiers: []
-  OnApplyBuff: []
-  OnTickBuff:
+  OnApplyBuff:
   - ApplyModifier:
       Parameter: 1
-      Value: 1
-      EffectiveStacks: 1000
+      Value: -5
+      EffectiveStacks: 0
     CastSpell:
       SpellStacks: 0
       Spell: {fileID: 0}
       Target: 0
-      StacksOverride: 1
+      StacksOverride: 0
     SpawnObject:
       Prefab: {fileID: 0}
       CharacterNode: 0
       AttachToTransform: 0
       AutoDestroyAfterBuff: 0
+  OnTickBuff: []
   OnRemove: []

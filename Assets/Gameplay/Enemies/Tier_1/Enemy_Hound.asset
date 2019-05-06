@@ -24,7 +24,7 @@ MonoBehaviour:
   FearRange: 0
   MeleeRange: 2
   AttackCooldown: 1
-  ApplyBuffOnAttack: {fileID: 0}
+  ApplyBuffOnAttack: {fileID: 11400000, guid: 577798d4e4e45924cbaea9924df1875f, type: 2}
   AdditionalSpellStacks: 0
   DropRate: 0.02
   DropSpells:
