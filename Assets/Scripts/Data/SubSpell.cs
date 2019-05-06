@@ -85,6 +85,7 @@ public class SubSpell : ScriptableObject
     [Header("Buffs")]
     [SerializeField]
     public List<Buff> Buffs;
+    public float BloodCost = 0f;
 
     [Header("FX")]
     public GameObject Effect;
