@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spell_PainHammer
   m_EditorClassIdentifier: 
   Name: Pain Hammer
-  Icon: {fileID: 8409708482411832467, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Icon: {fileID: 6876218924004010766, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Description: 'After a short delay, creates a ghost hammer, which smashes the enemies
 
     Damage: 7'
