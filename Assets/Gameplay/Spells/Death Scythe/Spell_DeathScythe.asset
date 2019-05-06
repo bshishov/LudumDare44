@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: 'After a short delay, creates an otherwordly scythe, which deals damage
     at a targetted cone and applies heavy bleed to enemies
 
-    Damage: 4'
+    <b>Damage</b>: 4'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
     type: 2}
   LifeSteal: 0

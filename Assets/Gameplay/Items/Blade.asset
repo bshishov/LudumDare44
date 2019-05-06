@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Blade
   m_EditorClassIdentifier: 
   Name: Blade
-  Description: This blade sharpens you damage on 10%
+  Description: This blade sharpens you <b>damage</b> on 10%
   Cost: 5
   Icon: {fileID: -5681727603324189455, guid: 79f8526ca8b62344a9fc6dfbb87b4366, type: 3}
   Buffs:

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Bloodsoaked Shield
   m_EditorClassIdentifier: 
   Name: Bloodsoaked Shield
-  Description: This shield increases your Max health on 10%, but you move 10% slower
+  Description: This shield increases your <b>Max health</b> on 10%, but you move 10%
+    <b>slower</b>
   Cost: 0
   Icon: {fileID: -6773044066538175845, guid: 79f8526ca8b62344a9fc6dfbb87b4366, type: 3}
   Buffs:

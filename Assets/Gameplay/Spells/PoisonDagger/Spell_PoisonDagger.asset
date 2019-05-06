@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: 'Throws a poisoned dagger at a chosen direction, dealing damage and
     poisoning affected enemy
 
-    Damage: 1
+    <b>Damage</b>: 1
 
     Poison Damage: 2 p/s   Duration: 2 seconds'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,

@@ -16,7 +16,7 @@ MonoBehaviour:
   Icon: {fileID: 6876218924004010766, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Description: 'After a short delay, creates a ghost hammer, which smashes the enemies
 
-    Damage: 7'
+    <b>Damage</b>: 7'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
     type: 2}
   LifeSteal: 0

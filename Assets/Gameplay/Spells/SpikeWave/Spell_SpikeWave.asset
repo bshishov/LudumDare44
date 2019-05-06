@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: 'Launches at a targeted direction a cone of spikes, dealing damage
     and slowing affected enemies
 
-    Damage: 4                             5% Stackable slow'
+    <b>Damage</b>: 4                             5% <b>Stackable slow</b>'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
     type: 2}
   LifeSteal: 0

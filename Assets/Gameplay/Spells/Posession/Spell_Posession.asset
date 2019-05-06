@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Possession
   Icon: {fileID: -456571013877038631, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 'Possess a group of enemies in a targetted area making bleed
+  Description: 'Possesses a group of enemies in an area making them bleed
 
-    Damage: 0.5 p/s    Duration: 4 seconds    Stackable'
+    <b>Damage</b>: 0.5 p/s    <b>Duration</b>: 4 seconds    <b>Stackable</b>'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
     type: 2}
   LifeSteal: 1

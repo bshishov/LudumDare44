@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: 'Channel your blood into a sphere of power and deal huge damage on
     release
 
-    Deal damage proportional to hp, spent over channeling'
+    Deal damage proportional to hp spent over channeling'
   ApplyBuffOnDismantle: {fileID: 0}
   LifeSteal: 0
   BloodCost: 1
