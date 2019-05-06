@@ -399,6 +399,11 @@ public class SpellCaster : MonoBehaviour
         if (newTarget == null)
             return false;
 
+        if ((context.CurrentSubSpell.Flags & SubSpell.SpellFlags.SelfTarget) == SubSpell.SpellFlags.SelfTarget)
+        {
+            newTarget = new TargetInfo(currentTargets[0].Source);
+        }
+
         if (!IsValidTarget(context.CurrentSubSpell, newTarget))
         {
             Debug.LogWarning("Channeling target is invalid!");
