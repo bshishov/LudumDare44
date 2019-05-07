@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spell_PoisonDagger
   m_EditorClassIdentifier: 
   Name: Poison Dagger
-  Icon: {fileID: 3770519954012001039, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Icon: {fileID: 8339939493531242580, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Description: 'Throws a poisoned dagger at a chosen direction, dealing damage and
     poisoning affected enemy
 
