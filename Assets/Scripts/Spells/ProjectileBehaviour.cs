@@ -30,7 +30,7 @@ namespace Spells
         private SpellCaster _caster;
         private ProjectileContext _context;
         private bool _destroying;
-        private float _trevaledDistance;
+        private float _distanceTraveled;
 
         private Vector3 _direction;
 
@@ -84,31 +84,30 @@ namespace Spells
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"OnTriggerEnter");
-
             if (_destroying)
                 return;
 
+            var projectileSubSpell = _context.GetProjectileSubSpell();
             var character = other.gameObject.GetComponent<CharacterState>();
             if (character == null)
             {
-                Debug.LogWarning($"Invalid colision target {other.gameObject.name}");
-                return;
+                if (!projectileSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.IgnoreWorldCollision))
+                    DestroyParticle();
             }
+            else
+            {
+                var ignoreEnemyCheck = projectileSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.IgnoreButTarget) &&
+                                       character != _context.target.Character;
 
-            bool ignoreEnemyCheck = ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.IgnoreButTarget) ==
-                SubSpell.ObstacleHandling.IgnoreButTarget) && character != _context.target.Character;
+                if (ignoreEnemyCheck || !SpellCaster.IsEnemy(_context.owner, character, projectileSubSpell.AffectedTarget))
+                    return;
 
-            if (ignoreEnemyCheck || !SpellCaster.IsEnemy(_context.owner, character, _context.GetProjectileSubSpell().AffectedTarget))
-                return;
+                if (projectileSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.ExecuteSpellSequence))
+                    ContinueSpellSequence(character);
 
-            if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.ExecuteSpellSequence) ==
-                SubSpell.ObstacleHandling.ExecuteSpellSequence)
-                ContinueSpellSequence(character);
-
-            if ((_context.GetProjectileSubSpell().Obstacles & SubSpell.ObstacleHandling.Break) ==
-                SubSpell.ObstacleHandling.Break)
-                DestroyParticle();
+                if (projectileSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.Break))
+                    DestroyParticle();
+            }
         }
 
         private void DestroyParticle()
@@ -139,12 +138,12 @@ namespace Spells
             switch (_context.trajectory)
             {
                 case ProjectileTrajectory.Line:
-                    _trevaledDistance += moveDistance;
+                    _distanceTraveled += moveDistance;
                     transform.position += _direction * moveDistance;
                     break;
 
                 case ProjectileTrajectory.Follow:
-                    _trevaledDistance += moveDistance;
+                    _distanceTraveled += moveDistance;
                     transform.position += (_context.target.Transform.position - transform.position).normalized * moveDistance;
                     break;
 
@@ -159,28 +158,13 @@ namespace Spells
                     break;
             }
 
-            if (_context.projectileData.MaxDistance > 0 && _trevaledDistance > _context.projectileData.MaxDistance)
+            if (_context.projectileData.MaxDistance > 0 && _distanceTraveled > _context.projectileData.MaxDistance)
             {
-                if ((_context.GetProjectileSubSpell().Obstacles &
-                     SubSpell.ObstacleHandling.ExecuteSpellSequenceOnMaxDistance) ==
-                    SubSpell.ObstacleHandling.ExecuteSpellSequenceOnMaxDistance)
+                if (_context.GetProjectileSubSpell().Obstacles.HasFlag(SubSpell.ObstacleHandling.ExecuteSpellSequenceOnMaxDistance))
                     ContinueSpellSequence(null);
 
                 DestroyParticle();
             }
-        }
-
-        private void ActivateProjectilePayload()
-        {
-            if (_destroying)
-                return;
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawCube(_collider.bounds.center, _collider.bounds.size);
-
         }
     }
 }
