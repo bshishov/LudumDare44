@@ -19,6 +19,7 @@ MonoBehaviour:
   Size: 1
   HealthModifier: 1
   SpellDamageAmp: 0
+  Class: 1
   IndifferenceDistance: 20
   SpellRange: 10
   FearRange: 0

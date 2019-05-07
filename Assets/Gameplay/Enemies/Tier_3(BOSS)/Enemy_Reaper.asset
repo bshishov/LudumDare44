@@ -19,11 +19,13 @@ MonoBehaviour:
   Size: 1.5
   HealthModifier: 1
   SpellDamageAmp: 0
+  Class: 1
   IndifferenceDistance: 30
   SpellRange: 10
   FearRange: 0
   MeleeRange: 2
   AttackCooldown: 3
+  AnimationDelay: 0.9
   ApplyBuffOnAttack: {fileID: 0}
   AdditionalSpellStacks: 0
   DropRate: 0.05

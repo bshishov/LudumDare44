@@ -10,6 +10,7 @@ public static class Common
         public static string Interactable = "Interactable";
         public static string Enemy = "Enemy";
         public static string Buffer = "Buffer";
+        public static string Caster = "Caster";
     }
 
     public static class LayerNames

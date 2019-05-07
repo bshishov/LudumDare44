@@ -9,6 +9,7 @@ TagManager:
   - Interactable
   - Enemy
   - Buffer
+  - Caster
   layers:
   - Default
   - TransparentFX
