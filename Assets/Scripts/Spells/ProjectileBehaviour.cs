@@ -91,23 +91,26 @@ namespace Spells
             var character = other.gameObject.GetComponent<CharacterState>();
             if (character == null)
             {
-                if (!projectileSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.IgnoreWorldCollision))
-                    DestroyParticle();
+                // Collision with non-character object.
+                // If flag is set then just skip this whole section
+                if (projectileSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.IgnoreWorldCollision))
+                    return;
             }
             else
             {
+                // Collision with a non-target character object
                 var ignoreEnemyCheck = projectileSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.IgnoreButTarget) &&
                                        character != _context.target.Character;
 
                 if (ignoreEnemyCheck || !SpellCaster.IsEnemy(_context.owner, character, projectileSubSpell.AffectedTarget))
                     return;
-
-                if (projectileSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.ExecuteSpellSequence))
-                    ContinueSpellSequence(character);
-
-                if (projectileSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.Break))
-                    DestroyParticle();
             }
+            
+            if (projectileSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.ExecuteSpellSequence))
+                ContinueSpellSequence(character);
+
+            if (projectileSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.Break))
+                DestroyParticle();
         }
 
         private void DestroyParticle()

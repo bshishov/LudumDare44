@@ -15,6 +15,7 @@ MonoBehaviour:
   AffectedTarget: 8
   Area: {fileID: 0}
   Buffs: []
+  BloodCost: 0
   Effect: {fileID: 0}
   Flags: 8
   Obstacles: -1
