@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RageRayDamage
   m_EditorClassIdentifier: 
   Name: 
-  Behaviour: 2
+  Behaviour: 0
   TickCooldown: 1
   Duration: 1
   Modifiers:

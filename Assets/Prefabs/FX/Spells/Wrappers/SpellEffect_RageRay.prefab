@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7547348210591549195}
-  - component: {fileID: 9209378046518377955}
+  - component: {fileID: 3029684332332093219}
   m_Layer: 0
   m_Name: SpellEffect_RageRay
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9209378046518377955
+--- !u!114 &3029684332332093219
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,7 +40,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1349204274574646620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5196db33e6fe4b32bc2f0e7ad089ca4a, type: 3}
+  m_Script: {fileID: 11500000, guid: 41108ea84973871479b1e174465108e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 7646955110179832188, guid: e29d97467ef0fab4daa138c1fae9ae44, type: 3}
+  RayPrefab: {fileID: 6378079014847535029, guid: 5b3ddae3469549c4a8a179f7b7b2e652,
+    type: 3}
+  AutoDestroyAfterSpell: 0
