@@ -97,7 +97,7 @@ public class EnemyController : MonoBehaviour
         var len      = player.transform.position - transform.position;
         var distance = len.magnitude;
 
-        if (_buffTarget == null || _buffTarget.Health <= 0)
+        if (_buffTarget == null || !_buffTarget.IsAlive)
         {
             var allies = GameObject.FindGameObjectsWithTag(Common.Tags.Enemy).Select(o => o.GetComponent<CharacterState>()).ToArray();
             if (allies.Length > 0)
@@ -122,7 +122,7 @@ public class EnemyController : MonoBehaviour
                 var buffTarget = _buffTarget.GetComponent<CharacterState>();
 
                 buffTarget.ApplyBuff(_useBuff, buffTarget, null, 1);
-                GetComponent<AnimationController>().PlayCastAnimation();
+                _animationController.PlayCastAnimation();
             }
         }
     }
@@ -143,10 +143,10 @@ public class EnemyController : MonoBehaviour
                 _movement.Stop();
                
                 _movement.LookAt(player.transform.position);
-                _characterState.GetComponent<AnimationController>().PlayAttackAnimation();
+                _animationController.PlayAttackAnimation();
             }
             if (Time.time - _doubleMeleeCheck > _characterState.character.AnimationDelay
-                && Time.time - _doubleMeleeCheck<_characterState.character.AttackCooldown)
+                && Time.time - _doubleMeleeCheck<=_characterState.character.AttackCooldown)
             {
                 _doubleMeleeCheck = 0;
                 player.ReceiveDamage(_characterState, _characterState.Damage, null);
@@ -169,9 +169,11 @@ public class EnemyController : MonoBehaviour
             {
                 if (_characterState.CanDealDamage())
                 {
-                    _movement.LookAt(player.transform.position);
-                    _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player, null);
                     _movement.Stop();
+                    Debug.Log("Here!");
+                    //_movement.LookAt(player.transform.position);
+                    _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player, null);
+                    
                 }
             }
             else
