@@ -4,9 +4,11 @@ using System.Runtime.InteropServices;
 using Assets.Scripts;
 using Assets.Scripts.Data;
 using Assets.Scripts.Utils;
+using Assets.Scripts.Utils.Debugger;
 using Spells;
 using UnityEngine;
 using UnityEngine.AI;
+using Logger = Assets.Scripts.Utils.Debugger.Logger;
 
 [RequireComponent(typeof(AnimationController))]
 [RequireComponent(typeof(CharacterState))]
@@ -22,76 +24,168 @@ public class EnemyController : MonoBehaviour
     private float          _fearRange;
     private float          _indifferenceDistance;
     private float          _meleeRange;
-    private CharacterState[] _players;
+    private CharacterState _player;
     private float            _spellRange;
     private float            _timeCount;
     private Buff             _useBuff;
     private float           _doubleMeleeCheck;
+    private int             _spellCount;
+
+    private Logger _logger;
 
     private void Start()
     {
+        _logger = Debugger.Default.GetLogger(gameObject.name + "/AI Log", unityLog: false);              
+
         _animationController = GetComponent<AnimationController>();
         _characterState      = GetComponent<CharacterState>();
         _movement            = GetComponent<MovementController>();
         _spellbookState      = GetComponent<SpellbookState>();
-
+        
         _indifferenceDistance = _characterState.character.IndifferenceDistance;
         _spellRange           = _characterState.character.SpellRange;
         _fearRange            = _characterState.character.FearRange;
         _meleeRange           = _characterState.character.MeleeRange;
-        _players = GameObject.FindGameObjectsWithTag(Common.Tags.Player).Select(o => o.GetComponent<CharacterState>()).ToArray();
+
+        var _players = GameObject.FindGameObjectsWithTag(Common.Tags.Player).Select(o => o.GetComponent<CharacterState>()).ToArray();
+        _player = _players[0];
+
         _useBuff = _characterState.character.UseBuff;
+        _spellCount = _characterState.character.UseSpells.Count;
         _doubleMeleeCheck = 0;
 
-        if (_useBuff == null)
-            gameObject.tag = "Enemy";
-        else
-            gameObject.tag = "Buffer";
+        switch (_characterState.character.Class)
+        {
+            case CharacterClass.Buffer:
+                {
+
+                    gameObject.tag = "Buffer";
+                    break;
+                }
+            case CharacterClass.Melee:
+                {
+                    StartCoroutine(MeleeWanderState());
+                    gameObject.tag = "Enemy";
+                    break;
+                }
+            case CharacterClass.Caster:
+                {
+                    StartCoroutine(CasterWanderState());
+                    gameObject.tag = "Enemy";
+                    break;
+                }
+        }         
     }
 
-    private void Update()
+
+    public IEnumerator MeleeWanderState()
     {
-        if (_characterState.IsAlive)
-        {
-            UpdateTarget();
-        }
-    }
+        yield return null;
+        _logger.Log("In wander");
+        while (_characterState.IsAlive && _player.IsAlive)
+        {            
+            _logger.Log("In wander while");
+            var len = _player.transform.position - transform.position;
+            var distance = len.magnitude;
 
-    private void UpdateTarget()
-    {
-        if (!_characterState.IsAlive)
-            return;
-
-        // float minDistance = float.MaxValue;
-        foreach (var player in _players)
-        {
-            if (!player.IsAlive)
-                continue;
-
-            if (_useBuff != null)
+            if (distance > _indifferenceDistance)
             {
-                UseBuff(player);
+                yield return null;
+                continue;
+            }
+
+            if (distance > _meleeRange)
+            {
+                _movement.SetDestination(_player.transform.position);
+                _movement.LookAt(_player.transform.position);               
             }
             else
-            {                
-                var len      = player.transform.position - transform.position;
-                var distance = len.magnitude;
-
-                if (!(distance < _indifferenceDistance))
-                    continue;
-
-                var spellCount = _characterState.character.UseSpells.Count;
-                if (spellCount <= 0)
-                {
-                    MeleeAtack(player, len, distance);
-                }
-                else
-                {
-                    CastAttack(player, len, distance, spellCount);
-                }
+            {
+                StartCoroutine(MeleeAttackState(MeleeWanderState()));
+                break;
             }
+            yield return null;
+        }        
+    }
+
+    public IEnumerator CasterWanderState()
+    {
+        yield return null;
+        while (_characterState.IsAlive && _player.IsAlive)
+        {
+
+            var len = _player.transform.position - transform.position;
+            var distance = len.magnitude;
+
+            if (distance > _indifferenceDistance)
+            {
+                yield return null;
+                continue;
+            }
+
+            if (distance > _spellRange)
+            {
+                _movement.SetDestination(_player.transform.position);
+                _movement.LookAt(_player.transform.position);
+            }
+            else
+            {
+                if (distance < _meleeRange)
+                    StartCoroutine(MeleeAttackState(CasterWanderState()));
+                else
+                    StartCoroutine(FearOrSpellState(len, distance));
+                break;
+            }
+            yield return null;
         }
     }
+
+    public IEnumerator MeleeAttackState(IEnumerator fromState)
+    {
+        yield return null;
+        _logger.Log("In attack");
+        if (_characterState.CanDealDamage())
+        {
+            _logger.Log("In can deal damage");
+            _movement.LookAt(_player.transform.position);
+            _animationController.PlayAttackAnimation();
+            _movement.Stop();
+            yield return new WaitForSeconds(_characterState.character.AnimationDelay);
+
+            if ((_player.transform.position - transform.position).magnitude < _meleeRange)
+            {
+                _player.ReceiveDamage(_characterState, _characterState.Damage, null);
+                if (_characterState.character.ApplyBuffOnAttack != null)
+                    _player.ApplyBuff(_characterState.character.ApplyBuffOnAttack, _characterState, null, 1 + _characterState.AdditionSpellStacks);
+                StartCoroutine(MeleeAttackState(fromState));
+                yield break;
+            }
+            
+        }        
+        //yield return null;
+        StartCoroutine(fromState);
+    }
+
+    public IEnumerator FearOrSpellState(Vector3 len, float distance)
+    {
+        yield return null;
+        if (distance>_fearRange)
+        {
+            _movement.LookAt(_player.transform.position);
+            _movement.Stop();
+            _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * _spellCount), _player, null);
+        }
+        else
+        {
+            var tgt = transform.position -  len.normalized;
+            _movement.SetDestination(tgt);
+            _movement.LookAt(tgt);
+        }
+
+        yield return null;
+        StartCoroutine(CasterWanderState());        
+    }  
+    
 
     private void UseBuff(CharacterState player)
     {
@@ -129,58 +223,5 @@ public class EnemyController : MonoBehaviour
     }
 
 
-    private void MeleeAtack(CharacterState player, Vector3 len, float distance)
-    {
-        if (distance > _meleeRange)
-        {
-            _movement.SetDestination(player.transform.position);
-            _movement.LookAt(player.transform.position);            
-        }
-        else
-        {
-            if (_characterState.CanDealDamage())
-            {
-                _doubleMeleeCheck = Time.time;
-                _movement.Stop();
-               
-                _movement.LookAt(player.transform.position);
-                _animationController.PlayAttackAnimation();
-            }
-            if (Time.time - _doubleMeleeCheck > _characterState.character.AnimationDelay
-                && Time.time - _doubleMeleeCheck<=_characterState.character.AttackCooldown)
-            {
-                _doubleMeleeCheck = 0;
-                player.ReceiveDamage(_characterState, _characterState.Damage, null);
-                if (_characterState.character.ApplyBuffOnAttack != null)
-                    player.ApplyBuff(_characterState.character.ApplyBuffOnAttack, _characterState, null, 1 + _characterState.AdditionSpellStacks);
-            }
-        }
-    }
-
-    private void CastAttack(CharacterState player, Vector3 len, float distance, int spellCount)
-    {
-        
-
-        if (distance > _spellRange)
-        {
-            _movement.LookAt(player.transform.position);
-            _movement.SetDestination(player.transform.position);
-        }
-        else
-        {
-            if (_characterState.CanDealDamage())
-            {
-                _movement.LookAt(player.transform.position);
-                _movement.Stop();
-                _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player, null);                
-
-            }
-            else if (distance < _fearRange)
-            {
-                var tgt = transform.position - _fearRange * len.normalized;
-                _movement.SetDestination(tgt);
-                _movement.LookAt(tgt);
-            }
-        }
-    }
+    
 }

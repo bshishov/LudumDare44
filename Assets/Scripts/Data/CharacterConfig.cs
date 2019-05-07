@@ -4,9 +4,17 @@ using UnityEngine;
 
 namespace Assets.Scripts.Data
 {
+    public enum CharacterClass
+    {
+        Melee,
+        Caster,
+        Buffer
+    }
+
     [CreateAssetMenu(fileName = "CharacterConfig", menuName = "Mechanics/CharacterConfig")]
     public class CharacterConfig : ScriptableObject
     {
+        
         [Header("Stats")]
         public float Health;
         public float Damage;
@@ -18,6 +26,7 @@ namespace Assets.Scripts.Data
         public float SpellDamageAmp = 0f;
 
         [Header("AI")]
+        public CharacterClass Class;
         public float IndifferenceDistance = 10f;
         public float SpellRange = 0f;
         public float FearRange = 0f;
