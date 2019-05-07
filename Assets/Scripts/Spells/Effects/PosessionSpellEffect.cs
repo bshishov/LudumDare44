@@ -22,6 +22,6 @@ public class PosessionSpellEffect : MonoBehaviour, ISubSpellEffect
         }
     }
 
-    public void OnEndSubSpell(SpellContext context) {  }
+    public void OnEndSubSpell(ISpellContext context) {  }
 }
 }

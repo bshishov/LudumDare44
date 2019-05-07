@@ -31,7 +31,7 @@ public class RageRayEffect : MonoBehaviour, ISubSpellEffect
 
     public void OnTargetsAffected(ISpellContext context, SpellTargets targets) { }
 
-    public void OnEndSubSpell(SpellContext context)
+    public void OnEndSubSpell(ISpellContext context)
     {
         if (_tubes.TryGetValue(context, out var data))
         {

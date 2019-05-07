@@ -1,136 +1,128 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using Assets.Scripts.Data;
 using UnityEngine;
 
 namespace Spells
 {
-public enum ContextState
-{
-    JustQueued = 0,
-    PreDelays,
-    FindTargets,
-    PreDamageDelay,
-    Fire,
-    PostDelay,
-    Finishing,
-}
-
-[DebuggerStepThrough]
-public class TargetInfo
-{
-    public CharacterState Character;
-    public Transform      Transform;
-    public Vector3?       Position;
-
-    public TargetInfo()
+    public enum ContextState
     {
-        Character = null;
-        Transform = null;
-        Position  = null;
+        JustQueued = 0,
+        PreDelays,
+        FindTargets,
+        PreDamageDelay,
+        Fire,
+        PostDelay,
+        Finishing
     }
 
-    public TargetInfo(TargetInfo source)
+    [DebuggerStepThrough]
+    public class TargetInfo
     {
-        Character = source.Character;
-        Transform = source.Transform;
-        Position  = source.Position;
-    }
+        public CharacterState Character;
+        public Vector3? Position;
+        public Transform Transform;
 
-    public static TargetInfo Create(CharacterState character, Transform transform, Vector3 position)
-        => new TargetInfo
-           {
-               Character = character,
-               Transform = transform,
-               Position  = position
-           };
-
-    public static TargetInfo Create(CharacterState character, Transform transform) => Create(character, transform, transform.position);
-
-    public static TargetInfo Create(CharacterState character) => Create(character, character.GetNodeTransform());
-
-    public override string ToString()
-    {
-        StringBuilder sb = new StringBuilder();
-        if (Character != null)
+        public TargetInfo()
         {
-            sb.Append($"Character = {Character}\r\n");
+            Character = null;
+            Transform = null;
+            Position = null;
         }
 
-        if (Transform != null)
+        public TargetInfo(TargetInfo source)
         {
-            sb.Append($"Transform = {Transform}\r\n");
+            Character = source.Character;
+            Transform = source.Transform;
+            Position = source.Position;
         }
 
-        if (Position.HasValue == true)
+        public static TargetInfo Create(CharacterState character, Transform transform, Vector3 position)
         {
-            sb.Append($"Position = {Position.Value}\r\n");
+            return new TargetInfo
+            {
+                Character = character,
+                Transform = transform,
+                Position = position
+            };
         }
 
-        return sb.ToString();
+        public static TargetInfo Create(CharacterState character, Transform transform)
+        {
+            return Create(character, transform, transform.position);
+        }
+
+        public static TargetInfo Create(CharacterState character)
+        {
+            return Create(character, character.GetNodeTransform());
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            if (Character != null) sb.Append($"Character: <b>{Character}</b>\r\n");
+
+            if (Transform != null) sb.Append($"Transform: {Transform}\r\n");
+
+            if (Position.HasValue) sb.Append($"Position: {Position.Value}\r\n");
+
+            return sb.ToString();
+        }
     }
-}
 
-[DebuggerStepThrough]
-public class SpellTargets
-{
-    public TargetInfo   Source;
-    public TargetInfo[] Destinations;
-
-    public SpellTargets(SpellTargets source)
+    [DebuggerStepThrough]
+    public class SpellTargets
     {
-        Source       = new TargetInfo(source.Source);
-        Destinations = source.Destinations;
+        public TargetInfo[] Destinations;
+        public TargetInfo Source;
+
+        public SpellTargets(SpellTargets source)
+        {
+            Source = new TargetInfo(source.Source);
+            Destinations = source.Destinations;
+        }
+
+        public SpellTargets(TargetInfo source)
+        {
+            Source = source;
+            Destinations = new TargetInfo[0];
+        }
+
+        public SpellTargets(TargetInfo source, TargetInfo target)
+        {
+            Source = source;
+            Destinations = new[] {target};
+        }
+
+        public SpellTargets(TargetInfo source, TargetInfo[] targets)
+        {
+            Source = source;
+            Destinations = targets;
+        }
+
+        public override string ToString()
+        {
+            var dst = "";
+            if (Destinations != null && Destinations.Length > 0)
+                dst = string.Join("; ", Destinations.Select(d => d.ToString()));
+            return $"Source = {Source}, Destinations = {dst}";
+        }
     }
 
-    public SpellTargets(TargetInfo source)
+    [DebuggerStepThrough]
+    public struct SubSpellTargets
     {
-        Source       = source;
-        Destinations = new TargetInfo[0];
+        public List<SpellTargets> TargetData;
     }
 
-    public SpellTargets(TargetInfo source, TargetInfo target)
+
+    public interface ISubSpellEffect
     {
-        Source       = source;
-        Destinations = new[] {target};
+        void OnTargetsPreSelected(ISpellContext context, SpellTargets targets);
+        void OnTargetsAffected(ISpellContext context, SpellTargets targets);
+        void OnEndSubSpell(ISpellContext context);
     }
-
-    public SpellTargets(TargetInfo source, TargetInfo[] targets)
-    {
-        Source       = source;
-        Destinations = targets;
-    }
-
-    public override string ToString()
-    {
-        string dst = "";
-        if (Destinations != null && Destinations.Length > 0)
-            dst = string.Join("; ", Destinations.Select(d => d.ToString()));
-        return $"Source = {Source}, Destinations = {dst}";
-    }
-
-
-}
-
-[DebuggerStepThrough]
-public struct SubSpellTargets
-{
-    public List<SpellTargets> TargetData;
-}
-
-
-public interface ISubSpellEffect
-{
-    void OnTargetsPreSelected(ISpellContext context, SpellTargets targets);
-
-    void OnTargetsAffected(ISpellContext context, SpellTargets targets);
-    void OnEndSubSpell(SpellContext context);
-}
 
     public interface ISpellEffect : ISubSpellEffect
     {
