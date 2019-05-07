@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Assets.Scripts;
 using Assets.Scripts.Data;
@@ -158,16 +159,18 @@ public class EnemyController : MonoBehaviour
 
     private void CastAttack(CharacterState player, Vector3 len, float distance, int spellCount)
     {
-        _movement.LookAt(player.transform.position);
+        
 
         if (distance > _spellRange)
         {
+            _movement.LookAt(player.transform.position);
             _movement.SetDestination(player.transform.position);
         }
         else
         {
             if (_characterState.CanDealDamage())
             {
+                _movement.LookAt(player.transform.position);
                 _movement.Stop();
                 _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player, null);                
 
