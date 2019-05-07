@@ -128,10 +128,6 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
             return false;
         }
 
-        // Disable self cast
-        if (_characterState.Equals(targets.Destinations[0].Character))
-            return false;
-
         Assert.IsTrue(index >= 0 && index <= SpellCount);
         var slotState = GetSpellSlotState(index);
 

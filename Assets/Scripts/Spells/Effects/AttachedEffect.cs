@@ -8,6 +8,7 @@ namespace Spells.Effects
         public GameObject Object;
         public bool       StartEffectOnPreSelected;
         public float LifeTime = 2f;
+        public bool RotateTowardsTarget = true;
         public CharacterState.NodeRole Node = CharacterState.NodeRole.Chest;
 
         public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
@@ -22,7 +23,7 @@ namespace Spells.Effects
                 SpawnEffect(targets);
         }
 
-        public void OnEndSubSpell(SpellContext context) {  }
+        public void OnEndSubSpell(ISpellContext context) {  }
 
 
         private void SpawnEffect(SpellTargets targets)
@@ -33,7 +34,7 @@ namespace Spells.Effects
             var origin = attachTo.transform.position;
             var rotation = Quaternion.identity;
 
-            if (targets.Destinations.Length > 0)
+            if (RotateTowardsTarget && targets.Destinations.Length > 0)
             {
                 rotation = Quaternion.LookRotation(targets.Destinations[0].Position.Value - origin);
             }

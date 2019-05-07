@@ -21,6 +21,6 @@ namespace Spells.Effects
         }
 
         public void OnTargetsAffected(ISpellContext context, SpellTargets targets) { }
-        public void OnEndSubSpell(SpellContext context) {  }
+        public void OnEndSubSpell(ISpellContext context) {  }
     }
 }

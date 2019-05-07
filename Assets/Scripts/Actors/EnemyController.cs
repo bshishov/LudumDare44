@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Assets.Scripts;
 using Assets.Scripts.Data;
@@ -97,7 +98,7 @@ public class EnemyController : MonoBehaviour
         var len      = player.transform.position - transform.position;
         var distance = len.magnitude;
 
-        if (_buffTarget == null || _buffTarget.Health <= 0)
+        if (_buffTarget == null || !_buffTarget.IsAlive)
         {
             var allies = GameObject.FindGameObjectsWithTag(Common.Tags.Enemy).Select(o => o.GetComponent<CharacterState>()).ToArray();
             if (allies.Length > 0)
@@ -122,7 +123,7 @@ public class EnemyController : MonoBehaviour
                 var buffTarget = _buffTarget.GetComponent<CharacterState>();
 
                 buffTarget.ApplyBuff(_useBuff, buffTarget, null, 1);
-                GetComponent<AnimationController>().PlayCastAnimation();
+                _animationController.PlayCastAnimation();
             }
         }
     }
@@ -143,10 +144,10 @@ public class EnemyController : MonoBehaviour
                 _movement.Stop();
                
                 _movement.LookAt(player.transform.position);
-                _characterState.GetComponent<AnimationController>().PlayAttackAnimation();
+                _animationController.PlayAttackAnimation();
             }
             if (Time.time - _doubleMeleeCheck > _characterState.character.AnimationDelay
-                && Time.time - _doubleMeleeCheck<_characterState.character.AttackCooldown)
+                && Time.time - _doubleMeleeCheck<=_characterState.character.AttackCooldown)
             {
                 _doubleMeleeCheck = 0;
                 player.ReceiveDamage(_characterState, _characterState.Damage, null);
@@ -158,18 +159,21 @@ public class EnemyController : MonoBehaviour
 
     private void CastAttack(CharacterState player, Vector3 len, float distance, int spellCount)
     {
-        _movement.LookAt(player.transform.position);
+        
 
         if (distance > _spellRange)
         {
+            _movement.LookAt(player.transform.position);
             _movement.SetDestination(player.transform.position);
         }
         else
         {
             if (_characterState.CanDealDamage())
             {
-                _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player, null);
+                _movement.LookAt(player.transform.position);
                 _movement.Stop();
+                _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player, null);                
+
             }
             else if (distance < _fearRange)
             {

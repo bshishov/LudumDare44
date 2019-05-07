@@ -51,6 +51,8 @@ public class Effect : MonoBehaviour, IAttachable
         _target = t;
 
         _initialRotation = transform.rotation;
-        _initialRotation = Quaternion.Inverse(_initialRotation);
+
+        if(AttachRotation)
+            _initialRotation = Quaternion.Inverse(_initialRotation);
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DeathScytheDamage
   m_EditorClassIdentifier: 
   Name: SpikeWaveDamage
-  Behaviour: 2
+  Behaviour: 0
   TickCooldown: 1
   Duration: 1
   Modifiers: []
@@ -22,7 +22,15 @@ MonoBehaviour:
       Parameter: 1
       Value: -4
       EffectiveStacks: 10
-    CastSpell: {fileID: 0}
-    SpawnObject: {fileID: 0}
+    CastSpell:
+      SpellStacks: 0
+      Spell: {fileID: 0}
+      Target: 0
+      StacksOverride: 1
+    SpawnObject:
+      Prefab: {fileID: 0}
+      CharacterNode: 0
+      AttachToTransform: 0
+      AutoDestroyAfterBuff: 0
   OnTickBuff: []
   OnRemove: []
