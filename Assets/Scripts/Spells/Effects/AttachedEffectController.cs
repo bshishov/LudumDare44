@@ -23,7 +23,7 @@ namespace Spells.Effects
 
         }
 
-        public void OnEndSubSpell(SpellContext context)
+        public void OnEndSubSpell(ISpellContext context)
         {
             if (!_instances.TryGetValue(context, out var instance))
                 return;

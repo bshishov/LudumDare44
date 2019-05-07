@@ -23,7 +23,7 @@ namespace Spells.Effects
                 SpawnEffect(targets);
         }
 
-        public void OnEndSubSpell(SpellContext context) {  }
+        public void OnEndSubSpell(ISpellContext context) {  }
 
 
         private void SpawnEffect(SpellTargets targets)

@@ -33,7 +33,8 @@ public class SubSpell : ScriptableObject
         ExecuteSpellSequence              = 1 << 1,
         Break                             = 1 << 2,
         ExecuteSpellSequenceOnMaxDistance = 1 << 3,
-        IgnoreButTarget                   = 1 << 4
+        IgnoreButTarget                   = 1 << 4,
+        IgnoreWorldCollision              = 1 << 5
     }
 
     [Serializable]
