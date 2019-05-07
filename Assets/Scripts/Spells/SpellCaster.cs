@@ -635,27 +635,32 @@ public class SpellCaster : MonoBehaviour
         {
             case AreaOfEffect.AreaType.Ray:
             {
+                // Special for single-targeted abilities
                 if (target.Character != null)
-                    if ((context.CurrentSubSpell.Obstacles & SubSpell.ObstacleHandling.Break) == SubSpell.ObstacleHandling.Break)
+                    if (context.CurrentSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.Break))
                         return new[] {target};
 
-                if ((context.CurrentSubSpell.Obstacles & SubSpell.ObstacleHandling.ExecuteSpellSequence) == SubSpell.ObstacleHandling.ExecuteSpellSequence)
-                    return Physics.RaycastAll(source.Position.Value, target.Position.Value, context.CurrentSubSpell.Area.Size, Common.LayerMasks.ActorsOrGround)
-                                  .Select(hitInfo => hitInfo.transform.GetComponent<CharacterState>())
-                                  .Where(characterState => characterState != null)
-                                  .Select(characterState =>
-                                          {
-                                              var transform = characterState.GetNodeTransform(CharacterState.NodeRole.Chest);
-                                              return new TargetInfo
-                                                     {
-                                                         Character = characterState,
-                                                         Transform = transform,
-                                                         Position  = transform.position
-                                                     };
-                                          })
-                                  .ToArray();
+                if (context.CurrentSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.ExecuteSpellSequence))
+                {
+                    var direction = (target.Position.Value - source.Position.Value).normalized;
+                    return Physics.RaycastAll(source.Position.Value, direction,
+                            context.CurrentSubSpell.Area.Size, Common.LayerMasks.ActorsOrGround)
+                        .Select(hitInfo => hitInfo.transform.GetComponent<CharacterState>())
+                        .Where(characterState => characterState != null && avalibleTargets.Contains(characterState))
+                        .Select(characterState =>
+                        {
+                            var transform = characterState.GetNodeTransform(CharacterState.NodeRole.Chest);
+                            return new TargetInfo
+                            {
+                                Character = characterState,
+                                Transform = transform,
+                                Position = transform.position
+                            };
+                        })
+                        .ToArray();
+                }
 
-                Debug.LogWarning("Not Implemented Ray Option Combo");
+                Debug.LogWarning("Not Implemented Ray-type SubSpell flags combination");
                 return null;
             }
 

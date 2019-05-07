@@ -3,19 +3,18 @@
 namespace Spells.Effects
 {
     [RequireComponent(typeof(LineRenderer))]
-    public class Lightning : MonoBehaviour, IRayEffect
+    public class LineRendererRayEffect : MonoBehaviour, IRayEffect
     {
         public int Points = 10;
-        public float Lifetime = 0.2f;
+
         private LineRenderer _renderer;
 
-        public void Awake()
+        void Awake()
         {
             _renderer = GetComponent<LineRenderer>();
-            _renderer.material.SetFloat("_TargetTime", Time.time + Lifetime);
         }
 
-        public void SetupLine(Vector3 from, Vector3 to)
+        private void SetupLine(Vector3 from, Vector3 to)
         {
             var positions = new Vector3[Points];
             for (var i = 0; i < Points; i++)
@@ -25,11 +24,6 @@ namespace Spells.Effects
 
             _renderer.positionCount = Points;
             _renderer.SetPositions(positions);
-        }
-
-        public void SetupDefaultDebug()
-        {
-            SetupLine(transform.position, transform.position + Vector3.forward * 5f);
         }
 
         public void RayStarted(Vector3 source, Vector3 destination)
@@ -44,7 +38,8 @@ namespace Spells.Effects
 
         public void RayEnded()
         {
-            Destroy(gameObject);
+            // TODO: Fadeout
+            Destroy(gameObject, 0.1f);
         }
     }
 }

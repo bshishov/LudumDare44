@@ -28,7 +28,6 @@ MonoBehaviour:
   ChannelTime: 0
   SubSpells:
   - {fileID: 11400000, guid: 3435c6ef817651241bac87ed04d91d1c, type: 2}
-  SpellEffect: {fileID: 1349204274574646620, guid: 81c6805923c75e742823557b7894e6ba,
-    type: 3}
+  SpellEffect: {fileID: 0}
   DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
     type: 3}
