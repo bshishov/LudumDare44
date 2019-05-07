@@ -45,5 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Object: {fileID: 6543671326251851641, guid: 8c38daf406f52be4796452c9dda5d917, type: 3}
   StartEffectOnPreSelected: 1
-  LifeTime: 1
+  LifeTime: 1.5
+  RotateTowardsTarget: 0
   Node: 3

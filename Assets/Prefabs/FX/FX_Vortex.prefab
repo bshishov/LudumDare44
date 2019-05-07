@@ -61,6 +61,8 @@ MonoBehaviour:
     MaxAdditionalDelay: 0
   AutoDestroy: 1
   LifeTime: 0.5
+  AttachPosition: 1
+  AttachRotation: 0
 --- !u!95 &7304835078825717413
 Animator:
   serializedVersion: 3

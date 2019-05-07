@@ -20,6 +20,21 @@ MonoBehaviour:
   - Parameter: 12
     Value: 10
     EffectiveStacks: 1
-  OnApplyBuff: []
+  OnApplyBuff:
+  - ApplyModifier:
+      Parameter: 0
+      Value: 0
+      EffectiveStacks: 0
+    CastSpell:
+      SpellStacks: 0
+      Spell: {fileID: 0}
+      Target: 0
+      StacksOverride: 0
+    SpawnObject:
+      Prefab: {fileID: 3354834157951884170, guid: aba8e8c450988c0468c5fcf23b6cd363,
+        type: 3}
+      CharacterNode: 3
+      AttachToTransform: 1
+      AutoDestroyAfterBuff: 1
   OnTickBuff: []
   OnRemove: []

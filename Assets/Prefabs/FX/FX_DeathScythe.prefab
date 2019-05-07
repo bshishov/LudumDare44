@@ -305,6 +305,8 @@ MonoBehaviour:
     MaxAdditionalDelay: 0
   AutoDestroy: 1
   LifeTime: 4
+  AttachPosition: 0
+  AttachRotation: 0
 --- !u!1 &6658090942215112679
 GameObject:
   m_ObjectHideFlags: 0

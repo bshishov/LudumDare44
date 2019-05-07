@@ -158,25 +158,21 @@ public class EnemyController : MonoBehaviour
 
     private void CastAttack(CharacterState player, Vector3 len, float distance, int spellCount)
     {
+        _movement.LookAt(player.transform.position);
+
         if (distance > _spellRange)
         {
             _movement.SetDestination(player.transform.position);
-            _movement.LookAt(player.transform.position);
         }
         else
         {
-            if (distance > _fearRange)
+            if (_characterState.CanDealDamage())
             {
-                if (_characterState.CanDealDamage())
-                {
-                    _movement.Stop();
-                    Debug.Log("Here!");
-                    //_movement.LookAt(player.transform.position);
-                    _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player, null);
-                    
-                }
+                _movement.Stop();
+                _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * spellCount), player, null);                
+
             }
-            else
+            else if (distance < _fearRange)
             {
                 var tgt = transform.position - _fearRange * len.normalized;
                 _movement.SetDestination(tgt);

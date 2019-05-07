@@ -378,8 +378,11 @@ public class CharacterState : MonoBehaviour
         {
             var spawnAt = GetNodeTransform(affect.SpawnObject.CharacterNode);
             GameObject go;
-            if(affect.SpawnObject.AttachToTransform)
-                go = GameObject.Instantiate(affect.SpawnObject.Prefab, spawnAt, false);
+            if (affect.SpawnObject.AttachToTransform)
+            {
+                go = GameObject.Instantiate(affect.SpawnObject.Prefab, spawnAt.transform.position, spawnAt.transform.rotation);
+                go.transform.SetParent(spawnAt);
+            }
             else
                 go = GameObject.Instantiate(affect.SpawnObject.Prefab, spawnAt.position, Quaternion.identity);
 

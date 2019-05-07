@@ -62,7 +62,7 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
 
     internal PlaceOptions GetPickupOptions(Spell spell)
     {
-        var slot = GetSpellSlotState(GetSpellSlot(spell));
+        var slot = GetSpellSlotState((int)spell.DefaultSlot);
 
         // If slot state is empty, should just add spell to a slot
         if (slot.State == SpellState.None)
@@ -88,14 +88,14 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
 
     public void PlaceSpell(Spell spell, int stacks)
     {
-        var slot          = GetSpellSlot(spell);
+        var slot          = (int) spell.DefaultSlot;
         var pickupOptions = GetPickupOptions(spell);
         Debug.Log($"Placing spell {spell.name} into slot {slot}. PlaceMode = {pickupOptions}");
 
         switch (pickupOptions)
         {
             case PlaceOptions.Place:
-                AddSpellToSlot(GetSpellSlot(spell), spell, stacks);
+                AddSpellToSlot(slot, spell, stacks);
                 break;
 
             case PlaceOptions.Upgrade:
@@ -106,7 +106,7 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
             case PlaceOptions.Replace:
                 // Current spell is dropped
                 // Todo: Check!
-                AddSpellToSlot(GetSpellSlot(spell), spell, stacks);
+                AddSpellToSlot(slot, spell, stacks);
                 break;
         }
     }
@@ -119,9 +119,7 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
 
         return false;
     }
-
-    public static int GetSpellSlot(Spell spell) { return (int) spell.DefaultSlot; }
-
+        
     private bool FireSpell(int index, SpellTargets targets, IChannelingInfo channelingInfo)
     {
         if (IsCasting == true)
@@ -129,10 +127,6 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
             Debug.Log("Already casting");
             return false;
         }
-
-        // Disable self cast
-        if (_characterState.Equals(targets.Destinations[0].Character))
-            return false;
 
         Assert.IsTrue(index >= 0 && index <= SpellCount);
         var slotState = GetSpellSlotState(index);
@@ -226,17 +220,31 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
 
         }
 
+    private int GetSpellSlot(Spell spell)
+    {
+        for (int i = 0; i < SpellSlots.Length; ++i)
+        {
+            if (SpellSlots[i].Spell == spell)
+                return i;
+        }
+
+        Assert.IsTrue(false);
+        return -1;
+    }
+
     public void OnStartFiring(Spell spell, SubSpell subSpell)
     {
         Debug.Log("OnStartFiring");
         Assert.IsTrue(IsCasting);
 
         var slotIndex = GetSpellSlot(spell);
+        if (slotIndex < 0)
+            return;
 
         Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
         Assert.IsTrue(SpellSlots[slotIndex].State == SpellState.Preparing || SpellSlots[slotIndex].State == SpellState.Firing);
 
-        SpellSlots[slotIndex].State             = SpellState.Firing;
+        SpellSlots[slotIndex].State = SpellState.Firing;
 
         // TODO: refactor this. Move it to another place
         _characterState.ApplyModifier(ModificationParameter.HpFlat, -subSpell.BloodCost, 1, 1, _characterState, null, out _);
@@ -247,9 +255,11 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
         Debug.Log("OnEndFiring");
         Assert.IsTrue(IsCasting);
 
-        var slotIndex = GetSpellSlot(spell);
+            var slotIndex = GetSpellSlot(spell);
+            if (slotIndex < 0)
+                return;
 
-        Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
+            Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
         Assert.IsTrue(SpellSlots[slotIndex].State != SpellState.Recharging);
 
         SpellSlots[slotIndex].State             = SpellState.Recharging;
@@ -261,9 +271,11 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
         Debug.Log("OnEndCasting");
         Assert.IsTrue(IsCasting);
 
-        var slotIndex = GetSpellSlot(spell);
+            var slotIndex = GetSpellSlot(spell);
+            if (slotIndex < 0)
+                return;
 
-        Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
+            Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
         Assert.IsTrue(SpellSlots[slotIndex].State == SpellState.Recharging || SpellSlots[slotIndex].State == SpellState.Ready);
         IsCasting = false;
     }
