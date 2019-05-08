@@ -41,15 +41,13 @@ public class SubSpell : ScriptableObject
     [Flags]
     public enum SpellFlags
     {
-        Undefined  = 0,
         Channeling = 1 << 1,
         Raycast    = 1 << 2,
         Projectile = 1 << 3,
-        Special    = 1 << 4,
-        SelfTarget,
-        ClosestTarget,
-        SpecialEnd    = (1 << 5) - 1,
-        KeepOldTarget = 1 << 5
+        SelfTarget = 1 << 4,
+        ClosestTarget = 1 << 5,
+
+        Special = SelfTarget | ClosestTarget
     }
 
     [Serializable]
