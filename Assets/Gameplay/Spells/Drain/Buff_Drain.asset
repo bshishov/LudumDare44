@@ -28,6 +28,11 @@ MonoBehaviour:
       Spell: {fileID: 0}
       Target: 1
       StacksOverride: 0
+    ApplyBuff:
+      Target: 1
+      StacksBehaviour: 0
+      Buff: {fileID: 11400000, guid: d6b25d1064082a54a94e3f9cdc8cf0db, type: 2}
+      StacksOverride: 0
     SpawnObject:
       Prefab: {fileID: 0}
       CharacterNode: 0
