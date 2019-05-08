@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7547348210591549195}
-  - component: {fileID: -8882887043529550221}
+  - component: {fileID: 3021765043133919904}
   m_Layer: 0
   m_Name: SpellEffect_Posession
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8882887043529550221
+--- !u!114 &3021765043133919904
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,8 +40,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1349204274574646620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a32859e5532e4277b9f2abf45c4b1d13, type: 3}
+  m_Script: {fileID: 11500000, guid: 41108ea84973871479b1e174465108e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightningPrefab: {fileID: 4477401157512331031, guid: a52b1681e8a4c2848b5284adc9f9217a,
+  RayPrefab: {fileID: 4477401157512331031, guid: a52b1681e8a4c2848b5284adc9f9217a,
     type: 3}
+  AutoDestroyAfterSpell: 1

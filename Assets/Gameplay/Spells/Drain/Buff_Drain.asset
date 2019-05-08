@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Buff_Drain
   m_EditorClassIdentifier: 
   Name: 
-  Behaviour: 2
+  Behaviour: 0
   TickCooldown: 0.1
-  Duration: 10
+  Duration: 0.2
   Modifiers: []
   OnApplyBuff: []
   OnTickBuff:
