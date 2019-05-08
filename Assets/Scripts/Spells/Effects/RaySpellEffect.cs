@@ -91,11 +91,11 @@ namespace Spells.Effects
 
         private Vector3 GetPosition(TargetInfo tgtInfo)
         {
-            if (tgtInfo.Position.HasValue)
-                return tgtInfo.Position.Value;
-
             if (tgtInfo.Transform != null)
                 return tgtInfo.Transform.position;
+
+            if (tgtInfo.Position.HasValue)
+                return tgtInfo.Position.Value;
 
             if (tgtInfo.Character != null)
                 return tgtInfo.Character.GetNodeTransform().position;

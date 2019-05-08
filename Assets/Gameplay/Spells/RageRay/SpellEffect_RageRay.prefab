@@ -45,4 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RayPrefab: {fileID: 6378079014847535029, guid: 5b3ddae3469549c4a8a179f7b7b2e652,
     type: 3}
-  AutoDestroyAfterSpell: 0
+  AutoDestroyAfterSpell: 1
+  UseChannelingInfoAsTarget: 1
