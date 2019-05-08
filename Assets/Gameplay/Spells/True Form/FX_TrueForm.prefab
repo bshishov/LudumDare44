@@ -235,6 +235,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3354834157951884171}
+  - component: {fileID: 6485226331884345645}
   m_Layer: 0
   m_Name: FX_TrueForm
   m_TagString: Untagged
@@ -260,6 +261,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6485226331884345645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3354834157951884170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 133c74ea3a889df4b9950741bc022c53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraImpact: 1
+  Sound:
+    Clip: {fileID: 0}
+    VolumeModifier: 1
+    MixerGroup: {fileID: 0}
+    Loop: 0
+    IgnoreListenerPause: 0
+    Pitch: 1
+    RandomizePitch: 0
+    MaxPitchShift: 0.05
+    Delay: 0
+    RandomizeDelay: 0
+    MaxAdditionalDelay: 0
+  AutoDestroy: 0
+  LifeTime: 1
+  AttachPosition: 0
+  AttachRotation: 0
 --- !u!1 &8756234705363841118
 GameObject:
   m_ObjectHideFlags: 0
