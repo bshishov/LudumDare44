@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
-  m_Name: SubSpell_Drain
+  m_Name: SubSpell_Lightning_Chain
   m_EditorClassIdentifier: 
   AffectedTarget: 8
   Area: {fileID: 11400000, guid: 34e14946de751714fb0cf7c8383eb436, type: 2}
-  Buffs:
-  - {fileID: 11400000, guid: 9ad9be7c9b4e0b94787b4b6a9c31ec9f, type: 2}
-  BloodCost: 0
-  Effect: {fileID: 8467990478912615136, guid: 805b28bef7107874aba6ed7b4f4e142d, type: 3}
-  Flags: 6
-  Obstacles: 2
+  Targeting: 1
   Origin: 1
-  PreCastDelay: 0
+  Buffs:
+  - {fileID: 11400000, guid: 009ca85ded63e9c4285c42d3ac947fd9, type: 2}
+  BloodCost: 0
+  Effect: {fileID: 1349204274574646620, guid: 97b50922a392d41499e890a3452714e0, type: 3}
+  Flags: 20
+  Obstacles: 4
+  PreCastDelay: 0.1
   PreDamageDelay: 0
-  PostCastDelay: 0.1
+  PostCastDelay: 0
   Projectile: {fileID: 0}
-  Targeting: 2
   NewSource: 1

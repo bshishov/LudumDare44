@@ -10,46 +10,44 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
-  m_Name: Buff_TrueForm
+  m_Name: Buff_Lightning
   m_EditorClassIdentifier: 
-  Name: 
-  Behaviour: 3
+  Name: LightningBuff
+  Behaviour: 0
   TickCooldown: 1
-  Duration: 120
+  Duration: 1
   Modifiers:
-  - Parameter: 12
-    Value: 10
-    EffectiveStacks: 1
+  - Parameter: 1
+    Value: -1
+    EffectiveStacks: 10
   OnApplyBuff:
   - ApplyModifier:
-      Parameter: 0
-      Value: 0
-      EffectiveStacks: 0
+      Parameter: 1
+      Value: -1
+      EffectiveStacks: 10
     CastSpell:
       SpellStacks: 0
       Spell: {fileID: 0}
       Target: 0
-      StacksOverride: 0
+      StacksOverride: 1
     SpawnObject:
-      Prefab: {fileID: 3354834157951884170, guid: aba8e8c450988c0468c5fcf23b6cd363,
-        type: 3}
-      CharacterNode: 3
-      AttachToTransform: 1
-      AutoDestroyAfterBuff: 1
+      Prefab: {fileID: 0}
+      CharacterNode: 0
+      AttachToTransform: 0
+      AutoDestroyAfterBuff: 0
+  OnTickBuff: []
+  OnRemove:
   - ApplyModifier:
       Parameter: 0
       Value: 0
-      EffectiveStacks: 0
+      EffectiveStacks: 10
     CastSpell:
       SpellStacks: 0
       Spell: {fileID: 0}
       Target: 0
-      StacksOverride: 0
+      StacksOverride: 1
     SpawnObject:
-      Prefab: {fileID: 5566636040313338022, guid: 9076b6e53d39f564c879b55a80fda117,
-        type: 3}
-      CharacterNode: 4
+      Prefab: {fileID: 0}
+      CharacterNode: 0
       AttachToTransform: 0
-      AutoDestroyAfterBuff: 1
-  OnTickBuff: []
-  OnRemove: []
+      AutoDestroyAfterBuff: 0
