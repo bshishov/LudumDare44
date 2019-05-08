@@ -53,9 +53,12 @@ namespace Assets.Scripts.Data
         // Changes that will be applied once the buff is applied
         // and will be REVERTED when buff removed
         public Modifier[] Modifiers;
-
+        
         [Header("Affects on buff applied")]
         public Affect[] OnApplyBuff;
+
+        [Header("Affects on buff refresh (reapplied while there was same buff already)")]
+        public Affect[] OnRefreshBuff;
 
         [Header("Affects each tick")]
         public Affect[] OnTickBuff;

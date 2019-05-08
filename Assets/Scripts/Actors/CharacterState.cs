@@ -245,8 +245,8 @@ public class CharacterState : MonoBehaviour
                     ApplyBuffModifiers(existingState);
                     existingState.Refresh();
                     
-                    if (newBuff.OnApplyBuff != null)
-                        foreach (var affect in newBuff.OnApplyBuff)
+                    if (newBuff.OnRefreshBuff != null)
+                        foreach (var affect in newBuff.OnRefreshBuff)
                             ApplyAffect(affect, existingState);
 
                     break;
@@ -261,8 +261,8 @@ public class CharacterState : MonoBehaviour
                     existingState.Stacks += stacks;
                     ApplyBuffModifiers(existingState);
                     existingState.Refresh();
-                    if (newBuff.OnApplyBuff != null)
-                        foreach (var affect in newBuff.OnApplyBuff)
+                    if (newBuff.OnRefreshBuff != null)
+                        foreach (var affect in newBuff.OnRefreshBuff)
                             ApplyAffect(affect, existingState);
 
                     break;
