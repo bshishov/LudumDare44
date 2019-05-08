@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 133c74ea3a889df4b9950741bc022c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraImpact: 0.2
+  CameraImpact: 1
   Sound:
     Clip: {fileID: 0}
     VolumeModifier: 1

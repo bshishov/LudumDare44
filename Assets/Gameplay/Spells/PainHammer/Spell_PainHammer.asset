@@ -23,11 +23,9 @@ MonoBehaviour:
   BloodCost: 0
   DefaultSlot: 2
   Cooldown: 10
-  CastingTime: 1
   Flags: 0
   PreCastDelay: 0
   PostCastDelay: 0
-  ChannelTime: 0
   SubSpells:
   - {fileID: 11400000, guid: 8da3dd44b3d7e7a4dbdefaa0391fc9d3, type: 2}
   SpellEffect: {fileID: 0}

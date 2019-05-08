@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
   m_Name: PainHammerDamage
   m_EditorClassIdentifier: 
-  Name: Lightning Damage
+  Name: 
   Behaviour: 0
   TickCooldown: 1
   Duration: 1
@@ -22,7 +22,21 @@ MonoBehaviour:
       Parameter: 1
       Value: -7
       EffectiveStacks: 0
-    CastSpell: {fileID: 0}
-    SpawnObject: {fileID: 0}
+    CastSpell:
+      SpellStacks: 0
+      Spell: {fileID: 0}
+      Target: 0
+      StacksOverride: 1
+    ApplyBuff:
+      Target: 0
+      StacksBehaviour: 0
+      Buff: {fileID: 0}
+      StacksOverride: 0
+    SpawnObject:
+      Prefab: {fileID: 0}
+      CharacterNode: 0
+      AttachToTransform: 0
+      AutoDestroyAfterBuff: 0
+  OnRefreshBuff: []
   OnTickBuff: []
   OnRemove: []

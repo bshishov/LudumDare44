@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
-  m_Name: Buffer
+  m_Name: Enemy_Buffer
   m_EditorClassIdentifier: 
-  Health: 1
+  Health: 10
   Damage: 0
   Speed: 2
   Evasion: 0
@@ -21,8 +21,8 @@ MonoBehaviour:
   SpellDamageAmp: 0
   Class: 2
   IndifferenceDistance: 10
-  SpellRange: 6
-  FearRange: 3
+  SpellRange: 4
+  FearRange: 2
   MeleeRange: 0
   AttackCooldown: 1
   AnimationDelay: 0.9
@@ -30,5 +30,6 @@ MonoBehaviour:
   AdditionalSpellStacks: 0
   DropRate: 0
   DropSpells: []
-  UseSpells: []
+  UseSpells:
+  - {fileID: 11400000, guid: 4dea2418d8494ae43ba01a378694fbf2, type: 2}
   UseBuff: {fileID: 11400000, guid: 5357b57d5882fe44eb0bdc60a191e1cc, type: 2}

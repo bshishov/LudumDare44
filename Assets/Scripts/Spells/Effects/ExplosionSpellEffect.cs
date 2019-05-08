@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Transforms;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -11,6 +12,12 @@ public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
     public GameObject   ExplosionPrefab;
     public EffectOrigin Origin;
     public bool         SpawnInGround;
+    public bool AlignRotation;
+    public bool XZRotationOnly = true;
+
+    [Header("LifeCycle")]
+    public bool AutoDestroy;
+    public float DestroyAfter = 2f;
 
     [FormerlySerializedAs("StartEffectOnPreSelected")]
     public bool         StartEffectOnInputTargetValidated;
@@ -36,25 +43,40 @@ public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
         switch (Origin)
         {
             case EffectOrigin.InSource:
-                SpawnEffect(targets.Source);
+                SpawnEffect(targets.Source, Quaternion.identity);
                 break;
             case EffectOrigin.InDestination:
                 foreach (var destination in targets.Destinations)
-                    SpawnEffect(destination);
+                    SpawnEffect(destination, GetRotation(targets.Source, destination));
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
 
-    private void SpawnEffect(TargetInfo target)
+    private Quaternion GetRotation(TargetInfo source, TargetInfo target)
+    {
+        if(!AlignRotation)
+            return Quaternion.identity;
+
+        var dir = target.Position.Value - source.Position.Value;
+        if (XZRotationOnly)
+            dir.y = 0;
+
+        return Quaternion.LookRotation(dir.normalized, Vector3.up);
+    }
+
+    private void SpawnEffect(TargetInfo target, Quaternion rotation)
     {
         Assert.IsTrue(target.Position.HasValue, "targets.Source.Position != null");
         var position = target.Position.Value;
         if (SpawnInGround)
             if (Physics.Raycast(position, Vector3.down, out var hitInfo, 2.0f, Common.LayerMasks.ActorsOrGround))
                 position = hitInfo.point;
-        Destroy(Instantiate(ExplosionPrefab, position, Quaternion.identity), 2);
+
+        var instance = Instantiate(ExplosionPrefab, position, rotation);
+        if(AutoDestroy)
+            Destroy(instance, DestroyAfter);
     }
 
     [MenuItem("Assets/Create/Effect Wrappers/Explosion", false, 1)]
