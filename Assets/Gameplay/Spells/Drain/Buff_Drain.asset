@@ -25,8 +25,8 @@ MonoBehaviour:
       EffectiveStacks: 1
     CastSpell:
       SpellStacks: 0
-      Spell: {fileID: 11400000, guid: 3871f23e1b53efb45b44fa82565bf227, type: 2}
-      Target: 0
+      Spell: {fileID: 0}
+      Target: 1
       StacksOverride: 0
     SpawnObject:
       Prefab: {fileID: 0}

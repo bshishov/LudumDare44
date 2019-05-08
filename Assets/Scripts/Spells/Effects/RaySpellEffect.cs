@@ -86,7 +86,7 @@ namespace Spells.Effects
                     var instance = new SubSpellEffectInstance
                     {
                         InstanceObject = existing.InstanceObject,
-                        Target = targets.Destinations[0],
+                        Target = UseChannelingInfoAsTarget ? context.ChannelingInfo.GetNewTarget() : targets.Destinations[0],
                         Source = targets.Source,
                         UseChannelingInfoAsTarget = existing.UseChannelingInfoAsTarget,
                         Context = context,
@@ -106,7 +106,7 @@ namespace Spells.Effects
                         var instance = new SubSpellEffectInstance
                         {
                             InstanceObject = gameObjectInstance,
-                            Target = targets.Destinations[0],
+                            Target = UseChannelingInfoAsTarget ? context.ChannelingInfo.GetNewTarget() : targets.Destinations[0],
                             Source = targets.Source,
                             UseChannelingInfoAsTarget = UseChannelingInfoAsTarget,
                             Context = context,
