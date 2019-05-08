@@ -41,8 +41,7 @@
             float4 _MainTex_ST;
 			half _MaxOffset;
 			float4 _Color;
-			half _Frequency;
-			float _TargetTime;
+			half _Frequency;			
 
             v2f vert (appdata v)
             {
@@ -56,8 +55,7 @@
 				//v.vertex.y += displacementImpactCap * sin(_Time.w * 100 + o.uv.x * 100);
 				//v.vertex.z += displacementImpactCap * sin(_Time.w * 100 + o.uv.x * 100);
 
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                
+                o.vertex = UnityObjectToClipPos(v.vertex);              
 				
 				
 
@@ -70,10 +68,8 @@
                 fixed4 col = tex2D(_MainTex, i.uv);                
                 UNITY_APPLY_FOG(i.fogCoord, col);
 				
-				half k = 2 * (i.uv.x - 0.5);
-
-				float ttl = saturate(_TargetTime - _Time.y);				
-                return col * _Color * ttl;
+				half k = 2 * (i.uv.x - 0.5);						
+                return col * _Color;
             }
             ENDCG
         }

@@ -10,13 +10,16 @@ namespace Spells.Effects
             public GameObject InstanceObject;
             public IRayEffect Ray;
             public TargetInfo Source;
+            public TargetInfo Target;
+            public bool UseChannelingInfoAsTarget;
+            public ISpellContext Context;
         }
 
         public GameObject RayPrefab;
         public bool AutoDestroyAfterSpell = true;
+        public bool UseChannelingInfoAsTarget = false;
 
-        private readonly Dictionary<ISpellContext, SubSpellEffectInstance> _instances 
-            = new Dictionary<ISpellContext, SubSpellEffectInstance>(1);
+        private readonly List<SubSpellEffectInstance> _instances = new List<SubSpellEffectInstance>(1);
 
         void Start()
         {
@@ -24,49 +27,43 @@ namespace Spells.Effects
         
         void Update()
         {
-            foreach (var kvp in _instances)
+            foreach (var instance in _instances)
             {
-                var context = kvp.Key;
-                var instance = kvp.Value;
-
-                var position = context.ChannelingInfo.GetNewTarget()?.Position;
-                if (position != null)
-                    instance.Ray.RayUpdated(instance.Source.Transform.position,
-                        position.Value);
+                GetRayStartAndEnd(instance, out var src, out var dst);
+                instance.Ray?.RayUpdated(src, dst);
             }
         }
 
         public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
         {
-            if (_instances.ContainsKey(context))
-                return;
-            
-            
-            var go = Instantiate(RayPrefab, transform, true);
-            if (go != null)
+            foreach (var spellTarget in targets.Destinations)
             {
-                var ray = go.GetComponent<IRayEffect>();
-
-                if(ray == null)
+                var go = Instantiate(RayPrefab, transform, true);
+                if (go != null)
                 {
-                    Debug.LogWarning("Created a ray instance but it has no IRayEffect");
-                    Destroy(go);
-                    return;
+                    var ray = go.GetComponent<IRayEffect>();
+
+                    if (ray == null)
+                    {
+                        Debug.LogWarning("Created a ray instance but it has no IRayEffect");
+                        Destroy(go);
+                        return;
+                    }
+
+                    var instance = new SubSpellEffectInstance
+                    {
+                        Ray = ray,
+                        InstanceObject = go,
+                        Source = targets.Source,
+                        Target = spellTarget,
+                        Context = context,
+                        UseChannelingInfoAsTarget = UseChannelingInfoAsTarget
+                    };
+                    _instances.Add(instance);
+                    
+                    GetRayStartAndEnd(instance, out var src, out var dst);
+                    ray.RayStarted(src, dst);
                 }
-
-                var instance = new SubSpellEffectInstance
-                {
-                    Ray = ray,
-                    InstanceObject = go,
-                    Source = targets.Source
-                };
-                _instances.Add(context, instance);
-
-                // Raise started event
-                var position = context.ChannelingInfo?.GetNewTarget()?.Position;
-                if (position != null)
-                    ray.RayStarted(targets.Source.Transform.position,
-                        position.Value);
             }
         }
 
@@ -76,14 +73,46 @@ namespace Spells.Effects
 
         public void OnEndSubSpell(ISpellContext context)
         {
-            if (_instances.TryGetValue(context, out var instance))
+            // If SubSpell has ended - remove and destroy all instances that are assigned to that SubSpell
+            for (var i = _instances.Count - 1; i >= 0; i--)
             {
-                instance.Ray.RayEnded();
+                var instance = _instances[i];
+                if(!instance.Context.Equals(context))
+                    continue;
 
-                if (AutoDestroyAfterSpell)
+                instance.Ray?.RayEnded();
+
+                if (AutoDestroyAfterSpell && instance.InstanceObject != null)
                     Destroy(instance.InstanceObject);
 
-                _instances.Remove(context);
+                _instances.RemoveAt(i);
+            }
+        }
+
+        private Vector3 GetPosition(TargetInfo tgtInfo)
+        {
+            if (tgtInfo.Position.HasValue)
+                return tgtInfo.Position.Value;
+
+            if (tgtInfo.Transform != null)
+                return tgtInfo.Transform.position;
+
+            if (tgtInfo.Character != null)
+                return tgtInfo.Character.GetNodeTransform().position;
+
+            return Vector3.zero;
+        }
+
+        private void GetRayStartAndEnd(SubSpellEffectInstance instance, out Vector3 source, out Vector3 destination)
+        {
+            source = GetPosition(instance.Source);
+            if (instance.UseChannelingInfoAsTarget)
+            {
+                destination = GetPosition(instance.Context.ChannelingInfo.GetNewTarget());
+            }
+            else
+            {
+                destination = GetPosition(instance.Target);
             }
         }
     }

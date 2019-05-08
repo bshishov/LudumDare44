@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2390720600796782207}
   - component: {fileID: 5368322929813480138}
   - component: {fileID: 3553069886639741619}
+  - component: {fileID: 8567620487998485782}
   m_Layer: 0
   m_Name: FX_Lightning
   m_TagString: Untagged
@@ -148,3 +149,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Points: 10
+  SmoothTime: 0.1
+  AutoDestroy: 1
+  DestroyAfter: 1
+--- !u!95 &8567620487998485782
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4477401157512331031}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ed46d571eb74b72479b1451659034082, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
