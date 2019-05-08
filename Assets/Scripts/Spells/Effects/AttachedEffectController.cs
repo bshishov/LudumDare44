@@ -10,7 +10,7 @@ namespace Spells.Effects
         private readonly Dictionary<ISpellContext, GameObject> _instances 
             = new Dictionary<ISpellContext, GameObject>(1);
 
-        public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
+        public void OnInputTargetsValidated(ISpellContext context, SpellTargets targets)
         {
             if (_instances.ContainsKey(context))
                 return;

@@ -34,7 +34,7 @@ namespace Spells.Effects
             }
         }
 
-        public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
+        public void OnInputTargetsValidated(ISpellContext context, SpellTargets targets)
         {
             foreach (var spellTarget in targets.Destinations)
             {

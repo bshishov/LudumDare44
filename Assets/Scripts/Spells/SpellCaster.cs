@@ -423,8 +423,8 @@ public class SpellCaster : MonoBehaviour
         var newSpellTargets = new SpellTargets(currentTargets[0].Source, newTarget);
 
         subContext.newTargets.Add(newSpellTargets);
-        subContext.effect?.OnTargetsPreSelected(context, newSpellTargets);
-        context.effect?.OnTargetsPreSelected(context, newSpellTargets);
+        subContext.effect?.OnInputTargetsValidated(context, newSpellTargets);
+        context.effect?.OnInputTargetsValidated(context, newSpellTargets);
         return true;
     }
 
@@ -474,8 +474,8 @@ public class SpellCaster : MonoBehaviour
             newSpellTargets.Destinations = newTargets.ToArray();
             subContext.newTargets.Add(newSpellTargets);
 
-            subContext.effect?.OnTargetsPreSelected(context, newSpellTargets);
-            context.effect?.OnTargetsPreSelected(context, newSpellTargets);
+            subContext.effect?.OnInputTargetsValidated(context, newSpellTargets);
+            context.effect?.OnInputTargetsValidated(context, newSpellTargets);
         }
 
         return anyTargetFound;

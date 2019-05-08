@@ -1,25 +1,28 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Spells.Effects
 {
 public class AttachedEffect : MonoBehaviour, ISubSpellEffect
 {
     public GameObject              Object;
-    public bool                    StartEffectOnPreSelected;
+
+    [FormerlySerializedAs("StartEffectOnPreSelected")]
+    public bool                    StartEffectOnInputTargetValidated;
     public float                   LifeTime            = 2f;
     public bool                    RotateTowardsTarget = true;
     public CharacterState.NodeRole Node                = CharacterState.NodeRole.Chest;
 
-    public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
+    public void OnInputTargetsValidated(ISpellContext context, SpellTargets targets)
     {
-        if (StartEffectOnPreSelected)
+        if (StartEffectOnInputTargetValidated)
             SpawnEffect(targets);
     }
 
     public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
     {
-        if (!StartEffectOnPreSelected)
+        if (!StartEffectOnInputTargetValidated)
             SpawnEffect(targets);
     }
 

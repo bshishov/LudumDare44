@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 namespace Spells.Effects
 {
@@ -10,11 +11,13 @@ public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
     public GameObject   ExplosionPrefab;
     public EffectOrigin Origin;
     public bool         SpawnInGround;
-    public bool         StartEffectOnPreSelected;
 
-    public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
+    [FormerlySerializedAs("StartEffectOnPreSelected")]
+    public bool         StartEffectOnInputTargetValidated;
+
+    public void OnInputTargetsValidated(ISpellContext context, SpellTargets targets)
     {
-        if (StartEffectOnPreSelected)
+        if (StartEffectOnInputTargetValidated)
             SpawnEffect(targets);
         }
 
@@ -22,7 +25,7 @@ public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
 
         public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
     {
-        if (!StartEffectOnPreSelected)
+        if (!StartEffectOnInputTargetValidated)
             SpawnEffect(targets);
     }
 

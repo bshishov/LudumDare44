@@ -10,7 +10,7 @@ public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
     public ParticleSystem SpikePrefab;
     public float          SpikesPerDistance = 7.5f;
 
-    public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets)
+    public void OnInputTargetsValidated(ISpellContext context, SpellTargets targets)
     {
         Assert.AreEqual(context.CurrentSubSpell.Area.Area, AreaOfEffect.AreaType.Cone);
 
