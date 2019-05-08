@@ -10,28 +10,47 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
-  m_Name: Buff_Drain
+  m_Name: Buff_NOT_USED_PossessionExplosionDamage
   m_EditorClassIdentifier: 
-  Name: 
-  Behaviour: 0
-  TickCooldown: 0.1
-  Duration: 0.2
+  Name: PossessionExplosionDamage
+  Behaviour: 1
+  TickCooldown: 2
+  Duration: 4
   Modifiers: []
-  OnApplyBuff: []
-  OnTickBuff:
+  OnApplyBuff:
   - ApplyModifier:
-      Parameter: 1
-      Value: -5
-      EffectiveStacks: 1
+      Parameter: 0
+      Value: 0
+      EffectiveStacks: 0
     CastSpell:
       SpellStacks: 0
       Spell: {fileID: 0}
-      Target: 1
+      Target: 0
       StacksOverride: 0
     ApplyBuff:
-      Target: 1
+      Target: 0
       StacksBehaviour: 0
-      Buff: {fileID: 11400000, guid: d6b25d1064082a54a94e3f9cdc8cf0db, type: 2}
+      Buff: {fileID: 0}
+      StacksOverride: 0
+    SpawnObject:
+      Prefab: {fileID: 0}
+      CharacterNode: 0
+      AttachToTransform: 0
+      AutoDestroyAfterBuff: 0
+  OnTickBuff:
+  - ApplyModifier:
+      Parameter: 1
+      Value: -1
+      EffectiveStacks: 20
+    CastSpell:
+      SpellStacks: 0
+      Spell: {fileID: 0}
+      Target: 0
+      StacksOverride: 1
+    ApplyBuff:
+      Target: 0
+      StacksBehaviour: 0
+      Buff: {fileID: 0}
       StacksOverride: 0
     SpawnObject:
       Prefab: {fileID: 0}

@@ -19,7 +19,7 @@ MonoBehaviour:
   LifeSteal: 0
   BloodCost: 0
   DefaultSlot: 2
-  Cooldown: 0
+  Cooldown: 5
   Flags: 6
   PreCastDelay: 0
   PostCastDelay: 0
