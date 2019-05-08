@@ -629,7 +629,6 @@ public class SpellCaster : MonoBehaviour
     }
 
     private static TargetInfo[] GetAllCharacterInArea(SpellContext context, CharacterState[] avalibleTargets, TargetInfo source, TargetInfo target)
-
     {
         switch (context.CurrentSubSpell.Area.Area)
         {
@@ -673,7 +672,7 @@ public class SpellCaster : MonoBehaviour
                 direction.y = 0;
 
                 var pos    = target.Position.Value;
-                var origin = (context.CurrentSubSpell.Origin & SubSpell.SpellOrigin.Self) == SubSpell.SpellOrigin.Self ? source.Position.Value : pos;
+                var origin = context.CurrentSubSpell.Origin.HasFlag(SubSpell.SpellOrigin.Self) ? source.Position.Value : pos;
 
                 var sphereMinRadius = context.CurrentSubSpell.Area.MinSize;
                 var sphereMaxRadius = context.CurrentSubSpell.Area.Size;
