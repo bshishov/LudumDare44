@@ -69,23 +69,13 @@ public class SubSpell : ScriptableObject
         Location
     }
 
-    [Serializable]
-    public enum TargetLockingType
-    {
-        None = 0,
-        OnTargeting,
-        OnDamage
-    }
-
     [Header("Targeting")]
     [EnumFlag]
     public AffectedTargets AffectedTarget;
-    
     public AreaOfEffect Area;
-
     public SpellTargeting Targeting;
-
     public SpellOrigin Origin;
+
 
     [Header("Buffs")]
     [SerializeField]
@@ -94,6 +84,7 @@ public class SubSpell : ScriptableObject
 
     [Header("FX")]
     public GameObject Effect;
+
 
     [Header("Behaviour")]
     [EnumFlag]
@@ -107,7 +98,6 @@ public class SubSpell : ScriptableObject
     public float PostCastDelay;
 
     public ProjectileData Projectile;
-    
     public NewSourceType  NewSource;
 
     private GameObject _effect = null;
