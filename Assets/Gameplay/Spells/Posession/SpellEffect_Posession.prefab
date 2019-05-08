@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7547348210591549195}
-  - component: {fileID: 3021765043133919904}
+  - component: {fileID: -7555554798439937048}
   m_Layer: 0
   m_Name: SpellEffect_Posession
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3021765043133919904
+--- !u!114 &-7555554798439937048
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,14 +40,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1349204274574646620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41108ea84973871479b1e174465108e6, type: 3}
+  m_Script: {fileID: 11500000, guid: eee3d48d108b6134e9476d472adc2a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayPrefab: {fileID: 4477401157512331031, guid: a52b1681e8a4c2848b5284adc9f9217a,
+  ExplosionPrefab: {fileID: 3564014959718423451, guid: 3c80fa6f7940c084b9ef923a40da3b0b,
     type: 3}
-  SpawnEvent: 1
-  InstanceMode: 0
-  AutoDestroyAfterSpell: 0
-  UseChannelingInfoAsTarget: 0
-  PreferredSourceNode: 1
-  PreferredTargetNode: 3
+  Origin: 1
+  SpawnInGround: 1
+  StartEffectOnInputTargetValidated: 1

@@ -1,5 +1,8 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace EditorHacks
 {
@@ -12,24 +15,30 @@ namespace EditorHacks
         }
 
         private int _count = 10;
-        private float _width = 1f;
+        private float _widthStart = 1f;
+        private float _widthEnd = 1f;
         private float _length = 2f;
         private float _distanceFromCenter = 0.1f;
+        private float _distanceFromCenterRandomSpread = 0.1f;
         private bool _optimize = true;
+        private bool _hemisphere = false;
         private Mesh _mesh;
 
         void OnGUI()
         {
             _count = EditorGUILayout.IntField("Count", _count);
-            _width = EditorGUILayout.FloatField("Width", _width);
+            _widthStart = EditorGUILayout.FloatField("Width Start", _widthStart);
+            _widthEnd = EditorGUILayout.FloatField("Width End", _widthEnd);
             _length = EditorGUILayout.FloatField("Length", _length);
             _distanceFromCenter = EditorGUILayout.FloatField("DistanceFromCenter", _distanceFromCenter);
+            _distanceFromCenterRandomSpread = EditorGUILayout.FloatField("Distance From Center Random Spread", _distanceFromCenterRandomSpread);
+            _hemisphere = EditorGUILayout.Toggle("Hemisphere", _hemisphere);
             _optimize = EditorGUILayout.Toggle("Optimize", _optimize);
             _mesh = EditorGUILayout.ObjectField(new GUIContent("Mesh"), _mesh, typeof(Mesh), false) as Mesh;
 
             if (GUILayout.Button("Create"))
             {
-                _mesh = Create(_count, _width, _length, _distanceFromCenter);
+                _mesh = Create();
             }
 
             if (GUILayout.Button("Save"))
@@ -41,25 +50,31 @@ namespace EditorHacks
             }
         }
 
-        public Mesh Create(int count, float width, float length, float distanceFromCenter)
+        public Mesh Create()
         {
             var mesh = new Mesh { name = "FX Mesh"};
-            var vertices = new Vector3[count * 4];
+            var vertices = new Vector3[_count * 4];
             var normals = new Vector3[vertices.Length];
             var uvs = new Vector2[vertices.Length];
-            var indices = new int[count * 6];
+            var indices = new int[_count * 6];
 
             // Generate quads
-            for (var i = 0; i < count; i++)
+            for (var i = 0; i < _count; i++)
             {
                 var dir = Random.insideUnitSphere.normalized;
+                if (_hemisphere)
+                {
+                    dir.y = Mathf.Abs(dir.y);
+                }
                 var normal = Vector3.Cross(dir, Vector3.up).normalized;
                 var right = Vector3.Cross(dir, normal).normalized;
+                var dstFromCenter = _distanceFromCenter + _distanceFromCenterRandomSpread * Random.value;
 
-                vertices[i * 4 + 0] = dir * distanceFromCenter - right * width;
-                vertices[i * 4 + 1] = dir * distanceFromCenter + right * width;
-                vertices[i * 4 + 2] = dir * (distanceFromCenter + length) - right * width;
-                vertices[i * 4 + 3] = dir * (distanceFromCenter + length) + right * width;
+
+                vertices[i * 4 + 0] = dir * dstFromCenter - right * _widthStart;
+                vertices[i * 4 + 1] = dir * dstFromCenter + right * _widthStart;
+                vertices[i * 4 + 2] = dir * (dstFromCenter + _length) - right * _widthEnd;
+                vertices[i * 4 + 3] = dir * (dstFromCenter + _length) + right * _widthEnd;
 
                 normals[i * 4 + 0] = normal;
                 normals[i * 4 + 1] = normal;
