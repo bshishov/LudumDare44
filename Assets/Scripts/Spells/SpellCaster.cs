@@ -610,7 +610,7 @@ public class SpellCaster : MonoBehaviour
             return false;
 
         var sameTeam = otherCharacter.CurrentTeam == owner.CurrentTeam && owner.CurrentTeam != CharacterState.Team.AgainstTheWorld;
-        var mask     = sameTeam ? SubSpell.AffectedTargets.Friend : SubSpell.AffectedTargets.Enemy;
+        var mask     = sameTeam ? SubSpell.AffectedTargets.Ally : SubSpell.AffectedTargets.Enemy;
         if (otherCharacter == owner)
             mask |= SubSpell.AffectedTargets.Self;
 

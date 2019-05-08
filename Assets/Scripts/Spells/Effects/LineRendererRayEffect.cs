@@ -6,8 +6,11 @@ namespace Spells.Effects
     public class LineRendererRayEffect : MonoBehaviour, IRayEffect
     {
         public int Points = 10;
+        public float SmoothTime = 0.1f;
 
         private LineRenderer _renderer;
+        private Vector3 _target;
+        private Vector3 _velocity;
 
         void Awake()
         {
@@ -28,11 +31,13 @@ namespace Spells.Effects
 
         public void RayStarted(Vector3 source, Vector3 destination)
         {
-            SetupLine(source, destination);
+            _target = destination;
+            SetupLine(source, _target);
         }
 
         public void RayUpdated(Vector3 source, Vector3 destination)
         {
+            _target = Vector3.SmoothDamp(_target, destination, ref _velocity, SmoothTime);
             SetupLine(source, destination);
         }
 

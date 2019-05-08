@@ -14,7 +14,7 @@ public class SubSpell : ScriptableObject
     public enum AffectedTargets
     {
         Self   = 1 << 1,
-        Friend = 1 << 2,
+        Ally = 1 << 2,
         Enemy  = 1 << 3
     }
 
@@ -77,11 +77,15 @@ public class SubSpell : ScriptableObject
         OnDamage
     }
 
+    [Header("Targeting")]
     [EnumFlag]
     public AffectedTargets AffectedTarget;
-
-    [Header("Data")]
+    
     public AreaOfEffect Area;
+
+    public SpellTargeting Targeting;
+
+    public SpellOrigin Origin;
 
     [Header("Buffs")]
     [SerializeField]
@@ -91,22 +95,19 @@ public class SubSpell : ScriptableObject
     [Header("FX")]
     public GameObject Effect;
 
-    [Header("Flags")]
+    [Header("Behaviour")]
     [EnumFlag]
     public SpellFlags Flags;
 
     [EnumFlag]
     public ObstacleHandling Obstacles;
 
-    public SpellOrigin Origin;
-
     public float PreCastDelay;
     public float PreDamageDelay;
     public float PostCastDelay;
 
     public ProjectileData Projectile;
-
-    public SpellTargeting Targeting;
+    
     public NewSourceType  NewSource;
 
     private GameObject _effect = null;

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Dagger 2
+  m_Name: FX_PoisonDagger_2
   m_Shader: {fileID: -6465566751694194690, guid: 226e63b0c2a194846bff7124c410cbf6,
     type: 3}
   m_ShaderKeywords: 

@@ -19,15 +19,6 @@ namespace Assets.Scripts.Data
 
         [Serializable]
         [Flags]
-        public enum CastType : int
-        {
-            Normal = 1 << 0,
-            Delayed = 1 << 1,
-            Channeling = 1 << 2
-        };
-
-        [Serializable]
-        [Flags]
         public enum SpellFlags : int
         {
             None = 1 << 0,
@@ -52,13 +43,10 @@ namespace Assets.Scripts.Data
         public float Cooldown;
 
         [EnumFlag]
-        public CastType CastingTime;
-        [EnumFlag]
         public SpellFlags Flags;
 
         public float PreCastDelay;
         public float PostCastDelay;
-        public float ChannelTime;
 
         public SubSpell[] SubSpells;
 

@@ -10,20 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
-  m_Name: PoisonDaggerDamageEffect
+  m_Name: SubSpell_PoisonDaggerDamageEffect
   m_EditorClassIdentifier: 
   AffectedTarget: 8
   Area: {fileID: 11400000, guid: 34e14946de751714fb0cf7c8383eb436, type: 2}
+  Targeting: 1
+  Origin: 1
   Buffs:
   - {fileID: 0}
   - {fileID: 11400000, guid: 2c7380b28509e7a4194badc6c4d6b0b4, type: 2}
+  BloodCost: 0
   Effect: {fileID: 0}
   Flags: 4
   Obstacles: 4
-  Origin: 1
   PreCastDelay: 0
   PreDamageDelay: 0
   PostCastDelay: 0
   Projectile: {fileID: 0}
-  Targeting: 1
   NewSource: 1

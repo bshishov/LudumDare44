@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Dagger
+  m_Name: FX_BloodDagger
   m_Shader: {fileID: -6465566751694194690, guid: 226e63b0c2a194846bff7124c410cbf6,
     type: 3}
   m_ShaderKeywords: 
@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - Vector1_171071D7: -0.86
+    - Vector1_171071D7: -0.72
     - Vector1_FAA3FE38: 0.1
     m_Colors:
-    - Color_A1596EFA: {r: 1.7746994, g: 67.79352, b: 0, a: 0}
+    - Color_A1596EFA: {r: 47.937256, g: 0, b: 3.0117648, a: 0}
