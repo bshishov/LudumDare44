@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 8636528674870473716}
   - component: {fileID: 2659257352446463757}
   - component: {fileID: 5045930886315820487}
+  - component: {fileID: -2871262736190505306}
   m_Layer: 0
   m_Name: Scull
   m_TagString: Untagged
@@ -261,6 +262,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.3680126
   m_Center: {x: 0, y: 0.20945674, z: -0.024696514}
+--- !u!114 &-2871262736190505306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4385171735532075985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d56d27f7e4790534c948f93bca7db013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4784180141124867926
 GameObject:
   m_ObjectHideFlags: 0
