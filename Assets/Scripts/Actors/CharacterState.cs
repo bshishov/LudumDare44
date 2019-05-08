@@ -381,6 +381,7 @@ public class CharacterState : MonoBehaviour
             if (affect.SpawnObject.AttachToTransform)
             {
                 go = GameObject.Instantiate(affect.SpawnObject.Prefab, spawnAt.transform.position, spawnAt.transform.rotation);
+                // TODO: Figure out scale
                 go.transform.SetParent(spawnAt);
             }
             else
