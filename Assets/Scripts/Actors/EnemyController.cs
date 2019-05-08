@@ -28,7 +28,7 @@ public class EnemyController : MonoBehaviour
     private float            _spellRange;
     private float            _timeCount;
     private Buff             _useBuff;
-    private float           _doubleMeleeCheck;
+    private float           _bufferCheck;
     private int             _spellCount;
 
     private Logger _logger;
@@ -52,13 +52,18 @@ public class EnemyController : MonoBehaviour
 
         _useBuff = _characterState.character.UseBuff;
         _spellCount = _characterState.character.UseSpells.Count;
-        _doubleMeleeCheck = 0;
+        _bufferCheck = 0;
 
+        DefineClass();
+    }
+
+    private void DefineClass()
+    {
         switch (_characterState.character.Class)
         {
             case CharacterClass.Buffer:
                 {
-
+                    StartCoroutine(BufferWanderState());
                     gameObject.tag = "Buffer";
                     break;
                 }
@@ -74,11 +79,10 @@ public class EnemyController : MonoBehaviour
                     gameObject.tag = "Enemy";
                     break;
                 }
-        }         
+        }
     }
 
-
-    public IEnumerator MeleeWanderState()
+    private IEnumerator MeleeWanderState()
     {
         yield return null;
         _logger.Log("In wander");
@@ -108,7 +112,7 @@ public class EnemyController : MonoBehaviour
         }        
     }
 
-    public IEnumerator CasterWanderState()
+    private IEnumerator CasterWanderState()
     {
         yield return null;
         while (_characterState.IsAlive && _player.IsAlive)
@@ -133,14 +137,14 @@ public class EnemyController : MonoBehaviour
                 if (distance < _meleeRange)
                     StartCoroutine(MeleeAttackState(CasterWanderState()));
                 else
-                    StartCoroutine(FearOrSpellState(len, distance));
+                    StartCoroutine(FearOrSpellState(CasterWanderState(), len, distance));
                 break;
             }
             yield return null;
         }
     }
 
-    public IEnumerator MeleeAttackState(IEnumerator fromState)
+    private IEnumerator MeleeAttackState(IEnumerator fromState)
     {
         yield return null;
         _logger.Log("In attack");
@@ -166,14 +170,15 @@ public class EnemyController : MonoBehaviour
         StartCoroutine(fromState);
     }
 
-    public IEnumerator FearOrSpellState(Vector3 len, float distance)
+    private IEnumerator FearOrSpellState(IEnumerator fromState, Vector3 len, float distance)
     {
         yield return null;
         if (distance>_fearRange)
         {
             _movement.LookAt(_player.transform.position);
             _movement.Stop();
-            _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * _spellCount), _player, null);
+            // if (_characterState.CanDealDamage())
+                _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * _spellCount), _player, null);
         }
         else
         {
@@ -183,33 +188,31 @@ public class EnemyController : MonoBehaviour
         }
 
         yield return null;
-        StartCoroutine(CasterWanderState());        
+        StartCoroutine(fromState);        
     }  
     
-
-    private void UseBuff(CharacterState player)
+    private IEnumerator BufferWanderState()
     {
-        var len      = player.transform.position - transform.position;
-        var distance = len.magnitude;
+        yield return null;
+        while (_characterState.IsAlive && _player.IsAlive)
+        {
+            var len = _player.transform.position - transform.position;
+            var distance = len.magnitude;
+            _bufferCheck += Time.deltaTime;
 
-        if (_buffTarget == null || !_buffTarget.IsAlive)
-        {
-            var allies = GameObject.FindGameObjectsWithTag(Common.Tags.Enemy).Select(o => o.GetComponent<CharacterState>()).ToArray();
-            if (allies.Length > 0)
-                _buffTarget = RandomUtils.Choice(allies);
-        }
-
-        if (_buffTarget == null || distance < _fearRange)
-        {
-            _movement.SetDestination(transform.position - _fearRange * len.normalized);
-        }
-        else
-        {
-            var lenBuffed    = _buffTarget.transform.position - transform.position;
-            var buffDistance = lenBuffed.magnitude;
-            if (_spellRange < buffDistance)
+            if ((_buffTarget == null || !_buffTarget.IsAlive) && _bufferCheck>1f)
             {
-                _movement.SetDestination(_buffTarget.transform.position);
+                _logger.Log("Found target");
+                _bufferCheck = 0;
+                var allies = GameObject.FindGameObjectsWithTag(Common.Tags.Enemy).Select(o => o.GetComponent<CharacterState>()).ToArray();
+                if (allies.Length > 0)
+                    _buffTarget = RandomUtils.Choice(allies);                
+            }
+
+            if (_buffTarget == null || distance < _fearRange || !_buffTarget.IsAlive)
+            {
+                StartCoroutine(FearOrSpellState(BufferWanderState(), len, distance));
+                break;
             }
             else
             {
@@ -219,9 +222,7 @@ public class EnemyController : MonoBehaviour
                 buffTarget.ApplyBuff(_useBuff, buffTarget, null, 1);
                 _animationController.PlayCastAnimation();
             }
+            yield return null;
         }
-    }
-
-
-    
+    }    
 }
