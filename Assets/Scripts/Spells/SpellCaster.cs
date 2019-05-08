@@ -648,6 +648,7 @@ public class SpellCaster : MonoBehaviour
                 if (context.CurrentSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.ExecuteSpellSequence))
                 {
                     var direction = (target.Position.Value - source.Position.Value).normalized;
+                    Debugger.Default.DrawLine(source.Position.Value, target.Position.Value, Color.green, 0.5f);
                     return Physics.RaycastAll(source.Position.Value, direction,
                             context.CurrentSubSpell.Area.Size, Common.LayerMasks.ActorsOrGround)
                         .Select(hitInfo => hitInfo.transform.GetComponent<CharacterState>())
