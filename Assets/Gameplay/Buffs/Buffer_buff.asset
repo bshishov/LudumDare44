@@ -38,7 +38,7 @@ MonoBehaviour:
     SpawnObject:
       Prefab: {fileID: 3712493144285986600, guid: bd7dea072b2b5b04b827a4676a714267,
         type: 3}
-      CharacterNode: 3
+      CharacterNode: 4
       AttachToTransform: 1
       AutoDestroyAfterBuff: 1
   OnRefreshBuff: []

@@ -52,7 +52,7 @@ public class EnemyController : MonoBehaviour
 
         _useBuff = _characterState.character.UseBuff;
         _spellCount = _characterState.character.UseSpells.Count;
-        _bufferCheck = 0;
+        _bufferCheck = 1;
 
         DefineClass();
     }
