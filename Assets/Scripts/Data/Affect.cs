@@ -20,6 +20,13 @@ namespace Assets.Scripts.Data
         }
 
         [Serializable]
+        public enum StacksBehaviour
+        {
+            Inherit,
+            Override,
+        }
+
+        [Serializable]
         public class SpellCastInfo
         {
             [Serializable]
@@ -30,21 +37,41 @@ namespace Assets.Scripts.Data
                 CurrentSpellEmitter
             }
 
-            [Serializable]
-            public enum StacksBehaviour
-            {
-                SameStacksAsBuff,
-                Override,
-            }
-
+            [Tooltip("How many stacks casted spell will have")]
             public StacksBehaviour SpellStacks;
             public Spell Spell;
+
+            [Tooltip("From current buff receiver point of view")]
             public SpellTarget Target;
+
+            [Tooltip("Used only when StacksBehaviour is set to override. Use only if you want to explicitly specify stack amount.")]
             public int StacksOverride = 1;
+        }
+
+        [Serializable]
+        public struct ApplyBuffInfo
+        {
+            [Serializable]
+            public enum BuffTarget
+            {
+                Self,
+                SpellSource
+            }
+
+            [Tooltip("From current buff receiver point of view")]
+            public BuffTarget Target;
+
+            [Tooltip("How many stacks new buff will have")]
+            public StacksBehaviour StacksBehaviour;
+            public Buff Buff;
+
+            [Tooltip("Used only when StacksBehaviour is set to override. Use only if you want to explicitly specify stack amount.")]
+            public int StacksOverride;
         }
 
         public Modifier ApplyModifier;
         public SpellCastInfo CastSpell;
+        public ApplyBuffInfo ApplyBuff;
         public SpawnObjectInfo SpawnObject;
     }
 }

@@ -357,10 +357,10 @@ public class CharacterState : MonoBehaviour
 
             switch (affect.CastSpell.SpellStacks)
             {
-                case Affect.SpellCastInfo.StacksBehaviour.SameStacksAsBuff:
+                case Affect.StacksBehaviour.Inherit:
                     spellStacks = buffState.Stacks;
                     break;
-                case Affect.SpellCastInfo.StacksBehaviour.Override:
+                case Affect.StacksBehaviour.Override:
                     spellStacks = affect.CastSpell.StacksOverride;
                     break;
             }
@@ -388,6 +388,40 @@ public class CharacterState : MonoBehaviour
 
             if(affect.SpawnObject.AutoDestroyAfterBuff)
                 buffState.TrackedObjects.Add(go);
+        }
+
+        if (affect.ApplyBuff.Buff != null)
+        {
+            CharacterState target;
+            int stacks = 1;
+
+            switch (affect.ApplyBuff.Target)
+            {
+                case Affect.ApplyBuffInfo.BuffTarget.Self:
+                    target = this;
+                    break;
+                case Affect.ApplyBuffInfo.BuffTarget.SpellSource:
+                    target = buffState.SourceCharacter;
+                    break;
+                default:
+                    target = null;
+                    break;
+            }
+
+            switch (affect.ApplyBuff.StacksBehaviour)
+            {
+                case Affect.StacksBehaviour.Inherit:
+                    stacks = buffState.Stacks;
+                    break;
+                case Affect.StacksBehaviour.Override:
+                    stacks = affect.ApplyBuff.StacksOverride;
+                    break;
+            }
+
+            if (target != null)
+            {
+                target.ApplyBuff(affect.ApplyBuff.Buff, this, null, stacks);
+            }
         }
     }
 
