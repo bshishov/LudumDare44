@@ -29,6 +29,8 @@ public class RageRayEffect : MonoBehaviour, ISubSpellEffect
         _tubes.Add(context, data);
     }
 
+    public void OnTargetsFinalized(SpellContext context, SpellTargets castData) { }
+
     public void OnTargetsAffected(ISpellContext context, SpellTargets targets) { }
 
     public void OnEndSubSpell(ISpellContext context)

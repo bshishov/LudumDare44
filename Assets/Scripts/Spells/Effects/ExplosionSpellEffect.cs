@@ -16,9 +16,11 @@ public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
     {
         if (StartEffectOnPreSelected)
             SpawnEffect(targets);
-    }
+        }
 
-    public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
+        public void OnTargetsFinalized(SpellContext context, SpellTargets castData) { }
+
+        public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
     {
         if (!StartEffectOnPreSelected)
             SpawnEffect(targets);

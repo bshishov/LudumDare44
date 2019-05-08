@@ -18,6 +18,8 @@ namespace Spells.Effects
             _instances.Add(context, CreateInstance(targets));
         }
 
+        public void OnTargetsFinalized(SpellContext context, SpellTargets castData) { }
+
         public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
         {
 

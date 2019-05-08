@@ -122,6 +122,7 @@ namespace Spells
         void OnTargetsPreSelected(ISpellContext context, SpellTargets targets);
         void OnTargetsAffected(ISpellContext context, SpellTargets targets);
         void OnEndSubSpell(ISpellContext context);
+        void OnTargetsFinalized(SpellContext context, SpellTargets castData);
     }
 
     public interface ISpellEffect : ISubSpellEffect

@@ -28,9 +28,10 @@ public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
         }
     }
 
-    public void OnTargetsAffected(ISpellContext context, SpellTargets targets) { }
-    public void OnEndSubSpell(ISpellContext context) {  }
-        
+    public void OnTargetsFinalized(SpellContext context, SpellTargets castData) { }
+    public void OnTargetsAffected(ISpellContext context, SpellTargets targets)  { }
+    public void OnEndSubSpell(ISpellContext     context) { }
+
     [ContextMenu("DO!")]
     public void TestSpikes()
     {

@@ -341,6 +341,9 @@ public class SpellCaster : MonoBehaviour
             case ContextState.FindTargets:
                 subContext.failedToFindTargets = !LockTargets(context, subContext);
 
+                subContext.failedToFindTargets = !FinalizeTargets(context, subContext);
+                context.listener?.OnStartFiring(context.Spell, context.CurrentSubSpell);
+
                 Advance();
                 return true;
 
@@ -352,9 +355,6 @@ public class SpellCaster : MonoBehaviour
                 return true;
 
             case ContextState.Fire:
-                subContext.failedToFindTargets = !FinalizeTargets(context, subContext);
-
-                context.listener?.OnStartFiring(context.Spell, context.CurrentSubSpell);
                 Execute(context, subContext);
                 Debug.Log($"{context.Spell.Name} Executed subspell {context.CurrentSubSpellIndex}");
 
@@ -502,6 +502,9 @@ public class SpellCaster : MonoBehaviour
 
             anyTargetFound        = targets.Count != 0;
             castData.Destinations = targets.ToArray();
+
+            context.SubContext.effect?.OnTargetsFinalized(context, castData);
+            context.effect?.OnTargetsFinalized(context, castData);
         }
 
         return anyTargetFound;

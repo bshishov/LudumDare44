@@ -10,7 +10,8 @@ public class PosessionSpellEffect : MonoBehaviour, ISubSpellEffect
 
     public void OnTargetsPreSelected(ISpellContext context, SpellTargets targets) { }
 
-    public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
+        public void OnTargetsFinalized(SpellContext context, SpellTargets castData) { }
+        public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
     {
         Assert.IsTrue(targets.Source.Position.HasValue, "targets.Source.Position != null");
         foreach (var dst in targets.Destinations)
