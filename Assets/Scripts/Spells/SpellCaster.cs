@@ -116,7 +116,7 @@ public class SpellCaster : MonoBehaviour
 
     public static bool IsValidTarget(Spell spell, SpellTargets targets)
     {
-        if ((spell.SubSpells[0].Flags & SubSpell.SpellFlags.SpecialEnd) != 0)
+        if ((spell.SubSpells[0].Flags & SubSpell.SpellFlags.Special) != 0)
             return true;
 
         if (!targets.Destinations.Any(t => IsValidTarget(spell.SubSpells[0], t)))
@@ -456,12 +456,15 @@ public class SpellCaster : MonoBehaviour
                                                              source.Character,
                                                              context.CurrentSubSpell.AffectedTarget,
                                                              context.filteredTargets);
-                castData.Destinations = new[]
-                                        {
-                                            TargetInfo.Create(availableTargets
-                                                              .OrderBy(t => (t.transform.position - source.Position.Value).magnitude)
-                                                              .FirstOrDefault())
-                                        };
+                if(availableTargets.Length > 0)
+                {
+                    castData.Destinations = new[]
+                    {
+                        TargetInfo.Create(availableTargets
+                            .OrderBy(t => (t.transform.position - source.Position.Value).magnitude)
+                            .FirstOrDefault())
+                    };
+                }
             }
 
             var newTargets = new List<TargetInfo>(castData.Destinations.Length);
