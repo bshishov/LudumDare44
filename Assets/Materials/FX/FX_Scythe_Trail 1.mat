@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FX_Scythe_Trail
+  m_Name: FX_Scythe_Trail 1
   m_Shader: {fileID: -6465566751694194690, guid: 2399999df20aabf44b6809ddec9b7245,
     type: 3}
   m_ShaderKeywords: 
