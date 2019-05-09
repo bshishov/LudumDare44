@@ -19,7 +19,8 @@ MonoBehaviour:
   Modifiers:
   - Parameter: 9
     Value: 0.1
-    EffectiveStacks: 10000
+    EffectiveStacks: 10
   OnApplyBuff: []
+  OnRefreshBuff: []
   OnTickBuff: []
   OnRemove: []
