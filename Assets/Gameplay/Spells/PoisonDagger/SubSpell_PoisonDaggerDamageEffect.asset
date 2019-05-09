@@ -17,7 +17,6 @@ MonoBehaviour:
   Targeting: 1
   Origin: 1
   Buffs:
-  - {fileID: 0}
   - {fileID: 11400000, guid: 2c7380b28509e7a4194badc6c4d6b0b4, type: 2}
   BloodCost: 0
   Effect: {fileID: 0}
