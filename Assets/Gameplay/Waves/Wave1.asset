@@ -19,3 +19,9 @@ MonoBehaviour:
     DelayBetween: 1
     DelayBeforeNext: 10
     SpawnIndex: 0
+  - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
+      type: 3}
+    NumberOfThisType: 10
+    DelayBetween: 1
+    DelayBeforeNext: 10
+    SpawnIndex: 0
