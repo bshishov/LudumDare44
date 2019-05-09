@@ -104,7 +104,7 @@ MonoBehaviour:
   UseMaterialAnimations: 0
   AutoTrackSpeed: 1
   SmoothTime: 0.1
-  SeparateLegs: 1
+  SeparateLegs: 0
   DeathTrigger: Death
   TakeDamage: 
   SpeedVariable: Speed
