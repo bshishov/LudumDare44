@@ -182,12 +182,12 @@ public class CharacterState : MonoBehaviour
         transform.localScale = _baseScale * Size;
     }
 
-    public bool CanDealDamage()
+    public bool CanDealDamage(float AttackCooldown)
     {
         if (!IsAlive)
             return false;
 
-        if (_timeBeforeNextAttack > character.AttackCooldown)
+        if (_timeBeforeNextAttack > AttackCooldown)
         {
             _timeBeforeNextAttack = 0f;
             return true;
