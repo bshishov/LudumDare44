@@ -20,7 +20,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dc2d28ea50567e648b06ddb37346dd41, type: 2}
   BloodCost: 0
   Effect: {fileID: 3674095197616854138, guid: 3d7695aa183f8934d9d174c72958917d, type: 3}
-  Flags: 36
+  Flags: 4
   Obstacles: 0
   PreCastDelay: 0
   PreDamageDelay: 2

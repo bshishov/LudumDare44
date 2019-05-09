@@ -33,7 +33,7 @@ MonoBehaviour:
     ApplyBuff:
       Target: 0
       StacksBehaviour: 0
-      Buff: {fileID: 0}
+      Buff: {fileID: 11400000, guid: 2684ceb65ffb0dd45ad24eec30706679, type: 2}
       StacksOverride: 0
     SpawnObject:
       Prefab: {fileID: 5604649019590760645, guid: 22b4e44f016e3c84ab3331d832646c03,
