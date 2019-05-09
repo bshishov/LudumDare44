@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Data;
 using Assets.Scripts.Utils;
 using Assets.Scripts.Utils.Sound;
 using Data;
@@ -8,6 +9,7 @@ using UnityEngine.AI;
 
 namespace Assets.Scripts
 {
+    [RequireComponent(typeof(DifficultyManager))]
     public class WaveManager : Singleton<WaveManager>
     {
         public List<Transform> SpawnPoints;
@@ -16,6 +18,7 @@ namespace Assets.Scripts
         public InfiniteWave InfiniteWave;
         public float TimeBetweenWaves = 20f;
         public int StartDifficulty = 1;
+        private DifficultyManager _diffManager;
 
         [Header("Audio")]
         public Sound WaveStartedSound;
@@ -28,7 +31,7 @@ namespace Assets.Scripts
         public float TimeToNextWave { get; private set; }
         public int CurrentDifficulty { get; private set; }
         public bool IsRunningInfinite { get; private set; }
-
+        
         public float Percentage
         {
             get
@@ -43,6 +46,7 @@ namespace Assets.Scripts
 
         void Start()
         {
+            _diffManager = GetComponent<DifficultyManager>();
             CurrentDifficulty = StartDifficulty;
             NextWave();
         }
@@ -89,6 +93,13 @@ namespace Assets.Scripts
         {
             var enemy = Instantiate(prefab);
             enemy.GetComponent<NavMeshAgent>().Warp(spawnPoint.position);
+            var enemyState = enemy.GetComponent<CharacterState>();
+            var _currDiff = _diffManager.ReturnDiff();
+            if (_currDiff != null)
+                foreach (Buff buff in _currDiff.DifficultyBuffs)
+                {
+                    enemyState.ApplyBuff(buff, enemyState, null, 1);
+                }
             EnemiesOut++;
         }
 

@@ -35,7 +35,7 @@ public class MovementController : MonoBehaviour
     private void CharacterStateOnDeath()
     {
         // If character dies - stop everything
-        _navMeshAgent.isStopped = true;
+        //_navMeshAgent.isStopped = true;
         _navMeshAgent.enabled = false;
     }
 

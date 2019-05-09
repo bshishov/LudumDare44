@@ -162,10 +162,10 @@ public class CharacterState : MonoBehaviour
     private Logger _combatLog;
 #endif
 
-    void Start()
+    void Awake()
     {
 #if DEBUG_COMBAT
-        _combatLog = Debugger.Default.GetLogger(gameObject.name + "/StatLog", unityLog:false);
+        _combatLog = Debugger.Default.GetLogger(gameObject.name + "/StatLog", unityLog: false);
 #endif
         _baseScale = transform.localScale;
         IsAlive = true;
