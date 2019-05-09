@@ -20,17 +20,23 @@ MonoBehaviour:
   OnApplyBuff:
   - ApplyModifier:
       Parameter: 1
-      Value: -4
+      Value: -5
       EffectiveStacks: 10
     CastSpell:
-      SpellStacks: 0
+      SpellStacks: 1
       Spell: {fileID: 0}
       Target: 0
-      StacksOverride: 1
+      StacksOverride: 0
+    ApplyBuff:
+      Target: 0
+      StacksBehaviour: 1
+      Buff: {fileID: 11400000, guid: f628b45d19f437242b445c96cdd5da63, type: 2}
+      StacksOverride: 2
     SpawnObject:
       Prefab: {fileID: 0}
       CharacterNode: 0
       AttachToTransform: 0
       AutoDestroyAfterBuff: 0
+  OnRefreshBuff: []
   OnTickBuff: []
   OnRemove: []

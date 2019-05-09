@@ -12,17 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
   m_Name: Meteor
   m_EditorClassIdentifier: 
-  AffectedTarget: -1
+  AffectedTarget: 8
   Area: {fileID: 11400000, guid: 366f9620cd784244f8659e7a520a5e0b, type: 2}
+  Targeting: 2
+  Origin: 2
   Buffs:
   - {fileID: 11400000, guid: dc2d28ea50567e648b06ddb37346dd41, type: 2}
+  BloodCost: 0
   Effect: {fileID: 3674095197616854138, guid: 3d7695aa183f8934d9d174c72958917d, type: 3}
-  Flags: 36
+  Flags: 4
   Obstacles: 0
-  Origin: 2
   PreCastDelay: 0
   PreDamageDelay: 2
   PostCastDelay: 0
   Projectile: {fileID: 0}
-  Targeting: 2
   NewSource: 2

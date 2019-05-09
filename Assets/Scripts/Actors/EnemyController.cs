@@ -148,7 +148,7 @@ public class EnemyController : MonoBehaviour
     {
         yield return null;
         _logger.Log("In attack");
-        if (_characterState.CanDealDamage())
+        if (_characterState.CanDealDamage(_characterState.character.MeleeCooldown))
         {
             _logger.Log("In can deal damage");
             _movement.LookAt(_player.transform.position);
@@ -177,7 +177,7 @@ public class EnemyController : MonoBehaviour
         {
             _movement.LookAt(_player.transform.position);
             _movement.Stop();
-            // if (_characterState.CanDealDamage())
+            if (_characterState.CanDealDamage(_characterState.character.SpellCooldown))
                 _spellbookState.TryFireSpellToTarget(Mathf.FloorToInt(Random.value * _spellCount), _player, null);
         }
         else
