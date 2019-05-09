@@ -25,11 +25,19 @@ namespace Assets.Scripts
 
         public ShopState State = ShopState.None;
         public Item ActiveItem;
-        public TextMeshPro Text;
+        
         public float CurrentPrice { get; private set; }
-        public Transform PlaceTransform;
+        public Action<Shop, Item> ItemBought;
+
+        [Header("For manual (without shopgroup)")]
         public ItemEntry[] ItemPool;
+        public bool RestockOnStart = true;
+
+        [Header("Visuals")]
+        public TextMeshPro Text;
+        public Transform PlaceTransform;
         public GameObject BuyEffect;
+        public GameObject RestockEffect;
 
         private GameObject _itemObject;
 
@@ -38,30 +46,45 @@ namespace Assets.Scripts
             if(ItemPool == null || ItemPool.Length == 0)
                 Debug.LogWarning("ItemPool for Shop is empty");
 
-
-            if (State == ShopState.None)
-            {
-                var entry = RandomUtils.Choice(ItemPool, e => e.Weight);
-                ActiveItem = entry.Item;
-                CurrentPrice = entry.Item.Cost;
-                State = ShopState.WithItem;
-                Text.text = CurrentPrice.ToString();
-            }
-
             if (PlaceTransform == null)
                 PlaceTransform = transform;
 
+            Text.text = string.Empty;
+
             if (ActiveItem != null && ActiveItem.Prefab != null)
+                Restock(ActiveItem);
+            
+            if (RestockOnStart)
             {
-                _itemObject = GameObject.Instantiate(
-                    ActiveItem.Prefab, 
-                    PlaceTransform,
-                    false);
+                var entry = RandomUtils.Choice(ItemPool, e => e.Weight);
+                Restock(entry.Item);
             }
         }
     
         void Update()
         {
+        }
+
+        public void Restock(Item item)
+        {
+            if(State == ShopState.WithItem)
+                RemoveItemAndClose();
+
+            ActiveItem = item;
+            CurrentPrice = item.Cost;
+            State = ShopState.WithItem;
+            Text.text = CurrentPrice.ToString();
+
+            if (ActiveItem != null && ActiveItem.Prefab != null)
+            {
+                _itemObject = GameObject.Instantiate(
+                    ActiveItem.Prefab,
+                    PlaceTransform,
+                    false);
+            }
+
+            if(RestockEffect != null)
+                GameObject.Instantiate(RestockEffect, PlaceTransform.position, Quaternion.identity);
         }
 
         public void RemoveItemAndClose()
@@ -85,16 +108,14 @@ namespace Assets.Scripts
             {
                 // TODO: Add stacks from shop
                 character.Pickup(ActiveItem, 1);
+                ItemBought?.Invoke(this, ActiveItem);
                 RemoveItemAndClose();
 
                 if (BuyEffect != null)
                     GameObject.Instantiate(BuyEffect, PlaceTransform.position, Quaternion.identity);
 
-                var shopGroup = GetComponentInParent<ShopGroup>();
-                if(shopGroup != null)
-                    shopGroup.CloseAll();
-
                 CameraController.Instance.Shake(0.4f);
+                
             }
             else
             {
