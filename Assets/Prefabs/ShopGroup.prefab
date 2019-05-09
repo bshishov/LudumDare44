@@ -50,6 +50,16 @@ MonoBehaviour:
   - {fileID: 5414940619242834021}
   - {fileID: 4357849056923029446}
   - {fileID: 4850172814090574834}
+  AutoRestock: 0
+  RestockTimer: 120
+  TimerValueAtStart: 120
+  ItemPool: []
+  RestockOnStart: 0
+  PreviousStockWeightMod: 0.2
+  CanBuyOnlyOne: 1
+  RestockEffect: {fileID: 0}
+  Renderer: {fileID: 0}
+  ValueParameter: _Value
 --- !u!1001 &3995303900309102841
 PrefabInstance:
   m_ObjectHideFlags: 0
