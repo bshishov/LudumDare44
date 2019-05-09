@@ -4,7 +4,6 @@ using Assets.Scripts.Data;
 using TMPro;
 
 [RequireComponent(typeof(Cheats))]
-[ExecuteInEditMode]
 public class SpellsPlayground : MonoBehaviour
 {
     private Cheats _cheats;
@@ -16,8 +15,7 @@ public class SpellsPlayground : MonoBehaviour
     public float Distance = 5;
     public float Spacing = 5;
     public float HalfWidth = 25;
-
-
+    
 
     void Start()
     {
