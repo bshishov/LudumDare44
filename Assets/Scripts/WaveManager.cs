@@ -94,9 +94,9 @@ namespace Assets.Scripts
             var enemy = Instantiate(prefab);
             enemy.GetComponent<NavMeshAgent>().Warp(spawnPoint.position);
             var enemyState = enemy.GetComponent<CharacterState>();
-            var _currDiff = _diffManager.ReturnDiff();
-            if (_currDiff != null)
-                foreach (Buff buff in _currDiff.DifficultyBuffs)
+            var currDiff = _diffManager.ReturnDiff();
+            if (currDiff != null)
+                foreach (Buff buff in currDiff.DifficultyBuffs)
                 {
                     enemyState.ApplyBuff(buff, enemyState, null, 1);
                 }

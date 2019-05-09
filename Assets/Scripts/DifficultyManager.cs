@@ -31,11 +31,11 @@ public class DifficultyManager : MonoBehaviour
 
     public Difficulty ReturnDiff()
     {
-        foreach (Difficulty Diff in Difficulties)
+        foreach (Difficulty diff in Difficulties)
         {
-            if (_timeChecker < Diff.NextDifficultyStamp)
+            if (_timeChecker < diff.NextDifficultyStamp)
             {
-                return Diff;
+                return diff;
             }
         }
         return null;
