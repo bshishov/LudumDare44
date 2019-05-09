@@ -20,7 +20,7 @@ MonoBehaviour:
   OnApplyBuff:
   - ApplyModifier:
       Parameter: 1
-      Value: -7
+      Value: -50
       EffectiveStacks: 0
     CastSpell:
       SpellStacks: 0
