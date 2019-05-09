@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: SkullDamageEffect
   m_EditorClassIdentifier: 
   AffectedTarget: 8
-  Area: {fileID: 11400000, guid: 34e14946de751714fb0cf7c8383eb436, type: 2}
+  Area: {fileID: 11400000, guid: 8984f99fcb3c27049aa36ed1f6f88d56, type: 2}
+  Targeting: 1
+  Origin: 1
   Buffs:
   - {fileID: 11400000, guid: 736c79006a33c1041a831e1f13c6912d, type: 2}
+  BloodCost: 0
   Effect: {fileID: 0}
-  Flags: 8
-  Obstacles: 22
-  Origin: 1
+  Flags: 20
+  Obstacles: 0
   PreCastDelay: 0
   PreDamageDelay: 0
   PostCastDelay: 0
   Projectile: {fileID: 0}
-  Targeting: 1
   NewSource: 1
