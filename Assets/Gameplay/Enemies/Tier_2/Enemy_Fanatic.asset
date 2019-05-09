@@ -23,8 +23,8 @@ MonoBehaviour:
   IndifferenceDistance: 15
   SpellRange: 8
   FearRange: 5
-  MeleeRange: 3.82
-  AttackCooldown: 5
+  MeleeRange: 0
+  MeleeCooldown: 0
   AnimationDelay: 0.9
   ApplyBuffOnAttack: {fileID: 0}
   AdditionalSpellStacks: 0
@@ -34,6 +34,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
   - {fileID: 11400000, guid: 061e3a3f356d7fc489e00711052fd343, type: 2}
   - {fileID: 11400000, guid: b68c04cbeb37eda4a99856ef5358d680, type: 2}
+  SpellCooldown: 1
   UseSpells:
   - {fileID: 11400000, guid: c7da297eae374e94cbd3021973c82735, type: 2}
   UseBuff: {fileID: 0}

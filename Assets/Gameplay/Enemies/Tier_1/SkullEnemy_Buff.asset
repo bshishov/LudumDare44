@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
-  m_Name: Buff_Fanatic_Meteor
+  m_Name: SkullEnemy_Buff
   m_EditorClassIdentifier: 
   Name: 
-  Behaviour: 2
+  Behaviour: 0
   TickCooldown: 1
   Duration: 1
   Modifiers: []
