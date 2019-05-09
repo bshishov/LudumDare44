@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts.Data;
+using TMPro;
 
 [RequireComponent(typeof(Cheats))]
 [ExecuteInEditMode]
@@ -7,8 +9,9 @@ public class SpellsPlayground : MonoBehaviour
 {
     private Cheats _cheats;
 
-    public GameObject Caster;
-    public GameObject Enemy;
+    public SpellsPlaygroundCharacter Caster;
+    public CharacterState Enemy;
+    public TextMeshPro Text;
 
     public float Distance = 5;
     public float Spacing = 5;
@@ -16,10 +19,7 @@ public class SpellsPlayground : MonoBehaviour
 
 
 
-#if UNITY_EDITOR
-
-    [ContextMenu("Spawn")]
-    void Spawn()
+    void Start()
     {
         var cheats = GetComponent<Cheats>();
 
@@ -36,7 +36,7 @@ public class SpellsPlayground : MonoBehaviour
         float y = 0;
         foreach (var spell in cheats.Spells)
         {
-            SpawnCasterAndDummy(root.transform, x, y);
+            SpawnCasterAndDummy(x, y, root.transform, spell);
             x += Spacing;
             if (x >= HalfWidth)
             {
@@ -46,14 +46,17 @@ public class SpellsPlayground : MonoBehaviour
         }
     }
 
-    private void SpawnCasterAndDummy(Transform root, float x, float y)
+    private void SpawnCasterAndDummy(float x, float y, Transform root, Spell spell)
     {
-        Instantiate(Caster, new Vector3(y, 0, x), Quaternion.identity, root);
-        Instantiate(Enemy, new Vector3(y + Distance, 0, x), Quaternion.identity, root);
+        var caster = Instantiate(Caster, new Vector3(x, 0, y), Quaternion.identity, root);
+        var text = Instantiate(Text, new Vector3(x, 0, y + 1), Quaternion.Euler(80,0,0), root);
+        var enemy = Instantiate(Enemy, new Vector3(x , 0, y + Distance), Quaternion.identity, root);
+
+        caster.SpellToCast = spell;
+        caster.Target = enemy;
+        text.text += spell.Name;
     }
-
-#endif
-
+    
     // Update is called once per frame
     void Update()
     {

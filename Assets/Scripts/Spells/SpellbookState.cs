@@ -42,7 +42,7 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
     public          bool             IsCasting { get; private set; }
     public readonly SpellSlotState[] SpellSlots = new SpellSlotState[SpellCount];
 
-    private void Start()
+    private void Awake()
     {
         _spellCaster         = GetComponent<SpellCaster>();
         _animationController = GetComponent<AnimationController>();

@@ -17,7 +17,7 @@ namespace Assets.Scripts.Utils.Debugger
         {
             if (size < 1)
             {
-                throw new ArgumentOutOfRangeException("size");
+                throw new ArgumentOutOfRangeException(nameof(size));
             }
             _data = new T[size];
             _pointer = _data.GetLowerBound(0);
