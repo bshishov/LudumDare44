@@ -33,7 +33,7 @@ namespace Assets.Scripts.Data
 
         [Header("Melee attack")]
         public float MeleeRange = 0f;
-        public float AttackCooldown = 1f;
+        public float MeleeCooldown = 1f;
         public float AnimationDelay = 0.9f;
         public Buff ApplyBuffOnAttack;
         public int AdditionalSpellStacks = 0;
@@ -46,6 +46,7 @@ namespace Assets.Scripts.Data
 
         [Header("Spell Info")]
         [SerializeField]
+        public float SpellCooldown = 1f;
         public List<Spell> UseSpells;
         public Buff UseBuff;
     }
