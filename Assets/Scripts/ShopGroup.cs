@@ -57,7 +57,7 @@ public class ShopGroup : MonoBehaviour
             }
 
             if (Renderer != null)
-                Renderer.material.SetFloat(ValueParameter, _currentTimer / RestockTimer);
+                Renderer.material.SetFloat(ValueParameter, 1 - Mathf.Clamp01(_currentTimer / RestockTimer));
         }
     }
 
