@@ -1,61 +1,36 @@
 fileFormatVersion: 2
-guid: 70d45e6ca6d424d4f97656caa0b43a14
+guid: fdb466eb2f32d14409a71ec89a4d7493
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
   - first:
-      74: 2944855941006285045
-    second: Armature.001|Fanatic_Attack
+      74: 6664141899372861839
+    second: Hound_Attack
   - first:
-      74: -6716847476621964617
-    second: Armature.001|Fanatic_Death
+      74: -6019630868302933625
+    second: Hound_Death
   - first:
-      74: -1021835432075433594
-    second: Armature.001|Fanatic_Idle
+      74: -440242916919678509
+    second: Hound_Idle
   - first:
-      74: 126317983755079002
-    second: Armature.001|Fanatic_Run
-  - first:
-      74: 7409116551471118945
-    second: Armature.001|Fanatic_Spawn
-  - first:
-      74: 4682928455411400512
-    second: Armature.001|L_FOOTcontrol|CINEMA_4D_Main|Layer0
-  - first:
-      74: 3543285266840486073
-    second: Armature.001|Master|CINEMA_4D_Main|Layer0
-  - first:
-      74: 1137989408434907267
-    second: Armature.001|mesh_Scull.001Action
-  - first:
-      74: 8170769075860487187
-    second: Armature.001|MN_pants_MN_pants1|Take 001|BaseLayer
-  - first:
-      74: 8972531383914401576
-    second: Armature.001|Ogre_delete
-  - first:
-      74: 4136887679033547288
-    second: Armature.001|Plane.007Action.002
-  - first:
-      74: 3942160014827433885
-    second: Armature.001|Plane.009Action
-  - first:
-      74: -976637953299934787
-    second: Armature.001|Plane.010Action
-  - first:
-      74: 2317139851406629702
-    second: Armature.001|R_FOOTcontrol|CINEMA_4D_Main|Layer0
+      74: 2380732113133019411
+    second: Hound_Run
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: mat_Fanatic_Earth
-    second: {fileID: 2100000, guid: 071d4ca5971db1d428b9eda769c9b940, type: 2}
+      name: mat_Hound_Body
+    second: {fileID: 2100000, guid: fb82067e6a83f0c41bb60c0979b91c8b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: mat_Fanatic_Mane
-    second: {fileID: 2100000, guid: ab3a7dbe2cc907341a2fafff2030f055, type: 2}
+      name: mat_Hound_Butt
+    second: {fileID: 2100000, guid: fb82067e6a83f0c41bb60c0979b91c8b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Hound_Eyes
+    second: {fileID: 2100000, guid: 993e202c226834a488db765f69c05759, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -84,11 +59,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature.001|Fanatic_Attack
-      takeName: Armature.001|Fanatic_Attack
-      internalID: 2944855941006285045
+      name: Hound_Attack
+      takeName: Armature|Hound_Attack
+      internalID: 6664141899372861839
       firstFrame: 0
-      lastFrame: 25
+      lastFrame: 20
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -113,11 +88,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature.001|Fanatic_Death
-      takeName: Armature.001|Fanatic_Death
-      internalID: -6716847476621964617
+      name: Hound_Death
+      takeName: Armature|Hound_Death
+      internalID: -6019630868302933625
       firstFrame: 0
-      lastFrame: 35
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -142,18 +117,18 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature.001|Fanatic_Idle
-      takeName: Armature.001|Fanatic_Idle
-      internalID: -1021835432075433594
+      name: Hound_Idle
+      takeName: Armature|Hound_Idle
+      internalID: -440242916919678509
       firstFrame: 0
-      lastFrame: 25
+      lastFrame: 20
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -171,47 +146,18 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature.001|Fanatic_Run
-      takeName: Armature.001|Fanatic_Run
-      internalID: 126317983755079002
+      name: Hound_Run
+      takeName: Armature|Hound_Run
+      internalID: 2380732113133019411
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 8
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature.001|Fanatic_Spawn
-      takeName: Armature.001|Fanatic_Spawn
-      internalID: 7409116551471118945
-      firstFrame: 0
-      lastFrame: 45
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
