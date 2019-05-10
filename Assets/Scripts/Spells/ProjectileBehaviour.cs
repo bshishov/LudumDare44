@@ -57,7 +57,9 @@ namespace Spells
 
             position += Quaternion.LookRotation(_direction) * _context.projectileData.Offset;
             transform.position = position;
-            
+
+            _direction = (_context.target.Position.Value - position).normalized;
+
             transform.LookAt(_context.target.Position.Value);
 
             _collider = gameObject.GetComponentInChildren<Collider>();
