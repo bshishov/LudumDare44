@@ -32,6 +32,7 @@ MonoBehaviour:
   DropSpells: []
   SpellCooldown: 2
   UseSpells:
-  - {fileID: 11400000, guid: 8a148e1b72e4f564c8a500b80c9f76cd, type: 2}
+  - {fileID: 11400000, guid: 1e6940b2adb5d7244a4fbff980a6250e, type: 2}
   - {fileID: 11400000, guid: 72d87984ea9c2b4478c726b3a6075e93, type: 2}
+  - {fileID: 11400000, guid: 061e3a3f356d7fc489e00711052fd343, type: 2}
   UseBuff: {fileID: 0}

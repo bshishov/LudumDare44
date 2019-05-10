@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
-  m_Name: Spell_PainHammer
+  m_Name: Spell_ReapernHammer
   m_EditorClassIdentifier: 
   Name: Reaper Hammer
   Icon: {fileID: 6876218924004010766, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
