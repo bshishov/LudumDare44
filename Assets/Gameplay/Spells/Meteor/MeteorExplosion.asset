@@ -19,7 +19,7 @@ MonoBehaviour:
   Buffs:
   - {fileID: 11400000, guid: 2684ceb65ffb0dd45ad24eec30706679, type: 2}
   BloodCost: 0
-  Effect: {fileID: 0}
+  Effect: {fileID: 1349204274574646620, guid: 7ba9887cde788574a870837bad2d3364, type: 3}
   Flags: 36
   Obstacles: 0
   PreCastDelay: 0

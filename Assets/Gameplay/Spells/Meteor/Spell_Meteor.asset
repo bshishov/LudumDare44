@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
-  m_Name: Spell_MeteorStrike
+  m_Name: Spell_Meteor
   m_EditorClassIdentifier: 
   Name: Meteor Strike
   Icon: {fileID: 8409708482411832467, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
@@ -22,11 +22,9 @@ MonoBehaviour:
   BloodCost: 15
   DefaultSlot: 1
   Cooldown: 1
-  CastingTime: 1
   Flags: 0
   PreCastDelay: 0
   PostCastDelay: 0
-  ChannelTime: 0
   SubSpells:
   - {fileID: 11400000, guid: 4cb3d184c6ea43d42a389a862c9449ad, type: 2}
   - {fileID: 11400000, guid: fe5fce75e6cf6f2489a653f9cf8d3315, type: 2}

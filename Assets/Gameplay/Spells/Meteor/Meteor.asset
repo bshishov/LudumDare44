@@ -23,7 +23,7 @@ MonoBehaviour:
   Flags: 4
   Obstacles: 0
   PreCastDelay: 0
-  PreDamageDelay: 2
+  PreDamageDelay: 1.2
   PostCastDelay: 0
   Projectile: {fileID: 0}
   NewSource: 2
