@@ -20,16 +20,17 @@ MonoBehaviour:
   HealthModifier: 1
   SpellDamageAmp: 0
   Class: 2
-  IndifferenceDistance: 10
+  IndifferenceDistance: 50
   SpellRange: 4
   FearRange: 2
   MeleeRange: 0
-  AttackCooldown: 1
+  MeleeCooldown: 1
   AnimationDelay: 0.9
   ApplyBuffOnAttack: {fileID: 0}
   AdditionalSpellStacks: 0
   DropRate: 0
   DropSpells: []
+  SpellCooldown: 1
   UseSpells:
   - {fileID: 11400000, guid: 4dea2418d8494ae43ba01a378694fbf2, type: 2}
   UseBuff: {fileID: 11400000, guid: 5357b57d5882fe44eb0bdc60a191e1cc, type: 2}

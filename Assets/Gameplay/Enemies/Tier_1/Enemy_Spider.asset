@@ -20,7 +20,7 @@ MonoBehaviour:
   HealthModifier: 1
   SpellDamageAmp: 0
   Class: 0
-  IndifferenceDistance: 20
+  IndifferenceDistance: 100
   SpellRange: 0
   FearRange: 0
   MeleeRange: 2
