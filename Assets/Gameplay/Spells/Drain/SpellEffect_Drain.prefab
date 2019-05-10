@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41108ea84973871479b1e174465108e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayPrefab: {fileID: 4477401157512331031, guid: e29d97467ef0fab4daa138c1fae9ae44,
+  RayPrefab: {fileID: 7635862194016129044, guid: a153356cc72758a4892e523e7ea4ab3e,
     type: 3}
   SpawnEvent: 2
   InstanceMode: 1
