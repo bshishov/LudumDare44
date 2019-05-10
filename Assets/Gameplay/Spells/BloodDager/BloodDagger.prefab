@@ -312,7 +312,6 @@ GameObject:
   - component: {fileID: 112157681064124431}
   - component: {fileID: 5959106432877157622}
   - component: {fileID: 8991762251034656571}
-  - component: {fileID: 8803866009034188098}
   m_Layer: 0
   m_Name: Dagger
   m_TagString: Untagged
@@ -402,19 +401,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!135 &8803866009034188098
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5372277271118833706}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.51888734
-  m_Center: {x: 0, y: -0.21600074, z: 0}
 --- !u!1 &8329142908447375752
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,6 +410,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7357288122013402811}
+  - component: {fileID: 4185515951222776441}
   m_Layer: 0
   m_Name: BloodDagger
   m_TagString: Untagged
@@ -447,6 +434,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &4185515951222776441
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8329142908447375752}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.6
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8774060422764136192
 GameObject:
   m_ObjectHideFlags: 0
