@@ -126,6 +126,8 @@ MonoBehaviour:
   Pickup: Attack
   DeathVariations: []
   TakeDamageVariations: []
+  EvasionFX: {fileID: 7694598875408499460, guid: 935ef7c5f7cd2d14dbc85476e1ebf43f,
+    type: 3}
 --- !u!114 &6517796079095819127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 039599ff87e648846b1352f790928287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxSpellDistance: 100
 --- !u!114 &4081670606605324275
 MonoBehaviour:
   m_ObjectHideFlags: 0

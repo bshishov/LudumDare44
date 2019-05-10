@@ -743,6 +743,8 @@ public class CharacterState : MonoBehaviour
         {
             if (Random.value > Evasion)
                 UpdateHp(_hp - amount, sourceCharacter, spell);
+            else
+                _animationController.PlayEvasionEffect(GetNodeTransform(NodeRole.Chest));
         }
     }
 

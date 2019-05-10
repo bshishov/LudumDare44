@@ -2193,6 +2193,8 @@ MonoBehaviour:
   Pickup: Pickup
   DeathVariations: []
   TakeDamageVariations: []
+  EvasionFX: {fileID: 7694598875408499460, guid: 935ef7c5f7cd2d14dbc85476e1ebf43f,
+    type: 3}
 --- !u!114 &7661275501719446556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2243,7 +2245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 039599ff87e648846b1352f790928287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxSpellDistance: 100
 --- !u!114 &-5222694102165131264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2356,11 +2357,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3341332718872007295}
     m_Modifications:
-    - target: {fileID: 3255098515904133124, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_Name
-      value: HealthBar
-      objectReference: {fileID: 0}
     - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2415,6 +2411,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3255098515904133124, guid: dd85227902a2c8245b888ecbb9192bad,
+        type: 3}
+      propertyPath: m_Name
+      value: HealthBar
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd85227902a2c8245b888ecbb9192bad, type: 3}

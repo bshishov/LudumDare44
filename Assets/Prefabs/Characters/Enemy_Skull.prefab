@@ -212,6 +212,8 @@ MonoBehaviour:
   Pickup: Attack
   DeathVariations: []
   TakeDamageVariations: []
+  EvasionFX: {fileID: 7694598875408499460, guid: 935ef7c5f7cd2d14dbc85476e1ebf43f,
+    type: 3}
 --- !u!114 &7568753488415594110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,16 +363,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: b70c19f628b827641aec3a0a2d84f118,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: dd268c4d5ac7f104bbf2b66a68aa670d, type: 2}
     - target: {fileID: 6974392508677797502, guid: b70c19f628b827641aec3a0a2d84f118,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d5426adcc8409cf4790c982a7492432d, type: 2}
+    - target: {fileID: -6057140222963153312, guid: b70c19f628b827641aec3a0a2d84f118,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: dd268c4d5ac7f104bbf2b66a68aa670d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b70c19f628b827641aec3a0a2d84f118, type: 3}
 --- !u!1 &2882011872326296482 stripped

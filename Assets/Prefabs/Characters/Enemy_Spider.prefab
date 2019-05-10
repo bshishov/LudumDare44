@@ -116,6 +116,8 @@ MonoBehaviour:
   Pickup: Attack
   DeathVariations: []
   TakeDamageVariations: []
+  EvasionFX: {fileID: 7694598875408499460, guid: 935ef7c5f7cd2d14dbc85476e1ebf43f,
+    type: 3}
 --- !u!195 &8982860342995762893
 NavMeshAgent:
   m_ObjectHideFlags: 0

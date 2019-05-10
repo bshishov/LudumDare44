@@ -205,6 +205,8 @@ MonoBehaviour:
   Pickup: Attack
   DeathVariations: []
   TakeDamageVariations: []
+  EvasionFX: {fileID: 7694598875408499460, guid: 935ef7c5f7cd2d14dbc85476e1ebf43f,
+    type: 3}
 --- !u!114 &2941308962712032522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,6 +383,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4876705112086875615}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: bb2d9f1755039684d9e937c93a5b25df,
+        type: 3}
+      propertyPath: m_Name
+      value: mesh_Enemies_Warlock_Staff
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: bb2d9f1755039684d9e937c93a5b25df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: bb2d9f1755039684d9e937c93a5b25df,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: bb2d9f1755039684d9e937c93a5b25df,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -450,21 +467,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.009999993
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: bb2d9f1755039684d9e937c93a5b25df,
-        type: 3}
-      propertyPath: m_Name
-      value: mesh_Enemies_Warlock_Staff
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: bb2d9f1755039684d9e937c93a5b25df,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: bb2d9f1755039684d9e937c93a5b25df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb2d9f1755039684d9e937c93a5b25df, type: 3}

@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.Data;
-using Assets.Scripts.Utils;
-using Assets.Scripts.Utils.Debugger;
+﻿using Assets.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -35,7 +33,8 @@ public class AnimationController : MonoBehaviour
     public string[] DeathVariations;
     public string[] TakeDamageVariations;
 
-    // TODO: IK ?
+    [Header("FX")]
+    public GameObject EvasionFX;
 
     private bool _disabled = false;
     private Vector3 _lastPosition;
@@ -157,6 +156,15 @@ public class AnimationController : MonoBehaviour
             Animator.SetFloat("Speed", _moveDir.magnitude);
 
             _lastPosition = transform.position;
+        }
+    }
+
+    public void PlayEvasionEffect(Transform t)
+    {
+        if (EvasionFX != null)
+        {
+            var go = GameObject.Instantiate(EvasionFX, t.position, t.rotation);
+            go.transform.SetParent(t, true);
         }
     }
 

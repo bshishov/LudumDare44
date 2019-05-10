@@ -508,6 +508,8 @@ MonoBehaviour:
   TakeDamageVariations:
   - TakeDamage
   - TakeDamage2
+  EvasionFX: {fileID: 7694598875408499460, guid: 935ef7c5f7cd2d14dbc85476e1ebf43f,
+    type: 3}
 --- !u!114 &2201879389249409274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,7 +545,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b68868a534a69804fb30900d6dd615ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 7
 --- !u!114 &2690621711745313145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -568,7 +569,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 039599ff87e648846b1352f790928287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxSpellDistance: 100
 --- !u!114 &8523321657340168352
 MonoBehaviour:
   m_ObjectHideFlags: 0
