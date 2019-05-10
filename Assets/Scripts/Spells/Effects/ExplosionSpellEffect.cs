@@ -28,9 +28,9 @@ public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
             SpawnEffect(targets);
         }
 
-        public void OnTargetsFinalized(SpellContext context, SpellTargets castData) { }
+    public void OnTargetsFinalized(SpellContext context, SpellTargets castData) { }
 
-        public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
+    public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
     {
         if (!StartEffectOnInputTargetValidated)
             SpawnEffect(targets);
