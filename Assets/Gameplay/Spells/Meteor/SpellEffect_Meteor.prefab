@@ -47,4 +47,8 @@ MonoBehaviour:
     type: 3}
   Origin: 1
   SpawnInGround: 1
-  StartEffectOnPreSelected: 1
+  AlignRotation: 0
+  XZRotationOnly: 1
+  AutoDestroy: 1
+  DestroyAfter: 4
+  StartEffectOnInputTargetValidated: 1

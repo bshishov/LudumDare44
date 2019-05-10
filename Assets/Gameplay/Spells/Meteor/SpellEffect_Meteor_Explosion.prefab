@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7547348210591549195}
   - component: {fileID: 8582121613428981541}
   m_Layer: 0
-  m_Name: SpellEffect_MeteorExplosin
+  m_Name: SpellEffect_Meteor_Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,7 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee3d48d108b6134e9476d472adc2a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExplosionPrefab: {fileID: 1947871717301538, guid: a990e3ac1318b834488c784d851f42a9,
+  ExplosionPrefab: {fileID: 4781728810938325591, guid: b5592a184565ede4183730f749de06fa,
     type: 3}
   Origin: 1
-  StartEffectOnPreSelected: 1
+  SpawnInGround: 0
+  AlignRotation: 0
+  XZRotationOnly: 1
+  AutoDestroy: 0
+  DestroyAfter: 2
+  StartEffectOnInputTargetValidated: 0

@@ -24138,11 +24138,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4322137385911766881}
     m_Modifications:
-    - target: {fileID: 9142682993930162446, guid: 630336021b5f62d4ab0a67473c77d998,
-        type: 3}
-      propertyPath: m_Name
-      value: EarthStamp
-      objectReference: {fileID: 0}
     - target: {fileID: 2990405408949905242, guid: 630336021b5f62d4ab0a67473c77d998,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24197,6 +24192,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9142682993930162446, guid: 630336021b5f62d4ab0a67473c77d998,
+        type: 3}
+      propertyPath: m_Name
+      value: EarthStamp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1366750160976132097, guid: 630336021b5f62d4ab0a67473c77d998,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: -0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 630336021b5f62d4ab0a67473c77d998, type: 3}
