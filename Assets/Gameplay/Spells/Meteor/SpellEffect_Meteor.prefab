@@ -50,5 +50,5 @@ MonoBehaviour:
   AlignRotation: 0
   XZRotationOnly: 1
   AutoDestroy: 1
-  DestroyAfter: 4
+  DestroyAfter: 8
   StartEffectOnInputTargetValidated: 1
