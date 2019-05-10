@@ -50,8 +50,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   State: 0
   ActiveItem: {fileID: 0}
-  Text: {fileID: 4121783182483238721}
-  PlaceTransform: {fileID: 2498111965942654117}
   ItemPool:
   - Item: {fileID: 11400000, guid: 44dbd128d5fa35e45b258252aa25fbdb, type: 2}
     Weight: 1
@@ -71,7 +69,12 @@ MonoBehaviour:
     Weight: 1
   - Item: {fileID: 11400000, guid: 7a11f8d9f544d104fa2e8757b9100b65, type: 2}
     Weight: 1
+  RestockOnStart: 1
+  Text: {fileID: 4121783182483238721}
+  PlaceTransform: {fileID: 2498111965942654117}
   BuyEffect: {fileID: 4946014130508622525, guid: b39816f03392bc642b9a8b7ddd8d31bf,
+    type: 3}
+  RestockEffect: {fileID: 4251775553690074113, guid: aa4885e9eb900514cb0a7aca66dbdd26,
     type: 3}
 --- !u!135 &851490440126079302
 SphereCollider:
