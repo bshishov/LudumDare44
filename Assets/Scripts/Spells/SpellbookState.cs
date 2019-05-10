@@ -56,7 +56,8 @@ public class SpellbookState : MonoBehaviour, ISpellCastListener
 
         for (var i = 0; i < SpellCount && i < initialSpells.Count; ++i)
         {
-            AddSpellToSlot(i, initialSpells[i], 1);
+            if(initialSpells[i] != null)
+                AddSpellToSlot(i, initialSpells[i], 1);
         }
     }
 
