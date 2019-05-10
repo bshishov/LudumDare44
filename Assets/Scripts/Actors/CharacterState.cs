@@ -151,7 +151,6 @@ public class CharacterState : MonoBehaviour
     public List<Spell> DropSpells => character.DropSpells;
 
     // Internal
-    private float _timeBeforeNextAttack;
     private AnimationController _animationController;
     private SpellbookState _spellBook;
     private SpellCaster _spellCaster;
@@ -173,27 +172,12 @@ public class CharacterState : MonoBehaviour
         _spellBook = GetComponent<SpellbookState>();
         _spellCaster = GetComponent<SpellCaster>();
         _animationController = GetComponent<AnimationController>();
-        _timeBeforeNextAttack = 0f;
         _hp = character.HealthModifier * MaxHealth;
 
         if (CurrentTeam == Team.Undefined)
             Debug.LogError("Team not set!", this);
 
         transform.localScale = _baseScale * Size;
-    }
-
-    public bool CanDealDamage(float AttackCooldown)
-    {
-        if (!IsAlive)
-            return false;
-
-        if (_timeBeforeNextAttack > AttackCooldown)
-        {
-            _timeBeforeNextAttack = 0f;
-            return true;
-        }
-        
-        return false;
     }
 
     internal void Pickup(Spell spell, int stacks)
@@ -632,14 +616,8 @@ public class CharacterState : MonoBehaviour
     
     void Update()
     {
-        if (IsAlive)
-        {
-            _timeBeforeNextAttack += Time.deltaTime;
-        }
-        else
-        {
+        if (!IsAlive)
             return;
-        }
         
 #if DEBUG
         if(gameObject.CompareTag(Common.Tags.Player))
