@@ -24,6 +24,12 @@ public class EnemyController : MonoBehaviour
         };
         _agent = agent;
 
+        if (agent.Config.AI == null)
+        {
+            Debug.LogError("AI Config is not set", this);
+            return;
+        }
+
         if (agent.Config.AI.Class == CharacterClass.Melee)
         {
             // Here we specify all states and how agent behave in those states
