@@ -10,54 +10,54 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69354cb5839c47b4abaed35449520a21, type: 3}
-  m_Name: Wave4
+  m_Name: Wave5
   m_EditorClassIdentifier: 
   Items:
-  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+  - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
       type: 3}
-    NumberOfThisType: 15
-    DelayBetween: 0.1
+    NumberOfThisType: 10
+    DelayBetween: 0.2
     DelayBeforeNext: 0
     SpawnIndex: 0
-  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+  - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
       type: 3}
-    NumberOfThisType: 15
-    DelayBetween: 0.1
+    NumberOfThisType: 10
+    DelayBetween: 0.2
     DelayBeforeNext: 0
     SpawnIndex: 1
-  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+  - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
       type: 3}
-    NumberOfThisType: 15
-    DelayBetween: 0.1
+    NumberOfThisType: 10
+    DelayBetween: 0.2
     DelayBeforeNext: 0
     SpawnIndex: 2
-  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+  - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
       type: 3}
-    NumberOfThisType: 15
-    DelayBetween: 0.1
+    NumberOfThisType: 10
+    DelayBetween: 0.2
     DelayBeforeNext: 5
     SpawnIndex: 3
   - EnemyPrefab: {fileID: 8704103856658010905, guid: 816cdcc0a1b3c02479c04878b1aa4186,
       type: 3}
-    NumberOfThisType: 3
+    NumberOfThisType: 5
     DelayBetween: 0.3
     DelayBeforeNext: 0
     SpawnIndex: 0
   - EnemyPrefab: {fileID: 8704103856658010905, guid: 816cdcc0a1b3c02479c04878b1aa4186,
       type: 3}
-    NumberOfThisType: 3
+    NumberOfThisType: 5
     DelayBetween: 0.3
     DelayBeforeNext: 0
     SpawnIndex: 1
   - EnemyPrefab: {fileID: 8704103856658010905, guid: 816cdcc0a1b3c02479c04878b1aa4186,
       type: 3}
-    NumberOfThisType: 3
+    NumberOfThisType: 5
     DelayBetween: 0.3
     DelayBeforeNext: 0
     SpawnIndex: 2
   - EnemyPrefab: {fileID: 8704103856658010905, guid: 816cdcc0a1b3c02479c04878b1aa4186,
       type: 3}
-    NumberOfThisType: 3
+    NumberOfThisType: 5
     DelayBetween: 0.3
     DelayBeforeNext: 15
     SpawnIndex: 3

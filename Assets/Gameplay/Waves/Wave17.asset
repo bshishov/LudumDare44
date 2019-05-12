@@ -10,78 +10,78 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69354cb5839c47b4abaed35449520a21, type: 3}
-  m_Name: Wave2
+  m_Name: Wave17
   m_EditorClassIdentifier: 
   Items:
   - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
       type: 3}
-    NumberOfThisType: 10
+    NumberOfThisType: 40
     DelayBetween: 0.1
     DelayBeforeNext: 0
     SpawnIndex: 0
   - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
       type: 3}
-    NumberOfThisType: 10
+    NumberOfThisType: 40
     DelayBetween: 0.1
     DelayBeforeNext: 0
     SpawnIndex: 1
   - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
       type: 3}
-    NumberOfThisType: 10
+    NumberOfThisType: 40
     DelayBetween: 0.1
     DelayBeforeNext: 0
     SpawnIndex: 2
   - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
       type: 3}
-    NumberOfThisType: 10
+    NumberOfThisType: 40
     DelayBetween: 0.1
+    DelayBeforeNext: 0
+    SpawnIndex: 3
+  - EnemyPrefab: {fileID: 2801979946316107269, guid: 6e730ee76a236d149848aa28f5061e5c,
+      type: 3}
+    NumberOfThisType: 10
+    DelayBetween: 0.5
+    DelayBeforeNext: 0
+    SpawnIndex: 0
+  - EnemyPrefab: {fileID: 2801979946316107269, guid: 6e730ee76a236d149848aa28f5061e5c,
+      type: 3}
+    NumberOfThisType: 10
+    DelayBetween: 0.5
+    DelayBeforeNext: 0
+    SpawnIndex: 1
+  - EnemyPrefab: {fileID: 2801979946316107269, guid: 6e730ee76a236d149848aa28f5061e5c,
+      type: 3}
+    NumberOfThisType: 10
+    DelayBetween: 0.5
+    DelayBeforeNext: 0
+    SpawnIndex: 2
+  - EnemyPrefab: {fileID: 2801979946316107269, guid: 6e730ee76a236d149848aa28f5061e5c,
+      type: 3}
+    NumberOfThisType: 10
+    DelayBetween: 0.5
     DelayBeforeNext: 5
     SpawnIndex: 3
-  - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
+  - EnemyPrefab: {fileID: 4042458253141189786, guid: 00a4d741f7d933c4ca8b6663978d1b60,
       type: 3}
-    NumberOfThisType: 5
-    DelayBetween: 0.2
+    NumberOfThisType: 2
+    DelayBetween: 1
     DelayBeforeNext: 0
     SpawnIndex: 0
-  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+  - EnemyPrefab: {fileID: 4042458253141189786, guid: 00a4d741f7d933c4ca8b6663978d1b60,
       type: 3}
-    NumberOfThisType: 10
-    DelayBetween: 0.1
-    DelayBeforeNext: 0
-    SpawnIndex: 0
-  - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
-      type: 3}
-    NumberOfThisType: 5
-    DelayBetween: 0.2
+    NumberOfThisType: 2
+    DelayBetween: 1
     DelayBeforeNext: 0
     SpawnIndex: 1
-  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+  - EnemyPrefab: {fileID: 4042458253141189786, guid: 00a4d741f7d933c4ca8b6663978d1b60,
       type: 3}
-    NumberOfThisType: 10
-    DelayBetween: 0.1
-    DelayBeforeNext: 0
-    SpawnIndex: 1
-  - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
-      type: 3}
-    NumberOfThisType: 5
-    DelayBetween: 0.2
+    NumberOfThisType: 2
+    DelayBetween: 1
     DelayBeforeNext: 0
     SpawnIndex: 2
-  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+  - EnemyPrefab: {fileID: 4042458253141189786, guid: 00a4d741f7d933c4ca8b6663978d1b60,
       type: 3}
-    NumberOfThisType: 10
-    DelayBetween: 0.1
-    DelayBeforeNext: 0
-    SpawnIndex: 2
-  - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
-      type: 3}
-    NumberOfThisType: 5
-    DelayBetween: 0.2
-    DelayBeforeNext: 0
-    SpawnIndex: 3
-  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
-      type: 3}
-    NumberOfThisType: 10
-    DelayBetween: 0.1
+    NumberOfThisType: 2
+    DelayBetween: 1
     DelayBeforeNext: 15
     SpawnIndex: 3
