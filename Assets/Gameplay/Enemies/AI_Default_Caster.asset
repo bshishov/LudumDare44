@@ -10,15 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69cb0c3dd2ca3244fbbe19e10c52dba5, type: 3}
-  m_Name: AI_Default_Melee
+  m_Name: AI_Default_Caster
   m_EditorClassIdentifier: 
-  Class: 0
+  Class: 1
   AggroRange: 100
-  FearRange: 0
+  FearRange: 3.5
   MeleeRange: 1
   MaxCastRange: 50
   MeleeAttackCooldown: 2
   MeleeDamageDelay: 0.9
-  MeleeAttackBuff: {fileID: 11400000, guid: 618c4a86a8bfae640af4935416414e65, type: 2}
-  SpellCastingCooldown: 0
-  SlotConfig: []
+  MeleeAttackBuff: {fileID: 0}
+  SpellCastingCooldown: 1
+  SlotConfig:
+  - Slot: 0
+    Weight: 1
+    WaitAfterCast: 0.5
+  - Slot: 1
+    Weight: 1
+    WaitAfterCast: 0.5

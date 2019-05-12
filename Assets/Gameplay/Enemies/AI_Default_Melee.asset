@@ -17,8 +17,8 @@ MonoBehaviour:
   FearRange: 0
   MeleeRange: 1
   MaxCastRange: 50
-  MeleeAttackCooldown: 2
-  MeleeDamageDelay: 0.9
+  MeleeAttackCooldown: 0.7
+  MeleeDamageDelay: 0.5
   MeleeAttackBuff: {fileID: 11400000, guid: 618c4a86a8bfae640af4935416414e65, type: 2}
   SpellCastingCooldown: 0
   SlotConfig: []
