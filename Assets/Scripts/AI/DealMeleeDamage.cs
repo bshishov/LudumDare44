@@ -24,13 +24,13 @@ namespace AI
                 return _fallbackState;
 
             if (Vector3.Distance(_agent.ActiveTarget.transform.position, _agent.transform.position) >
-                _agent.Config.MeleeRange)
+                _agent.Config.AI.MeleeRange)
                 return _fallbackState;
 
             _agent.LastAttackTime = Time.time;
             _agent.ActiveTarget.ReceiveDamage(_agent.CharacterState, _agent.CharacterState.Damage, null);
-            if (_agent.Config.ApplyBuffOnAttack != null)
-                _agent.ActiveTarget.ApplyBuff(_agent.Config.ApplyBuffOnAttack, _agent.CharacterState, null, 1 + _agent.CharacterState.AdditionSpellStacks);
+            if (_agent.Config.AI.MeleeAttackBuff != null)
+                _agent.ActiveTarget.ApplyBuff(_agent.Config.AI.MeleeAttackBuff, _agent.CharacterState, null, 1 + _agent.CharacterState.AdditionSpellStacks);
 
             return _nextState;
         }

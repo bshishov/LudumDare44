@@ -3,12 +3,11 @@
     public enum AIState
     {
         Wandering,
-        MovingToRange,
-
-        SelectingSpellAndAdaptingPosition,
+        AggroMove,
+        SpellIntention,
+        MovingToSpellRange,
         PerformingCast,
         WaitingAfterCast,
-
         StartingMeleeAttack,
         WaitingMeleeAttackAnimation,
         EndingMeleeAttack

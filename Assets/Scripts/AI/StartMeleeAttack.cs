@@ -23,7 +23,7 @@ namespace AI
             if (_agent.ActiveTarget == null || !_agent.ActiveTarget.IsAlive)
                 return _fallbackState;
 
-            if (Time.time > _agent.Config.MeleeCooldown + _agent.LastAttackTime)
+            if (Time.time > _agent.Config.AI.MeleeAttackCooldown + _agent.LastAttackTime)
             {
                 _agent.Movement.Stop();
                 _agent.Movement.LookAt(_agent.ActiveTarget.transform.position);

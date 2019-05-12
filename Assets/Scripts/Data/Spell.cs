@@ -38,6 +38,7 @@ namespace Assets.Scripts.Data
         [Percentage(0, 1)]
         public float LifeSteal = 0f;
         public float BloodCost = 0f;
+        public float CastRange;
 
         public Slot DefaultSlot;
         public float Cooldown;
@@ -48,12 +49,15 @@ namespace Assets.Scripts.Data
         public float PreCastDelay;
         public float PostCastDelay;
 
+        [Expandable]
         public SubSpell[] SubSpells;
 
         [Header("FX")]
         public GameObject SpellEffect;
 
         public GameObject DropItem;
+
+        
 
         private GameObject _effect = null;
 

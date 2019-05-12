@@ -70,13 +70,14 @@ public class SubSpell : ScriptableObject
     [Header("Targeting")]
     [EnumFlag]
     public AffectedTargets AffectedTarget;
+    [Expandable]
     public AreaOfEffect Area;
     public SpellTargeting Targeting;
     public SpellOrigin Origin;
 
 
     [Header("Buffs")]
-    [SerializeField]
+    [Expandable]
     public List<Buff> Buffs;
     public float BloodCost = 0f;
 

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69cb0c3dd2ca3244fbbe19e10c52dba5, type: 3}
+  m_Name: AI_Default_Melee
+  m_EditorClassIdentifier: 
+  Class: 0
+  AggroRange: 100
+  FearRange: 0
+  MeleeRange: 1
+  MaxCastRange: 50
+  MeleeAttackCooldown: 2
+  MeleeDamageDelay: 0.9
+  MeleeAttackBuff: {fileID: 11400000, guid: 618c4a86a8bfae640af4935416414e65, type: 2}
+  SpellCastingCooldown: 0
+  SlotConfig: []

@@ -1,7 +1,5 @@
 ﻿using System;
-using UnityEngine;
 using Utils.FSM;
-using Random = UnityEngine.Random;
 
 namespace AI
 {
@@ -30,51 +28,12 @@ namespace AI
             }
 
             var distance = (_agent.ActiveTarget.transform.position - _agent.transform.position).magnitude;
-            if (distance < _agent.Config.IndifferenceDistance)
+            if (distance < _agent.Config.AI.AggroRange)
                 return _aggroState;
 
             // TODO: Add random movement maybe ?
             // Do nothing, we are wandering and not in aggro
             return null;
-        }
-
-        public void StateEnded() { }
-    }
-
-    class CastRandomSpell : IStateBehaviour<AIState>
-    {
-        private readonly AIAgent _agent;
-        private readonly AIState _nextState;
-        private readonly AIState _fallbackState;
-
-        public CastRandomSpell(AIAgent agent, AIState next, AIState fallback)
-        {
-            _agent = agent;
-            _nextState = next;
-            _fallbackState = fallback;
-        }
-
-        public void StateStarted() { }
-
-        public AIState? StateUpdate()
-        {
-            if (_agent.ActiveTarget == null || !_agent.ActiveTarget.IsAlive)
-                return _fallbackState;
-
-            if (Time.time > _agent.Config.SpellCooldown + _agent.LastSpellCastTime)
-            {
-                _agent.Movement.LookAt(_agent.ActiveTarget.transform.position);
-                _agent.Movement.Stop();
-
-                if (_agent.SpellBook.TryFireSpellToTarget(
-                    Mathf.FloorToInt(Random.value * _agent.Config.UseSpells.Count),
-                    _agent.ActiveTarget, null))
-                {
-                    _agent.LastSpellCastTime = Time.time;
-                }
-            }
-
-            return _nextState;
         }
 
         public void StateEnded() { }
