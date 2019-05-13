@@ -20,7 +20,7 @@ MonoBehaviour:
   HealthModifier: 1
   SpellDamageAmp: 0
   AdditionalSpellStacks: 0
-  AI: {fileID: 11400000, guid: 01e120193e90db24fa5247ad594ce699, type: 2}
+  AI: {fileID: 11400000, guid: 576e1bb8a60ef8e44b47523087616396, type: 2}
   DropRate: 0.01
   DropSpells:
   - {fileID: 11400000, guid: 0f5e31d5e7d195e4dbcf8c1f34aa4da3, type: 2}

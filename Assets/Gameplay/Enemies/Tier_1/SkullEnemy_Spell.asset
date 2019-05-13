@@ -18,6 +18,7 @@ MonoBehaviour:
   ApplyBuffOnDismantle: {fileID: 0}
   LifeSteal: 0
   BloodCost: 0
+  CastRange: 3
   DefaultSlot: 0
   Cooldown: 0
   Flags: 0

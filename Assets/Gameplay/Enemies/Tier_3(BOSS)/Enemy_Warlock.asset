@@ -14,24 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 50
   Damage: 20
-  Speed: 1
+  Speed: 4
   Evasion: 0
   Size: 1.5
   HealthModifier: 1
   SpellDamageAmp: 0
-  Class: 1
-  IndifferenceDistance: 50
-  SpellRange: 10
-  FearRange: 5
-  MeleeRange: 1
-  MeleeCooldown: 1
-  AnimationDelay: 0.9
-  ApplyBuffOnAttack: {fileID: 0}
   AdditionalSpellStacks: 0
+  AI: {fileID: 11400000, guid: b27c7d50228530a468d057b1f9765830, type: 2}
   DropRate: 0
   DropSpells:
   - {fileID: 0}
-  SpellCooldown: 2
   UseSpells:
   - {fileID: 11400000, guid: b68c04cbeb37eda4a99856ef5358d680, type: 2}
   - {fileID: 11400000, guid: 4dea2418d8494ae43ba01a378694fbf2, type: 2}
