@@ -30,11 +30,17 @@ public class Cheats : MonoBehaviour
         if (Buffs != null)
             foreach (var buff in Buffs)
             {
+                if(buff == null)
+                    continue;
+
                 Debugger.Default.Display($"Cheats/Apply Buffs/{buff.name}", () => { _playerState.ApplyBuff(buff, _playerState, null, 1); });
             }
 
         foreach (var spell in Spells)
         {
+            if (spell == null)
+                continue;
+
             Debugger.Default.Display($"Cheats/Pickup Spell/{spell.name}", () => { _playerState.Pickup(spell, 1); });
 
             Debugger.Default.Display($"Cheats/Drop Spell/{spell.name}",
@@ -47,11 +53,17 @@ public class Cheats : MonoBehaviour
 
         foreach (var item in Items)
         {
+            if(item == null)
+                continue;
+
             Debugger.Default.Display($"Cheats/Pickup Item/{item.name}", () => { _playerState.Pickup(item, 1); });
         }
 
         foreach (var enemy in Enemies)
         {
+            if (enemy == null)
+                continue;
+
             Debugger.Default.Display($"Cheats/Spawn Enemy/{enemy.name}",
                                      () => { GameObject.Instantiate(enemy, _playerState.transform.position, Quaternion.identity); });
             Debugger.Default.Display($"Cheats/Spawn Enemy/{enemy.name}/x10",
