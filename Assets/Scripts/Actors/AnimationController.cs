@@ -8,7 +8,6 @@ public class AnimationController : MonoBehaviour
 {
     public Animator Animator;
     public float SpeedMultiplier = 1f;
-    private float _timeUntilDestroy = 5f;
 
     [Header("Material configuration")]
     public float ImpactDecayTime = 0.1f;
@@ -41,8 +40,10 @@ public class AnimationController : MonoBehaviour
     private Vector2 _dirVelocity;
     private Vector2 _moveDir;
     private float _impactTime;
-    private Vector3 _toHell = new Vector3(0f, 0.01f, 0f);
 
+    private float _timeUntilDestroy = 5f;
+    private float _killingFloor;
+    
     void Start()
     {
         if (Animator == null)
@@ -73,6 +74,7 @@ public class AnimationController : MonoBehaviour
             Animator.SetTrigger(RandomUtils.Choice(DeathVariations));
         }
         _impactTime = ImpactDecayTime;
+        _killingFloor = transform.position.y - 3f;
     }
 
     public void PlayAttackAnimation()
@@ -115,17 +117,17 @@ public class AnimationController : MonoBehaviour
 
     private void Update()
     {
-        if (_disabled && _timeUntilDestroy>0f)
+        if (_disabled && _timeUntilDestroy > 0f)
         {
             _timeUntilDestroy -= Time.deltaTime;
             GetComponent<NavMeshAgent>().enabled = false;
         }
         if (_disabled && _timeUntilDestroy <= 0f)
-        {            
-            transform.position -= _toHell;
+        {
+            transform.position += Vector3.down * 0.01f;
+            if (transform.position.y < _killingFloor)
+                Destroy(gameObject);
         }
-        if (transform.position.y < -1f)
-            Destroy(gameObject);
 
         _impactTime = Mathf.Max(_impactTime - Time.deltaTime, 0);
         if (Renderers != null)
