@@ -17,8 +17,7 @@ namespace Assets.Scripts
         public List<Wave> Waves;
         public InfiniteWave InfiniteWave;
         public float TimeBetweenWaves = 20f;
-        public int StartDifficulty = 1;
-        private DifficultyManager _diffManager;
+        public int StartDifficulty = 1;        
 
         [Header("Audio")]
         public Sound WaveStartedSound;
@@ -46,7 +45,7 @@ namespace Assets.Scripts
 
         void Start()
         {
-            _diffManager = GetComponent<DifficultyManager>();
+           
             CurrentDifficulty = StartDifficulty;
             NextWave();
         }
@@ -94,7 +93,7 @@ namespace Assets.Scripts
             var enemy = Instantiate(prefab);
             enemy.GetComponent<NavMeshAgent>().Warp(spawnPoint.position);
             var enemyState = enemy.GetComponent<CharacterState>();
-            var currDiff = _diffManager.ReturnDiff();
+            var currDiff = DifficultyManager.Instance.ReturnDiff()[1];
             if (currDiff != null)
                 foreach (Buff buff in currDiff.DifficultyBuffs)
                 {
