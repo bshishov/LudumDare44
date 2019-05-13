@@ -17,45 +17,33 @@ public class DifficultyManager : Singleton<DifficultyManager>
     }
     
     public  List<Difficulty> Difficulties = new List<Difficulty>();
+    public int CurrentDifficultyIndex { get; private set; }
     private float _timeChecker;
 
     // Start is called before the first frame update
     void Start()
     {
+        CurrentDifficultyIndex = 0;
         _timeChecker = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        _timeChecker += Time.deltaTime;           
+        _timeChecker += Time.deltaTime;
+        if (CurrentDifficultyIndex + 1 < Difficulties.Count && 
+            Difficulties[CurrentDifficultyIndex].NextDifficultyStamp < _timeChecker)
+            CurrentDifficultyIndex += 1;
     }
 
-    public List<Difficulty> ReturnDiff()
+    public Difficulty GetDifficulty(int difficultyIndex)
     {
-        foreach (var diff in Difficulties.Select((Value, Index) => new { Value, Index }))
-        {
-            if (_timeChecker < diff.Value.NextDifficultyStamp)
-            {
-                var difficultiesToReturn = new List<Difficulty>();
-
-                if (diff.Index > 0)
-                    difficultiesToReturn.Add(Difficulties[diff.Index - 1]);
-                else
-                    difficultiesToReturn.Add(null);
-
-                difficultiesToReturn.Add(diff.Value);
-
-                if (diff.Index < Difficulties.Count-1)
-                    difficultiesToReturn.Add(Difficulties[diff.Index +1]);
-                else
-                    difficultiesToReturn.Add(null);
-
-                return difficultiesToReturn;
-            }
-        }
-        return null;
+        if (difficultyIndex >= Difficulties.Count || difficultyIndex < 0)
+            return null;
+        else
+            return Difficulties[difficultyIndex];
     }
+    
     public float ReturnDiffTime()
     {
         return _timeChecker;

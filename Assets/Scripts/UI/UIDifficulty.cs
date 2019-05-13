@@ -21,21 +21,24 @@ public class UIDifficulty : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var currentDiffs = DifficultyManager.Instance.ReturnDiff();
-        CurrDiffText.text = currentDiffs[1].DifficultyName;
-        if (currentDiffs[2] == null)
+        var PrevDifficulty = DifficultyManager.Instance.GetDifficulty(DifficultyManager.Instance.CurrentDifficultyIndex - 1);
+        var CurrentDifficulty = DifficultyManager.Instance.GetDifficulty(DifficultyManager.Instance.CurrentDifficultyIndex);
+        var NextDifficulty = DifficultyManager.Instance.GetDifficulty(DifficultyManager.Instance.CurrentDifficultyIndex + 1);
+
+        CurrDiffText.text = CurrentDifficulty.DifficultyName;
+        if (NextDifficulty == null)
             NextDiffText.text = "Infinity";
         else
-            NextDiffText.text = currentDiffs[2].DifficultyName;
+            NextDiffText.text = NextDifficulty.DifficultyName;
 
-        CurrDiffText.text = currentDiffs[1].DifficultyName;
-        DiffSlider.maxValue = currentDiffs[1].NextDifficultyStamp;
-        if (currentDiffs[0] == null)
-             DiffSlider.minValue = 0;
+        if (PrevDifficulty == null)
+            DiffSlider.minValue = 0;
         else
-            DiffSlider.minValue = currentDiffs[0].NextDifficultyStamp;
+            DiffSlider.minValue = PrevDifficulty.NextDifficultyStamp;
+
         DiffSlider.value = DifficultyManager.Instance.ReturnDiffTime();
-        //Debug.Log(string.Format("{0}, {1}, {2}",DiffSlider.minValue, DiffSlider.value, DiffSlider.maxValue));
+        DiffSlider.maxValue = CurrentDifficulty.NextDifficultyStamp;
+        Debug.Log(DifficultyManager.Instance.CurrentDifficultyIndex);
 
     }
 }

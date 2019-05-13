@@ -93,7 +93,7 @@ namespace Assets.Scripts
             var enemy = Instantiate(prefab);
             enemy.GetComponent<NavMeshAgent>().Warp(spawnPoint.position);
             var enemyState = enemy.GetComponent<CharacterState>();
-            var currDiff = DifficultyManager.Instance.ReturnDiff()[1];
+            var currDiff = DifficultyManager.Instance.GetDifficulty(DifficultyManager.Instance.CurrentDifficultyIndex);
             if (currDiff != null)
                 foreach (Buff buff in currDiff.DifficultyBuffs)
                 {
