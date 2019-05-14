@@ -19,8 +19,11 @@ namespace AI
 
         public void StateStarted()
         {
-            var slotState = _agent.SpellBook.GetSpellSlotState(_agent.IntendedSpell.Slot);
-            _desiredRange = slotState.Spell.CastRange;
+            if (_agent?.IntendedSpell != null)
+            {
+                var slotState = _agent.SpellBook.GetSpellSlotState(_agent.IntendedSpell.Slot);
+                _desiredRange = slotState.Spell.CastRange;
+            }
         }
 
         public AIState? StateUpdate()
