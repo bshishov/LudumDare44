@@ -67,4 +67,5 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   _texture: {fileID: 2800000, guid: e8a0c6c0a059d4142a773ff3ef5bf523, type: 3}
   HpText: {fileID: 0}
-  SmoothTime: 0.3
+  SmoothTime: 0.5
+  OneBarWidth: 10

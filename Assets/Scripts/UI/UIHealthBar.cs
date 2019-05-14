@@ -27,7 +27,8 @@ namespace UI
         }
 
         public TextMeshProUGUI HpText;
-        public float SmoothTime = 0.1f;
+        public float SmoothTime = 0.5f;
+        public float OneBarWidth = 10f;
 
         private float _velocity;
         private float _fillWhite;
@@ -77,7 +78,7 @@ namespace UI
         {
             var max = _character.MaxHealth;
             _fillExact = newHealth / max;
-            _divisor = 10f / max;
+            _divisor = OneBarWidth / max;
         }
 
         protected override void OnRectTransformDimensionsChange()

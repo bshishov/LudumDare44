@@ -13,6 +13,7 @@ public class WaveManager : Singleton<WaveManager>
 {
     public List<Transform> SpawnPoints;
     public GameObject Target;
+    [Expandable]
     public List<Wave> Waves;
     public InfiniteWave InfiniteWave;
     public float TimeBetweenWaves = 20f;
@@ -87,30 +88,35 @@ public class WaveManager : Singleton<WaveManager>
         SoundManager.Instance.Play(WaveStartedSound);
     }
 
-    private void SpawnEnemy(Transform spawnPoint, GameObject prefab)
+    private void SpawnEnemy(Transform spawnPoint, GameObject prefab, ref Buff[] buffs)
     {
         var enemy = Instantiate(prefab);
         enemy.GetComponent<NavMeshAgent>().Warp(spawnPoint.position);
         var enemyState = enemy.GetComponent<CharacterState>();
+
+        // Apply buffs
+        foreach (var buff in buffs)
+            enemyState.ApplyBuff(buff, enemyState, null, 1);
+
         var currDiff = DifficultyManager.Instance.GetDifficulty(DifficultyManager.Instance.CurrentDifficultyIndex);
         if (currDiff != null)
-            foreach (Buff buff in currDiff.DifficultyBuffs)
+            foreach (var buff in currDiff.DifficultyBuffs)
             {
                 enemyState.ApplyBuff(buff, enemyState, null, 1);
             }
         EnemiesOut++;
     }
 
-    private void SpawnEnemy(int spawnerIndex, GameObject prefab)
+    private void SpawnEnemy(int spawnerIndex, GameObject prefab, ref Buff[] buffs)
     {
         if (spawnerIndex < 0 || spawnerIndex > SpawnPoints.Count - 1)
         {
             foreach (var spawnPoint in SpawnPoints)
-                SpawnEnemy(spawnPoint, prefab);
+                SpawnEnemy(spawnPoint, prefab, ref buffs);
         }
         else
         {
-            SpawnEnemy(SpawnPoints[spawnerIndex], prefab);
+            SpawnEnemy(SpawnPoints[spawnerIndex], prefab, ref buffs);
         }
     }
 
@@ -128,7 +134,7 @@ public class WaveManager : Singleton<WaveManager>
 
             for (var i = 0; i < spawnEntry.NumberOfThisType; i++)
             {
-                SpawnEnemy(spawnEntry.SpawnIndex, spawnEntry.EnemyPrefab);
+                SpawnEnemy(spawnEntry.SpawnIndex, spawnEntry.EnemyPrefab, ref spawnEntry.InitialBuffs);
                 yield return new WaitForSeconds(spawnEntry.DelayBetween);
             }
 
@@ -165,7 +171,7 @@ public class WaveManager : Singleton<WaveManager>
 
                     for (var i = 0; i < spawnEntry.NumberOfThisType; i++)
                     {
-                        SpawnEnemy(spawnEntry.SpawnIndex, spawnEntry.EnemyPrefab);
+                        SpawnEnemy(spawnEntry.SpawnIndex, spawnEntry.EnemyPrefab, ref spawnEntry.InitialBuffs);
                         yield return new WaitForSeconds(spawnEntry.DelayBetween);
                     }
 
