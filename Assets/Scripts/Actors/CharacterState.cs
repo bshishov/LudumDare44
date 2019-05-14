@@ -566,11 +566,13 @@ namespace Actors
             {
                 if (spell != null)
                 {
-                    delta *= sourceCharacter.SpellDamageMultiplier;
+                    if(sourceCharacter != null)
+                        delta *= sourceCharacter.SpellDamageMultiplier;
                     targetHp = Mathf.Clamp(_hp + delta, -1, MaxHealth);
                     delta = targetHp - _hp;
 
 #if DEBUG_COMBAT
+                    if(sourceCharacter != null)
                     _combatLog.Log(
                         $"Receiving in total <b>{-delta}</b> spell multiplied ({100 * sourceCharacter.SpellDamageMultiplier}%) damage from <b>{sourceCharacter.name}</b> " +
                         $"from spell <b>{spell.name}</b>");
