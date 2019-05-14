@@ -99,7 +99,7 @@ namespace Actors
         public event Action<Spell, int> OnSpellPickup;
 
 #if DEBUG
-        public event Action<ModificationParameter, Spell, int, float> OnModifierApplied;
+        public event Action<ModificationParameter, Spell, int, float> ModifierApplied;
 #endif
 
         public CharacterConfig character;
@@ -531,7 +531,7 @@ namespace Actors
             }
 
 #if DEBUG
-            OnModifierApplied?.Invoke(parameter, spell, stacks, actualChange);
+            ModifierApplied?.Invoke(parameter, spell, stacks, actualChange);
 #endif
         }
 

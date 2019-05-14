@@ -24,7 +24,7 @@ public class Dummy : MonoBehaviour
     {
         _characterState = GetComponent<CharacterState>();
 #if DEBUG
-        _characterState.OnModifierApplied += CharacterStateOnOnModifierApplied;
+        _characterState.ModifierApplied += CharacterStateOnOnModifierApplied;
 #endif
     }
 

@@ -40,6 +40,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DivisorTex:
+        m_Texture: {fileID: 2800000, guid: d334c8eb348f280428b99e875e70f2ea, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -94,8 +98,8 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBase: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
+    - _ColorBase: {r: 0.084905684, g: 0.019624429, b: 0.019624429, a: 1}
     - _ColorDmg: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorHp: {r: 0.6320754, g: 0.032796368, b: 0.10032082, a: 1}
+    - _ColorHp: {r: 1, g: 0.20382687, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

@@ -1,9 +1,8 @@
 ﻿Shader "UI/HealthBar" 
 {
-    Properties {
-        [PerRendererData] _Fill ("Fill", Range(0, 1)) = 0
-		[PerRendererData] _FillWhite ("Fill White", Range(0, 1)) = 0
-		[PerRendererData] _MainTex ("Texture", 2D) = "white" {}
+    Properties {        
+		[PerRendererData] _MainTex ("Texture", 2D) = "white" {}		
+		_DivisorTex ("Divisor", 2D) = "white" {}		
 
 		_ColorBase ("Color Base", Color) = (0,0,0,1)
 		_ColorDmg ("Color Dmg", Color) = (1,1,1,1)
@@ -77,12 +76,14 @@
             };
 
 			sampler2D _MainTex;
+			sampler2D _DivisorTex;
             fixed4 _ColorBase;
 			fixed4 _ColorDmg;
 			fixed4 _ColorHp;
             fixed4 _TextureSampleAdd;
             float4 _ClipRect;
             float4 _MainTex_ST;
+			uniform float4 _MainTex_TexelSize;
 
             v2f vert (appdata_t  v) 
 			{
@@ -92,23 +93,49 @@
                 OUT.worldPosition = v.vertex;
                 OUT.vertex = UnityObjectToClipPos(OUT.worldPosition);
 
-                OUT.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
+                OUT.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);				
 
-                OUT.color = v.color;
+				#if UNITY_COLORSPACE_GAMMA
+				OUT.color = v.color;				
+				#else
+				OUT.color = float4(LinearToGammaSpace(v.color.rgb), v.color.a);
+				#endif
+                
                 return OUT;
             }
+
+			inline fixed4 alphaBlend(fixed4 dst, fixed4 src) {
+				fixed4 o;
+				o.a = src.a + dst.a * (1 - src.a);
+				o.rgb = src.rgb + dst.rgb * (1 - src.a);
+				return o;
+			}
 
             fixed4 frag (v2f i) : SV_Target 
 			{     
 				half fill = i.color.r;
 				half fillW = i.color.g;
+				half tickDivisor = i.color.b;
 				
+				fixed x = i.texcoord.x;				
 				fixed4 tex = tex2D(_MainTex, i.texcoord);
-				fixed4 base = step(fillW, i.texcoord.x) * _ColorBase;
-				fixed4 dmg = step(fill, i.texcoord.x) * step(i.texcoord.x, fillW) * _ColorDmg;
-				fixed4 hp = step(i.texcoord.x, fill) * _ColorHp;				
+				fixed4 base = step(fillW, x) * _ColorBase;
+				fixed4 dmg = step(fill, x) * step(x, fillW) * _ColorDmg;
+				fixed4 hp = step(x, fill) * _ColorHp;				
+				float isTick = step( fmod(x, tickDivisor), 0.01f);				
+				fixed4 tick = fixed4(0, 0, 0, isTick * 0.5);								
 
-                return saturate(tex * (base + hp + dmg));
+                fixed4 color = saturate(tex * alphaBlend(base + hp + dmg, tick));				
+
+				#ifdef UNITY_UI_CLIP_RECT
+                color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
+                #endif
+
+                #ifdef UNITY_UI_ALPHACLIP
+                clip (color.a - 0.001);
+                #endif
+
+				return color;
             }
             ENDCG
         }
