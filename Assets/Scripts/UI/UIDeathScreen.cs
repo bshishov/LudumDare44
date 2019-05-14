@@ -25,7 +25,7 @@ namespace UI
 
             _canvasGroupFader = GetComponent<UICanvasGroupFader>();
             if(_playerState != null)
-                _playerState.OnDeath += PlayerStateOnDeath;
+                _playerState.Died += PlayerStateOnDeath;
         }
 
         private void PlayerStateOnDeath()

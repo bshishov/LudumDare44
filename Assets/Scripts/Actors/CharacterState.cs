@@ -8,6 +8,8 @@ using Assets.Scripts.Utils;
 using Assets.Scripts.Utils.Debugger;
 using Data;
 using Spells;
+using UI;
+using Unity.Entities;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
@@ -91,7 +93,8 @@ namespace Actors
 
         [EnumFlag] public Team CurrentTeam = Team.Undefined;
 
-        public event Action OnDeath;
+        public event Action Died;
+        public event Action<float> HealthChanged;
         public event Action<Item, int> OnItemPickup;
         public event Action<Spell, int> OnSpellPickup;
 
@@ -178,6 +181,12 @@ namespace Actors
                 Debug.LogError("Team not set!", this);
 
             transform.localScale = _baseScale * Size;
+        }
+
+        void Start()
+        {
+            // Add healthbar
+            UIHealthBarOverlay.Instance?.Add(this);
         }
 
         internal void Pickup(Spell spell, int stacks)
@@ -598,6 +607,7 @@ namespace Actors
 
             // Change
             _hp = targetHp;
+            HealthChanged?.Invoke(_hp);
             return delta;
         }
 
@@ -722,7 +732,7 @@ namespace Actors
 
             _animationController.PlayDeathAnimation();
             Debug.Log($"<b>{gameObject.name}</b> died");
-            OnDeath?.Invoke();
+            Died?.Invoke();
         }
 
         public void ReceiveDamage(CharacterState sourceCharacter, float amount, Spell spell)

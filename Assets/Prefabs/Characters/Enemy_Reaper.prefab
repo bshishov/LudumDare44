@@ -39,7 +39,6 @@ Transform:
   - {fileID: 7193888131265621055}
   - {fileID: 988008554518124497}
   - {fileID: 7161329342701689365}
-  - {fileID: 7940346167751885606}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -347,81 +346,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00056807697, y: 0.020896476, z: -0.0022230847}
     m_Extent: {x: 0.076076396, y: 0.04746415, z: 0.031743925}
   m_DirtyAABB: 0
---- !u!1001 &4201450943921377829
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 3427222556896677986}
-    m_Modifications:
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3255098515904133124, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_Name
-      value: UIHealthBar
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: dd85227902a2c8245b888ecbb9192bad, type: 3}
---- !u!4 &7940346167751885606 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-    type: 3}
-  m_PrefabInstance: {fileID: 4201450943921377829}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4501395149908587920
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -429,6 +353,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 988008554518124497}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: eb380cedca636694c98288bfb559d14c,
+        type: 3}
+      propertyPath: m_Name
+      value: mesh_Reaper_Scythe_
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: eb380cedca636694c98288bfb559d14c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: eb380cedca636694c98288bfb559d14c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -498,16 +432,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.04999992
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: eb380cedca636694c98288bfb559d14c,
-        type: 3}
-      propertyPath: m_Name
-      value: mesh_Reaper_Scythe_
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: eb380cedca636694c98288bfb559d14c,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb380cedca636694c98288bfb559d14c, type: 3}

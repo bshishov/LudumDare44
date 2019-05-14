@@ -71,7 +71,6 @@ Transform:
   - {fileID: 1333833597988753349}
   - {fileID: 6491856333964021879}
   - {fileID: 4548710593390112164}
-  - {fileID: 954660696688166738}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -467,79 +466,4 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: a73f7da426d3fef4abcb44a3d14e9dfa,
     type: 3}
   m_PrefabInstance: {fileID: 396741544166791908}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &6431396741403481681
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1205267271218789398}
-    m_Modifications:
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3255098515904133124, guid: dd85227902a2c8245b888ecbb9192bad,
-        type: 3}
-      propertyPath: m_Name
-      value: UIHealthBar
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: dd85227902a2c8245b888ecbb9192bad, type: 3}
---- !u!4 &954660696688166738 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6088668348706820355, guid: dd85227902a2c8245b888ecbb9192bad,
-    type: 3}
-  m_PrefabInstance: {fileID: 6431396741403481681}
   m_PrefabAsset: {fileID: 0}

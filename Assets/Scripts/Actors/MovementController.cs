@@ -18,7 +18,7 @@ public class MovementController : MonoBehaviour
     void Start()
     {
         _characterState = GetComponent<CharacterState>();
-        _characterState.OnDeath += CharacterStateOnDeath;
+        _characterState.Died += CharacterStateOnDeath;
 
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.speed = _characterState.Speed + Random.value;
