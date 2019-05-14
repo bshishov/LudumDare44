@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Burn
   Behaviour: 0
-  TickCooldown: 0.1
+  TickCooldown: 0.25
   Duration: 5
   Modifiers: []
   OnApplyBuff:
