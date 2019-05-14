@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Bleed
   Behaviour: 1
-  TickCooldown: 1
+  TickCooldown: 1.5
   Duration: 3
   Modifiers: []
   OnApplyBuff:
@@ -38,6 +38,7 @@ MonoBehaviour:
       CharacterNode: 3
       AttachToTransform: 1
       AutoDestroyAfterBuff: 1
+  OnRefreshBuff: []
   OnTickBuff:
   - ApplyModifier:
       Parameter: 1

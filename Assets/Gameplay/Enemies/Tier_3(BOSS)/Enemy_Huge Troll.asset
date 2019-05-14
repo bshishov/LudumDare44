@@ -26,6 +26,6 @@ MonoBehaviour:
   - {fileID: 0}
   UseSpells:
   - {fileID: 11400000, guid: 5177d30fc3c5dc740b36004dca0c4475, type: 2}
-  - {fileID: 11400000, guid: c26cb1742481020428164b5b9dea2f1e, type: 2}
+  - {fileID: 11400000, guid: 4ad16fcbe937be540b4dfd82ed51586a, type: 2}
   - {fileID: 11400000, guid: 8a148e1b72e4f564c8a500b80c9f76cd, type: 2}
   UseBuff: {fileID: 0}

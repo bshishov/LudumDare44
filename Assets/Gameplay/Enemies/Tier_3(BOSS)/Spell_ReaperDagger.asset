@@ -10,21 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
-  m_Name: Spell_Drain
+  m_Name: Spell_ReaperDagger
   m_EditorClassIdentifier: 
-  Name: Drain
-  Icon: {fileID: -5485510380186969285, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: Drain targetted enemy, dealing damage and healing yourself per second
+  Name: 
+  Icon: {fileID: 0}
+  Description: 
   ApplyBuffOnDismantle: {fileID: 0}
   LifeSteal: 0
   BloodCost: 0
-  CastRange: 6
-  DefaultSlot: 2
-  Cooldown: 5
-  Flags: 6
+  CastRange: 20
+  DefaultSlot: 0
+  Cooldown: 0.6
+  Flags: 4
   PreCastDelay: 0
   PostCastDelay: 0
   SubSpells:
-  - {fileID: 11400000, guid: 1c02cfc229837cc4b92d5ffe8d537fc1, type: 2}
+  - {fileID: 11400000, guid: 7ae61376980debd459c97ed849f16f98, type: 2}
+  - {fileID: 11400000, guid: cc2b8d602883b9948b2cce67a064a97f, type: 2}
   SpellEffect: {fileID: 0}
-  DropItem: {fileID: 0}
+  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
+    type: 3}

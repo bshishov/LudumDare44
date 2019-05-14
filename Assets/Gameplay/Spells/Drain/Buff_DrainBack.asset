@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Behaviour: 0
-  TickCooldown: 0.05
-  Duration: 0.1
+  TickCooldown: 0.005
+  Duration: 0.01
   Modifiers: []
   OnApplyBuff:
   - ApplyModifier:
       Parameter: 1
-      Value: 2.5
+      Value: 2
       EffectiveStacks: 1
     CastSpell:
       SpellStacks: 0
