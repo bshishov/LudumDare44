@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Actors;
 using Assets.Scripts.Data;
 using Assets.Scripts.Utils.Debugger;
 using TMPro;

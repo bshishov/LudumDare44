@@ -1,4 +1,5 @@
-﻿using Assets.Scripts;
+﻿using Actors;
+using Assets.Scripts;
 using Assets.Scripts.Utils.UI;
 using UnityEngine;
 

@@ -1,44 +1,52 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using static DifficultyManager;
 using UnityEngine.UI;
-using TMPro;
 
-public class UIDifficulty : MonoBehaviour
+namespace UI
 {
+    public class UIDifficulty : MonoBehaviour
+    {
+        public TextMeshProUGUI CurrDiffText;
+        public TextMeshProUGUI NextDiffText;
+        public Slider DiffSlider;
 
-    public TextMeshProUGUI CurrDiffText;
-    public TextMeshProUGUI NextDiffText;
-    public Slider DiffSlider;
+        private DifficultyManager _difficultyManager;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+        void Start()
+        {
+            _difficultyManager = DifficultyManager.Instance;
+            if (_difficultyManager == null)
+            {
+                Debug.Log("Difficulty manager is missing in the scene, disabling difficulty UI", this);
+                this.gameObject.SetActive(false);
+            }
+        }
+    
+        void Update()
+        {
+            if(_difficultyManager == null)
+                return;
 
-    // Update is called once per frame
-    void Update()
-    {
-        var PrevDifficulty = DifficultyManager.Instance.GetDifficulty(DifficultyManager.Instance.CurrentDifficultyIndex - 1);
-        var CurrentDifficulty = DifficultyManager.Instance.GetDifficulty(DifficultyManager.Instance.CurrentDifficultyIndex);
-        var NextDifficulty = DifficultyManager.Instance.GetDifficulty(DifficultyManager.Instance.CurrentDifficultyIndex + 1);
+            var prevDifficulty = _difficultyManager.GetDifficulty(_difficultyManager.CurrentDifficultyIndex - 1);
+            var currentDifficulty = _difficultyManager.GetDifficulty(_difficultyManager.CurrentDifficultyIndex);
+            var nextDifficulty = _difficultyManager.GetDifficulty(_difficultyManager.CurrentDifficultyIndex + 1);
+            
+            if (nextDifficulty == null)
+                NextDiffText.text = "Infinity";
+            else
+                NextDiffText.text = nextDifficulty.DifficultyName;
 
-        CurrDiffText.text = CurrentDifficulty.DifficultyName;
-        if (NextDifficulty == null)
-            NextDiffText.text = "Infinity";
-        else
-            NextDiffText.text = NextDifficulty.DifficultyName;
+            if (prevDifficulty == null)
+                DiffSlider.minValue = 0;
+            else
+                DiffSlider.minValue = prevDifficulty.NextDifficultyStamp;
 
-        if (PrevDifficulty == null)
-            DiffSlider.minValue = 0;
-        else
-            DiffSlider.minValue = PrevDifficulty.NextDifficultyStamp;
-
-        DiffSlider.value = DifficultyManager.Instance.ReturnDiffTime();
-        DiffSlider.maxValue = CurrentDifficulty.NextDifficultyStamp;
-        Debug.Log(DifficultyManager.Instance.CurrentDifficultyIndex);
-
+            if (currentDifficulty != null)
+            {
+                CurrDiffText.text = currentDifficulty.DifficultyName;
+                DiffSlider.value = _difficultyManager.GetTimeSinceStart();
+                DiffSlider.maxValue = currentDifficulty.NextDifficultyStamp;
+            }
+        }
     }
 }

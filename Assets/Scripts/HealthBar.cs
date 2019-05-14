@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Actors;
+using UnityEngine;
 
 /// <summary>
 /// Displays a configurable health bar for any object with a Damageable as a parent

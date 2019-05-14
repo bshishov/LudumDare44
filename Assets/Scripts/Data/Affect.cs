@@ -1,7 +1,9 @@
 ﻿using System;
+using Actors;
+using Assets.Scripts.Data;
 using UnityEngine;
 
-namespace Assets.Scripts.Data
+namespace Data
 {
     [Serializable]
     public class Affect

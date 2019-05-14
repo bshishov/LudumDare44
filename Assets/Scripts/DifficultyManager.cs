@@ -1,10 +1,7 @@
 ﻿using Assets.Scripts.Data;
 using Assets.Scripts.Utils;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class DifficultyManager : Singleton<DifficultyManager>
 {
@@ -13,39 +10,37 @@ public class DifficultyManager : Singleton<DifficultyManager>
     {
         public string DifficultyName;
         public float NextDifficultyStamp;
-        public List<Buff> DifficultyBuffs = new List<Buff>();        
+        public Buff[] DifficultyBuffs;        
     }
     
-    public  List<Difficulty> Difficulties = new List<Difficulty>();
+    public Difficulty[] Difficulties;
     public int CurrentDifficultyIndex { get; private set; }
-    private float _timeChecker;
-
-    // Start is called before the first frame update
-    void Start()
+    private float _timeSinceStart;
+    
+    private void Start()
     {
         CurrentDifficultyIndex = 0;
-        _timeChecker = 0;
+        _timeSinceStart = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        _timeChecker += Time.deltaTime;
-        if (CurrentDifficultyIndex + 1 < Difficulties.Count && 
-            Difficulties[CurrentDifficultyIndex].NextDifficultyStamp < _timeChecker)
+        _timeSinceStart += Time.deltaTime;
+        if (CurrentDifficultyIndex + 1 < Difficulties.Length && 
+            Difficulties[CurrentDifficultyIndex].NextDifficultyStamp < _timeSinceStart)
             CurrentDifficultyIndex += 1;
     }
 
     public Difficulty GetDifficulty(int difficultyIndex)
     {
-        if (difficultyIndex >= Difficulties.Count || difficultyIndex < 0)
+        if (difficultyIndex >= Difficulties.Length || difficultyIndex < 0)
             return null;
-        else
-            return Difficulties[difficultyIndex];
+
+        return Difficulties[difficultyIndex];
     }
     
-    public float ReturnDiffTime()
+    public float GetTimeSinceStart()
     {
-        return _timeChecker;
+        return _timeSinceStart;
     }
 }

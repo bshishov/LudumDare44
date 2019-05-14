@@ -1,4 +1,6 @@
-﻿namespace Assets.Scripts
+﻿using Actors;
+
+namespace Assets.Scripts
 {
     public enum Interaction : int
     {

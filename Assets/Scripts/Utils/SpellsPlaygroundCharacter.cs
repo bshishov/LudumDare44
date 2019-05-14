@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Data;
+﻿using Actors;
+using Assets.Scripts.Data;
 using Spells;
 using UnityEngine;
 

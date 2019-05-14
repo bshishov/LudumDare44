@@ -5,9 +5,9 @@ using Assets.Scripts.Data;
 using Assets.Scripts.Utils.Debugger;
 using Spells;
 using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
 public class Cheats : MonoBehaviour
@@ -23,17 +23,18 @@ public class Cheats : MonoBehaviour
 
     void Start()
     {
-        _playerController     = FindObjectOfType<PlayerController>();
-        _playerState          = _playerController.GetComponent<CharacterState>();
+        _playerController = FindObjectOfType<PlayerController>();
+        _playerState = _playerController.GetComponent<CharacterState>();
         _playerSpellbookState = _playerController.GetComponent<SpellbookState>();
 
         if (Buffs != null)
             foreach (var buff in Buffs)
             {
-                if(buff == null)
+                if (buff == null)
                     continue;
 
-                Debugger.Default.Display($"Cheats/Apply Buffs/{buff.name}", () => { _playerState.ApplyBuff(buff, _playerState, null, 1); });
+                Debugger.Default.Display($"Cheats/Apply Buffs/{buff.name}",
+                    () => { _playerState.ApplyBuff(buff, _playerState, null, 1); });
             }
 
         foreach (var spell in Spells)
@@ -44,16 +45,16 @@ public class Cheats : MonoBehaviour
             Debugger.Default.Display($"Cheats/Pickup Spell/{spell.name}", () => { _playerState.Pickup(spell, 1); });
 
             Debugger.Default.Display($"Cheats/Drop Spell/{spell.name}",
-                                     () =>
-                                     {
-                                         DroppedSpell.InstantiateDroppedSpell(spell,
-                                                                              _playerState.GetNodeTransform(CharacterState.NodeRole.Chest).transform.position);
-                                     });
+                () =>
+                {
+                    DroppedSpell.InstantiateDroppedSpell(spell,
+                        _playerState.GetNodeTransform(CharacterState.NodeRole.Chest).transform.position);
+                });
         }
 
         foreach (var item in Items)
         {
-            if(item == null)
+            if (item == null)
                 continue;
 
             Debugger.Default.Display($"Cheats/Pickup Item/{item.name}", () => { _playerState.Pickup(item, 1); });
@@ -65,22 +66,25 @@ public class Cheats : MonoBehaviour
                 continue;
 
             Debugger.Default.Display($"Cheats/Spawn Enemy/{enemy.name}",
-                                     () => { GameObject.Instantiate(enemy, _playerState.transform.position, Quaternion.identity); });
+                () => { GameObject.Instantiate(enemy, _playerState.transform.position, Quaternion.identity); });
             Debugger.Default.Display($"Cheats/Spawn Enemy/{enemy.name}/x10",
-                                     () =>
-                                     {
-                                         for (var i = 0; i < 10; ++i)
-                                         {
-                                             GameObject.Instantiate(enemy, _playerState.transform.position, Quaternion.identity);
-                                         }
-                                     });
+                () =>
+                {
+                    for (var i = 0; i < 10; ++i)
+                    {
+                        var offset = Random.onUnitSphere;
+                        offset.y = 0;
+                        offset = offset.normalized;
+                        GameObject.Instantiate(enemy, _playerState.transform.position + offset * 2f, Quaternion.identity);
+                    }
+                });
         }
     }
 
     void Update()
     {
 #if DEBUG
-        if(_playerController == null || _playerSpellbookState == null)
+        if (_playerController == null || _playerSpellbookState == null)
             return;
 
         var spellSlotIdx = 0;
@@ -89,7 +93,7 @@ public class Cheats : MonoBehaviour
             var path = _playerController.gameObject.name + "/SpellbookState/Slot " + spellSlotIdx;
             Debugger.Default.Display(path + "/RemainingCooldown", spellbookStateSpellSlot.RemainingCooldown);
             Debugger.Default.Display(path + "/State", spellbookStateSpellSlot.State.ToString());
-            if(spellbookStateSpellSlot.Spell != null)
+            if (spellbookStateSpellSlot.Spell != null)
                 Debugger.Default.Display(path + "/Spell", spellbookStateSpellSlot.Spell.name);
             spellSlotIdx++;
         }
@@ -118,6 +122,7 @@ public class Cheats : MonoBehaviour
                 assets.Add(asset);
             }
         }
+
         return assets;
     }
 #endif
