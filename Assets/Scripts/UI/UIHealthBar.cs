@@ -39,11 +39,6 @@ namespace UI
         private float _offset;
         private float _divisor;
 
-        void Awake()
-        {
-            _mainCamera = Camera.main;
-        }
-
         void Update()
         {
             if (_charTransform != null)
@@ -60,6 +55,7 @@ namespace UI
         {
             _character = character;
             _charTransform = _character.GetNodeTransform(CharacterState.NodeRole.Head);
+            _mainCamera = Camera.main;
 
             //_offset = _charTransform.transform.position.y - character.transform.position.y;
             _offset = 0.5f;

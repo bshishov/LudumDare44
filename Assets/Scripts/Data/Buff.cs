@@ -50,7 +50,7 @@ namespace Assets.Scripts.Data
         public float TickCooldown = 1f;
         public float Duration = 1f;
 
-        [Header("Modifiers")]
+        [Header("Temporary Modifiers")]
         // Changes that will be applied once the buff is applied
         // and will be REVERTED when buff removed
         public Modifier[] Modifiers;
