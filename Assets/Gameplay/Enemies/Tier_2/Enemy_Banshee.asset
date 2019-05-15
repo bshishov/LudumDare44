@@ -21,7 +21,7 @@ MonoBehaviour:
   SpellDamageAmp: 0
   AdditionalSpellStacks: 0
   AI: {fileID: 11400000, guid: 895297d6d9a8d8e4d933652cf737cbc4, type: 2}
-  DropRate: 0.05
+  DropRate: 0.2
   DropSpells:
   - {fileID: 11400000, guid: 5177d30fc3c5dc740b36004dca0c4475, type: 2}
   - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
