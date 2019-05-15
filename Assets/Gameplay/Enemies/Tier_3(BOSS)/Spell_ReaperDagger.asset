@@ -26,7 +26,7 @@ MonoBehaviour:
   PostCastDelay: 0
   SubSpells:
   - {fileID: 11400000, guid: 7ae61376980debd459c97ed849f16f98, type: 2}
-  - {fileID: 11400000, guid: cc2b8d602883b9948b2cce67a064a97f, type: 2}
+  - {fileID: 11400000, guid: 21d9f547f385de346804fe561253aa0d, type: 2}
   SpellEffect: {fileID: 0}
   DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
     type: 3}
