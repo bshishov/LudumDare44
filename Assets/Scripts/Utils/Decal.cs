@@ -3,26 +3,30 @@
 namespace Utils
 {
     [ExecuteInEditMode]
-    [RequireComponent(typeof(MeshRenderer))]
+    [RequireComponent(typeof(MeshFilter))]
     public class Decal : MonoBehaviour
     {
-        private MeshRenderer _renderer;
-        private Camera _camera;
+        private MeshFilter _meshFilter;
         
         void Start()
         {
-            _renderer = GetComponent<MeshRenderer>();
-            _camera = Camera.main;
+            _meshFilter = GetComponent<MeshFilter>();
         }
-        
-        void Update()
+
+        void OnDrawGizmosSelected()
         {
-            var cam = _camera;
-            var m = _renderer.localToWorldMatrix;
-            var v = cam.worldToCameraMatrix;
-            var p = GL.GetGPUProjectionMatrix(cam.projectionMatrix, false);
-            var mvp = p * v * m;
-            _renderer.sharedMaterial.SetMatrix("_invMVP", mvp.inverse);
+            if (_meshFilter != null)
+            {
+                Gizmos.DrawWireMesh(_meshFilter.sharedMesh,
+                    0,
+                    transform.position,
+                    transform.rotation,
+                    transform.lossyScale);
+            }
+            else
+            {
+                _meshFilter = GetComponent<MeshFilter>();
+            }
         }
     }
 }
