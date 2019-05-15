@@ -16,6 +16,7 @@ MonoBehaviour:
   Behaviour: 1
   TickCooldown: 1.5
   Duration: 3
+  ApplyInitialAffectsOnReapply: 0
   Modifiers: []
   OnApplyBuff:
   - ApplyModifier:

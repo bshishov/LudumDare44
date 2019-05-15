@@ -49,6 +49,7 @@ namespace Assets.Scripts.Data
         public BuffStackBehaviour Behaviour;
         public float TickCooldown = 1f;
         public float Duration = 1f;
+        public bool ApplyInitialAffectsOnReapply;
 
         [Header("Temporary Modifiers")]
         // Changes that will be applied once the buff is applied

@@ -16,6 +16,7 @@ MonoBehaviour:
   Behaviour: 1
   TickCooldown: 2
   Duration: 4
+  ApplyInitialAffectsOnReapply: 0
   Modifiers: []
   OnApplyBuff:
   - ApplyModifier:
@@ -37,6 +38,7 @@ MonoBehaviour:
       CharacterNode: 0
       AttachToTransform: 0
       AutoDestroyAfterBuff: 0
+  OnRefreshBuff: []
   OnTickBuff:
   - ApplyModifier:
       Parameter: 1

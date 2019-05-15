@@ -133,7 +133,7 @@ MonoBehaviour:
   SmoothTime: 0.1
   SeparateLegs: 0
   DeathTrigger: Death
-  TakeDamage: Death
+  TakeDamage: 
   SpeedVariable: Speed
   CastAoE: Attack
   CastTarget: Attack

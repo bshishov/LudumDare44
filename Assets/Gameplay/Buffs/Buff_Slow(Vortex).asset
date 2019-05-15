@@ -16,10 +16,12 @@ MonoBehaviour:
   Behaviour: 3
   TickCooldown: 0.5
   Duration: 1.5
+  ApplyInitialAffectsOnReapply: 0
   Modifiers:
   - Parameter: 11
     Value: -0.4
     EffectiveStacks: 1
   OnApplyBuff: []
+  OnRefreshBuff: []
   OnTickBuff: []
   OnRemove: []

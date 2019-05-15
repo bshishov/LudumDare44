@@ -16,6 +16,7 @@ MonoBehaviour:
   Behaviour: 0
   TickCooldown: 1
   Duration: 1
+  ApplyInitialAffectsOnReapply: 0
   Modifiers: []
   OnApplyBuff:
   - ApplyModifier:
@@ -27,10 +28,16 @@ MonoBehaviour:
       Spell: {fileID: 0}
       Target: 0
       StacksOverride: 1
+    ApplyBuff:
+      Target: 0
+      StacksBehaviour: 0
+      Buff: {fileID: 0}
+      StacksOverride: 0
     SpawnObject:
       Prefab: {fileID: 0}
       CharacterNode: 0
       AttachToTransform: 0
       AutoDestroyAfterBuff: 0
+  OnRefreshBuff: []
   OnTickBuff: []
   OnRemove: []

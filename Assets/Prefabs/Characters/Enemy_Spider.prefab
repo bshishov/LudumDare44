@@ -99,7 +99,8 @@ MonoBehaviour:
   SpeedMultiplier: 1
   ImpactDecayTime: 0.1
   DissolveTime: 1
-  Renderers: []
+  Renderers:
+  - {fileID: 7542615054427119429}
   DisableAnimationsAfterDeath: 1
   UseMaterialAnimations: 0
   AutoTrackSpeed: 1

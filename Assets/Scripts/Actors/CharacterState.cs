@@ -238,6 +238,10 @@ namespace Actors
                         ApplyBuffModifiers(existingState);
                         existingState.Refresh();
 
+                        if(newBuff.ApplyInitialAffectsOnReapply && newBuff.OnApplyBuff != null)
+                            foreach (var affect in newBuff.OnApplyBuff)
+                                ApplyAffect(affect, existingState);
+
                         if (newBuff.OnRefreshBuff != null)
                             foreach (var affect in newBuff.OnRefreshBuff)
                                 ApplyAffect(affect, existingState);
@@ -254,6 +258,11 @@ namespace Actors
                         existingState.Stacks += stacks;
                         ApplyBuffModifiers(existingState);
                         existingState.Refresh();
+
+                        if (newBuff.ApplyInitialAffectsOnReapply && newBuff.OnApplyBuff != null)
+                            foreach (var affect in newBuff.OnApplyBuff)
+                                ApplyAffect(affect, existingState);
+
                         if (newBuff.OnRefreshBuff != null)
                             foreach (var affect in newBuff.OnRefreshBuff)
                                 ApplyAffect(affect, existingState);
