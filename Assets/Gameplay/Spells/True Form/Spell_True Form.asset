@@ -20,13 +20,12 @@ MonoBehaviour:
     type: 2}
   LifeSteal: 0
   BloodCost: 25
+  CastRange: 10
   DefaultSlot: 2
   Cooldown: 125
-  CastingTime: 1
   Flags: 0
   PreCastDelay: 0
   PostCastDelay: 0
-  ChannelTime: 0
   SubSpells:
   - {fileID: 11400000, guid: eb0f7e93658b8a049985e7405d1d4cbb, type: 2}
   SpellEffect: {fileID: 0}

@@ -14,13 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Behaviour: 0
-  TickCooldown: 1
-  Duration: 1
+  TickCooldown: 0.5
+  Duration: 0.6
   ApplyInitialAffectsOnReapply: 0
-  Modifiers:
-  - Parameter: 1
-    Value: -8
-    EffectiveStacks: 10
+  Modifiers: []
   OnApplyBuff:
   - ApplyModifier:
       Parameter: 1

@@ -19,7 +19,7 @@ MonoBehaviour:
   ApplyInitialAffectsOnReapply: 0
   Modifiers:
   - Parameter: 11
-    Value: -0.4
+    Value: -0.5
     EffectiveStacks: 1
   OnApplyBuff: []
   OnRefreshBuff: []

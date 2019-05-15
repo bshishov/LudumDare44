@@ -21,7 +21,7 @@ MonoBehaviour:
   OnApplyBuff:
   - ApplyModifier:
       Parameter: 1
-      Value: -5
+      Value: -10
       EffectiveStacks: 10
     CastSpell:
       SpellStacks: 1

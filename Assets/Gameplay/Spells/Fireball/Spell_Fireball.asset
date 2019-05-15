@@ -21,7 +21,7 @@ MonoBehaviour:
     type: 2}
   LifeSteal: 1
   BloodCost: 0
-  CastRange: 30
+  CastRange: 10
   DefaultSlot: 0
   Cooldown: 0.8
   Flags: 0

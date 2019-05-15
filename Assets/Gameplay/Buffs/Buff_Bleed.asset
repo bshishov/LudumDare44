@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Bleed
   Behaviour: 1
   TickCooldown: 1.5
-  Duration: 3
+  Duration: 4.5
   ApplyInitialAffectsOnReapply: 0
   Modifiers: []
   OnApplyBuff:

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_Warlock
   m_EditorClassIdentifier: 
   Health: 50
-  Damage: 20
+  Damage: 0
   Speed: 4
   Evasion: 0
   Size: 1.5

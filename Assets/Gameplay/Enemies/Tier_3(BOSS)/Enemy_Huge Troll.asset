@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Enemy_Huge Troll
   m_EditorClassIdentifier: 
   Health: 75
-  Damage: 50
-  Speed: 3
+  Damage: 0
+  Speed: 3.5
   Evasion: 0
   Size: 1.5
   HealthModifier: 1
