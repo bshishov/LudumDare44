@@ -19,11 +19,11 @@
 			#pragma fragment frag
 			#include "UnityCG.cginc"
 		
+			uniform half4 _Color;
 			uniform sampler2D _MainTex;
 			uniform sampler2D _CameraDepthTexture;		
 			float4 _MainTex_ST;
-			uniform half4 _Color;
-
+			
 
 			struct VSInput {
 				float4 vertex : POSITION;
@@ -40,8 +40,7 @@
 			{
 				VSOut o ;
 				o.position = UnityObjectToClipPos(v.vertex);						
-				o.screenPos = ComputeScreenPos(o.position);			;	
-
+				o.screenPos = ComputeScreenPos(o.position);
 				o.ray = UnityObjectToViewPos(v.vertex).xyz * float3(-1,-1,1);			
 
 				// v.texcoord is equal to 0 when we are drawing 3D light shapes and
@@ -52,7 +51,7 @@
 				return o;
 			}
 		
-			fixed4 frag( VSOut i): Color  
+			fixed4 frag(VSOut i): Color  
 			{	    			
 				i.ray = i.ray * (_ProjectionParams.z / i.ray.z);
 
