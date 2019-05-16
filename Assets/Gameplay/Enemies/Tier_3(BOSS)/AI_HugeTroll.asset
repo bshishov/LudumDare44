@@ -16,7 +16,7 @@ MonoBehaviour:
   AggroRange: 100
   FearRange: 1
   MeleeRange: 0
-  MaxCastRange: 0
+  MaxCastRange: 30
   MeleeAttackCooldown: 0
   MeleeDamageDelay: 0
   MeleeAttackBuff: {fileID: 0}
