@@ -22,7 +22,7 @@ MonoBehaviour:
     Value: -0.3
     EffectiveStacks: 2
   - Parameter: 9
-    Value: 0.3
+    Value: 0.25
     EffectiveStacks: 5
   OnApplyBuff: []
   OnRefreshBuff: []
