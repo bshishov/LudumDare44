@@ -17,11 +17,14 @@ MonoBehaviour:
   TickCooldown: 0.5
   Duration: 2
   ApplyInitialAffectsOnReapply: 0
-  Modifiers: []
+  Modifiers:
+  - Parameter: 11
+    Value: -0.2
+    EffectiveStacks: 1
   OnApplyBuff:
   - ApplyModifier:
-      Parameter: 0
-      Value: 0
+      Parameter: 1
+      Value: -1
       EffectiveStacks: 0
     CastSpell:
       SpellStacks: 0
@@ -40,24 +43,5 @@ MonoBehaviour:
       AttachToTransform: 1
       AutoDestroyAfterBuff: 1
   OnRefreshBuff: []
-  OnTickBuff:
-  - ApplyModifier:
-      Parameter: 1
-      Value: -1
-      EffectiveStacks: 10
-    CastSpell:
-      SpellStacks: 0
-      Spell: {fileID: 0}
-      Target: 0
-      StacksOverride: 1
-    ApplyBuff:
-      Target: 0
-      StacksBehaviour: 0
-      Buff: {fileID: 0}
-      StacksOverride: 0
-    SpawnObject:
-      Prefab: {fileID: 0}
-      CharacterNode: 0
-      AttachToTransform: 0
-      AutoDestroyAfterBuff: 0
+  OnTickBuff: []
   OnRemove: []

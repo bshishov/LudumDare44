@@ -18,6 +18,7 @@ MonoBehaviour:
   Origin: 2
   Buffs:
   - {fileID: 11400000, guid: 48a2e603e4b57024893ebeda2370f927, type: 2}
+  - {fileID: 11400000, guid: 2684ceb65ffb0dd45ad24eec30706679, type: 2}
   BloodCost: 0
   Effect: {fileID: 1349204274574646620, guid: 83f6facd0467c65429cf63935d823e29, type: 3}
   Flags: 4

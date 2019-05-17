@@ -23,5 +23,8 @@ MonoBehaviour:
   SpellCastingCooldown: 1
   SlotConfig:
   - Slot: 0
-    Weight: 0
+    Weight: 1
+    WaitAfterCast: 0
+  - Slot: 1
+    Weight: 1
     WaitAfterCast: 0
