@@ -4,6 +4,7 @@ using Assets.Scripts;
 using Assets.Scripts.Data;
 using Assets.Scripts.Utils.Debugger;
 using Spells;
+using UI;
 
 public class PlayerController : MonoBehaviour, IChannelingInfo
 {
@@ -27,19 +28,26 @@ public class PlayerController : MonoBehaviour, IChannelingInfo
         var slotState = _spellbook.GetSpellSlotState(slotIndex);
         if (slotState.State != SpellbookState.SpellState.Ready)
         {
+            // TODO: B-O-O-B! DO SOMETHING!
+            if(slotState.Spell != null && slotState.Spell.Cooldown > 5f)
+                UIInvalidAction.Instance?.Show(UIInvalidAction.InvalidAction.SpellIsNotReady);
             // Spell is not ready or missing - just exit
             return;
         }
 
         if (_characterState.Health <= slotState.Spell.BloodCost)
         {
+            UIInvalidAction.Instance?.Show(UIInvalidAction.InvalidAction.NotEnoughBlood);
             // Not enough hp
             return;
         }
         
         var target = GetTarget();
-        if(target == null)
+        if (target == null)
+        {
+            UIInvalidAction.Instance?.Show(UIInvalidAction.InvalidAction.InvalidTarget);
             return;
+        }
 
         if (_spellbook.TryFireSpellToTarget(slotIndex, target, this))
         {
@@ -52,6 +60,10 @@ public class PlayerController : MonoBehaviour, IChannelingInfo
                                           _characterState, 
                                           null, 
                                           out _);
+        }
+        else
+        {
+            UIInvalidAction.Instance?.Show(UIInvalidAction.InvalidAction.CantCastSpell);
         }
     }
 
