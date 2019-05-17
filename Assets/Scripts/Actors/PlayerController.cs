@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour, IChannelingInfo
 
     public TargetInfo GetNewTarget()
     {
-        if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetButton("Ult"))
+        if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetButton(Common.Input.UltButton))
             return GetTarget();
         return null;
     }

@@ -476,6 +476,8 @@ namespace Actors
                     actualChange = StackedModifier(amount, stacks, effectiveStacks);
                     _maxHpFlatModSum += actualChange;
                     _hp = hpFraction * MaxHealth;
+                    if(MaxHealth <= 1)
+                        HandleDeath();
                     break;
                 case ModificationParameter.MaxHpMult:
                     actualChange = StackedModifier(amount, stacks, effectiveStacks);
@@ -607,8 +609,8 @@ namespace Actors
                             out _);
                     }
                 }
-
-                if (targetHp <= 0)
+                
+                if (targetHp < 1f)
                     HandleDeath();
                 else
                 {
@@ -625,10 +627,15 @@ namespace Actors
         public bool SpendCurrency(float amount)
         {
             if (!IsAlive)
-                return false;
-
-            if (amount > MaxHealth)
             {
+                // Dead character can't spend currency
+                return false;
+            }
+
+            // If after spending we will have less than 1 than the action is illigal
+            if (MaxHealth - amount < 1f)
+            {
+                UIInvalidAction.Instance?.Show(UIInvalidAction.InvalidAction.NotEnoughBlood);
                 Debug.LogWarningFormat("Cant spend currency. Currency={0}, Trying to spend = {1}", MaxHealth, amount);
                 return false;
             }

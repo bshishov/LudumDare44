@@ -4,6 +4,7 @@ using Assets.Scripts;
 using Assets.Scripts.Data;
 using Assets.Scripts.Utils;
 using TMPro;
+using UI;
 using UnityEngine;
 
 public class Shop : MonoBehaviour, IInteractable
@@ -114,11 +115,6 @@ public class Shop : MonoBehaviour, IInteractable
                 GameObject.Instantiate(BuyEffect, PlaceTransform.position, Quaternion.identity);
 
             CameraController.Instance.Shake(0.4f);
-                
-        }
-        else
-        {
-            Debug.Log("Insufficient funds");
         }
     }
 
@@ -128,7 +124,9 @@ public class Shop : MonoBehaviour, IInteractable
     public void Interact(CharacterState character, Interaction interaction)
     {
         if (interaction == Interaction.Buy)
+        {
             Buy(character);
+        }
     }
 
     public string GetInteractionText(Interaction interaction)
