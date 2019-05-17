@@ -68,6 +68,8 @@ namespace UI
             };
 
             _character.HealthChanged += CharacterOnHealthChanged;
+               
+            Update();
         }
 
         private void CharacterOnHealthChanged(float newHealth)
