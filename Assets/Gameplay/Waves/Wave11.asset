@@ -15,25 +15,22 @@ MonoBehaviour:
   Items:
   - EnemyPrefab: {fileID: 5666688031075894826, guid: 39e7942c67ff994438115aaf0f7083c8,
       type: 3}
-    NumberOfThisType: 3
+    NumberOfThisType: 5
     DelayBetween: 0.4
     DelayBeforeNext: 0
     SpawnIndex: 0
+    InitialBuffs: []
   - EnemyPrefab: {fileID: 5666688031075894826, guid: 39e7942c67ff994438115aaf0f7083c8,
       type: 3}
     NumberOfThisType: 3
     DelayBetween: 0.4
     DelayBeforeNext: 0
     SpawnIndex: 1
-  - EnemyPrefab: {fileID: 5666688031075894826, guid: 39e7942c67ff994438115aaf0f7083c8,
-      type: 3}
-    NumberOfThisType: 3
-    DelayBetween: 0.4
-    DelayBeforeNext: 0
-    SpawnIndex: 2
+    InitialBuffs: []
   - EnemyPrefab: {fileID: 5666688031075894826, guid: 39e7942c67ff994438115aaf0f7083c8,
       type: 3}
     NumberOfThisType: 3
     DelayBetween: 0.4
     DelayBeforeNext: 15
-    SpawnIndex: 3
+    SpawnIndex: 2
+    InitialBuffs: []
