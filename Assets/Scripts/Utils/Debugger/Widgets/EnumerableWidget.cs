@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Utils.Debugger.Widgets
+namespace Utils.Debugger.Widgets
 {
     public class EnumerableWidget<T> : INestedWidget, IValueWidget<IEnumerable<T>>
     {
@@ -31,7 +31,7 @@ namespace Assets.Scripts.Utils.Debugger.Widgets
 
         private IValueWidget GetWidget(int index)
         {
-            var w = Debugger.GetDefaultWidget(typeof(T));
+            var w = global::Utils.Debugger.Debugger.GetDefaultWidget(typeof(T));
             Debug.LogFormat("New w={0}", w);
             return w;
         }

@@ -1,11 +1,11 @@
 ﻿using System;
 using Actors;
 using Assets.Scripts.Data;
-using Assets.Scripts.Utils.Debugger;
 using Data;
 using Spells;
 using UnityEngine;
-using Logger = Assets.Scripts.Utils.Debugger.Logger;
+using Utils.Debugger;
+using Logger = Utils.Debugger.Logger;
 
 namespace AI
 {

@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-namespace EditorHacks
+namespace Assets.Scripts.Editor
 {
     public class FXMeshGeneratorWindow : EditorWindow
     {

@@ -1,8 +1,9 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 using Utils;
 
-namespace Assets.EditorHacks
+namespace Assets.Scripts.Editor
 {
     [CustomPropertyDrawer(typeof(PercentageAttribute))]
     public class PercentageDrawer : PropertyDrawer
@@ -23,3 +24,4 @@ namespace Assets.EditorHacks
         }
     }
 }
+#endif

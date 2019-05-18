@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Utils.Debugger
+namespace Utils.Debugger
 {
     public class Style
     {
@@ -9,106 +9,39 @@ namespace Assets.Scripts.Utils.Debugger
         public float HeaderColumn = 200f;
         public float Opacity = 0.9f;
         public string DefaultFontName = "Consolas";
+        public bool IsInitialized { get; private set; }
 
-        private GUIStyle _boxStyle;
-        private GUIStyle _propertyHeaderStyle;
-        private GUIStyle _selectedBoxStyle;
-        private GUIStyle _contentStyle;
-        private Font _font;
+        public Font DefaultFont { get; private set; }
 
-        public Font DefaultFont
+        public GUIStyle HeaderStyle { get; private set; }
+
+        public GUIStyle PropertyHeaderStyle { get; private set; }
+
+        public GUIStyle SelectedHeaderStyle { get; private set; }
+
+        public GUIStyle ContentStyle { get; private set; }
+
+        public void Initialize()
         {
-            get
-            {
-                if (_font != null)
-                    return _font;
-
-                _font = Font.CreateDynamicFontFromOSFont(DefaultFontName, 14);
-                return _font;
-            }
+            DefaultFont = Font.CreateDynamicFontFromOSFont(DefaultFontName, 14);
+            HeaderStyle = CreateLabelStyle(DefaultFont, new Color(0.1f, 0.1f, 0.1f, Opacity));
+            PropertyHeaderStyle = CreateLabelStyle(DefaultFont, new Color(0.1f, 0.1f, 0.3f, Opacity));
+            SelectedHeaderStyle = CreateLabelStyle(DefaultFont, new Color(0.4f, 0.0f, 0.0f, Opacity));
+            ContentStyle = CreateLabelStyle(DefaultFont, new Color(0f, 0f, 0f, Opacity));
+            IsInitialized = true;
         }
 
-        public GUIStyle HeaderStyle
+        private static GUIStyle CreateLabelStyle(Font font, Color background)
         {
-            get
+            return new GUIStyle(GUI.skin.label)
             {
-                if (_boxStyle != null)
-                    return _boxStyle;
-
-                var style = new GUIStyle(GUI.skin.label)
+                normal =
                 {
-                    normal =
-                    {
-                        background = MakeTex(2, 2, new Color(0.1f, 0.1f, 0.1f, Opacity))
-                    },
-                    contentOffset = new Vector2(5f, 0f),
-                    font = DefaultFont
-                };
-                _boxStyle = style;
-                return style;
-            }
-        }
-
-        public GUIStyle PropertyHeaderStyle
-        {
-            get
-            {
-                if (_propertyHeaderStyle != null)
-                    return _propertyHeaderStyle;
-
-                var style = new GUIStyle(GUI.skin.label)
-                {
-                    normal =
-                    {
-                        background = MakeTex(2, 2, new Color(0.1f, 0.1f, 0.3f, Opacity))
-                    },
-                    contentOffset = new Vector2(5f, 0f),
-                    font = DefaultFont
-                };
-                _propertyHeaderStyle = style;
-                return style;
-            }
-        }
-
-        public GUIStyle SelectedHeaderStyle
-        {
-            get
-            {
-                if (_selectedBoxStyle != null)
-                    return _selectedBoxStyle;
-
-                var style = new GUIStyle(GUI.skin.label)
-                {
-                    normal =
-                    {
-                        background = MakeTex(2, 2, new Color(0.4f, 0.0f, 0.0f, Opacity))
-                    },
-                    contentOffset = new Vector2(5f, 0f),
-                    font = DefaultFont
-                };
-                _selectedBoxStyle = style;
-                return style;
-            }
-        }
-
-        public GUIStyle ContentStyle
-        {
-            get
-            {
-                if (_contentStyle != null)
-                    return _contentStyle;
-
-                var style = new GUIStyle(GUI.skin.label)
-                {
-                    normal =
-                    {
-                        background = MakeTex(2, 2, new Color(0f, 0f, 0f, Opacity))
-                    },
-                    font = DefaultFont
-                };
-                _contentStyle = style;
-                return style;
-            }
+                    background = MakeTex(2, 2, background)
+                },
+                contentOffset = new Vector2(5f, 0f),
+                font = font
+            };
         }
 
         private static Texture2D MakeTex(int width, int height, Color col)

@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Data;
 using Assets.Scripts.Utils;
-using Assets.Scripts.Utils.Debugger;
+using Attributes;
 using Data;
 using Spells;
 using UI;
-using Unity.Entities;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Utils.Debugger;
 using Random = UnityEngine.Random;
-using Logger = Assets.Scripts.Utils.Debugger.Logger;
+using Logger = Utils.Debugger.Logger;
 
 namespace Actors
 {

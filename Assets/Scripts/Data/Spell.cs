@@ -1,9 +1,11 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using Assets.Scripts.Data;
+using Attributes;
 using Spells;
+using UnityEngine;
 using Utils;
 
-namespace Assets.Scripts.Data
+namespace Data
 {
     [CreateAssetMenu(fileName = "Spell", menuName = "Spells/Spell")]
     [Serializable]

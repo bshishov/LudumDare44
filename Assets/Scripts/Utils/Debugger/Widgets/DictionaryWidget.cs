@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Utils.Debugger.Widgets
+namespace Utils.Debugger.Widgets
 {
     public class DictionaryWidget<T1, T2> : INestedWidget, IValueWidget<IDictionary<T1, T2>>
     {
@@ -22,7 +22,7 @@ namespace Assets.Scripts.Utils.Debugger.Widgets
 
         private IValueWidget GetWidget(T1 key)
         {
-            return Debugger.GetDefaultWidget(typeof(T2));
+            return global::Utils.Debugger.Debugger.GetDefaultWidget(typeof(T2));
         }
 
         public void Draw(Rect rect, Style style)

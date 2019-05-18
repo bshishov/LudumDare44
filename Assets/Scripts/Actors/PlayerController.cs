@@ -2,7 +2,7 @@
 using Actors;
 using Assets.Scripts;
 using Assets.Scripts.Data;
-using Assets.Scripts.Utils.Debugger;
+using Data;
 using Spells;
 using UI;
 

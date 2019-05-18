@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Attributes;
 using Data;
 using UnityEngine;
 

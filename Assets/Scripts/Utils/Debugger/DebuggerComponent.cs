@@ -3,13 +3,10 @@
 #endif
 
 using System;
-using System.Collections.Generic;
-using Assets.Scripts.Utils.Debugger.Widgets;
 using UnityEngine;
-using UnityEngine.Rendering;
-using Random = UnityEngine.Random;
+using Utils.Debugger.Widgets;
 
-namespace Assets.Scripts.Utils.Debugger
+namespace Utils.Debugger
 {
     public class DebuggerComponent : MonoBehaviour
     {
@@ -30,38 +27,21 @@ namespace Assets.Scripts.Utils.Debugger
             IsExpanded = true,
             Widget = new StringWidget("F4 - Expand/Collapse, PageUp/PageDown - Navigation, F5 - Activate")
         };
-
-        private Logger _defaultLog;
+        
         private readonly Cache<string, DebugNode> _pathCache = new Cache<string, DebugNode>();
         private readonly DrawingContext _context = new DrawingContext();
+        private Logger _defaultLog;
         private Drawer _drawer;
 
         void Awake()
         {
             _drawer = new Drawer();
             _defaultLog = GetLogger("Log");
-            Display("Debug/Path cache", new Vector2(200, 20), rect =>
-            {
-                GUILayout.BeginArea(rect);
-                if (GUILayout.Button("Clear cache"))
-                {
-                    Log("Debug/Log", "Clearing cache");
-                    _pathCache.Clear();
-                }
-
-                GUILayout.EndArea();
-            });
+            Display("Debug/Clear path cache", () => { _pathCache.Clear(); });
+            Display("Debug/Toggle debug lines", () => { _isDrawingDebugLines = !_isDrawingDebugLines; });
 
 #if USE_REFLECTION
-            GetOrCreateNode("Debug/Dictionary").Widget = new DictionaryWidget<string, string>(new Dictionary<string, string>()
-            {
-                {"hello", "world"},
-                {"1", "@"},
-                {"foo", "bar"}
-            });
-
             GetOrCreateNode("Debug/Context").Widget = new ObjectWidget(_context);
-            GetOrCreateNode("Debug/Array").Widget = new EnumerableWidget<DebugNode>(new[] {_root, _root, _root, _root});
 #endif
         }
 
@@ -305,12 +285,14 @@ namespace Assets.Scripts.Utils.Debugger
             node.Widget = p;
             return p;
         }
-        
 
         void OnGUI()
         {
-            if (!_isOpened)
+            if (!_isOpened || _context == null)
                 return;
+
+            if(!_context.Style.IsInitialized)
+                _context.Style.Initialize();
 
             // Start from 0
             _context.Y = 0;

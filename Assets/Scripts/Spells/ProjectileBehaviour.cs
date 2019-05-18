@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Actors;
 using Assets.Scripts.Data;
+using Data;
 using UnityEngine;
 using UnityEngine.Assertions;
 

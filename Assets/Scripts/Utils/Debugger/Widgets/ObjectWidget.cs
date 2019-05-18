@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-namespace Assets.Scripts.Utils.Debugger.Widgets
+namespace Utils.Debugger.Widgets
 {
     public class ObjectWidget : INestedWidget, IValueWidget<object>
     {
@@ -35,12 +35,12 @@ namespace Assets.Scripts.Utils.Debugger.Widgets
 
         private IValueWidget GetWidget(PropertyInfo prop)
         {
-            return Debugger.GetDefaultWidget(prop.PropertyType);
+            return global::Utils.Debugger.Debugger.GetDefaultWidget(prop.PropertyType);
         }
 
         private IValueWidget GetWidget(FieldInfo prop)
         {
-            return Debugger.GetDefaultWidget(prop.FieldType);
+            return global::Utils.Debugger.Debugger.GetDefaultWidget(prop.FieldType);
         }
 
         public void Draw(Rect rect, Style style)

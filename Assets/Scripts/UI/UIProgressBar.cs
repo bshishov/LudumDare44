@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Utils.Debugger;
-using Assets.Scripts.Utils.UI;
+﻿using Assets.Scripts.Utils.UI;
 using UnityEngine;
 
 namespace Assets.Scripts.UI

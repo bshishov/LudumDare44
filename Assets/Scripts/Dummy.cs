@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using Actors;
 using Assets.Scripts.Data;
-using Assets.Scripts.Utils.Debugger;
+using Data;
 using TMPro;
 using UnityEngine;
+using Utils.Debugger;
 
 [RequireComponent(typeof(CharacterState))]
 public class Dummy : MonoBehaviour

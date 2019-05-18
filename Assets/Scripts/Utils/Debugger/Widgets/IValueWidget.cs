@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Utils.Debugger.Widgets
+﻿namespace Utils.Debugger.Widgets
 {
     public interface IValueWidget : IWidget
     {

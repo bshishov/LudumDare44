@@ -204,7 +204,7 @@ namespace Assets.Scripts.Utils.Sound
             return Play(clip.Clip, clip.VolumeModifier, loop, clip.Pitch * pitch, ignoreListenerPause, delay);
         }
 
-        public SoundHandler Play(global::Assets.Scripts.Utils.Sound.Sound sound)
+        public SoundHandler Play(global::Utils.Sound.Sound sound)
         {
             if (sound == null)
                 return null;
@@ -254,7 +254,7 @@ namespace Assets.Scripts.Utils.Sound
             return handler;
         }
 
-        public SoundHandler Play(global::Assets.Scripts.Utils.Sound.Sound sound, Transform attachTo)
+        public SoundHandler Play(global::Utils.Sound.Sound sound, Transform attachTo)
         {
             var s = Play(sound);
             if (s != null)
@@ -264,7 +264,7 @@ namespace Assets.Scripts.Utils.Sound
         }
 
 
-        public SoundHandler PlayMusic(global::Assets.Scripts.Utils.Sound.Sound sound)
+        public SoundHandler PlayMusic(global::Utils.Sound.Sound sound)
         {
             if (sound == null)
                 return null;

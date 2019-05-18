@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Actors;
+﻿using Actors;
 using Assets.Scripts.Data;
-using Assets.Scripts.Utils.Debugger;
+using Data;
 using Spells;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Utils;
+using Utils.Debugger;
 #if UNITY_EDITOR
 using UnityEditor;
-
 #endif
 
 public class Cheats : MonoBehaviour
@@ -79,6 +79,31 @@ public class Cheats : MonoBehaviour
                     }
                 });
         }
+
+#if UNITY_EDITOR
+        foreach (var scene in EditorBuildSettings.scenes)
+        {
+            if (scene.enabled)
+            {
+                Debugger.Default.Display($"Cheats/Load scene (Editor)/{scene.path}", () =>
+                {
+                    SceneManager.LoadScene(scene.path);
+                });
+            }
+
+            
+        }
+#endif
+
+        for (var i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+        {
+            var scenePath = UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i);
+            var sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePath);
+            Debugger.Default.Display($"Cheats/Load Scene/{i} {sceneName}", () =>
+            {
+                SceneManager.LoadScene(sceneName);
+            });
+        }
     }
 
     void Update()
@@ -104,26 +129,9 @@ public class Cheats : MonoBehaviour
     [ContextMenu("Load all resources")]
     public void LoadAllResources()
     {
-        Buffs = FindAssetsByType<Buff>().ToArray();
-        Spells = FindAssetsByType<Spell>().ToArray();
-        Items = FindAssetsByType<Item>().ToArray();
-    }
-
-    public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
-    {
-        List<T> assets = new List<T>();
-        string[] guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
-        for (int i = 0; i < guids.Length; i++)
-        {
-            string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
-            T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
-            if (asset != null)
-            {
-                assets.Add(asset);
-            }
-        }
-
-        return assets;
+        Buffs = AssetUtility.FindAssetsOfType<Buff>().ToArray();
+        Spells = AssetUtility.FindAssetsOfType<Spell>().ToArray();
+        Items = AssetUtility.FindAssetsOfType<Item>().ToArray();
     }
 #endif
 }

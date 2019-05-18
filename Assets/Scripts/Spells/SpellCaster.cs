@@ -5,10 +5,11 @@ using System.Linq;
 using Actors;
 using Assets.Scripts;
 using Assets.Scripts.Data;
+using Data;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Debug = UnityEngine.Debug;
-using Debugger = Assets.Scripts.Utils.Debugger.Debugger;
+using Debugger = Utils.Debugger.Debugger;
 
 namespace Spells
 {

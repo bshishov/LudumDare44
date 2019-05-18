@@ -4,9 +4,11 @@ using Actors;
 using Assets.Scripts.Data;
 using Assets.Scripts.Utils;
 using Assets.Scripts.Utils.Sound;
+using Attributes;
 using Data;
 using UnityEngine;
 using UnityEngine.AI;
+using Utils.Sound;
 
 [RequireComponent(typeof(DifficultyManager))]
 public class WaveManager : Singleton<WaveManager>
@@ -95,8 +97,9 @@ public class WaveManager : Singleton<WaveManager>
         var enemyState = enemy.GetComponent<CharacterState>();
 
         // Apply buffs
-        foreach (var buff in buffs)
-            enemyState.ApplyBuff(buff, enemyState, null, 1);
+        if(buffs != null)
+            foreach (var buff in buffs)
+                enemyState.ApplyBuff(buff, enemyState, null, 1);
 
         var currDiff = DifficultyManager.Instance.GetDifficulty(DifficultyManager.Instance.CurrentDifficultyIndex);
         if (currDiff != null)
