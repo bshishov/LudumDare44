@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
-  m_Name: Buff_Medium
+  m_Name: Buff_DrainBack_Banshee
   m_EditorClassIdentifier: 
-  Name: 0_Medium_Speed
+  Name: 
   Behaviour: 0
-  TickCooldown: 3
-  Duration: 30
+  TickCooldown: 0.005
+  Duration: 0.01
   ApplyInitialAffectsOnReapply: 0
   Modifiers: []
   OnApplyBuff:
   - ApplyModifier:
-      Parameter: 11
-      Value: 0.05
-      EffectiveStacks: 30
+      Parameter: 1
+      Value: 0.15
+      EffectiveStacks: 1
     CastSpell:
       SpellStacks: 0
       Spell: {fileID: 0}
       Target: 0
-      StacksOverride: 0
+      StacksOverride: 1
     ApplyBuff:
       Target: 0
       StacksBehaviour: 0
