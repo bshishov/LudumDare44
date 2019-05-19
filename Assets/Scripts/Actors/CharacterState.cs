@@ -461,7 +461,7 @@ namespace Actors
             if (parameter == ModificationParameter.None)
                 return;
 
-            var hpFraction = _hp / MaxHealth;
+            var hpFraction = Mathf.Clamp01(_hp / MaxHealth);
             switch (parameter)
             {
                 case ModificationParameter.HpFlat:
@@ -476,7 +476,7 @@ namespace Actors
                     actualChange = StackedModifier(amount, stacks, effectiveStacks);
                     _maxHpFlatModSum += actualChange;
                     _hp = hpFraction * MaxHealth;
-                    if(MaxHealth <= 1)
+                    if(MaxHealth < 1)
                         HandleDeath();
                     break;
                 case ModificationParameter.MaxHpMult:

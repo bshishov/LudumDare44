@@ -8,6 +8,7 @@ using Attributes;
 using Data;
 using UnityEngine;
 using UnityEngine.AI;
+using Utils.Debugger;
 using Utils.Sound;
 
 [RequireComponent(typeof(DifficultyManager))]
@@ -26,28 +27,29 @@ public class WaveManager : Singleton<WaveManager>
 
     public Wave CurrentWave { get; private set; }
     public bool WaveInProgress { get; private set; }
-    public int WaveNumber { get { return _currentWaveIndex + 1; } }
+    public int WaveNumber => _currentWaveIndex + 1;
     public int EnemiesOut { get; private set; }
     public int EnemiesInThisWave { get; private set; }
+    public int EnemiesKilled { get; private set; }
     public float TimeToNextWave { get; private set; }
     public int CurrentDifficulty { get; private set; }
     public bool IsRunningInfinite { get; private set; }
         
-    public float Percentage
+    public float Progress
     {
         get
         {
             if (CurrentWave != null)
-                return Mathf.Clamp01((float)EnemiesOut / EnemiesInThisWave);
+                return Mathf.Clamp01((float)EnemiesKilled / EnemiesInThisWave);
             return 0f;
         }
     }
 
     private int _currentWaveIndex = -1;
+    private readonly List<CharacterState> _aliveEnemies = new List<CharacterState>();
 
     void Start()
     {
-           
         CurrentDifficulty = StartDifficulty;
         NextWave();
     }
@@ -63,6 +65,29 @@ public class WaveManager : Singleton<WaveManager>
                 NextWave();
             }
         }
+
+        if (WaveInProgress)
+        {
+            for (var i = _aliveEnemies.Count - 1; i >= 0; i--)
+            {
+                var state = _aliveEnemies[i];
+                if (state == null || !state.IsAlive)
+                {
+                    _aliveEnemies.RemoveAt(i);
+                    EnemiesKilled++;
+                }
+            }
+        }
+
+#if DEBUG
+        Debugger.Default.Display("WaveManager/WaveInProgress", WaveInProgress.ToString());
+        Debugger.Default.Display("WaveManager/EnemiesOut", EnemiesOut);
+        Debugger.Default.Display("WaveManager/EnemiesInThisWave", EnemiesInThisWave);
+        Debugger.Default.Display("WaveManager/EnemiesKilled", EnemiesKilled);
+        Debugger.Default.Display("WaveManager/WaveNumber", WaveNumber);
+        Debugger.Default.Display("WaveManager/Waves.Count", Waves.Count);
+        Debugger.Default.Display("WaveManager/TimeToNextWave", TimeToNextWave);
+#endif
     }
 
     void NextWave()
@@ -77,14 +102,14 @@ public class WaveManager : Singleton<WaveManager>
         if (_currentWaveIndex >= Waves.Count)
         {
             if (InfiniteWave != null)
-                StartCoroutine(DoInfiniteWave(InfiniteWave));
+                StartCoroutine(InfiniteWaveRoutine(InfiniteWave));
             else
                 Debug.LogWarning("No more waves");
         }
         else
         {
             CurrentWave = Waves[_currentWaveIndex];
-            StartCoroutine(DoWave(CurrentWave));
+            StartCoroutine(WaveRoutine(CurrentWave));
         }
 
         SoundManager.Instance.Play(WaveStartedSound);
@@ -107,6 +132,8 @@ public class WaveManager : Singleton<WaveManager>
             {
                 enemyState.ApplyBuff(buff, enemyState, null, 1);
             }
+
+        _aliveEnemies.Add(enemyState);
         EnemiesOut++;
     }
 
@@ -123,10 +150,12 @@ public class WaveManager : Singleton<WaveManager>
         }
     }
 
-    private IEnumerator DoWave(Wave wave)
+    private IEnumerator WaveRoutine(Wave wave)
     {
         WaveInProgress = true;
+        _aliveEnemies.Clear();
         EnemiesOut = 0;
+        EnemiesKilled = 0;
         EnemiesInThisWave = CurrentWave.TotalNumberOfEnemies(SpawnPoints.Count);
         Debug.LogFormat("Wave {0}/{1} started!", WaveNumber, Waves.Count);
 
@@ -143,13 +172,24 @@ public class WaveManager : Singleton<WaveManager>
 
             yield return new WaitForSeconds(spawnEntry.DelayBeforeNext);
         }
-        WaveInProgress = false;
-        Debug.LogFormat("Wave {0}/{1} ended!", WaveNumber, Waves.Count);
-        TimeToNextWave = this.TimeBetweenWaves;
-        EnemiesInThisWave = 0;
+
+        while (true)
+        {
+            if (_aliveEnemies.Count == 0)
+            {
+                WaveInProgress = false;
+                Debug.LogFormat("Wave {0}/{1} ended!", WaveNumber, Waves.Count);
+                TimeToNextWave = this.TimeBetweenWaves;
+                EnemiesInThisWave = 0;
+                yield break;
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
+        
     }
 
-    private IEnumerator DoInfiniteWave(InfiniteWave wave)
+    private IEnumerator InfiniteWaveRoutine(InfiniteWave wave)
     {
         EnemiesOut = 0;
         EnemiesInThisWave = wave.TotalNumberOfEnemies(SpawnPoints.Count, CurrentDifficulty);

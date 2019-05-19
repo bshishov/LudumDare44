@@ -16,13 +16,13 @@ namespace Actors
 
         private void Start()
         {
-            var players = GameObject.FindGameObjectsWithTag(Common.Tags.Player)
+            var player = GameObject.FindGameObjectsWithTag(Common.Tags.Player)
                 .Select(o => o.GetComponent<CharacterState>())
-                .ToArray();
+                .FirstOrDefault();
 
             var agent = new AIAgent(this)
             {
-                ActiveTarget = players[0]
+                ActiveTarget = player
             };
             _agent = agent;
 
