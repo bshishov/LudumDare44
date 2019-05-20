@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Class: 1
   AggroRange: 100
-  FearRange: 4
+  FearRange: 3
   MeleeRange: 0
   MaxCastRange: 6
   MeleeAttackCooldown: 0

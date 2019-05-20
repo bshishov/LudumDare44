@@ -97,7 +97,7 @@ LightmapSettings:
     m_ShowResolutionOverlay: 1
     m_ExportTrainingData: 0
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -690,7 +690,7 @@ PrefabInstance:
     - target: {fileID: 5590761616911121679, guid: ed5f238d178362442a34260775e854df,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4005705228161476006, guid: ed5f238d178362442a34260775e854df,
         type: 3}
@@ -700,7 +700,7 @@ PrefabInstance:
     - target: {fileID: 1723438604763249528, guid: ed5f238d178362442a34260775e854df,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1999460240341039320, guid: ed5f238d178362442a34260775e854df,
         type: 3}
@@ -821,7 +821,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &94961803
 GameObject:
@@ -1174,6 +1174,12 @@ PrefabInstance:
       propertyPath: Waves.Array.data[19]
       value: 
       objectReference: {fileID: 11400000, guid: 0d2ffbfda3d112c4fb59f61a56eabbbd,
+        type: 2}
+    - target: {fileID: 3444935165393853473, guid: 54736b5c4ead68a49895fd07f9f7b5a7,
+        type: 3}
+      propertyPath: InfiniteWave
+      value: 
+      objectReference: {fileID: 11400000, guid: e14ef8ff59c4b3142874eebdd2b2f30f,
         type: 2}
     - target: {fileID: 3444935165393853479, guid: 54736b5c4ead68a49895fd07f9f7b5a7,
         type: 3}
