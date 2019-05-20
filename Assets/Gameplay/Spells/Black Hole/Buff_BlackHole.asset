@@ -41,8 +41,8 @@ MonoBehaviour:
         AttachToTransform: 0
         AutoDestroyAfterBuff: 0
       Move:
-        RelativeTo: 0
-        Speed: 0.1
-        MovementDuration: 2
+        RelativeTo: 2
+        Speed: 15
+        MovementDuration: 0.5
         BreakOnDestination: 1
         BreakOnDuration: 1

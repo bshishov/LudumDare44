@@ -38,25 +38,25 @@ public class MovementController : MonoBehaviour
         if (_isForceMoving)
         {
             _forceDuration -= Time.deltaTime;
-            if (_forceDuration < 0)
+            
+            var targetPos = _forceTargetInfo.Position.Value;
+            var dir = targetPos - transform.position;
+            if (_forceBreakOnDestination && dir.magnitude < 1f)
             {
                 _isForceMoving = false;
                 _navMeshAgent.isStopped = false;
             }
             else
             {
-                var targetPos = _forceTargetInfo.Position.Value;
-                var dir = targetPos - transform.position;
-                if (_forceBreakOnDestination && dir.magnitude < 1f)
-                {
-                    _isForceMoving = false;
-                    _navMeshAgent.isStopped = false;
-                }
-                else
-                {
-                    LookAt(targetPos);
+                LookAt(targetPos);
+                if(!_navMeshAgent.isStopped)
                     _navMeshAgent.Move(dir.normalized * _forceSpeed * Time.deltaTime);
-                }
+            }
+
+            if (_forceDuration < 0)
+            {
+                _isForceMoving = false;
+                _navMeshAgent.isStopped = false;
             }
         }
         else

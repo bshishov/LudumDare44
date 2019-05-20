@@ -86,7 +86,7 @@ namespace Data
                 LookDirection,
                 SourceCharacter,
                 SpellTarget,
-                SpellSource
+                SpellSource,
             }
 
             public MoveRelation RelativeTo;

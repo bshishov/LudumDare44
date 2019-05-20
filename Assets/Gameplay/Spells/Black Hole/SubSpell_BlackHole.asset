@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
   m_Name: SubSpell_BlackHole
   m_EditorClassIdentifier: 
-  AffectedTarget: -1
+  AffectedTarget: 8
   Area: {fileID: 11400000, guid: 366f9620cd784244f8659e7a520a5e0b, type: 2}
   Targeting: 2
   Origin: 2
