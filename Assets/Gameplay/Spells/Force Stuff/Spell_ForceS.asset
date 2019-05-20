@@ -20,7 +20,7 @@ MonoBehaviour:
   BloodCost: 0
   CastRange: 40
   DefaultSlot: 0
-  Cooldown: 0
+  Cooldown: 1
   Flags: 0
   PreCastDelay: 0
   PostCastDelay: 0

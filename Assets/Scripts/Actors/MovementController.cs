@@ -1,4 +1,5 @@
 ﻿using Actors;
+using Spells;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,6 +16,13 @@ public class MovementController : MonoBehaviour
     private bool _locked = false;
     private Quaternion _targetRotation;
 
+    // Force 
+    private bool _isForceMoving;
+    private TargetInfo _forceTargetInfo;
+    private float _forceSpeed;
+    private float _forceDuration;
+    private bool _forceBreakOnDestination;
+
     void Start()
     {
         _characterState = GetComponent<CharacterState>();
@@ -27,8 +35,35 @@ public class MovementController : MonoBehaviour
 
     void Update()
     {
-        // TODO: Implement and use on buff applied
-        _navMeshAgent.speed = _characterState.Speed;
+        if (_isForceMoving)
+        {
+            _forceDuration -= Time.deltaTime;
+            if (_forceDuration < 0)
+            {
+                _isForceMoving = false;
+                _navMeshAgent.isStopped = false;
+            }
+            else
+            {
+                var targetPos = _forceTargetInfo.Position.Value;
+                var dir = targetPos - transform.position;
+                if (_forceBreakOnDestination && dir.magnitude < 1f)
+                {
+                    _isForceMoving = false;
+                    _navMeshAgent.isStopped = false;
+                }
+                else
+                {
+                    LookAt(targetPos);
+                    _navMeshAgent.Move(dir.normalized * _forceSpeed * Time.deltaTime);
+                }
+            }
+        }
+        else
+        {
+            // TODO: Implement and use on buff applied
+            _navMeshAgent.speed = _characterState.Speed;
+        }
 
         transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, RotationSlerpFactor);
     }
@@ -42,12 +77,18 @@ public class MovementController : MonoBehaviour
 
     public void Move(Vector3 motionVector)
     {
+        if (_isForceMoving)
+            return;
+
         // MOve directly
         _navMeshAgent.Move(motionVector);
     }
 
     public void SetDestination(Vector3 position)
     {
+        if(_isForceMoving)
+            return;
+
         // Sets destination for auto path
         _navMeshAgent.isStopped = false;
         _navMeshAgent.SetDestination(position);
@@ -58,6 +99,16 @@ public class MovementController : MonoBehaviour
         var q = Quaternion.LookRotation(target - transform.position);
         q.eulerAngles = new Vector3(0, q.eulerAngles.y, 0);
         _targetRotation = q;
+    }
+
+    public void ForceMove(TargetInfo target, float speed, float duration, bool breakOnDestination)
+    {
+        _navMeshAgent.isStopped = true;
+        _isForceMoving = true;
+        _forceSpeed = speed;
+        _forceDuration = duration;
+        _forceBreakOnDestination = breakOnDestination;
+        _forceTargetInfo = target;
     }
 
     public void Stop()

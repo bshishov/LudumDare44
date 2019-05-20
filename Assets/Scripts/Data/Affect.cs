@@ -85,8 +85,8 @@ namespace Data
             {
                 LookDirection,
                 SourceCharacter,
-
-                Cursor = 999
+                SpellTarget,
+                SpellSource
             }
 
             public MoveRelation RelativeTo;

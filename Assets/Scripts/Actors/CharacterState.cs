@@ -42,6 +42,7 @@ namespace Actors
             public int Stacks;
             public CharacterState SourceCharacter;
             public Spell Spell;
+            public ISpellContext SpellContext;
 
             public List<Change> ActiveChanges = new List<Change>();
             public List<GameObject> TrackedObjects = new List<GameObject>();
@@ -155,6 +156,7 @@ namespace Actors
         private AnimationController _animationController;
         private SpellbookState _spellBook;
         private SpellCaster _spellCaster;
+        private MovementController _movement;
         private readonly List<BuffState> _buffStates = new List<BuffState>();
         private readonly List<ItemState> _itemStates = new List<ItemState>();
         private Vector3 _baseScale;
@@ -170,6 +172,7 @@ namespace Actors
             _baseScale = transform.localScale;
             IsAlive = true;
 
+            _movement = GetComponent<MovementController>();
             _spellBook = GetComponent<SpellbookState>();
             _spellCaster = GetComponent<SpellCaster>();
             _animationController = GetComponent<AnimationController>();
@@ -218,7 +221,7 @@ namespace Actors
                 ApplyBuff(buff, this, null, stacks = 1);
         }
 
-        public void ApplyBuff(Buff newBuff, CharacterState sourceCharacter, Spell spell, int stacks)
+        public void ApplyBuff(Buff newBuff, CharacterState sourceCharacter, Spell spell, int stacks, ISpellContext spellContext = null)
         {
             if (newBuff == null)
                 return;
@@ -235,17 +238,19 @@ namespace Actors
                         existingState.Stacks = Mathf.Max(stacks, existingState.Stacks);
                         ApplyBuffModifiers(existingState);
                         existingState.Refresh();
-                        HanldeBuffEvent(existingState, BuffEventType.OnRefresh);
+                        existingState.SpellContext = spellContext;
+                        HanldeBuffEvents(existingState, BuffEventType.OnRefresh);
                         break;
                     case BuffStackBehaviour.AddNewAsSeparate:
-                        AddNewBuff(newBuff, stacks, sourceCharacter, spell);
+                        AddNewBuff(newBuff, stacks, sourceCharacter, spell, spellContext);
                         break;
                     case BuffStackBehaviour.SumStacks:
                         RevertBuffChanges(existingState);
                         existingState.Stacks += stacks;
                         ApplyBuffModifiers(existingState);
+                        existingState.SpellContext = spellContext;
                         existingState.Refresh();
-                        HanldeBuffEvent(existingState, BuffEventType.OnRefresh);
+                        HanldeBuffEvents(existingState, BuffEventType.OnRefresh);
                         break;
                     case BuffStackBehaviour.Discard:
                         // Do nothing. newBuff wont be added
@@ -259,7 +264,7 @@ namespace Actors
             else
             {
                 // The buff is completely new. So create and store new buffstate and apply all effects
-                AddNewBuff(newBuff, stacks, sourceCharacter, spell);
+                AddNewBuff(newBuff, stacks, sourceCharacter, spell, spellContext);
             }
         }
 
@@ -292,9 +297,12 @@ namespace Actors
             }
         }
 
-        private BuffState AddNewBuff(Buff buff, int stacks, CharacterState sourceCharacter, Spell spell)
+        private BuffState AddNewBuff(Buff buff, int stacks, CharacterState sourceCharacter, Spell spell, ISpellContext spellContext)
         {
-            var s = new BuffState(buff, sourceCharacter, stacks, spell);
+            var s = new BuffState(buff, sourceCharacter, stacks, spell)
+            {
+                SpellContext = spellContext
+            };
             _buffStates.Add(s);
 
 #if DEBUG_COMBAT
@@ -304,11 +312,11 @@ namespace Actors
                 stacks);
 #endif
             ApplyBuffModifiers(s);
-            HanldeBuffEvent(s, BuffEventType.OnApply);
+            HanldeBuffEvents(s, BuffEventType.OnApply);
             return s;
         }
 
-        private void HanldeBuffEvent(BuffState buffState, BuffEventType eventType)
+        private void HanldeBuffEvents(BuffState buffState, BuffEventType eventType)
         {
             if (buffState.Buff.AffectByEventType.TryGetValue(eventType, out var affects))
             {
@@ -322,12 +330,12 @@ namespace Actors
         private void ApplyAffect(BuffState buffState, Affect affect)
         {
             // Apply affect modifiers
-            if (affect.ApplyModifier != null)
+            if (affect.Type == Affect.AffectType.ApplyModifier)
                 ApplyModifier(affect.ApplyModifier, buffState.Stacks, buffState.SourceCharacter, buffState.Spell,
                     out _);
 
             // Cast affect spells
-            if (affect.CastSpell != null && affect.CastSpell.Spell != null)
+            if (affect.Type == Affect.AffectType.CastSpell)
             {
                 TargetInfo tgt = null;
                 var spellStacks = 1;
@@ -365,7 +373,7 @@ namespace Actors
                     null);
             }
 
-            if (affect.SpawnObject != null && affect.SpawnObject.Prefab != null)
+            if (affect.Type == Affect.AffectType.SpawnObject)
             {
                 var spawnAt = GetNodeTransform(affect.SpawnObject.CharacterNode);
                 GameObject go;
@@ -383,7 +391,7 @@ namespace Actors
                     buffState.TrackedObjects.Add(go);
             }
 
-            if (affect.ApplyBuff.Buff != null)
+            if (affect.Type == Affect.AffectType.ApplyBuff)
             {
                 CharacterState target;
                 int stacks = 1;
@@ -415,6 +423,29 @@ namespace Actors
                 {
                     target.ApplyBuff(affect.ApplyBuff.Buff, this, null, stacks);
                 }
+            }
+
+            if (affect.Type == Affect.AffectType.Move)
+            {
+                TargetInfo tgt;
+                switch (affect.Move.RelativeTo)
+                {
+                    case Affect.MoveInfo.MoveRelation.SourceCharacter:
+                        tgt = TargetInfo.Create(buffState.SourceCharacter);
+                        break;
+                    case Affect.MoveInfo.MoveRelation.SpellSource:
+                        tgt = TargetInfo.Create(buffState.SpellContext.InitialSource);
+                        break;
+                    case Affect.MoveInfo.MoveRelation.SpellTarget:
+                        tgt = buffState.SpellContext.ChannelingInfo.GetNewTarget();
+                        break;
+                    default:
+                    case Affect.MoveInfo.MoveRelation.LookDirection:
+                        tgt = TargetInfo.Create(null, null, transform.position + transform.forward * 10);
+                        break;
+                }
+
+                _movement?.ForceMove(tgt, affect.Move.Speed, affect.Move.MovementDuration, affect.Move.BreakOnDestination);
             }
         }
 
@@ -658,14 +689,14 @@ namespace Actors
                 // Buff tick
                 if (buffState.TickCd < 0)
                 {
-                    HanldeBuffEvent(buffState, BuffEventType.OnTick);
+                    HanldeBuffEvents(buffState, BuffEventType.OnTick);
                     buffState.TickCd = buffState.Buff.TickCooldown;
                 }
 
                 // Buff remove
                 if (buffState.TimeRemaining < 0)
                 {
-                    HanldeBuffEvent(buffState, BuffEventType.OnRemove);
+                    HanldeBuffEvents(buffState, BuffEventType.OnRemove);
                     if (buffState.ActiveChanges != null)
                         foreach (var change in buffState.ActiveChanges)
                             RevertChange(change);
@@ -744,7 +775,7 @@ namespace Actors
             }
         }
 
-        internal void ApplySpell(CharacterState owner, ISpellContext spellContext)
+        internal void ApplySpell(ISpellContext spellContext)
         {
             if (!IsAlive)
                 return;
@@ -757,7 +788,10 @@ namespace Actors
             
             // Apply SubSpell payload
             foreach (var buff in spellContext.CurrentSubSpell.Buffs)
-                ApplyBuff(buff, owner, spellContext.Spell, spellContext.Stacks);
+            {
+                //ApplyBuff(buff, spellContext.InitialSource, spellContext.Spell, spellContext.Stacks);
+                ApplyBuff(buff, spellContext.InitialSource, spellContext.Spell, spellContext.Stacks, spellContext);
+            }
         }
 
 

@@ -18,7 +18,7 @@ MonoBehaviour:
   Duration: 1
   Modifiers: []
   Events:
-  - EventType: 2
+  - EventType: 6
     Affect:
       Type: 4
       ApplyModifier:
@@ -42,7 +42,7 @@ MonoBehaviour:
         AutoDestroyAfterBuff: 0
       Move:
         RelativeTo: 0
-        Speed: 20
-        MovementDuration: 1
+        Speed: 0.5
+        MovementDuration: 0.1
         BreakOnDestination: 0
         BreakOnDuration: 1

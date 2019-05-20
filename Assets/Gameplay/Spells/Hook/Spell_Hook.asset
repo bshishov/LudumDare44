@@ -20,12 +20,12 @@ MonoBehaviour:
   BloodCost: 0
   CastRange: 0
   DefaultSlot: 0
-  Cooldown: 0
+  Cooldown: 1
   Flags: 0
   PreCastDelay: 0
   PostCastDelay: 0
   SubSpells:
-  - {fileID: 11400000, guid: 1bc261263e3333143a0d5ea65d96762a, type: 2}
+  - {fileID: 11400000, guid: b4f81e72a61a612488a643d8c7995755, type: 2}
   SpellEffect: {fileID: 0}
   DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
     type: 3}

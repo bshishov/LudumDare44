@@ -17,5 +17,5 @@ MonoBehaviour:
   Speed: 10
   MaxDistance: 100
   Offset: {x: 0, y: 0, z: 0}
-  Trajectory: 0
+  Trajectory: 1
   FallingSpeed: 0

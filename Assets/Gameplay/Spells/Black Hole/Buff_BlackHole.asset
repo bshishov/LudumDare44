@@ -42,7 +42,7 @@ MonoBehaviour:
         AutoDestroyAfterBuff: 0
       Move:
         RelativeTo: 0
-        Speed: 5
-        MovementDuration: 10
+        Speed: 0.1
+        MovementDuration: 2
         BreakOnDestination: 1
         BreakOnDuration: 1

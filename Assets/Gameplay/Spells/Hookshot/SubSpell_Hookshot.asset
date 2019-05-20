@@ -21,7 +21,7 @@ MonoBehaviour:
   BloodCost: 0
   Effect: {fileID: 0}
   Flags: 4
-  Obstacles: 0
+  Obstacles: 4
   PreCastDelay: 0
   PreDamageDelay: 0
   PostCastDelay: 0

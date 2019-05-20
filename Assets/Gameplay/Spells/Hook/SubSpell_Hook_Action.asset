@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
-  m_Name: SubSpell_Hook
+  m_Name: SubSpell_Hook_Action
   m_EditorClassIdentifier: 
   AffectedTarget: 8
-  Area: {fileID: 0}
+  Area: {fileID: 11400000, guid: 34e14946de751714fb0cf7c8383eb436, type: 2}
   Targeting: 2
   Origin: 1
   Buffs:
   - {fileID: 11400000, guid: 3687441688541cd49bf4e983b749d2df, type: 2}
   BloodCost: 0
-  Effect: {fileID: 0}
-  Flags: 8
-  Obstacles: -1
+  Effect: {fileID: 1349204274574646620, guid: 97b50922a392d41499e890a3452714e0, type: 3}
+  Flags: 4
+  Obstacles: 4
   PreCastDelay: 0
   PreDamageDelay: 0
   PostCastDelay: 0
-  Projectile: {fileID: 11400000, guid: 284dfb37d8a531346b151c6d9ff4a38c, type: 2}
+  Projectile: {fileID: 0}
   NewSource: 1
