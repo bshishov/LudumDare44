@@ -3,14 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Data;
 using Assets.Scripts.Utils;
 using Attributes;
 using Data;
 using Spells;
 using UI;
 using UnityEngine;
-using UnityEngine.Assertions;
 using Utils.Debugger;
 using Random = UnityEngine.Random;
 using Logger = Utils.Debugger.Logger;
@@ -70,7 +68,7 @@ namespace Actors
             public Item Item;
             public int Stacks;
 
-            public ItemState(Item item, int stacks = 1)
+            public ItemState(Item item, int stacks)
             {
                 Item = item;
                 Stacks = stacks;
@@ -237,36 +235,17 @@ namespace Actors
                         existingState.Stacks = Mathf.Max(stacks, existingState.Stacks);
                         ApplyBuffModifiers(existingState);
                         existingState.Refresh();
-
-                        if(newBuff.ApplyInitialAffectsOnReapply && newBuff.OnApplyBuff != null)
-                            foreach (var affect in newBuff.OnApplyBuff)
-                                ApplyAffect(affect, existingState);
-
-                        if (newBuff.OnRefreshBuff != null)
-                            foreach (var affect in newBuff.OnRefreshBuff)
-                                ApplyAffect(affect, existingState);
-
+                        HanldeBuffEvent(existingState, BuffEventType.OnRefresh);
                         break;
                     case BuffStackBehaviour.AddNewAsSeparate:
-                        var s = AddBuff(newBuff, stacks, sourceCharacter, spell);
-                        if (newBuff.OnApplyBuff != null)
-                            foreach (var affect in newBuff.OnApplyBuff)
-                                ApplyAffect(affect, s);
+                        AddNewBuff(newBuff, stacks, sourceCharacter, spell);
                         break;
                     case BuffStackBehaviour.SumStacks:
                         RevertBuffChanges(existingState);
                         existingState.Stacks += stacks;
                         ApplyBuffModifiers(existingState);
                         existingState.Refresh();
-
-                        if (newBuff.ApplyInitialAffectsOnReapply && newBuff.OnApplyBuff != null)
-                            foreach (var affect in newBuff.OnApplyBuff)
-                                ApplyAffect(affect, existingState);
-
-                        if (newBuff.OnRefreshBuff != null)
-                            foreach (var affect in newBuff.OnRefreshBuff)
-                                ApplyAffect(affect, existingState);
-
+                        HanldeBuffEvent(existingState, BuffEventType.OnRefresh);
                         break;
                     case BuffStackBehaviour.Discard:
                         // Do nothing. newBuff wont be added
@@ -280,10 +259,7 @@ namespace Actors
             else
             {
                 // The buff is completely new. So create and store new buffstate and apply all effects
-                var newBuffState = AddBuff(newBuff, stacks, sourceCharacter, spell);
-                if (newBuff.OnApplyBuff != null)
-                    foreach (var affect in newBuff.OnApplyBuff)
-                        ApplyAffect(affect, newBuffState);
+                AddNewBuff(newBuff, stacks, sourceCharacter, spell);
             }
         }
 
@@ -316,7 +292,7 @@ namespace Actors
             }
         }
 
-        private BuffState AddBuff(Buff buff, int stacks, CharacterState sourceCharacter, Spell spell)
+        private BuffState AddNewBuff(Buff buff, int stacks, CharacterState sourceCharacter, Spell spell)
         {
             var s = new BuffState(buff, sourceCharacter, stacks, spell);
             _buffStates.Add(s);
@@ -328,11 +304,22 @@ namespace Actors
                 stacks);
 #endif
             ApplyBuffModifiers(s);
+            HanldeBuffEvent(s, BuffEventType.OnApply);
             return s;
         }
 
+        private void HanldeBuffEvent(BuffState buffState, BuffEventType eventType)
+        {
+            if (buffState.Buff.AffectByEventType.TryGetValue(eventType, out var affects))
+            {
+                foreach (var affect in affects)
+                {
+                    ApplyAffect(buffState, affect);
+                }
+            }
+        }
 
-        public void ApplyAffect(Affect affect, BuffState buffState)
+        private void ApplyAffect(BuffState buffState, Affect affect)
         {
             // Apply affect modifiers
             if (affect.ApplyModifier != null)
@@ -671,21 +658,14 @@ namespace Actors
                 // Buff tick
                 if (buffState.TickCd < 0)
                 {
-                    if (buffState.Buff.OnTickBuff != null)
-                        foreach (var affect in buffState.Buff.OnTickBuff)
-                            ApplyAffect(affect, buffState);
-
+                    HanldeBuffEvent(buffState, BuffEventType.OnTick);
                     buffState.TickCd = buffState.Buff.TickCooldown;
                 }
 
                 // Buff remove
                 if (buffState.TimeRemaining < 0)
                 {
-                    if (buffState.Buff.OnRemove != null)
-                        foreach (var affect in buffState.Buff.OnRemove)
-                            ApplyAffect(affect, buffState);
-
-
+                    HanldeBuffEvent(buffState, BuffEventType.OnRemove);
                     if (buffState.ActiveChanges != null)
                         foreach (var change in buffState.ActiveChanges)
                             RevertChange(change);
@@ -774,13 +754,10 @@ namespace Actors
             _combatLog.Log($"<b>{gameObject.name}</b> received spell cast <b>{spellContext.Spell.name}</b>"
                            + $" (sub: <b>{currentSub.name}</b>) with <b>{spellContext.Stacks}</b>");
 #endif
-
-            Assert.IsTrue(SpellCaster.IsEnemy(owner, this, currentSub.AffectedTarget));
-
-            {
-                foreach (var buff in spellContext.CurrentSubSpell.Buffs)
-                    ApplyBuff(buff, owner, spellContext.Spell, spellContext.Stacks);
-            }
+            
+            // Apply SubSpell payload
+            foreach (var buff in spellContext.CurrentSubSpell.Buffs)
+                ApplyBuff(buff, owner, spellContext.Spell, spellContext.Stacks);
         }
 
 
@@ -804,7 +781,7 @@ namespace Actors
         /// </summary>
         /// <param name="x"></param>
         /// <param name="alpha"></param>
-        /// <returns>Returns the value in range [-1, +inf) </returns>
+        /// <returns>Returns the value in range (-1, +inf) </returns>
         public static float ELU(float x, float alpha = 1f)
         {
             if (x >= 0)

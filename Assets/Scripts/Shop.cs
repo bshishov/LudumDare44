@@ -1,10 +1,9 @@
 ﻿using System;
 using Actors;
 using Assets.Scripts;
-using Assets.Scripts.Data;
 using Assets.Scripts.Utils;
+using Data;
 using TMPro;
-using UI;
 using UnityEngine;
 
 public class Shop : MonoBehaviour, IInteractable

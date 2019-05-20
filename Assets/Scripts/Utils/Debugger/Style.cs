@@ -7,8 +7,12 @@ namespace Utils.Debugger
         public float Padding = 10f;
         public float LineHeight = 20f;
         public float HeaderColumn = 200f;
-        public float Opacity = 0.9f;
         public string DefaultFontName = "Consolas";
+        public Color HeaderColor = new Color(0.1f, 0.1f, 0.1f, .9f);
+        public Color SelectedHeaderColor = new Color(0.4f, 0.0f, 0.0f, .9f);
+        public Color ContentColor = new Color(0.1f, 0.1f, 0.1f, .9f);
+        public Color PropertyHeaderColor = new Color(0.1f, 0.1f, 0.3f, .9f);
+
         public bool IsInitialized { get; private set; }
 
         public Font DefaultFont { get; private set; }
@@ -24,10 +28,10 @@ namespace Utils.Debugger
         public void Initialize()
         {
             DefaultFont = Font.CreateDynamicFontFromOSFont(DefaultFontName, 14);
-            HeaderStyle = CreateLabelStyle(DefaultFont, new Color(0.1f, 0.1f, 0.1f, Opacity));
-            PropertyHeaderStyle = CreateLabelStyle(DefaultFont, new Color(0.1f, 0.1f, 0.3f, Opacity));
-            SelectedHeaderStyle = CreateLabelStyle(DefaultFont, new Color(0.4f, 0.0f, 0.0f, Opacity));
-            ContentStyle = CreateLabelStyle(DefaultFont, new Color(0f, 0f, 0f, Opacity));
+            HeaderStyle = CreateLabelStyle(DefaultFont, HeaderColor);
+            PropertyHeaderStyle = CreateLabelStyle(DefaultFont, PropertyHeaderColor);
+            SelectedHeaderStyle = CreateLabelStyle(DefaultFont, SelectedHeaderColor);
+            ContentStyle = CreateLabelStyle(DefaultFont, ContentColor);
             IsInitialized = true;
         }
 
@@ -37,7 +41,7 @@ namespace Utils.Debugger
             {
                 normal =
                 {
-                    background = MakeTex(2, 2, background)
+                    background = MakeTex(2, 2, background),
                 },
                 contentOffset = new Vector2(5f, 0f),
                 font = font

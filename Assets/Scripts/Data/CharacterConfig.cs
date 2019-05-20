@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Attributes;
-using Data;
 using UnityEngine;
 
-namespace Assets.Scripts.Data
+namespace Data
 {
     public enum CharacterClass
     {

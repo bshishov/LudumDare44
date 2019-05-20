@@ -18,10 +18,78 @@ MonoBehaviour:
   Duration: 0.6
   ApplyInitialAffectsOnReapply: 0
   Modifiers: []
+  Events:
+  - EventType: 8
+    Affect:
+      Type: 0
+      ApplyModifier:
+        Parameter: 1
+        Value: -1
+        EffectiveStacks: 1
+      CastSpell:
+        SpellStacks: 0
+        Spell: {fileID: 0}
+        Target: 0
+        StacksOverride: 1
+      ApplyBuff:
+        Target: 0
+        StacksBehaviour: 0
+        Buff: {fileID: 0}
+        StacksOverride: 0
+      SpawnObject:
+        Prefab: {fileID: 0}
+        CharacterNode: 0
+        AttachToTransform: 0
+        AutoDestroyAfterBuff: 0
+  - EventType: 8
+    Affect:
+      Type: 2
+      ApplyModifier:
+        Parameter: 0
+        Value: 0
+        EffectiveStacks: 10
+      CastSpell:
+        SpellStacks: 0
+        Spell: {fileID: 0}
+        Target: 0
+        StacksOverride: 1
+      ApplyBuff:
+        Target: 1
+        StacksBehaviour: 0
+        Buff: {fileID: 11400000, guid: 05fdb73746ecd86429ed428fcc464c19, type: 2}
+        StacksOverride: 1
+      SpawnObject:
+        Prefab: {fileID: 0}
+        CharacterNode: 0
+        AttachToTransform: 0
+        AutoDestroyAfterBuff: 0
+  - EventType: 8
+    Affect:
+      Type: 2
+      ApplyModifier:
+        Parameter: 0
+        Value: 0
+        EffectiveStacks: 10
+      CastSpell:
+        SpellStacks: 0
+        Spell: {fileID: 0}
+        Target: 0
+        StacksOverride: 1
+      ApplyBuff:
+        Target: 1
+        StacksBehaviour: 0
+        Buff: {fileID: 11400000, guid: 18701b2c1e6a2a043b9086d21683002f, type: 2}
+        StacksOverride: 1
+      SpawnObject:
+        Prefab: {fileID: 0}
+        CharacterNode: 0
+        AttachToTransform: 0
+        AutoDestroyAfterBuff: 0
   OnApplyBuff: []
   OnRefreshBuff: []
   OnTickBuff:
-  - ApplyModifier:
+  - Type: 0
+    ApplyModifier:
       Parameter: 1
       Value: -1
       EffectiveStacks: 1
@@ -40,7 +108,8 @@ MonoBehaviour:
       CharacterNode: 0
       AttachToTransform: 0
       AutoDestroyAfterBuff: 0
-  - ApplyModifier:
+  - Type: 0
+    ApplyModifier:
       Parameter: 0
       Value: 0
       EffectiveStacks: 0

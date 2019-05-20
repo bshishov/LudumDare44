@@ -10,30 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
-  m_Name: Buff_ReaperDagger
+  m_Name: Buff_Test
   m_EditorClassIdentifier: 
   Name: 
-  Behaviour: 1
+  Behaviour: 0
   TickCooldown: 1
-  Duration: 15
-  ApplyInitialAffectsOnReapply: 0
+  Duration: 1
   Modifiers:
-  - Parameter: 3
-    Value: -5
-    EffectiveStacks: 100
+  - Parameter: 10
+    Value: 0
+    EffectiveStacks: 0
   Events:
   - EventType: 2
     Affect:
-      Type: 0
+      Type: 4
       ApplyModifier:
-        Parameter: 1
-        Value: -1
-        EffectiveStacks: 1
+        Parameter: 0
+        Value: 0
+        EffectiveStacks: 0
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}
         Target: 0
-        StacksOverride: 1
+        StacksOverride: 0
       ApplyBuff:
         Target: 0
         StacksBehaviour: 0
@@ -44,27 +43,9 @@ MonoBehaviour:
         CharacterNode: 0
         AttachToTransform: 0
         AutoDestroyAfterBuff: 0
-  OnApplyBuff:
-  - Type: 0
-    ApplyModifier:
-      Parameter: 1
-      Value: -1
-      EffectiveStacks: 1
-    CastSpell:
-      SpellStacks: 0
-      Spell: {fileID: 0}
-      Target: 0
-      StacksOverride: 0
-    ApplyBuff:
-      Target: 0
-      StacksBehaviour: 0
-      Buff: {fileID: 0}
-      StacksOverride: 0
-    SpawnObject:
-      Prefab: {fileID: 0}
-      CharacterNode: 0
-      AttachToTransform: 0
-      AutoDestroyAfterBuff: 0
-  OnRefreshBuff: []
-  OnTickBuff: []
-  OnRemove: []
+      Move:
+        RelativeTo: 0
+        Speed: 10
+        MovementDuration: 1
+        BreakOnDestination: 0
+        BreakOnDuration: 1

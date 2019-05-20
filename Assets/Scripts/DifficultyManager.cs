@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.Data;
-using Assets.Scripts.Utils;
+﻿using Assets.Scripts.Utils;
 using System;
+using Data;
 using UnityEngine;
 
 public class DifficultyManager : Singleton<DifficultyManager>

@@ -21,6 +21,7 @@ MonoBehaviour:
   - Parameter: 11
     Value: 0.2
     EffectiveStacks: 10
+  Events: []
   OnApplyBuff: []
   OnRefreshBuff: []
   OnTickBuff: []

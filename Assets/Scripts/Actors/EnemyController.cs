@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using AI;
-using Assets.Scripts.Data;
+using Data;
 using UnityEngine;
 using Utils.FSM;
 

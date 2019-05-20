@@ -1,6 +1,5 @@
 ﻿using System;
 using Actors;
-using Assets.Scripts.Data;
 using UnityEngine;
 
 namespace Data
@@ -8,6 +7,21 @@ namespace Data
     [Serializable]
     public class Affect
     {
+        public enum AffectType
+        {
+            ApplyModifier,
+            CastSpell,
+            ApplyBuff,
+            SpawnObject,
+            Move
+        }
+        
+        public enum StacksBehaviour
+        {
+            Inherit,
+            Override,
+        }
+
         [Serializable]
         public class SpawnObjectInfo
         {
@@ -19,13 +33,6 @@ namespace Data
 
             [Header("Lifecycle")]
             public bool AutoDestroyAfterBuff = false;
-        }
-
-        [Serializable]
-        public enum StacksBehaviour
-        {
-            Inherit,
-            Override,
         }
 
         [Serializable]
@@ -71,9 +78,29 @@ namespace Data
             public int StacksOverride;
         }
 
+        [Serializable]
+        public struct MoveInfo
+        {
+            public enum MoveRelation
+            {
+                LookDirection,
+                SourceCharacter,
+
+                Cursor = 999
+            }
+
+            public MoveRelation RelativeTo;
+            public float Speed;
+            public float MovementDuration; // also controlled by buff.Duration
+            public bool BreakOnDestination;
+            public bool BreakOnDuration;
+        }
+
+        public AffectType Type;
         public Modifier ApplyModifier;
         public SpellCastInfo CastSpell;
         public ApplyBuffInfo ApplyBuff;
         public SpawnObjectInfo SpawnObject;
+        public MoveInfo Move;
     }
 }
