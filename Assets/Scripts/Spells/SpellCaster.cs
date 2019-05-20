@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Actors;
-using Assets.Scripts;
 using Assets.Scripts.Data;
 using Data;
 using UnityEngine;
@@ -113,8 +112,7 @@ public class SpellContext : ISpellContext
 
 public class SpellCaster : MonoBehaviour
 {
-    private SpellContext       _context;
-    private List<SpellContext> _nestedContexts = new List<SpellContext>();
+    private List<SpellContext> _activeContexts = new List<SpellContext>();
 
     public static bool IsValidTarget(Spell spell, SpellTargets targets)
     {
@@ -165,25 +163,16 @@ public class SpellCaster : MonoBehaviour
 
     public bool CastSpell(Spell spell, int stacks, SpellTargets targets, IChannelingInfo channelingInfo, ISpellCastListener listener)
     {
-        if (_context != null)
-        {
-            Debug.LogError($"spell cast aready casting, {_context.Spell.Name}");
-            return false;
-        }
-
         if (!IsValidTarget(spell, targets))
             return false;
 
-        _context = SpellContext.Create(this, spell, stacks, targets, channelingInfo, listener, 0);
+        _activeContexts.Add(SpellContext.Create(this, spell, stacks, targets, channelingInfo, listener, 0));
         return true;
     }
 
     internal void ContinueCastSpell(Spell spell, SpellTargets targets, int subSpellStartIndex = 0, int stacks = 1)
     {
-        lock (_nestedContexts)
-        {
-            _nestedContexts.Add(SpellContext.Create(this, spell, stacks, targets, null, null, subSpellStartIndex));
-        }
+        _activeContexts.Add(SpellContext.Create(this, spell, stacks, targets, null, null, subSpellStartIndex));
     }
 
     private static bool ExecuteContext(SpellContext context)
@@ -207,17 +196,12 @@ public class SpellCaster : MonoBehaviour
 
     private void Update()
     {
-        if (_context != null && ExecuteContext(_context)) _context = null;
+        var newContexts = new List<SpellContext>(_activeContexts.Count);
+        foreach (var context in _activeContexts)
+            if (!ExecuteContext(context))
+                newContexts.Add(context);
 
-        lock (_nestedContexts)
-        {
-            var newContexts = new List<SpellContext>(_nestedContexts.Count);
-            foreach (var context in _nestedContexts)
-                if (!ExecuteContext(context))
-                    newContexts.Add(context);
-
-            _nestedContexts = newContexts;
-        }
+        _activeContexts = newContexts;
     }
 
     private static bool ManageContext(SpellContext context)
@@ -732,15 +716,5 @@ public class SpellCaster : MonoBehaviour
 
         return null;
     }
-
-    //internal void DrawSpellGizmos(SubSpell spell, Vector3 target)
-    //{
-    //    Gizmos.DrawSphere(target, 0.2f);
-
-    //    var targetObject = GetTarget(spell, target);
-    //    if (targetObject == null)
-    //        return;
-    //    Gizmos.DrawWireCube(targetObject.transform.position, Vector3.one);
-    //}
 }
 }
