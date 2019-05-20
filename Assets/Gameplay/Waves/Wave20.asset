@@ -38,7 +38,7 @@ MonoBehaviour:
       type: 3}
     NumberOfThisType: 1
     DelayBetween: 0
-    DelayBeforeNext: 0
+    DelayBeforeNext: 15
     SpawnIndex: 0
     InitialBuffs:
     - {fileID: 11400000, guid: a71edff59dd6f584db2693d9a6e0a3da, type: 2}

@@ -22,7 +22,7 @@ MonoBehaviour:
   Effect: {fileID: 1349204274574646620, guid: b4a3ec1097c834041b3e51614b85a760, type: 3}
   Flags: 4
   Obstacles: 0
-  PreCastDelay: 0.2
+  PreCastDelay: 0.05
   PreDamageDelay: 0
   PostCastDelay: 0
   Projectile: {fileID: 0}

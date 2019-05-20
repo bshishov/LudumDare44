@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Buff_FlameAura
   m_EditorClassIdentifier: 
   Name: Flame Cloak
-  Behaviour: 1
-  TickCooldown: 1
+  Behaviour: 0
+  TickCooldown: 3.5
   Duration: 100000
   ApplyInitialAffectsOnReapply: 0
   Modifiers: []

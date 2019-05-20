@@ -52,6 +52,6 @@ MonoBehaviour:
       type: 3}
     NumberOfThisType: 7
     DelayBetween: 0.1
-    DelayBeforeNext: 15
+    DelayBeforeNext: 5
     SpawnIndex: 2
     InitialBuffs: []

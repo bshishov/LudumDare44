@@ -31,6 +31,6 @@ MonoBehaviour:
       type: 3}
     NumberOfThisType: 1
     DelayBetween: 0.4
-    DelayBeforeNext: 30
+    DelayBeforeNext: 10
     SpawnIndex: 0
     InitialBuffs: []

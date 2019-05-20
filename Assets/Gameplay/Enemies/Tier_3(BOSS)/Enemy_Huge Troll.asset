@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
   m_Name: Enemy_Huge Troll
   m_EditorClassIdentifier: 
-  Health: 75
+  Health: 200
   Damage: 0
   Speed: 3.5
   Evasion: 0
