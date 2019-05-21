@@ -30,5 +30,4 @@ MonoBehaviour:
   SubSpells:
   - {fileID: 11400000, guid: e207bf1060357b84c8d3d1e029b5cc81, type: 2}
   SpellEffect: {fileID: 0}
-  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
-    type: 3}
+  DropItem: {fileID: 131193077828940303, guid: b97354f0857bded449811f9f327d95a5, type: 3}

@@ -35,5 +35,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 25727bd6489080d40a46cf7d75dffa80, type: 2}
   - {fileID: 11400000, guid: e101e78b7872742429025605721b5fec, type: 2}
   SpellEffect: {fileID: 0}
-  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
-    type: 3}
+  DropItem: {fileID: 131193077828940303, guid: b97354f0857bded449811f9f327d95a5, type: 3}
