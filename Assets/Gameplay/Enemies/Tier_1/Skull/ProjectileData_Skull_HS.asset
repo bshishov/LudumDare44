@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3030d9deb419ea245a3f54c0b8afad23, type: 3}
-  m_Name: SkullProjData
+  m_Name: ProjectileData_Skull_HS
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 4385171735532075985, guid: a6da86c9ac5158e4dacc4471fab35c78,
+  ProjectilePrefab: {fileID: 2985585622209771592, guid: 7de4fe281d2fd22478895e20d42956cb,
     type: 3}
-  Speed: 20
-  MaxDistance: 50
+  Speed: 10
+  MaxDistance: 15
   Offset: {x: 0, y: 0, z: 0}
   Trajectory: 1
   FallingSpeed: 0

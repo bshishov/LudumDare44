@@ -281,6 +281,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6549064236389485685, guid: 6a834835673a7c7419e205c02c055a09,
+        type: 3}
+      propertyPath: Spells.Array.size
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549064236389485685, guid: 6a834835673a7c7419e205c02c055a09,
+        type: 3}
+      propertyPath: Spells.Array.data[32]
+      value: 
+      objectReference: {fileID: 11400000, guid: eb423ab5a16ca1240b9390ca20ed6f55,
+        type: 2}
+    - target: {fileID: 6549064236389485685, guid: 6a834835673a7c7419e205c02c055a09,
+        type: 3}
+      propertyPath: Spells.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: fc0f19a4347619e408f537f7821ab5c8,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a834835673a7c7419e205c02c055a09, type: 3}
 --- !u!1001 &92690019
@@ -1843,6 +1860,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 63673206752711339, guid: ed5f238d178362442a34260775e854df,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -7.5199585
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed5f238d178362442a34260775e854df, type: 3}

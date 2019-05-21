@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
-  m_Name: Buff_Blink
+  m_Name: SkullEnemy_Buff
   m_EditorClassIdentifier: 
-  Name: Blink
+  Name: 
   Behaviour: 0
   TickCooldown: 1
   Duration: 1
   Modifiers: []
   Events:
-  - EventType: 6
+  - EventType: 2
     Affect:
-      Type: 4
+      Type: 0
       ApplyModifier:
-        Parameter: 0
-        Value: 0
-        EffectiveStacks: 0
+        Parameter: 1
+        Value: -5
+        EffectiveStacks: 1
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}
         Target: 0
-        StacksOverride: 0
+        StacksOverride: 1
       ApplyBuff:
         Target: 0
         StacksBehaviour: 0
@@ -41,7 +41,7 @@ MonoBehaviour:
         AttachToTransform: 0
         AutoDestroyAfterBuff: 0
       Move:
-        RelativeTo: 5
+        RelativeTo: 0
         Type: 0
         Speed:
           Type: 0
@@ -58,4 +58,4 @@ MonoBehaviour:
           BaseValue: 0
           ModifierPerStack: 0
           EffectiveStacks: 1
-        BreakOnDestination: 1
+        BreakOnDestination: 0
