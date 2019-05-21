@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Utils;
 using Attributes;
 using Data;
 using Spells;
@@ -44,6 +43,7 @@ namespace Actors
             public CharacterState SourceCharacter;
             public Spell Spell;
             public ISpellContext SpellContext;
+            public SpellTargets SpellTargets;
 
             public List<Change> ActiveChanges = new List<Change>();
             public List<GameObject> TrackedObjects = new List<GameObject>();
@@ -57,6 +57,8 @@ namespace Actors
                 SourceCharacter = sourceCharacter;
                 Spell = spell;
             }
+
+            
 
             public void RefreshTime()
             {
@@ -275,7 +277,13 @@ namespace Actors
                 ApplyBuff(buff, this, null, stacks = 1);
         }
 
-        public void ApplyBuff(Buff newBuff, CharacterState sourceCharacter, Spell spell, int stacks, ISpellContext spellContext = null)
+        public void ApplyBuff(
+            Buff newBuff, 
+            CharacterState sourceCharacter, 
+            Spell spell, 
+            int stacks, 
+            ISpellContext spellContext = null,
+            SpellTargets targets = null)
         {
             if (newBuff == null)
                 return;
@@ -292,15 +300,17 @@ namespace Actors
                         ApplyBuffModifiers(existingState);
                         existingState.RefreshTime();
                         existingState.SpellContext = spellContext;
+                        existingState.SpellTargets = targets;
                         HandleBuffEvents(existingState, BuffEventType.OnRefresh);
                         break;
                     case BuffStackBehaviour.AddNewAsSeparate:
-                        AddNewBuff(newBuff, stacks, sourceCharacter, spell, spellContext);
-                        break;
+                        AddNewBuff(newBuff, stacks, sourceCharacter, spell, spellContext, targets);
+                        break; 
                     case BuffStackBehaviour.SumStacks:
                         existingState.Stacks += stacks;
                         ApplyBuffModifiers(existingState);
                         existingState.SpellContext = spellContext;
+                        existingState.SpellTargets = targets;
                         existingState.RefreshTime();
                         HandleBuffEvents(existingState, BuffEventType.OnRefresh);
                         break;
@@ -316,7 +326,7 @@ namespace Actors
             else
             {
                 // The buff is completely new. So create and store new BuffState and apply all effects
-                AddNewBuff(newBuff, stacks, sourceCharacter, spell, spellContext);
+                AddNewBuff(newBuff, stacks, sourceCharacter, spell, spellContext, targets);
             }
         }
 
@@ -349,11 +359,18 @@ namespace Actors
             }
         }
 
-        private BuffState AddNewBuff(Buff buff, int stacks, CharacterState sourceCharacter, Spell spell, ISpellContext spellContext)
+        private BuffState AddNewBuff(
+            Buff buff, 
+            int stacks, 
+            CharacterState sourceCharacter, 
+            Spell spell, 
+            ISpellContext spellContext, 
+            SpellTargets targets)
         {
             var buffState = new BuffState(buff, sourceCharacter, stacks, spell)
             {
-                SpellContext = spellContext
+                SpellContext = spellContext,
+                SpellTargets = targets
             };
             _buffStates.Add(buffState);
 
@@ -493,8 +510,14 @@ namespace Actors
                     case Affect.MoveInfo.MoveRelation.SpellSource:
                         moveTarget = TargetInfo.Create(buffState.SpellContext.InitialSource);
                         break;
+                    case Affect.MoveInfo.MoveRelation.ChanellingTarget:
+                        moveTarget = buffState.SpellContext?.ChannelingInfo?.GetNewTarget();
+                        break;
+                    case Affect.MoveInfo.MoveRelation.SpellTargetSource:
+                        moveTarget = buffState.SpellTargets?.Source;
+                        break;
                     case Affect.MoveInfo.MoveRelation.SpellTarget:
-                        moveTarget = buffState.SpellContext.ChannelingInfo.GetNewTarget();
+                        moveTarget = buffState.SpellTargets?.Destinations[0];
                         break;
                     default:
                     case Affect.MoveInfo.MoveRelation.LookDirection:
@@ -502,13 +525,20 @@ namespace Actors
                         break;
                 }
 
-                _movement?.ForceMove(
-                    affect.Move.Type,
-                    moveTarget, 
-                    affect.Move.Speed.GetValue(buffState.Stacks), 
-                    affect.Move.MovementDuration.GetValue(buffState.Stacks), 
-                    affect.Move.BreakOnDestination, 
-                    affect.Move.MaxDistanceFromOrigin.GetValue(buffState.Stacks));
+                if (moveTarget != null)
+                {
+                    _movement?.ForceMove(
+                        affect.Move.Type,
+                        moveTarget,
+                        affect.Move.Speed.GetValue(buffState.Stacks),
+                        affect.Move.MovementDuration.GetValue(buffState.Stacks),
+                        affect.Move.BreakOnDestination,
+                        affect.Move.MaxDistanceFromOrigin.GetValue(buffState.Stacks));
+                }
+                else
+                {
+                    Debug.LogError("Movement target is null", this);
+                }
             }
         }
 
@@ -850,7 +880,7 @@ namespace Actors
             }
         }
 
-        internal void ApplySpell(ISpellContext spellContext)
+        internal void ApplySpell(ISpellContext spellContext, SpellTargets targets)
         {
             if (!IsAlive)
                 return;
@@ -865,7 +895,12 @@ namespace Actors
             foreach (var buff in spellContext.CurrentSubSpell.Buffs)
             {
                 //ApplyBuff(buff, spellContext.InitialSource, spellContext.Spell, spellContext.Stacks);
-                ApplyBuff(buff, spellContext.InitialSource, spellContext.Spell, spellContext.Stacks, spellContext);
+                ApplyBuff(buff, 
+                    spellContext.InitialSource, 
+                    spellContext.Spell, 
+                    spellContext.Stacks, 
+                    spellContext,
+                    targets);
             }
         }
 

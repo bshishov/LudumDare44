@@ -87,6 +87,8 @@ namespace Data
                 SourceCharacter,
                 SpellTarget,
                 SpellSource,
+                SpellTargetSource,
+                ChanellingTarget,
             }
 
             public enum MovementType

@@ -549,7 +549,7 @@ public class SpellCaster : MonoBehaviour
 
             foreach (var destination in targets.Destinations)
                 if (destination.Character != null)
-                    destination.Character.ApplySpell(context);
+                    destination.Character.ApplySpell(context, targets);
                 else
                     Debug.LogWarning("Failed to apply spell");
         }

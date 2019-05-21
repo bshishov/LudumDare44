@@ -26,7 +26,7 @@ namespace Spells
 
         ContextState State { get; }
 
-        //ISubSpellContext SubContext { get; }
+        //SubSpellContext SubContext { get; }
 
         bool IsLastSubSpell { get; }
 
