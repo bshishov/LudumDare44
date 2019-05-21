@@ -32,6 +32,7 @@ namespace Utils.Debugger
         private readonly DrawingContext _context = new DrawingContext();
         private Logger _defaultLog;
         private Drawer _drawer;
+        private float _scroll;
 
         void Awake()
         {
@@ -68,6 +69,8 @@ namespace Utils.Debugger
 
                 if (Input.GetKeyDown(ActionKey))
                     _context.ActionRequested = true;
+
+                _scroll = Mathf.Min(0, _scroll + Input.mouseScrollDelta.y * 20f);
             }
 
             if (Input.GetKeyDown(ToggleDebugDrawings))
@@ -84,6 +87,7 @@ namespace Utils.Debugger
 
         public void Open()
         {
+            _scroll = 0f;
             _isOpened = true;
         }
 
@@ -295,7 +299,7 @@ namespace Utils.Debugger
                 _context.Style.Initialize();
 
             // Start from 0
-            _context.Y = 0;
+            _context.Y = _scroll;
             _context.Index = 0;
             _context.Depth = 0;
 
