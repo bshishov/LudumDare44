@@ -43,7 +43,7 @@ namespace AI
 
             if (_agent.ActiveTarget != null && _agent.ActiveTarget.IsAlive)
             {
-                _agent.Movement.LookAt(_agent.ActiveTarget.transform.position);
+                _agent.Movement.ControlLookAt(_agent.ActiveTarget.transform.position);
 
                 var distance = (_agent.ActiveTarget.transform.position - _agent.transform.position).magnitude;
                 if (Mathf.Abs(distance - _keepRange) > _tolerance)

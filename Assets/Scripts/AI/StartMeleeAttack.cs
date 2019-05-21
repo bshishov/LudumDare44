@@ -25,8 +25,8 @@ namespace AI
 
             if (Time.time > _agent.Config.AI.MeleeAttackCooldown + _agent.LastAttackTime)
             {
-                _agent.Movement.Stop();
-                _agent.Movement.LookAt(_agent.ActiveTarget.transform.position);
+                _agent.Movement.ControlStop();
+                _agent.Movement.ControlLookAt(_agent.ActiveTarget.transform.position);
                 _agent.AnimationController.PlayAttackAnimation();
                 return _nextState;
             }

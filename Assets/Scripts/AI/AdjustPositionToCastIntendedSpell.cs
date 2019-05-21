@@ -44,8 +44,8 @@ namespace AI
             var direction = (_agent.ActiveTarget.transform.position - _agent.transform.position).normalized;
 
             var moveTo = _agent.ActiveTarget.transform.position - direction * (_desiredRange - 0.1f);
-            _agent.Movement.SetDestination(moveTo);
-            _agent.Movement.LookAt(moveTo);
+            _agent.Movement.ControlSetDestination(moveTo);
+            _agent.Movement.ControlLookAt(moveTo);
 
             return null;
         }

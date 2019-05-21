@@ -40,8 +40,8 @@ namespace AI
             // TODO: Figure out channeling
             if (Time.time > _agent.Config.AI.SpellCastingCooldown + _agent.LastSpellCastTime)
             {
-                _agent.Movement.LookAt(_agent.ActiveTarget.transform.position);
-                _agent.Movement.Stop();
+                _agent.Movement.ControlLookAt(_agent.ActiveTarget.transform.position);
+                _agent.Movement.ControlStop();
                 
                 if (_agent.SpellBook.TryFireSpellToTarget(
                     _agent.IntendedSpell.Slot, 

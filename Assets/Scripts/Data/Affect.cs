@@ -89,10 +89,18 @@ namespace Data
                 SpellSource,
             }
 
+            public enum MovementType
+            {
+                Warp,
+                Navigational,
+                IgnoreNavigation
+            }
+
             public MoveRelation RelativeTo;
-            public float Speed;
-            public float MovementDuration; // also controlled by buff.Duration
-            public StackableProperty MaxDistance;
+            public MovementType Type;
+            public StackableProperty Speed;
+            public StackableProperty MovementDuration;
+            public StackableProperty MaxDistanceFromOrigin;
             public bool BreakOnDestination;
         }
 

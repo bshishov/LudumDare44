@@ -78,8 +78,8 @@ namespace AI
             }
             
             // Do actual movement
-            _agent.Movement.SetDestination(targetPosition);
-            _agent.Movement.LookAt(targetPosition);
+            _agent.Movement.ControlSetDestination(targetPosition);
+            _agent.Movement.ControlLookAt(targetPosition);
 
             // Return same state
             return null;

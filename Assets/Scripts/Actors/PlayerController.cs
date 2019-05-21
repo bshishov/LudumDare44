@@ -126,13 +126,13 @@ public class PlayerController : MonoBehaviour, IChannelingInfo
 
         // Finally move using movement controller
         var motionVector = _inputMoveDirection.normalized * _characterState.Speed * Time.deltaTime;
-        _movement.Move(motionVector);
+        _movement.ControlMove(motionVector);
 
         // Rotate towards location under the cursor
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out var hit, 100f, Common.LayerMasks.Ground))
         {
-            _movement.LookAt(hit.point);
+            _movement.ControlLookAt(hit.point);
         }
     }
 

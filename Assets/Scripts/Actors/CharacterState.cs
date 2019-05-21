@@ -484,29 +484,31 @@ namespace Actors
 
             if (affect.Type == Affect.AffectType.Move)
             {
-                TargetInfo tgt;
+                TargetInfo moveTarget;
                 switch (affect.Move.RelativeTo)
                 {
                     case Affect.MoveInfo.MoveRelation.SourceCharacter:
-                        tgt = TargetInfo.Create(buffState.SourceCharacter);
+                        moveTarget = TargetInfo.Create(buffState.SourceCharacter);
                         break;
                     case Affect.MoveInfo.MoveRelation.SpellSource:
-                        tgt = TargetInfo.Create(buffState.SpellContext.InitialSource);
+                        moveTarget = TargetInfo.Create(buffState.SpellContext.InitialSource);
                         break;
                     case Affect.MoveInfo.MoveRelation.SpellTarget:
-                        tgt = buffState.SpellContext.ChannelingInfo.GetNewTarget();
+                        moveTarget = buffState.SpellContext.ChannelingInfo.GetNewTarget();
                         break;
                     default:
                     case Affect.MoveInfo.MoveRelation.LookDirection:
-                        tgt = TargetInfo.Create(null, null, transform.position + transform.forward * 10);
+                        moveTarget = TargetInfo.Create(null, null, transform.position + transform.forward * 10);
                         break;
                 }
 
-                _movement?.ForceMove(tgt, 
-                    affect.Move.Speed, 
-                    affect.Move.MovementDuration, 
+                _movement?.ForceMove(
+                    affect.Move.Type,
+                    moveTarget, 
+                    affect.Move.Speed.GetValue(buffState.Stacks), 
+                    affect.Move.MovementDuration.GetValue(buffState.Stacks), 
                     affect.Move.BreakOnDestination, 
-                    affect.Move.MaxDistance.GetValue(buffState.Stacks));
+                    affect.Move.MaxDistanceFromOrigin.GetValue(buffState.Stacks));
             }
         }
 
