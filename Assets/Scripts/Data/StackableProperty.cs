@@ -9,11 +9,12 @@ namespace Data
         [Serializable]
         public enum ModifierType
         {
-            Addition,
-            Percentage
+            Exact = 0,
+            Add = 1,
+            Mult = 2
         }
 
-        public ModifierType Type = ModifierType.Addition;
+        public ModifierType Type = ModifierType.Exact;
         public float BaseValue;
         public float ModifierPerStack;
         public float EffectiveStacks = 1;
@@ -24,12 +25,13 @@ namespace Data
 
             switch (Type)
             {
-                case ModifierType.Addition:
+                case ModifierType.Add:
                     return BaseValue + stackedMod;
-                case ModifierType.Percentage:
+                case ModifierType.Mult:
                     return BaseValue * (1 + MathUtils.ELU(stackedMod));
                 default:
-                    return BaseValue + stackedMod;
+                case ModifierType.Exact:
+                    return BaseValue;
             }
         }
     }
