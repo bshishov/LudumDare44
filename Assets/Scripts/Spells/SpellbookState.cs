@@ -254,8 +254,7 @@ namespace Spells
             SpellSlots[slotIndex].State = SpellState.Firing;
 
             // TODO: refactor this. Move it to another place
-            _characterState.ApplyModifier(ModificationParameter.HpFlat, -subSpell.BloodCost, 1, 1, _characterState,
-                null, out _);
+            _characterState.ApplyModifier(ModificationParameter.HpFlat, -subSpell.BloodCost, 1, 1, _characterState, null);
         }
 
         public void OnEndFiring(Spell spell)

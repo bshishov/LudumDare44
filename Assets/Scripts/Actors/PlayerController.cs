@@ -52,14 +52,12 @@ public class PlayerController : MonoBehaviour, IChannelingInfo
         if (_spellbook.TryFireSpellToTarget(slotIndex, target, this))
         {
             // If cast was successful, reduce hp by cost amount
-            _characterState.ApplyModifier(
-                                          ModificationParameter.HpFlat, 
+            _characterState.ApplyModifier(ModificationParameter.HpFlat, 
                                           -slotState.Spell.BloodCost, 
                                           1, 
                                           1, 
                                           _characterState, 
-                                          null, 
-                                          out _);
+                                          null);
         }
         else
         {

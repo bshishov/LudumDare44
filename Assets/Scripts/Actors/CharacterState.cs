@@ -9,6 +9,7 @@ using Data;
 using Spells;
 using UI;
 using UnityEngine;
+using Utils;
 using Utils.Debugger;
 using Random = UnityEngine.Random;
 using Logger = Utils.Debugger.Logger;
@@ -57,7 +58,7 @@ namespace Actors
                 Spell = spell;
             }
 
-            public void Refresh()
+            public void RefreshTime()
             {
                 TimeRemaining = Buff.Duration;
                 TickCd = 0;
@@ -80,6 +81,53 @@ namespace Actors
         {
             public ModificationParameter Parameter;
             public float Amount;
+
+            public Change Inverse()
+            {
+                switch (Parameter)
+                {
+                    // Multiplicative changes
+                    case ModificationParameter.EvasionChanceFlat:
+                    case ModificationParameter.CritChanceFlat:
+                        return new Change
+                        {
+                            Parameter = Parameter,
+                            Amount = 1 / Amount,
+                        };
+                    // Additive changes
+                    default:
+                        return new Change
+                        {
+                            Parameter = Parameter,
+                            Amount = -Amount
+                        };
+                }
+            }
+
+            public static Change operator-(Change a, Change b)
+            {
+                if(!a.Parameter.Equals(b.Parameter))
+                    throw new InvalidOperationException();
+
+                switch (a.Parameter)
+                {
+                    // Multiplicative changes
+                    case ModificationParameter.EvasionChanceFlat:
+                    case ModificationParameter.CritChanceFlat:
+                        return new Change
+                        {
+                            Parameter = a.Parameter,
+                            Amount = a.Amount / b.Amount,
+                        };
+                    // Additive changes
+                    default:
+                        return new Change
+                        {
+                            Parameter = a.Parameter,
+                            Amount = a.Amount - b.Amount
+                        };
+                }
+            }
         }
 
         public enum Team : int
@@ -114,12 +162,12 @@ namespace Actors
         private float _maxHpFlatModSum;
         private float _maxHpMultModSum;
         public float Health => _hp;
-        public float MaxHealth => (character.Health + _maxHpFlatModSum) * (1 + ELU(_maxHpMultModSum));
+        public float MaxHealth => (character.Health + _maxHpFlatModSum) * (1 + MathUtils.ELU(_maxHpMultModSum));
 
         // ========= Damage
         private float _dmgFlatModSum;
         private float _dmgMultModSum;
-        public float Damage => character.Damage * (1 + ELU(_dmgMultModSum)) + _dmgFlatModSum;
+        public float Damage => character.Damage * (1 + MathUtils.ELU(_dmgMultModSum)) + _dmgFlatModSum;
 
         // ======== Evasion
         // All sources multiplicative aggregation 
@@ -130,7 +178,7 @@ namespace Actors
         // ========= Speed
         private float _speedFlatModSum;
         private float _speedMultModSum;
-        public float Speed => Mathf.Max((character.Speed + _speedFlatModSum) * (1 + ELU(_speedMultModSum)), 0);
+        public float Speed => Mathf.Max((character.Speed + _speedFlatModSum) * (1 + MathUtils.ELU(_speedMultModSum)), 0);
 
         // ========= Size
         private float _sizeFlatModSum;
@@ -138,7 +186,7 @@ namespace Actors
 
         public float Size =>
             Mathf.Clamp(
-                (character.Size + _sizeFlatModSum) * (1 + ELU(_sizeMultModSum)),
+                (character.Size + _sizeFlatModSum) * (1 + MathUtils.ELU(_sizeMultModSum)),
                 1, 10f);
 
         // ========= AdditionSpellStacks
@@ -147,7 +195,7 @@ namespace Actors
 
         // ========= SpellDamage amplification
         private float _spellDamageAmpFlatModSum = 0f;
-        public float SpellDamageMultiplier => 1f + ELU(character.SpellDamageAmp + _spellDamageAmpFlatModSum);
+        public float SpellDamageMultiplier => 1f + MathUtils.ELU(character.SpellDamageAmp + _spellDamageAmpFlatModSum);
 
         public float DropRate => character.DropRate;
         public List<Spell> DropSpells => character.DropSpells;
@@ -186,11 +234,11 @@ namespace Actors
 
         void Start()
         {
-            // Add healthbar
+            // Register healthbar
             UIHealthBarOverlay.Instance?.Add(this);
         }
 
-        internal void Pickup(Spell spell, int stacks)
+        public void Pickup(Spell spell, int stacks)
         {
             if (!IsAlive)
                 return;
@@ -234,23 +282,21 @@ namespace Actors
                 switch (newBuff.Behaviour)
                 {
                     case BuffStackBehaviour.MaxStacksOfTwo:
-                        RevertBuffChanges(existingState);
                         existingState.Stacks = Mathf.Max(stacks, existingState.Stacks);
                         ApplyBuffModifiers(existingState);
-                        existingState.Refresh();
+                        existingState.RefreshTime();
                         existingState.SpellContext = spellContext;
-                        HanldeBuffEvents(existingState, BuffEventType.OnRefresh);
+                        HandleBuffEvents(existingState, BuffEventType.OnRefresh);
                         break;
                     case BuffStackBehaviour.AddNewAsSeparate:
                         AddNewBuff(newBuff, stacks, sourceCharacter, spell, spellContext);
                         break;
                     case BuffStackBehaviour.SumStacks:
-                        RevertBuffChanges(existingState);
                         existingState.Stacks += stacks;
                         ApplyBuffModifiers(existingState);
                         existingState.SpellContext = spellContext;
-                        existingState.Refresh();
-                        HanldeBuffEvents(existingState, BuffEventType.OnRefresh);
+                        existingState.RefreshTime();
+                        HandleBuffEvents(existingState, BuffEventType.OnRefresh);
                         break;
                     case BuffStackBehaviour.Discard:
                         // Do nothing. newBuff wont be added
@@ -263,47 +309,47 @@ namespace Actors
             }
             else
             {
-                // The buff is completely new. So create and store new buffstate and apply all effects
+                // The buff is completely new. So create and store new BuffState and apply all effects
                 AddNewBuff(newBuff, stacks, sourceCharacter, spell, spellContext);
-            }
-        }
-
-        private void RevertBuffChanges(BuffState s)
-        {
-            if (s.ActiveChanges == null) return;
-            for (var i = s.ActiveChanges.Count - 1; i >= 0; i--)
-            {
-                RevertChange(s.ActiveChanges[i]);
-                s.ActiveChanges.RemoveAt(i);
             }
         }
 
         private void ApplyBuffModifiers(BuffState state)
         {
             if (state.Buff.Modifiers == null) return;
+
+            var oldChanges = state.ActiveChanges.ToArray();
+            state.ActiveChanges.Clear();
+
+            // For each modifier in temporary buff modifiers
+            // Apply each one and save actual change to revert it on buff removal
             foreach (var mod in state.Buff.Modifiers)
             {
-                ApplyModifier(
-                    mod,
-                    state.Stacks,
-                    state.SourceCharacter,
+                var change = ApplyModifier(
+                    mod.Parameter, 
+                    mod.Value, state.Stacks, 
+                    mod.EffectiveStacks, 
+                    state.SourceCharacter, 
                     state.Spell,
-                    out var change);
-                state.ActiveChanges.Add(new Change
-                {
-                    Parameter = mod.Parameter,
-                    Amount = change
-                });
+                    false);
+
+                // If there is an actual change
+                var activeChange = oldChanges.FirstOrDefault(ch => ch.Parameter.Equals(mod.Parameter));
+                if (activeChange.Parameter != ModificationParameter.None)
+                    change = change - activeChange;
+
+                ApplyChange(change);
+                state.ActiveChanges.Add(change);
             }
         }
 
         private BuffState AddNewBuff(Buff buff, int stacks, CharacterState sourceCharacter, Spell spell, ISpellContext spellContext)
         {
-            var s = new BuffState(buff, sourceCharacter, stacks, spell)
+            var buffState = new BuffState(buff, sourceCharacter, stacks, spell)
             {
                 SpellContext = spellContext
             };
-            _buffStates.Add(s);
+            _buffStates.Add(buffState);
 
 #if DEBUG_COMBAT
             _combatLog.LogFormat("<b>{0}</b> received new buff <b>{1}</b> with <b>{2}</b> stacks",
@@ -311,12 +357,12 @@ namespace Actors
                 buff.name,
                 stacks);
 #endif
-            ApplyBuffModifiers(s);
-            HanldeBuffEvents(s, BuffEventType.OnApply);
-            return s;
+            ApplyBuffModifiers(buffState);
+            HandleBuffEvents(buffState, BuffEventType.OnApply);
+            return buffState;
         }
 
-        private void HanldeBuffEvents(BuffState buffState, BuffEventType eventType)
+        private void HandleBuffEvents(BuffState buffState, BuffEventType eventType)
         {
             if (buffState.Buff.AffectByEventType.TryGetValue(eventType, out var affects))
             {
@@ -331,8 +377,13 @@ namespace Actors
         {
             // Apply affect modifiers
             if (affect.Type == Affect.AffectType.ApplyModifier)
-                ApplyModifier(affect.ApplyModifier, buffState.Stacks, buffState.SourceCharacter, buffState.Spell,
-                    out _);
+                ApplyModifier(
+                    affect.ApplyModifier.Parameter, 
+                    affect.ApplyModifier.Value, 
+                    buffState.Stacks, 
+                    affect.ApplyModifier.EffectiveStacks, 
+                    buffState.SourceCharacter, 
+                    buffState.Spell);
 
             // Cast affect spells
             if (affect.Type == Affect.AffectType.CastSpell)
@@ -449,199 +500,204 @@ namespace Actors
             }
         }
 
-        public void ApplyModifier(
-            Modifier modifier,
-            int stacks,
-            CharacterState source,
-            Spell spell,
-            out float change)
-        {
-            ApplyModifier(
-                modifier.Parameter,
-                modifier.Value,
-                stacks,
-                modifier.EffectiveStacks,
-                source,
-                spell,
-                out change);
-        }
-
-        public void ApplyModifier(
+        public Change ApplyModifier(
             ModificationParameter parameter,
             float amount,
             int stacks,
             float effectiveStacks,
             CharacterState sourceCharacter,
-            Spell spell,
-            out float actualChange)
+            Spell spell, 
+            bool applyChange=true)
         {
-            actualChange = 0f;
-            if (parameter == ModificationParameter.None)
-                return;
-
-            var hpFraction = Mathf.Clamp01(_hp / MaxHealth);
-            switch (parameter)
-            {
-                case ModificationParameter.HpFlat:
-                    actualChange = UpdateHp(_hp + StackedModifier(amount, stacks, effectiveStacks), sourceCharacter,
-                        spell);
-                    break;
-                case ModificationParameter.HpMult:
-                    actualChange = UpdateHp(_hp * (1 + StackedModifier(amount, stacks, effectiveStacks)),
-                        sourceCharacter, spell);
-                    break;
-                case ModificationParameter.MaxHpFlat:
-                    actualChange = StackedModifier(amount, stacks, effectiveStacks);
-                    _maxHpFlatModSum += actualChange;
-                    _hp = hpFraction * MaxHealth;
-                    if(MaxHealth < 1)
-                        HandleDeath();
-                    break;
-                case ModificationParameter.MaxHpMult:
-                    actualChange = StackedModifier(amount, stacks, effectiveStacks);
-                    _maxHpMultModSum += actualChange;
-                    _hp = hpFraction * MaxHealth;
-                    break;
-                case ModificationParameter.DmgFlat:
-                    actualChange = StackedModifier(amount, stacks, effectiveStacks);
-                    _dmgFlatModSum += actualChange;
-                    break;
-                case ModificationParameter.DmgMult:
-                    actualChange = StackedModifier(amount, stacks, effectiveStacks);
-                    _dmgMultModSum += actualChange;
-                    break;
-                case ModificationParameter.EvasionChanceFlat:
-                    // TODO: FIX STACKING
-                    actualChange = Mathf.Pow(1 - amount, stacks);
-                    _evasionModMulProduct *= actualChange;
-                    break;
-                case ModificationParameter.CritChanceFlat:
-                    break;
-                case ModificationParameter.SpeedFlat:
-                    actualChange = StackedModifier(amount, stacks, effectiveStacks);
-                    _speedFlatModSum += actualChange;
-                    break;
-                case ModificationParameter.SpeedMult:
-                    actualChange = StackedModifier(amount, stacks, effectiveStacks);
-                    _speedMultModSum += actualChange;
-                    break;
-                case ModificationParameter.SizeFlat:
-                    actualChange = StackedModifier(amount, stacks, effectiveStacks);
-                    _sizeFlatModSum += actualChange;
-                    break;
-                case ModificationParameter.SizeMult:
-                    actualChange = StackedModifier(amount, stacks, effectiveStacks);
-                    _sizeMultModSum += actualChange;
-                    break;
-                case ModificationParameter.SpellStacksFlat:
-                    actualChange = StackedModifier(amount, stacks, effectiveStacks);
-                    _assFlatModSum += actualChange;
-                    break;
-                case ModificationParameter.SpellDamageAmpFlat:
-                    actualChange = StackedModifier(amount, stacks, effectiveStacks);
-                    _spellDamageAmpFlatModSum += actualChange;
-                    break;
-                default:
-                    break;
-            }
+            // First - calculate an actual change of modifier
+            // using all spell amplification things, evasions and other stuff
+            var change = CalcChange(parameter, amount, stacks, effectiveStacks, sourceCharacter, spell);
 
 #if DEBUG_COMBAT
             _combatLog.Log(
-                $"<b>{gameObject.name}</b> received modifier <b>{parameter}</b> with amount <b>{amount}</b>. Actual change: <b>{actualChange}</b>" +
+                $"<b>{gameObject.name}</b> received modifier <b>{parameter}</b> with amount <b>{amount}</b>. Actual change: <b>{change.Amount}</b>" +
                 $" Stacks: <b>{stacks}</b>. EffectiveStacks: <b>{effectiveStacks}</b>");
 #endif
 
-            switch (parameter)
+            if (applyChange)
             {
+#if DEBUG
+                ModifierApplied?.Invoke(parameter, spell, stacks, change.Amount);
+#endif
+                // Apply an actual change
+                ApplyChange(change);
+            }
+
+            return change;
+        }
+
+        private Change CalcChange(ModificationParameter parameter,
+            float amount,
+            int stacks,
+            float effectiveStacks,
+            CharacterState sourceCharacter,
+            Spell spell)
+        {
+            // Zero-change
+            if (parameter == ModificationParameter.None || Mathf.Abs(amount) < 1e-6)
+                return new Change
+                {
+                    Parameter = ModificationParameter.None,
+                    Amount = 0
+                };
+
+            if (parameter == ModificationParameter.HpFlat || parameter == ModificationParameter.HpMult)
+            {
+                var targetHp = _hp;
+                if (parameter == ModificationParameter.HpFlat)
+                    targetHp += MathUtils.StackedModifier(amount, stacks, effectiveStacks);
+                if (parameter == ModificationParameter.HpMult)
+                    targetHp *= 1 + MathUtils.StackedModifier(amount, stacks, effectiveStacks);
+                targetHp = Mathf.Min(targetHp, MaxHealth);
+                var delta = targetHp - _hp;
+                // If taking damage
+                if (delta < 0)
+                {
+                    // If the damage comes from spell, amplify it buy character source damage multiplier
+                    if (spell != null && sourceCharacter != null)
+                    {
+                        // Damage amplification
+                        delta *= sourceCharacter.SpellDamageMultiplier;
+#if DEBUG_COMBAT
+                        _combatLog.Log(
+                            $"Receiving in total <b>{-delta}</b> spell multiplied ({100 * sourceCharacter.SpellDamageMultiplier}%) damage from <b>{sourceCharacter.name}</b> " +
+                            $"from spell <b>{spell.name}</b>");
+#endif
+
+                        // Lifesteal
+                        // TODO: Shouldn't we apply lifesteal afterwards?
+                        var lifesteal = -delta * spell.LifeSteal;
+                        if (lifesteal > 0)
+                        {
+#if DEBUG_COMBAT
+                            _combatLog.Log(
+                                $"Returning <b>{-delta * spell.LifeSteal}</b> hp back to <b>{sourceCharacter.name}</b> " +
+                                $"because spell <b>{spell.name}</b> has <b>{100 * spell.LifeSteal}%</b> lifesteal");
+#endif
+                            sourceCharacter.ApplyModifier(ModificationParameter.HpFlat,
+                                lifesteal,
+                                1,
+                                1,
+                                this,
+                                spell);
+                        }
+                    }
+                }
+
+                // Notice that we are returning HpFlat even if the original modifier was HpMult.
+                // Because there was some additional modifer applied to damage (if any)
+                return new Change
+                {
+                    Parameter = ModificationParameter.HpFlat,
+                    Amount = delta
+                };
+            }
+
+            switch (parameter)
+            {                
+                case ModificationParameter.CritChanceFlat:
+                case ModificationParameter.EvasionChanceFlat:
+                    return new Change
+                    {
+                        Parameter = parameter,
+                        Amount = Mathf.Pow(1 - amount, stacks)
+                    };
+            }
+
+            // Default change computation for stats like speed and other relatively simple stats
+            return new Change
+            {
+                Parameter = parameter,
+                Amount = MathUtils.StackedModifier(amount, stacks, effectiveStacks)
+            };
+        }
+
+        private void ApplyChange(Change change)
+        {
+            // Zero-change
+            if(change.Parameter == ModificationParameter.None || Mathf.Abs(change.Amount) < 1e-6)
+                return;
+
+            var oldHp = _hp;
+            var hpFraction = _hp / MaxHealth;
+            switch (change.Parameter)
+            {
+                case ModificationParameter.HpFlat:
+                    _hp = Mathf.Min(_hp + change.Amount, MaxHealth);
+                    break;
+                case ModificationParameter.HpMult:
+                    _hp = Mathf.Min(_hp * (1 + change.Amount), MaxHealth);
+                    break;
+                case ModificationParameter.MaxHpFlat:
+                    _maxHpFlatModSum += change.Amount;
+                    _hp = hpFraction * MaxHealth;
+                    break;
+                case ModificationParameter.MaxHpMult:
+                    _maxHpMultModSum += change.Amount;
+                    _hp = hpFraction * MaxHealth;
+                    break;
+                case ModificationParameter.DmgFlat:
+                    _dmgFlatModSum += change.Amount;
+                    break;
+                case ModificationParameter.DmgMult:
+                    _dmgMultModSum += change.Amount;
+                    break;
+                case ModificationParameter.EvasionChanceFlat:
+                    _evasionModMulProduct *= change.Amount;
+                    break;
+                case ModificationParameter.CritChanceFlat:
+                    throw new NotImplementedException();
+                case ModificationParameter.SpeedFlat:
+                    _speedFlatModSum += change.Amount;
+                    break;
+                case ModificationParameter.SpeedMult:
+                    _speedMultModSum += change.Amount;
+                    break;
+                case ModificationParameter.SizeFlat:
+                    _sizeFlatModSum += change.Amount;
+                    break;
+                case ModificationParameter.SizeMult:
+                    _sizeMultModSum += change.Amount;
+                    break;
+                case ModificationParameter.SpellStacksFlat:
+                    _assFlatModSum += change.Amount;
+                    break;
+                case ModificationParameter.SpellDamageAmpFlat:
+                    _spellDamageAmpFlatModSum += change.Amount;
+                    break;
+            }
+            
+            switch (change.Parameter)
+            {
+                // Update transform scale if changed
                 case ModificationParameter.SizeFlat:
                 case ModificationParameter.SizeMult:
                     transform.localScale = _baseScale * Size;
                     break;
-            }
-
-#if DEBUG
-            ModifierApplied?.Invoke(parameter, spell, stacks, actualChange);
-#endif
-        }
-
-        private void RevertChange(Change change)
-        {
-            // TODO: Revert EVASION and CRIT properly by dividing and not subtracting
-            // TODO: refactor this hack
-            switch (change.Parameter)
-            {
-                case ModificationParameter.EvasionChanceFlat:
-                    _evasionModMulProduct /= change.Amount;
-                    break;
-                default:
-                    ApplyModifier(change.Parameter,
-                        -change.Amount,
-                        1,
-                        1,
-                        this,
-                        null,
-                        out _);
-                    break;
-            }
-        }
-
-        private float UpdateHp(float targetHp, CharacterState sourceCharacter, Spell spell)
-        {
-            targetHp = Mathf.Clamp(targetHp, -1, MaxHealth);
-            var delta = targetHp - _hp;
-
-            // If taking damage
-            if (delta < 0)
-            {
-                if (spell != null)
-                {
-                    if(sourceCharacter != null)
-                        delta *= sourceCharacter.SpellDamageMultiplier;
-                    targetHp = Mathf.Clamp(_hp + delta, -1, MaxHealth);
-                    delta = targetHp - _hp;
-
-#if DEBUG_COMBAT
-                    if(sourceCharacter != null)
-                    _combatLog.Log(
-                        $"Receiving in total <b>{-delta}</b> spell multiplied ({100 * sourceCharacter.SpellDamageMultiplier}%) damage from <b>{sourceCharacter.name}</b> " +
-                        $"from spell <b>{spell.name}</b>");
-#endif
-                }
-
-                if (sourceCharacter != null && spell != null)
-                {
-                    var lifesteal = -delta * spell.LifeSteal;
-                    if (lifesteal > 0)
+                // Process hp change events
+                case ModificationParameter.HpFlat:
+                case ModificationParameter.HpMult:
+                case ModificationParameter.MaxHpMult:
+                case ModificationParameter.MaxHpFlat:
+                    // If taking damage
+                    if (_hp < oldHp)
                     {
-#if DEBUG_COMBAT
-                        _combatLog.Log(
-                            $"Returning <b>{-delta * spell.LifeSteal}</b> hp back to <b>{sourceCharacter.name}</b> " +
-                            $"because spell <b>{spell.name}</b> has <b>{100 * spell.LifeSteal}%</b> lifesteal");
-#endif
-                        sourceCharacter.ApplyModifier(ModificationParameter.HpFlat,
-                            lifesteal,
-                            1,
-                            1,
-                            this,
-                            spell,
-                            out _);
+                        if (_hp < 0)
+                            HandleDeath();
+                        else
+                            _animationController.PlayHitImpactAnimation();
                     }
-                }
-                
-                if (targetHp < 1f)
-                    HandleDeath();
-                else
-                {
-                    _animationController.PlayHitImpactAnimation();
-                }
+                    
+                    HealthChanged?.Invoke(_hp);
+                    break;
             }
-
-            // Change
-            _hp = targetHp;
-            HealthChanged?.Invoke(_hp);
-            return delta;
         }
-
+        
         public bool SpendCurrency(float amount)
         {
             if (!IsAlive)
@@ -650,7 +706,7 @@ namespace Actors
                 return false;
             }
 
-            // If after spending we will have less than 1 than the action is illigal
+            // If after spending we will have less than 1 than the action is illegal
             if (MaxHealth - amount < 1f)
             {
                 UIInvalidAction.Instance?.Show(UIInvalidAction.InvalidAction.NotEnoughBlood);
@@ -664,8 +720,7 @@ namespace Actors
                 1,
                 1,
                 this,
-                null,
-                out _);
+                null);
             return true;
         }
 
@@ -689,17 +744,17 @@ namespace Actors
                 // Buff tick
                 if (buffState.TickCd < 0)
                 {
-                    HanldeBuffEvents(buffState, BuffEventType.OnTick);
+                    HandleBuffEvents(buffState, BuffEventType.OnTick);
                     buffState.TickCd = buffState.Buff.TickCooldown;
                 }
 
                 // Buff remove
                 if (buffState.TimeRemaining < 0)
                 {
-                    HanldeBuffEvents(buffState, BuffEventType.OnRemove);
+                    HandleBuffEvents(buffState, BuffEventType.OnRemove);
                     if (buffState.ActiveChanges != null)
                         foreach (var change in buffState.ActiveChanges)
-                            RevertChange(change);
+                            ApplyChange(change.Inverse());
 
                     if (buffState.TrackedObjects != null)
                         foreach (var trackedObject in buffState.TrackedObjects)
@@ -764,12 +819,17 @@ namespace Actors
             Died?.Invoke();
         }
 
-        public void ReceiveDamage(CharacterState sourceCharacter, float amount, Spell spell)
+        public void ReceiveMeleeDamage(float amount)
         {
             if (IsAlive)
             {
+                // ToDo: remove evasion from here
                 if (Random.value > Evasion)
-                    UpdateHp(_hp - amount, sourceCharacter, spell);
+                    ApplyChange(new Change
+                    {
+                        Parameter = ModificationParameter.HpFlat,
+                        Amount = -amount
+                    });
                 else
                     _animationController.PlayEvasionEffect(GetNodeTransform(NodeRole.Chest));
             }
@@ -794,7 +854,6 @@ namespace Actors
             }
         }
 
-
         public Transform GetNodeTransform(NodeRole role = NodeRole.Default)
         {
             if (role == NodeRole.Root)
@@ -808,25 +867,6 @@ namespace Actors
                 return node.Transform;
 
             return Nodes[0].Transform;
-        }
-
-        /// <summary>
-        /// Exponential linear unit. Used for multiplier modifiers to not go pass the -1 on the left side
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="alpha"></param>
-        /// <returns>Returns the value in range (-1, +inf) </returns>
-        public static float ELU(float x, float alpha = 1f)
-        {
-            if (x >= 0)
-                return x;
-            return alpha * (Mathf.Exp(x) - 1);
-        }
-
-        public static float StackedModifier(float modifierValue, float stacks, float effectiveStacks)
-        {
-            // DO NOT CHANGE THIS! unless you do not know what you are doing!
-            return modifierValue * stacks / ((stacks - 1) * (1 - 0.3f) / (Mathf.Max(1, effectiveStacks)) + 1);
         }
     }
 }

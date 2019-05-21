@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.AI;
-
+using Utils;
 
 
 public class AnimationController : MonoBehaviour

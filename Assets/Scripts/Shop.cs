@@ -5,6 +5,7 @@ using Assets.Scripts.Utils;
 using Data;
 using TMPro;
 using UnityEngine;
+using Utils;
 
 public class Shop : MonoBehaviour, IInteractable
 {

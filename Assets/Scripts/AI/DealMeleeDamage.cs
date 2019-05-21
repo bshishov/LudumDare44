@@ -28,7 +28,7 @@ namespace AI
                 return _fallbackState;
 
             _agent.LastAttackTime = Time.time;
-            _agent.ActiveTarget.ReceiveDamage(_agent.CharacterState, _agent.CharacterState.Damage, null);
+            _agent.ActiveTarget.ReceiveMeleeDamage(_agent.CharacterState.Damage);
             if (_agent.Config.AI.MeleeAttackBuff != null)
                 _agent.ActiveTarget.ApplyBuff(_agent.Config.AI.MeleeAttackBuff, _agent.CharacterState, null, 1 + _agent.CharacterState.AdditionSpellStacks);
 
