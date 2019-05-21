@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
-  m_Name: FireballExplosion
+  m_Name: SubSpell_Skull_HS
   m_EditorClassIdentifier: 
-  AffectedTarget: -1
-  Area: {fileID: 11400000, guid: 45582d7ff472ce542b077d4dd178a29e, type: 2}
+  AffectedTarget: 10
+  Area: {fileID: 11400000, guid: 8984f99fcb3c27049aa36ed1f6f88d56, type: 2}
   Targeting: 2
   Origin: 1
   Buffs:
-  - {fileID: 11400000, guid: 9c702456310773d44a951398ac115d36, type: 2}
+  - {fileID: 11400000, guid: c05eefb9d36ebcf4b8a38991bffa7803, type: 2}
   BloodCost: 0
-  Effect: {fileID: 1349204274574646620, guid: a55be5abd6fc4954e81a606e64d716c3, type: 3}
+  Effect: {fileID: 0}
   Flags: 4
   Obstacles: 0
   PreCastDelay: 0

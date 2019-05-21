@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
-  m_Name: Buff_Blink
+  m_Name: Buff_Vortex
   m_EditorClassIdentifier: 
-  Name: Blink
+  Name: 
   Behaviour: 0
   TickCooldown: 1
   Duration: 1
@@ -41,21 +41,21 @@ MonoBehaviour:
         AttachToTransform: 0
         AutoDestroyAfterBuff: 0
       Move:
-        RelativeTo: 5
-        Type: 0
+        RelativeTo: 3
+        Type: 2
         Speed:
           Type: 0
-          BaseValue: 0
+          BaseValue: -25
           ModifierPerStack: 0
-          EffectiveStacks: 1
+          EffectiveStacks: 0
         MovementDuration:
           Type: 0
-          BaseValue: 0
+          BaseValue: 0.02
           ModifierPerStack: 0
-          EffectiveStacks: 1
+          EffectiveStacks: 0
         MaxDistanceFromOrigin:
           Type: 0
-          BaseValue: 0
+          BaseValue: 100
           ModifierPerStack: 0
-          EffectiveStacks: 1
-        BreakOnDestination: 1
+          EffectiveStacks: 0
+        BreakOnDestination: 0
