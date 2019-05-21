@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Data
 {
-    public enum ModificationParameter
+    public enum ModificationParameter : uint
     {
         None = 0,
         HpFlat = 1,  // Think twice while using it
@@ -22,11 +22,13 @@ namespace Data
         SpeedMult,
         SpellStacksFlat,
         CritChanceFlat,
-        SpellDamageAmpFlat
+        SpellDamageAmpFlat,
+        Stun = 20,
+        Silence = 21
     }
 
     [Serializable]
-    public enum BuffStackBehaviour
+    public enum BuffStackBehaviour : uint
     {
         MaxStacksOfTwo,
         SumStacks,

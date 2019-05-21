@@ -92,8 +92,8 @@ namespace Data
             public MoveRelation RelativeTo;
             public float Speed;
             public float MovementDuration; // also controlled by buff.Duration
+            public StackableProperty MaxDistance;
             public bool BreakOnDestination;
-            public bool BreakOnDuration;
         }
 
         public AffectType Type;

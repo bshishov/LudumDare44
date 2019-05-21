@@ -197,6 +197,12 @@ namespace Actors
         private float _spellDamageAmpFlatModSum = 0f;
         public float SpellDamageMultiplier => 1f + MathUtils.ELU(character.SpellDamageAmp + _spellDamageAmpFlatModSum);
 
+        // ========= Stun
+        private float _stunScale = 0f;
+        public float StunScale => _stunScale;
+        public bool IsStunned => _stunScale > 1f;
+        public bool IsControllable => IsAlive && !IsStunned;
+
         public float DropRate => character.DropRate;
         public List<Spell> DropSpells => character.DropSpells;
 
@@ -496,7 +502,11 @@ namespace Actors
                         break;
                 }
 
-                _movement?.ForceMove(tgt, affect.Move.Speed, affect.Move.MovementDuration, affect.Move.BreakOnDestination);
+                _movement?.ForceMove(tgt, 
+                    affect.Move.Speed, 
+                    affect.Move.MovementDuration, 
+                    affect.Move.BreakOnDestination, 
+                    affect.Move.MaxDistance.GetValue(buffState.Stacks));
             }
         }
 
@@ -669,6 +679,9 @@ namespace Actors
                     break;
                 case ModificationParameter.SpellDamageAmpFlat:
                     _spellDamageAmpFlatModSum += change.Amount;
+                    break;
+                case ModificationParameter.Stun:
+                    _stunScale += change.Amount;
                     break;
             }
             

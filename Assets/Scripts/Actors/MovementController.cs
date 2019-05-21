@@ -13,7 +13,6 @@ public class MovementController : MonoBehaviour
 
     private NavMeshAgent _navMeshAgent;
     private CharacterState _characterState;
-    private bool _locked = false;
     private Quaternion _targetRotation;
 
     // Force 
@@ -22,6 +21,8 @@ public class MovementController : MonoBehaviour
     private float _forceSpeed;
     private float _forceDuration;
     private bool _forceBreakOnDestination;
+    private float _forceMaxDistance;
+    private Vector3 _forceSource;
 
     void Start()
     {
@@ -49,11 +50,11 @@ public class MovementController : MonoBehaviour
             else
             {
                 LookAt(targetPos);
-                if(!_navMeshAgent.isStopped)
-                    _navMeshAgent.Move(dir.normalized * _forceSpeed * Time.deltaTime);
+                //if(!_navMeshAgent.isStopped)
+                _navMeshAgent.Move(Vector3.ClampMagnitude(dir.normalized * _forceSpeed * Time.deltaTime, _forceMaxDistance));
             }
 
-            if (_forceDuration < 0)
+            if (_forceDuration < 0 || Vector3.Distance(transform.position, _forceSource) > _forceMaxDistance)
             {
                 _isForceMoving = false;
                 _navMeshAgent.isStopped = false;
@@ -77,7 +78,7 @@ public class MovementController : MonoBehaviour
 
     public void Move(Vector3 motionVector)
     {
-        if (_isForceMoving)
+        if (_isForceMoving || !_characterState.IsControllable)
             return;
 
         // MOve directly
@@ -86,7 +87,7 @@ public class MovementController : MonoBehaviour
 
     public void SetDestination(Vector3 position)
     {
-        if(_isForceMoving)
+        if(_isForceMoving || !_characterState.IsControllable)
             return;
 
         // Sets destination for auto path
@@ -96,12 +97,20 @@ public class MovementController : MonoBehaviour
 
     public void LookAt(Vector3 target)
     {
+        if (!_characterState.IsControllable)
+            return;
+
         var q = Quaternion.LookRotation(target - transform.position);
         q.eulerAngles = new Vector3(0, q.eulerAngles.y, 0);
         _targetRotation = q;
     }
 
-    public void ForceMove(TargetInfo target, float speed, float duration, bool breakOnDestination)
+    public void ForceMove(
+        TargetInfo target, 
+        float speed, 
+        float duration, 
+        bool breakOnDestination,
+        float maxDistance)
     {
         _navMeshAgent.isStopped = true;
         _isForceMoving = true;
@@ -109,29 +118,16 @@ public class MovementController : MonoBehaviour
         _forceDuration = duration;
         _forceBreakOnDestination = breakOnDestination;
         _forceTargetInfo = target;
+        _forceSource = transform.position;
+        _forceMaxDistance = maxDistance;
     }
 
     public void Stop()
     {
+        if (_isForceMoving || !_characterState.IsControllable)
+            return;
+
         // Used to stop auto path
         _navMeshAgent.isStopped = true;
-    }
-
-    public void Lock()
-    {
-        if (!_locked)
-        {
-            _locked = false;
-            _navMeshAgent.isStopped = true;
-        }
-    }
-
-    public void Unlock()
-    {
-        if (_locked)
-        {
-            _locked = true;
-            _navMeshAgent.isStopped = false;
-        }
     }
 }
