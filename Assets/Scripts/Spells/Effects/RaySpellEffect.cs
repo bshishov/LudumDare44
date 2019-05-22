@@ -186,7 +186,8 @@ namespace Spells.Effects
             source = GetPosition(instance.Source);
             if (instance.UseChannelingInfoAsTarget)
             {
-                destination = GetPosition(instance.Context.ChannelingInfo.GetNewTarget(), PreferredSourceNode);
+                // TODO: Fails after release of lbm
+                destination = GetPosition(instance.Context.ChannelingInfo.GetNewTarget(), PreferredSourceNode); 
             }
             else
             {
