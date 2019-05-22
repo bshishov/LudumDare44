@@ -21,8 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: FX_Burn
-  m_Shader: {fileID: -6465566751694194690, guid: 2399999df20aabf44b6809ddec9b7245,
-    type: 3}
+  m_Shader: {fileID: 4800000, guid: 10240f64955e28f46a3cead140d0e3de, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -46,11 +45,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer1_Texture:
-        m_Texture: {fileID: 2800000, guid: a79995da23dda6c44bd90239a9cda4d1, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer2_Texture:
-        m_Texture: {fileID: 2800000, guid: cb92a6a09f58cd14896c467f8658ce77, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8594ed58f4892584fbbe608678dcef72, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Layer3_Texture:
@@ -58,11 +57,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
-        m_Texture: {fileID: 2800000, guid: 05ea8503afe95c645b721486aa982bff, type: 3}
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -77,8 +76,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Tex1:
+        m_Texture: {fileID: 2800000, guid: 0403b55bf792947408e30a038061c140, type: 3}
+        m_Scale: {x: 1.5, y: 1.5}
+        m_Offset: {x: 0, y: 0}
+    - _Tex2:
+        m_Texture: {fileID: 2800000, guid: 73f15e94f723b99479ded3a5809a63fa, type: 3}
+        m_Scale: {x: 0.8, y: 0.8}
+        m_Offset: {x: 0, y: 0}
+    - _Tex3:
+        m_Texture: {fileID: 2800000, guid: 76c38a6a0704ecf4cabe24ef364797d8, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AlphaBoost: 0.9
+    - _AlphaBoost: 5
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -102,12 +113,15 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _Color: {r: 80.516624, g: 81.839325, b: 0, a: 1}
+    - _Color: {r: 5.2164755, g: 5.2164755, b: 5.2164755, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Layer1_Speed: {r: 0, g: -0.5, b: 0, a: 0}
+    - _Layer1_Speed: {r: 0, g: 0, b: 0, a: 0}
     - _Layer1_Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _Layer2_Speed: {r: 0, g: -1, b: 0, a: 0}
-    - _Layer2_Tiling: {r: 4, g: 2, b: 0, a: 0}
-    - _Layer3_Speed: {r: 0, g: -2, b: 0, a: 0}
-    - _Layer3_Tiling: {r: 10, g: 2, b: 0, a: 0}
+    - _Layer2_Speed: {r: 0, g: -2, b: 0, a: 0}
+    - _Layer2_Tiling: {r: 2, g: 2, b: 0, a: 0}
+    - _Layer3_Speed: {r: 0, g: -4, b: 0, a: 0}
+    - _Layer3_Tiling: {r: 3, g: 3, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Speed1: {r: 0, g: -10, b: 0, a: 0}
+    - _Speed2: {r: 0, g: -6, b: 0, a: 0}
+    - _Speed3: {r: 0, g: -10, b: 0, a: 0}
