@@ -125,7 +125,7 @@ namespace Spells
 
         private bool FireSpell(int index, SpellTargets targets, IChannelingInfo channelingInfo)
         {
-            if (IsCasting == true)
+            if (IsCasting)
             {
                 Debug.Log("Already casting");
                 return false;

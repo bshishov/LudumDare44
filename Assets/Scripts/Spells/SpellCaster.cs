@@ -388,9 +388,8 @@ public class SpellCaster : MonoBehaviour
         }
     }
 
-    private static bool PullChannelingTargetInfo(SpellContext context, SubSpellContext subContext, IReadOnlyList<SpellTargets> currentTargets)
+    private static bool PullChannelingTargetInfo(SpellContext context, SubSpellContext subContext, TargetInfo source)
     {
-        Assert.IsTrue(currentTargets.Count == 1);
         Assert.IsTrue((context.SpellFlags & Spell.SpellFlags.BreakOnFailedTargeting) == 0);
         Assert.IsNotNull(context.ChannelingInfo);
 
@@ -400,7 +399,7 @@ public class SpellCaster : MonoBehaviour
 
         if ((context.CurrentSubSpell.Flags & SubSpell.SpellFlags.SelfTarget) == SubSpell.SpellFlags.SelfTarget)
         {
-            newTarget = new TargetInfo(currentTargets[0].Source);
+            newTarget = new TargetInfo(source);
         }
 
         if (!IsValidTarget(context.InitialSource, context.CurrentSubSpell, newTarget))
@@ -409,7 +408,9 @@ public class SpellCaster : MonoBehaviour
             return false;
         }
 
-        var newSpellTargets = new SpellTargets(currentTargets[0].Source, newTarget);
+        var newSource = new TargetInfo(source);
+        newSource.Position = newSource.Transform.position;
+        var newSpellTargets = new SpellTargets(newSource, newTarget);
 
         subContext.newTargets.Add(newSpellTargets);
         subContext.effect?.OnInputTargetsValidated(context, newSpellTargets);
@@ -424,7 +425,7 @@ public class SpellCaster : MonoBehaviour
 
         if ((context.CurrentSubSpell.Flags & SubSpell.SpellFlags.Channeling) == SubSpell.SpellFlags.Channeling)
         {
-            context.Aborted = !PullChannelingTargetInfo(context, subContext, currentTargets.TargetData);
+            context.Aborted = !PullChannelingTargetInfo(context, subContext, currentTargets.TargetData.First().Source);
             return !context.Aborted;
         }
 
@@ -622,10 +623,10 @@ public class SpellCaster : MonoBehaviour
                                                      SubSpell.AffectedTargets    target,
                                                      IEnumerable<CharacterState> filteredCharacters)
     {
-        var availibleCharacters = characters.Where(c => IsEnemy(c, owner, target));
+        var availableCharacters = characters.Where(c => IsEnemy(c, owner, target));
         if (filteredCharacters != null)
-            availibleCharacters = availibleCharacters.Except(filteredCharacters);
-        return availibleCharacters.ToArray();
+            availableCharacters = availableCharacters.Except(filteredCharacters);
+        return availableCharacters.ToArray();
     }
 
     private static TargetInfo[] GetAllCharacterInArea(SpellContext context, CharacterState[] avalibleTargets, TargetInfo source, TargetInfo target)
