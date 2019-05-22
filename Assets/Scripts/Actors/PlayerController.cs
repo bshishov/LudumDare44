@@ -77,7 +77,6 @@ public class PlayerController : MonoBehaviour, IChannelingInfo
         {
             target.Character = tgt;
             target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
-            target.Position  = target.Transform.position;
         }
         else
         {
