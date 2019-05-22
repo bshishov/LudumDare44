@@ -71,19 +71,19 @@ public class PlayerController : MonoBehaviour, IChannelingInfo
         if (!Physics.Raycast(ray, out var hit, 100f, Common.LayerMasks.ActorsOrGround))
             return null;
 
-        var target = new TargetInfo {Position = ray.GetPoint(hit.distance)};
+        var target = new TargetInfo();
+
         var tgt = hit.transform.GetComponent<CharacterState>();
         if (tgt != null && tgt.IsAlive)
         {
             target.Character = tgt;
             target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
         }
-        else
+
         {
-            // TODO: FIX targets for ground-parallel projectiles
-            var adoptedTarget = target.Position.Value;
-            adoptedTarget.y = _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter).position.y;
-            target.Position = adoptedTarget;
+            // TODO: looks awkward when shooting self
+            var targetY = _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter).position.y;
+            target.Position = ray.origin + ray.direction * (targetY - ray.origin.y) / ray.direction.y;
         }
 
         return target;
