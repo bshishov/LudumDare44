@@ -72,7 +72,17 @@ namespace Assets.Scripts.Editor.TextureMaker
             if (GUILayout.Button("Save"))
                 Save(_resTexture);
 
-            GUILayout.Label(_resTexture);
+            EditorGUILayout.BeginHorizontal();
+            var r1 = EditorGUILayout.GetControlRect(false, 200);
+            r1.width = Mathf.Min(r1.height, r1.width);
+            EditorGUI.DrawPreviewTexture(r1, _resTexture);
+
+            var r2 = EditorGUILayout.GetControlRect(false, 200);
+            r2.width = Mathf.Min(r2.height, r2.width);
+            EditorGUI.DrawTextureAlpha(r2, _resTexture);
+            
+            EditorGUILayout.EndHorizontal();
+            //GUILayout.Label(_resTexture);
 
             EditorGUILayout.EndVertical();
         }
@@ -98,11 +108,6 @@ namespace Assets.Scripts.Editor.TextureMaker
                 _resTexture = new RenderTexture(_resWidth, _resHeight, 0, RenderTextureFormat.ARGBFloat);
                 Graphics.Blit(null, _resTexture, material);
             }
-        }
-
-        private float GrayScale(Color c)
-        {
-            return 0.3f * c.r + 0.59f * c.g + 0.11f * c.b;
         }
 
         private Texture2D TextureField(string label, Texture2D texture)
