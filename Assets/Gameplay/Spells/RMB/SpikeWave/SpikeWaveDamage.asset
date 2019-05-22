@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
-  m_Name: VortexDamage
+  m_Name: SpikeWaveDamage
   m_EditorClassIdentifier: 
-  Name: Vortex
+  Name: SpikeWaveDamage
   Behaviour: 0
   TickCooldown: 1
   Duration: 1
   Modifiers: []
   Events:
-  - EventType: 6
+  - EventType: 2
     Affect:
       Type: 0
       ApplyModifier:
         Parameter: 1
-        Value: -7
-        EffectiveStacks: 0
+        Value: -10
+        EffectiveStacks: 10
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}
