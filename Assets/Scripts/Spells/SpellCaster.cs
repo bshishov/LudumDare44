@@ -327,7 +327,7 @@ public class SpellCaster : MonoBehaviour
             case ContextState.FindTargets:
                 subContext.failedToFindTargets = !LockTargets(context, subContext);
 
-                subContext.failedToFindTargets = !FinalizeTargets(context, subContext);
+                subContext.failedToFindTargets &= !FinalizeTargets(context, subContext);
                 context.listener?.OnStartFiring(context.Spell, context.CurrentSubSpell);
 
                 Advance();
@@ -437,19 +437,24 @@ public class SpellCaster : MonoBehaviour
             else if ((context.CurrentSubSpell.Flags & SubSpell.SpellFlags.ClosestTarget) == SubSpell.SpellFlags.ClosestTarget)
             {
                 Assert.IsTrue(source.Position.HasValue, "source.Position != null");
+                Assert.IsTrue(context.CurrentSubSpell.Area.Area == AreaOfEffect.AreaType.Ray, "ClosestTarget, Area != AreaOfEffect.AreaType.Ray");
+                Assert.IsTrue(context.CurrentSubSpell.Area.Size <= 0, "ClosestTarget, Undefined Area Size");
 
                 var availableTargets = GetFilteredCharacters(context.InitialSource,
                                                              source.Character,
                                                              context.CurrentSubSpell.AffectedTarget,
                                                              context.filteredTargets);
-                if(availableTargets.Length > 0)
+                if (availableTargets.Length > 0)
                 {
                     castData.Destinations = new[]
-                    {
-                        TargetInfo.Create(availableTargets
-                            .OrderBy(t => (t.transform.position - source.Position.Value).magnitude)
-                            .FirstOrDefault())
-                    };
+                                            {
+                                                TargetInfo.Create(availableTargets
+                                                                  .Select(t => (t, (t.transform.position - source.Position.Value).magnitude))
+                                                                  .Where(t => t.Item2 <= context.CurrentSubSpell.Area.Size)
+                                                                  .OrderBy(t => t.Item2)
+                                                                  .FirstOrDefault()
+                                                                  .Item1)
+                                            };
                 }
             }
 
