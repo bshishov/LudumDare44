@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
-  m_Name: Spell_Blink
+  m_Name: Spell_MortalLeap
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Mortal Leap
   Icon: {fileID: 0}
   Description: 
-  ApplyBuffOnDismantle: {fileID: 0}
+  ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
+    type: 2}
   LifeSteal: 0
-  BloodCost: 0
-  CastRange: 0
-  DefaultSlot: 0
-  Cooldown: 1
+  BloodCost: 5
+  CastRange: 6
+  DefaultSlot: 1
+  Cooldown: 3
   Flags: 0
   PreCastDelay: 0
   PostCastDelay: 0
