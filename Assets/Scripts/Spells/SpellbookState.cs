@@ -134,7 +134,7 @@ namespace Spells
             Assert.IsTrue(index >= 0 && index <= SpellCount);
             var slotState = GetSpellSlotState(index);
 
-            if (slotState.State != SpellState.Ready || !SpellCaster.IsValidTarget(slotState.Spell, targets))
+            if (slotState.State != SpellState.Ready || !SpellCaster.IsValidTarget(_characterState, slotState.Spell, targets))
                 return false;
 
             if (!_spellCaster.CastSpell(slotState.Spell, slotState.NumStacks + _characterState.AdditionSpellStacks,

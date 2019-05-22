@@ -114,18 +114,18 @@ public class SpellCaster : MonoBehaviour
 {
     private List<SpellContext> _activeContexts = new List<SpellContext>();
 
-    public static bool IsValidTarget(Spell spell, SpellTargets targets)
+    public static bool IsValidTarget(CharacterState owner, Spell spell, SpellTargets targets)
     {
         if ((spell.SubSpells[0].Flags & SubSpell.SpellFlags.Special) != 0)
             return true;
 
-        if (!targets.Destinations.Any(t => IsValidTarget(spell.SubSpells[0], t)))
+        if (!targets.Destinations.Any(t => IsValidTarget(owner, spell.SubSpells[0], t)))
             return false;
 
         return true;
     }
 
-    private static bool IsValidTarget(SubSpell subSpell, TargetInfo target)
+    private static bool IsValidTarget(CharacterState owner, SubSpell subSpell, TargetInfo target)
     {
         switch (subSpell.Targeting)
         {
@@ -134,6 +134,9 @@ public class SpellCaster : MonoBehaviour
 
             case SubSpell.SpellTargeting.Target:
             {
+                if (!IsEnemy(owner, target.Character, subSpell.AffectedTarget))
+                    return false;
+
                 if (target.Transform == null)
                     target.Transform = target.Character.GetNodeTransform(CharacterState.NodeRole.Chest);
                 if (target.Character == null)
@@ -163,7 +166,7 @@ public class SpellCaster : MonoBehaviour
 
     public bool CastSpell(Spell spell, int stacks, SpellTargets targets, IChannelingInfo channelingInfo, ISpellCastListener listener)
     {
-        if (!IsValidTarget(spell, targets))
+        if (!IsValidTarget(targets.Source.Character, spell, targets))
             return false;
 
         _activeContexts.Add(SpellContext.Create(this, spell, stacks, targets, channelingInfo, listener, 0));
@@ -400,7 +403,7 @@ public class SpellCaster : MonoBehaviour
             newTarget = new TargetInfo(currentTargets[0].Source);
         }
 
-        if (!IsValidTarget(context.CurrentSubSpell, newTarget))
+        if (!IsValidTarget(context.InitialSource, context.CurrentSubSpell, newTarget))
         {
             Debug.LogWarning("Channeling target is invalid!");
             return false;
@@ -438,7 +441,7 @@ public class SpellCaster : MonoBehaviour
             {
                 Assert.IsTrue(source.Position.HasValue, "source.Position != null");
                 Assert.IsTrue(context.CurrentSubSpell.Area.Area == AreaOfEffect.AreaType.Ray, "ClosestTarget, Area != AreaOfEffect.AreaType.Ray");
-                Assert.IsTrue(context.CurrentSubSpell.Area.Size <= 0, "ClosestTarget, Undefined Area Size");
+                Assert.IsTrue(context.CurrentSubSpell.Area.Size > 0, "ClosestTarget, Undefined Area Size");
 
                 var availableTargets = GetFilteredCharacters(context.InitialSource,
                                                              source.Character,
@@ -460,7 +463,7 @@ public class SpellCaster : MonoBehaviour
 
             var newTargets = new List<TargetInfo>(castData.Destinations.Length);
             foreach (var target in castData.Destinations)
-                if (IsValidTarget(context.CurrentSubSpell, target))
+                if (IsValidTarget(context.InitialSource, context.CurrentSubSpell, target))
                     newTargets.Add(target);
 
             anyTargetFound = newTargets.Count != 0;
@@ -511,7 +514,7 @@ public class SpellCaster : MonoBehaviour
                                        SpellTargets         castData,
                                        ref CharacterState[] availableTargets)
     {
-        Assert.IsTrue(IsValidTarget(context.CurrentSubSpell, target));
+        Assert.IsTrue(IsValidTarget(context.InitialSource, context.CurrentSubSpell, target));
 
         if ((context.CurrentSubSpell.Flags & SubSpell.SpellFlags.Projectile) == SubSpell.SpellFlags.Projectile)
         {
@@ -633,8 +636,12 @@ public class SpellCaster : MonoBehaviour
             {
                 // Special for single-targeted abilities
                 if (target.Character != null)
+                {
+                    Assert.IsTrue(IsEnemy(context.InitialSource, target.Character, context.CurrentSubSpell.AffectedTarget));
+
                     if (context.CurrentSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.Break))
                         return new[] {target};
+                }
 
                 if (context.CurrentSubSpell.Obstacles.HasFlag(SubSpell.ObstacleHandling.ExecuteSpellSequence))
                 {
