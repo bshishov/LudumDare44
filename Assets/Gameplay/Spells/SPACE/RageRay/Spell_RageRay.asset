@@ -22,7 +22,7 @@ MonoBehaviour:
   CastRange: 10
   DefaultSlot: 2
   Cooldown: 15
-  Flags: 1
+  Flags: 2
   PreCastDelay: 0
   PostCastDelay: 0
   SubSpells:
