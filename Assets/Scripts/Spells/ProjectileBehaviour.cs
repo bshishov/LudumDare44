@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Actors;
 using Assets.Scripts.Data;
+using Data;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -53,13 +55,13 @@ namespace Spells
             _context.trajectory = _context.projectileData.Trajectory;
 
             var position = transform.position;
-            _direction = _context.target.Position.Value - position;
+            _direction = (_context.target.Position.Value - position).normalized;
 
             position += Quaternion.LookRotation(_direction) * _context.projectileData.Offset;
             transform.position = position;
 
-            _direction = _context.target.Position.Value - position;
-            _direction = _direction.normalized;
+            _direction = (_context.target.Position.Value - position).normalized;
+
             transform.LookAt(_context.target.Position.Value);
 
             _collider = gameObject.GetComponentInChildren<Collider>();

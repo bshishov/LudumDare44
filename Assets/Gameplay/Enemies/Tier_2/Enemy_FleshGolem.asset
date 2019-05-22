@@ -19,16 +19,9 @@ MonoBehaviour:
   Size: 1
   HealthModifier: 1
   SpellDamageAmp: 0
-  Class: 1
-  IndifferenceDistance: 10
-  SpellRange: 5
-  FearRange: 0
-  MeleeRange: 1
-  AttackCooldown: 4
-  AnimationDelay: 0.9
-  ApplyBuffOnAttack: {fileID: 0}
   AdditionalSpellStacks: 0
-  DropRate: 0.05
+  AI: {fileID: 11400000, guid: 24ed12fdbaba774408fd9ad640d08b77, type: 2}
+  DropRate: 0.2
   DropSpells:
   - {fileID: 11400000, guid: 5177d30fc3c5dc740b36004dca0c4475, type: 2}
   - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}

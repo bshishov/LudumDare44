@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
+  m_Name: Buff_TrueForm
+  m_EditorClassIdentifier: 
+  Name: 
+  Behaviour: 3
+  TickCooldown: 1
+  Duration: 120
+  ApplyInitialAffectsOnReapply: 0
+  Modifiers:
+  - Parameter: 12
+    Value: 10
+    EffectiveStacks: 1
+  Events:
+  - EventType: 2
+    Affect:
+      Type: 3
+      ApplyModifier:
+        Parameter: 0
+        Value: 0
+        EffectiveStacks: 10
+      CastSpell:
+        SpellStacks: 0
+        Spell: {fileID: 0}
+        Target: 0
+        StacksOverride: 1
+      ApplyBuff:
+        Target: 0
+        StacksBehaviour: 0
+        Buff: {fileID: 0}
+        StacksOverride: 0
+      SpawnObject:
+        Prefab: {fileID: 3354834157951884170, guid: aba8e8c450988c0468c5fcf23b6cd363,
+          type: 3}
+        CharacterNode: 3
+        AttachToTransform: 1
+        AutoDestroyAfterBuff: 1
+  - EventType: 2
+    Affect:
+      Type: 3
+      ApplyModifier:
+        Parameter: 0
+        Value: 0
+        EffectiveStacks: 10
+      CastSpell:
+        SpellStacks: 0
+        Spell: {fileID: 0}
+        Target: 0
+        StacksOverride: 1
+      ApplyBuff:
+        Target: 0
+        StacksBehaviour: 0
+        Buff: {fileID: 0}
+        StacksOverride: 0
+      SpawnObject:
+        Prefab: {fileID: 5566636040313338022, guid: 9076b6e53d39f564c879b55a80fda117,
+          type: 3}
+        CharacterNode: 4
+        AttachToTransform: 0
+        AutoDestroyAfterBuff: 1
+  OnApplyBuff:
+  - Type: 0
+    ApplyModifier:
+      Parameter: 0
+      Value: 0
+      EffectiveStacks: 0
+    CastSpell:
+      SpellStacks: 0
+      Spell: {fileID: 0}
+      Target: 0
+      StacksOverride: 0
+    ApplyBuff:
+      Target: 0
+      StacksBehaviour: 0
+      Buff: {fileID: 0}
+      StacksOverride: 0
+    SpawnObject:
+      Prefab: {fileID: 3354834157951884170, guid: aba8e8c450988c0468c5fcf23b6cd363,
+        type: 3}
+      CharacterNode: 3
+      AttachToTransform: 1
+      AutoDestroyAfterBuff: 1
+  - Type: 0
+    ApplyModifier:
+      Parameter: 0
+      Value: 0
+      EffectiveStacks: 0
+    CastSpell:
+      SpellStacks: 0
+      Spell: {fileID: 0}
+      Target: 0
+      StacksOverride: 0
+    ApplyBuff:
+      Target: 0
+      StacksBehaviour: 0
+      Buff: {fileID: 0}
+      StacksOverride: 0
+    SpawnObject:
+      Prefab: {fileID: 5566636040313338022, guid: 9076b6e53d39f564c879b55a80fda117,
+        type: 3}
+      CharacterNode: 4
+      AttachToTransform: 0
+      AutoDestroyAfterBuff: 1
+  OnRefreshBuff: []
+  OnTickBuff: []
+  OnRemove: []

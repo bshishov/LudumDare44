@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Utils.Debugger.Widgets
+﻿namespace Utils.Debugger.Widgets
 {
     public class NumericWidget : StringWidget, IValueWidget<int>, IValueWidget<float>
     {

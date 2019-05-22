@@ -1,9 +1,11 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using Assets.Scripts.Data;
+using Attributes;
 using Spells;
+using UnityEngine;
 using Utils;
 
-namespace Assets.Scripts.Data
+namespace Data
 {
     [CreateAssetMenu(fileName = "Spell", menuName = "Spells/Spell")]
     [Serializable]
@@ -38,6 +40,7 @@ namespace Assets.Scripts.Data
         [Percentage(0, 1)]
         public float LifeSteal = 0f;
         public float BloodCost = 0f;
+        public float CastRange;
 
         public Slot DefaultSlot;
         public float Cooldown;
@@ -48,12 +51,15 @@ namespace Assets.Scripts.Data
         public float PreCastDelay;
         public float PostCastDelay;
 
+        [Expandable]
         public SubSpell[] SubSpells;
 
         [Header("FX")]
         public GameObject SpellEffect;
 
         public GameObject DropItem;
+
+        
 
         private GameObject _effect = null;
 

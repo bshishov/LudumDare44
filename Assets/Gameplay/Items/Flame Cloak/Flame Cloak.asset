@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Flame Cloak
   Description: A royal cloak from a firecrazed Blood Harvester. Gives you an aura
     of 5 <b>fire damage</b> per second.
-  Cost: 20
+  Cost: 30
   Icon: {fileID: -5086183621335495663, guid: 79f8526ca8b62344a9fc6dfbb87b4366, type: 3}
   Buffs:
   - {fileID: 11400000, guid: 3646ffd067000954baa08bac65a91f70, type: 2}

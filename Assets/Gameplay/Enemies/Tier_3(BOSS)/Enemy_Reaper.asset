@@ -12,26 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
   m_Name: Enemy_Reaper
   m_EditorClassIdentifier: 
-  Health: 75
-  Damage: 50
+  Health: 500
+  Damage: 0
   Speed: 10
   Evasion: 0.2
   Size: 1.5
   HealthModifier: 1
   SpellDamageAmp: 0
-  Class: 1
-  IndifferenceDistance: 30
-  SpellRange: 10
-  FearRange: 0
-  MeleeRange: 2
-  AttackCooldown: 3
-  AnimationDelay: 0.9
-  ApplyBuffOnAttack: {fileID: 0}
   AdditionalSpellStacks: 0
-  DropRate: 0.05
-  DropSpells: []
-  UseSpells:
-  - {fileID: 11400000, guid: 4baa6089aa9eda643ba4e2ddbfff3f5b, type: 2}
+  AI: {fileID: 11400000, guid: 46adddf6e96142f4ab54736caf7de263, type: 2}
+  DropRate: 1
+  DropSpells:
   - {fileID: 11400000, guid: a1eb2d413e00b1045a220000494c25b3, type: 2}
-  - {fileID: 0}
+  UseSpells:
+  - {fileID: 11400000, guid: 7ff1a65018cf8f94b9f48ce2f9d3cc5d, type: 2}
+  - {fileID: 11400000, guid: 72d87984ea9c2b4478c726b3a6075e93, type: 2}
+  - {fileID: 11400000, guid: 9bfb99d8846c56e4f97dabe3cd348e88, type: 2}
   UseBuff: {fileID: 0}

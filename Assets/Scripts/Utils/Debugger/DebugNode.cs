@@ -3,13 +3,13 @@
 #endif
 
 using System.Collections.Generic;
-using Assets.Scripts.Utils.Debugger.Widgets;
 using UnityEngine;
+using Utils.Debugger.Widgets;
 
 #if USE_REFLECTION
 #endif
 
-namespace Assets.Scripts.Utils.Debugger
+namespace Utils.Debugger
 {
     public class DebugNode
     {

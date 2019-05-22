@@ -8,7 +8,7 @@ using System.Collections.Generic;
 #if USE_REFLECTION
 #endif
 
-namespace Assets.Scripts.Utils.Debugger
+namespace Utils.Debugger
 {
     public class Cache<TKey, TVal>
     {

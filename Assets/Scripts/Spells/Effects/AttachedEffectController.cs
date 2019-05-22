@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Actors;
 using UnityEngine;
 
 namespace Spells.Effects

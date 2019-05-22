@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
+  m_Name: SubSpell_Posession
+  m_EditorClassIdentifier: 
+  AffectedTarget: 8
+  Area: {fileID: 11400000, guid: 3a0dd03146fd7c34c9ad6dd700ad040f, type: 2}
+  Targeting: 2
+  Origin: 1
+  Buffs:
+  - {fileID: 11400000, guid: ae45d5655398761418047c98f2c54f9f, type: 2}
+  BloodCost: 0
+  Effect: {fileID: 1349204274574646620, guid: b4a3ec1097c834041b3e51614b85a760, type: 3}
+  Flags: 4
+  Obstacles: 0
+  PreCastDelay: 0.05
+  PreDamageDelay: 0
+  PostCastDelay: 0
+  Projectile: {fileID: 0}
+  NewSource: 1

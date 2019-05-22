@@ -78,6 +78,12 @@ PrefabInstance:
       propertyPath: Renderers.Array.data[0]
       value: 
       objectReference: {fileID: 2799805525674555895}
+    - target: {fileID: 8195936877591315559, guid: 6e730ee76a236d149848aa28f5061e5c,
+        type: 3}
+      propertyPath: EvasionFX
+      value: 
+      objectReference: {fileID: 7694598875408499460, guid: 935ef7c5f7cd2d14dbc85476e1ebf43f,
+        type: 3}
     - target: {fileID: 4044791007691330408, guid: 6e730ee76a236d149848aa28f5061e5c,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69354cb5839c47b4abaed35449520a21, type: 3}
+  m_Name: Wave14
+  m_EditorClassIdentifier: 
+  Items:
+  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+      type: 3}
+    NumberOfThisType: 100
+    DelayBetween: 0.1
+    DelayBeforeNext: 0
+    SpawnIndex: 0
+    InitialBuffs:
+    - {fileID: 11400000, guid: 567d2b4b1294f3240b2b83da9e53ce3e, type: 2}
+  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+      type: 3}
+    NumberOfThisType: 60
+    DelayBetween: 0.1
+    DelayBeforeNext: 0
+    SpawnIndex: 1
+    InitialBuffs:
+    - {fileID: 11400000, guid: 567d2b4b1294f3240b2b83da9e53ce3e, type: 2}
+  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+      type: 3}
+    NumberOfThisType: 60
+    DelayBetween: 0.1
+    DelayBeforeNext: 5
+    SpawnIndex: 2
+    InitialBuffs:
+    - {fileID: 11400000, guid: 567d2b4b1294f3240b2b83da9e53ce3e, type: 2}

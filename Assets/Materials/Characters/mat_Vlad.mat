@@ -27,7 +27,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2200
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -76,8 +76,8 @@ Material:
     m_Floats:
     - Vector1_10154199: 1.06
     - Vector1_8B2D7675: -0.512
-    - Vector1_951CFA77: 0.564
-    - Vector1_C60959E6: 4.52
+    - Vector1_951CFA77: 0.549
+    - Vector1_C60959E6: 3.29
     - Vector1_C7706716: 0
     - Vector1_D5959C93: 0.084
     - Vector1_E93467C6: 0.119
@@ -105,9 +105,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_10EBBCA2: {r: 1, g: 1, b: 1, a: 0}
-    - Color_12DAAE22: {r: 1, g: 1, b: 1, a: 0}
+    - Color_12DAAE22: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 0}
     - Color_281A855D: {r: 1, g: 1, b: 1, a: 0}
-    - Color_FC70B0E4: {r: 1.4352942, g: 0.18039216, b: 0, a: 0}
+    - Color_FC70B0E4: {r: 2, g: 0, b: 0, a: 1}
     - Vector3_A9C3AA14: {r: 30, g: 45, b: 0, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}

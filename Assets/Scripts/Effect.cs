@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Utils.Sound;
 using UnityEngine;
+using Utils.Sound;
 
 public class Effect : MonoBehaviour, IAttachable
 {

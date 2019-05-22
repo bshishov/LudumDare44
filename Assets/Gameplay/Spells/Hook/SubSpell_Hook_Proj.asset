@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
+  m_Name: SubSpell_Hook_Proj
+  m_EditorClassIdentifier: 
+  AffectedTarget: 8
+  Area: {fileID: 0}
+  Targeting: 2
+  Origin: 1
+  Buffs:
+  - {fileID: 11400000, guid: 3687441688541cd49bf4e983b749d2df, type: 2}
+  BloodCost: 0
+  Effect: {fileID: 0}
+  Flags: 8
+  Obstacles: 10
+  PreCastDelay: 0
+  PreDamageDelay: 0
+  PostCastDelay: 0
+  Projectile: {fileID: 11400000, guid: 284dfb37d8a531346b151c6d9ff4a38c, type: 2}
+  NewSource: 2

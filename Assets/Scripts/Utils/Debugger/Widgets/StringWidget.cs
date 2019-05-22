@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-
-namespace Assets.Scripts.Utils.Debugger.Widgets
+namespace Utils.Debugger.Widgets
 {
     public class StringWidget : IValueWidget<string>, IValueWidget<object>
     {

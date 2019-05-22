@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Actors;
 using Assets.Scripts.Data;
-using Assets.Scripts.Utils.Debugger;
+using Data;
 using TMPro;
 using UnityEngine;
+using Utils.Debugger;
 
 [RequireComponent(typeof(CharacterState))]
 public class Dummy : MonoBehaviour
@@ -23,7 +25,7 @@ public class Dummy : MonoBehaviour
     {
         _characterState = GetComponent<CharacterState>();
 #if DEBUG
-        _characterState.OnModifierApplied += CharacterStateOnOnModifierApplied;
+        _characterState.ModifierApplied += CharacterStateOnOnModifierApplied;
 #endif
     }
 

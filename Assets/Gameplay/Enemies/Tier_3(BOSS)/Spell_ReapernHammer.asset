@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Name: Spell_ReapernHammer
+  m_EditorClassIdentifier: 
+  Name: Reaper Hammer
+  Icon: {fileID: 6876218924004010766, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Description: 'After a short delay, creates a ghost hammer, which smashes the enemies
+
+    <b>Damage</b>: 7'
+  ApplyBuffOnDismantle: {fileID: 11400000, guid: c2bf24e4004b1954e99e4ce13852e4fb,
+    type: 2}
+  LifeSteal: 0
+  BloodCost: 0
+  CastRange: 7
+  DefaultSlot: 2
+  Cooldown: 0
+  Flags: 0
+  PreCastDelay: 0
+  PostCastDelay: 0
+  SubSpells:
+  - {fileID: 11400000, guid: 8da3dd44b3d7e7a4dbdefaa0391fc9d3, type: 2}
+  SpellEffect: {fileID: 0}
+  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
+    type: 3}

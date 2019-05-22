@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Utils.Debugger.Widgets
+namespace Utils.Debugger.Widgets
 {
     public class ActionWidget : IValueWidget<Action>, IActionWidget
     {

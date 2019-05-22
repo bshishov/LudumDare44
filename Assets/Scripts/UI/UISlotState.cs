@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Scripts.Data;
+using Data;
 using Spells;
 using TMPro;
 using UnityEngine;

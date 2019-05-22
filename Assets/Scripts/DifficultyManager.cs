@@ -1,43 +1,46 @@
-﻿using Assets.Scripts.Data;
+﻿using Assets.Scripts.Utils;
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using Data;
 using UnityEngine;
 
-public class DifficultyManager : MonoBehaviour
+public class DifficultyManager : Singleton<DifficultyManager>
 {
     [Serializable]
     public class Difficulty
     {
         public string DifficultyName;
         public float NextDifficultyStamp;
-        public List<Buff> DifficultyBuffs = new List<Buff>();        
+        public Buff[] DifficultyBuffs;        
     }
     
-    public List<Difficulty> Difficulties = new List<Difficulty>();
-    private float _timeChecker;
-
-    // Start is called before the first frame update
-    void Start()
+    public Difficulty[] Difficulties;
+    public int CurrentDifficultyIndex { get; private set; }
+    private float _timeSinceStart;
+    
+    private void Start()
     {
-        _timeChecker = 0;
+        CurrentDifficultyIndex = 0;
+        _timeSinceStart = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        _timeChecker += Time.deltaTime;           
+        _timeSinceStart += Time.deltaTime;
+        if (CurrentDifficultyIndex + 1 < Difficulties.Length && 
+            Difficulties[CurrentDifficultyIndex].NextDifficultyStamp < _timeSinceStart)
+            CurrentDifficultyIndex += 1;
     }
 
-    public Difficulty ReturnDiff()
+    public Difficulty GetDifficulty(int difficultyIndex)
     {
-        foreach (Difficulty diff in Difficulties)
-        {
-            if (_timeChecker < diff.NextDifficultyStamp)
-            {
-                return diff;
-            }
-        }
-        return null;
+        if (difficultyIndex >= Difficulties.Length || difficultyIndex < 0)
+            return null;
+
+        return Difficulties[difficultyIndex];
+    }
+    
+    public float GetTimeSinceStart()
+    {
+        return _timeSinceStart;
     }
 }

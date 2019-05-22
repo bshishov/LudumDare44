@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
+  m_Name: Enemy_Spider
+  m_EditorClassIdentifier: 
+  Health: 1
+  Damage: 3
+  Speed: 6.3
+  Evasion: 0
+  Size: 1
+  HealthModifier: 1
+  SpellDamageAmp: 0
+  AdditionalSpellStacks: 0
+  AI: {fileID: 11400000, guid: e9a23e839936fb8498710caec5f1ddfd, type: 2}
+  DropRate: 0.05
+  DropSpells:
+  - {fileID: 11400000, guid: 0f5e31d5e7d195e4dbcf8c1f34aa4da3, type: 2}
+  - {fileID: 11400000, guid: 4dea2418d8494ae43ba01a378694fbf2, type: 2}
+  - {fileID: 11400000, guid: 1e6940b2adb5d7244a4fbff980a6250e, type: 2}
+  - {fileID: 11400000, guid: c26cb1742481020428164b5b9dea2f1e, type: 2}
+  - {fileID: 11400000, guid: d7808e7fb811ac247a488fdf8e4a970d, type: 2}
+  - {fileID: 11400000, guid: 1e6940b2adb5d7244a4fbff980a6250e, type: 2}
+  UseSpells: []
+  UseBuff: {fileID: 0}

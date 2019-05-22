@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Assets.Scripts.Utils.Debugger.Widgets
+namespace Utils.Debugger.Widgets
 {
     public interface INestedWidget : IWidget, IEnumerable<KeyValuePair<string, IWidget>>
     {

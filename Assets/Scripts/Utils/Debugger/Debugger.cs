@@ -4,10 +4,10 @@
 
 using System;
 using System.Collections.Generic;
-using Assets.Scripts.Utils.Debugger.Widgets;
 using UnityEngine;
+using Utils.Debugger.Widgets;
 
-namespace Assets.Scripts.Utils.Debugger
+namespace Utils.Debugger
 {
     public static class Debugger
     {

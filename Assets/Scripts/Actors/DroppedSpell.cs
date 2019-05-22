@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.Scripts;
 using Assets.Scripts.Data;
+using Data;
 using UnityEngine;
 
 namespace Actors

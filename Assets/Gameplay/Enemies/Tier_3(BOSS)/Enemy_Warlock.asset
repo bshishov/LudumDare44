@@ -12,27 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
   m_Name: Enemy_Warlock
   m_EditorClassIdentifier: 
-  Health: 50
-  Damage: 20
-  Speed: 1
+  Health: 250
+  Damage: 0
+  Speed: 4
   Evasion: 0
   Size: 1.5
   HealthModifier: 1
   SpellDamageAmp: 0
-  Class: 1
-  IndifferenceDistance: 30
-  SpellRange: 10
-  FearRange: 5
-  MeleeRange: 1
-  AttackCooldown: 4
-  AnimationDelay: 0.9
-  ApplyBuffOnAttack: {fileID: 0}
   AdditionalSpellStacks: 0
-  DropRate: 0
+  AI: {fileID: 11400000, guid: b27c7d50228530a468d057b1f9765830, type: 2}
+  DropRate: 1
   DropSpells:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 41bc41e4122d0d5448573d2df74d1bb3, type: 2}
+  - {fileID: 11400000, guid: 9bfb99d8846c56e4f97dabe3cd348e88, type: 2}
   UseSpells:
-  - {fileID: 11400000, guid: b68c04cbeb37eda4a99856ef5358d680, type: 2}
-  - {fileID: 11400000, guid: 4dea2418d8494ae43ba01a378694fbf2, type: 2}
+  - {fileID: 11400000, guid: 41bc41e4122d0d5448573d2df74d1bb3, type: 2}
+  - {fileID: 11400000, guid: 14c05abaa6e1c1d40b2f67c15064319f, type: 2}
   - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
   UseBuff: {fileID: 0}

@@ -13,9 +13,66 @@ MonoBehaviour:
   m_Name: Wave2
   m_EditorClassIdentifier: 
   Items:
-  - EnemyPrefab: {fileID: 4599828857582344462, guid: 2aa5beb7ca1684048be823f4bcef309e,
+  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
       type: 3}
-    NumberOfThisType: 10
-    DelayBetween: 1
-    DelayBeforeNext: 10
+    NumberOfThisType: 15
+    DelayBetween: 0.1
+    DelayBeforeNext: 0
     SpawnIndex: 0
+    InitialBuffs: []
+  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+      type: 3}
+    NumberOfThisType: 15
+    DelayBetween: 0.1
+    DelayBeforeNext: 0
+    SpawnIndex: 1
+    InitialBuffs: []
+  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+      type: 3}
+    NumberOfThisType: 15
+    DelayBetween: 0.1
+    DelayBeforeNext: 5
+    SpawnIndex: 2
+    InitialBuffs: []
+  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+      type: 3}
+    NumberOfThisType: 15
+    DelayBetween: 0.1
+    DelayBeforeNext: 0
+    SpawnIndex: 0
+    InitialBuffs: []
+  - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
+      type: 3}
+    NumberOfThisType: 7
+    DelayBetween: 0.2
+    DelayBeforeNext: 0
+    SpawnIndex: 0
+    InitialBuffs: []
+  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+      type: 3}
+    NumberOfThisType: 15
+    DelayBetween: 0.1
+    DelayBeforeNext: 0
+    SpawnIndex: 1
+    InitialBuffs: []
+  - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
+      type: 3}
+    NumberOfThisType: 7
+    DelayBetween: 0.2
+    DelayBeforeNext: 0
+    SpawnIndex: 1
+    InitialBuffs: []
+  - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
+      type: 3}
+    NumberOfThisType: 15
+    DelayBetween: 0.1
+    DelayBeforeNext: 0
+    SpawnIndex: 2
+    InitialBuffs: []
+  - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
+      type: 3}
+    NumberOfThisType: 7
+    DelayBetween: 0.2
+    DelayBeforeNext: 5
+    SpawnIndex: 2
+    InitialBuffs: []

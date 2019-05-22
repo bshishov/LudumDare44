@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Actors;
 using Assets.Scripts.Data;
+using Data;
 using UnityEngine;
 
 namespace Spells
@@ -24,7 +26,7 @@ namespace Spells
 
         ContextState State { get; }
 
-        //ISubSpellContext SubContext { get; }
+        //SubSpellContext SubContext { get; }
 
         bool IsLastSubSpell { get; }
 

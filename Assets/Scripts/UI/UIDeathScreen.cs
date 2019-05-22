@@ -1,4 +1,5 @@
-﻿using Assets.Scripts;
+﻿using Actors;
+using Assets.Scripts;
 using Assets.Scripts.Utils.UI;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ namespace UI
 
             _canvasGroupFader = GetComponent<UICanvasGroupFader>();
             if(_playerState != null)
-                _playerState.OnDeath += PlayerStateOnDeath;
+                _playerState.Died += PlayerStateOnDeath;
         }
 
         private void PlayerStateOnDeath()

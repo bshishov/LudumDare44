@@ -1,20 +1,23 @@
-﻿using Assets.Scripts.Data;
+﻿using Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIItem : MonoBehaviour
+namespace UI
 {
-    public Image Icon;
-    public TextMeshProUGUI StacksText;
-    public Item Item;
-
-    private Item _item;
-
-    public void Setup(Item item, int stacks)
+    public class UIItem : MonoBehaviour
     {
-        Item = item;
-        Icon.sprite = item.Icon;
-        StacksText.text = $"x{stacks:0}";
+        public Image Icon;
+        public TextMeshProUGUI StacksText;
+        public Item Item;
+
+        private Item _item;
+
+        public void Setup(Item item, int stacks)
+        {
+            Item = item;
+            Icon.sprite = item.Icon;
+            StacksText.text = $"x{stacks:0}";
+        }
     }
 }

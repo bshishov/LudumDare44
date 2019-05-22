@@ -2,8 +2,9 @@
 using Actors;
 using Assets.Scripts;
 using Assets.Scripts.Data;
-using Assets.Scripts.Utils.Debugger;
+using Data;
 using Spells;
+using UI;
 
 public class PlayerController : MonoBehaviour, IChannelingInfo
 {
@@ -27,31 +28,40 @@ public class PlayerController : MonoBehaviour, IChannelingInfo
         var slotState = _spellbook.GetSpellSlotState(slotIndex);
         if (slotState.State != SpellbookState.SpellState.Ready)
         {
+            // TODO: B-O-O-B! DO SOMETHING!
+            if(slotState.Spell != null && slotState.Spell.Cooldown > 5f)
+                UIInvalidAction.Instance?.Show(UIInvalidAction.InvalidAction.SpellIsNotReady);
             // Spell is not ready or missing - just exit
             return;
         }
 
         if (_characterState.Health <= slotState.Spell.BloodCost)
         {
+            UIInvalidAction.Instance?.Show(UIInvalidAction.InvalidAction.NotEnoughBlood);
             // Not enough hp
             return;
         }
         
         var target = GetTarget();
-        if(target == null)
+        if (target == null)
+        {
+            UIInvalidAction.Instance?.Show(UIInvalidAction.InvalidAction.InvalidTarget);
             return;
+        }
 
         if (_spellbook.TryFireSpellToTarget(slotIndex, target, this))
         {
             // If cast was successful, reduce hp by cost amount
-            _characterState.ApplyModifier(
-                                          ModificationParameter.HpFlat, 
+            _characterState.ApplyModifier(ModificationParameter.HpFlat, 
                                           -slotState.Spell.BloodCost, 
                                           1, 
                                           1, 
                                           _characterState, 
-                                          null, 
-                                          out _);
+                                          null);
+        }
+        else
+        {
+            UIInvalidAction.Instance?.Show(UIInvalidAction.InvalidAction.CantCastSpell);
         }
     }
 
@@ -116,19 +126,19 @@ public class PlayerController : MonoBehaviour, IChannelingInfo
 
         // Finally move using movement controller
         var motionVector = _inputMoveDirection.normalized * _characterState.Speed * Time.deltaTime;
-        _movement.Move(motionVector);
+        _movement.ControlMove(motionVector);
 
         // Rotate towards location under the cursor
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out var hit, 100f, Common.LayerMasks.Ground))
         {
-            _movement.LookAt(hit.point);
+            _movement.ControlLookAt(hit.point);
         }
     }
 
     public TargetInfo GetNewTarget()
     {
-        if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetButton("Ult"))
+        if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetButton(Common.Input.UltButton))
             return GetTarget();
         return null;
     }

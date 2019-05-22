@@ -4,12 +4,13 @@ using Assets.Scripts.Utils;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils.Sound;
 
 
 public class LevelManager : Singleton<LevelManager>
 {
     public Assets.Scripts.Utils.UI.UICanvasGroupFader ScreenFader;
-    public Assets.Scripts.Utils.Sound.Sound Music;
+    public Sound Music;
     private string _nextLevelRequest;
 
     void Start()

@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 305d26f3bbf1437458b24270dc6254c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetOffset: {x: 0, y: 11, z: -8}
+  TargetOffset: {x: 0, y: 15, z: -8}
   MoveTime: 0.05
   RotationTime: 0.05
   SecondaryTargetWeight: 0

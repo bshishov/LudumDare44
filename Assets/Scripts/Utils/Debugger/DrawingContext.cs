@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Utils.Debugger
+﻿namespace Utils.Debugger
 {
     public class DrawingContext
     {

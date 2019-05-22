@@ -18,13 +18,12 @@ MonoBehaviour:
   ApplyBuffOnDismantle: {fileID: 0}
   LifeSteal: 0
   BloodCost: 0
+  CastRange: 10
   DefaultSlot: 0
   Cooldown: 0
-  CastingTime: 0
   Flags: 0
   PreCastDelay: 0
   PostCastDelay: 0
-  ChannelTime: 0
   SubSpells:
   - {fileID: 11400000, guid: 4cb3d184c6ea43d42a389a862c9449ad, type: 2}
   - {fileID: 11400000, guid: fe5fce75e6cf6f2489a653f9cf8d3315, type: 2}

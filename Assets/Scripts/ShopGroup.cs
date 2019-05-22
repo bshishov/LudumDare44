@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts;
-using Assets.Scripts.Data;
 using Assets.Scripts.Utils;
+using Data;
 using UnityEngine;
+using Utils;
 
 public class ShopGroup : MonoBehaviour
 {

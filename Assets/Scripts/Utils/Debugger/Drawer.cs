@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
-namespace Assets.Scripts.Utils.Debugger
+namespace Utils.Debugger
 {
     public class Drawer
     {

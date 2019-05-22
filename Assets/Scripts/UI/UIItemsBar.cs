@@ -1,57 +1,59 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts;
-using Assets.Scripts.Data;
+using Actors;
+using Data;
 using UnityEngine;
 
-public class UIItemsBar : MonoBehaviour
+namespace UI
 {
-    public GameObject UIItemPrefab;
-
-    private CharacterState _playerState;
-    private readonly List<UIItem> _items = new List<UIItem>();
-
-    void Start()
+    public class UIItemsBar : MonoBehaviour
     {
-        var player = GameObject.FindGameObjectWithTag(Common.Tags.Player);
-        if (player != null)
+        public GameObject UIItemPrefab;
+
+        private CharacterState _playerState;
+        private readonly List<UIItem> _items = new List<UIItem>();
+
+        void Start()
         {
-            _playerState = player.GetComponent<CharacterState>();
-            if (_playerState == null)
+            var player = GameObject.FindGameObjectWithTag(Common.Tags.Player);
+            if (player != null)
             {
-                Debug.LogWarning("PlayerState not found");
+                _playerState = player.GetComponent<CharacterState>();
+                if (_playerState == null)
+                {
+                    Debug.LogWarning("PlayerState not found");
+                }
             }
-        }
 
-        if (_playerState != null)
-        {
+            if (_playerState != null)
+            {
 
-            _playerState.OnItemPickup += PlayerStateOnOnItemPickup;
+                _playerState.OnItemPickup += PlayerStateOnOnItemPickup;
             
+            }
         }
-    }
 
-    void UpdateItems()
-    {
-        foreach (var itemState in _playerState.Items)
+        void UpdateItems()
         {
-            var existing = _items.FirstOrDefault(i => i.Item.Equals(itemState.Item));
-            if (existing != null)
+            foreach (var itemState in _playerState.Items)
             {
-                existing.Setup(itemState.Item, itemState.Stacks);
-            }
-            else
-            {
-                var newItem = Instantiate(UIItemPrefab, transform, false).GetComponent<UIItem>();
-                newItem.Setup(itemState.Item, itemState.Stacks);
-                _items.Add(newItem);
+                var existing = _items.FirstOrDefault(i => i.Item.Equals(itemState.Item));
+                if (existing != null)
+                {
+                    existing.Setup(itemState.Item, itemState.Stacks);
+                }
+                else
+                {
+                    var newItem = Instantiate(UIItemPrefab, transform, false).GetComponent<UIItem>();
+                    newItem.Setup(itemState.Item, itemState.Stacks);
+                    _items.Add(newItem);
+                }
             }
         }
-    }
 
-    private void PlayerStateOnOnItemPickup(Item item, int stacks)
-    {
-        UpdateItems();
+        private void PlayerStateOnOnItemPickup(Item item, int stacks)
+        {
+            UpdateItems();
+        }
     }
 }

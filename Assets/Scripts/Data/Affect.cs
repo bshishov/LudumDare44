@@ -1,11 +1,27 @@
 ﻿using System;
+using Actors;
 using UnityEngine;
 
-namespace Assets.Scripts.Data
+namespace Data
 {
     [Serializable]
     public class Affect
     {
+        public enum AffectType
+        {
+            ApplyModifier,
+            CastSpell,
+            ApplyBuff,
+            SpawnObject,
+            Move
+        }
+        
+        public enum StacksBehaviour
+        {
+            Inherit,
+            Override,
+        }
+
         [Serializable]
         public class SpawnObjectInfo
         {
@@ -17,13 +33,6 @@ namespace Assets.Scripts.Data
 
             [Header("Lifecycle")]
             public bool AutoDestroyAfterBuff = false;
-        }
-
-        [Serializable]
-        public enum StacksBehaviour
-        {
-            Inherit,
-            Override,
         }
 
         [Serializable]
@@ -69,9 +78,39 @@ namespace Assets.Scripts.Data
             public int StacksOverride;
         }
 
+        [Serializable]
+        public struct MoveInfo
+        {
+            public enum MoveRelation
+            {
+                LookDirection,
+                SourceCharacter,
+                SpellTarget,
+                SpellSource,
+                SpellTargetSource,
+                ChanellingTarget,
+            }
+
+            public enum MovementType
+            {
+                Warp,
+                Navigational,
+                IgnoreNavigation
+            }
+
+            public MoveRelation RelativeTo;
+            public MovementType Type;
+            public StackableProperty Speed;
+            public StackableProperty MovementDuration;
+            public StackableProperty MaxDistanceFromOrigin;
+            public bool BreakOnDestination;
+        }
+
+        public AffectType Type;
         public Modifier ApplyModifier;
         public SpellCastInfo CastSpell;
         public ApplyBuffInfo ApplyBuff;
         public SpawnObjectInfo SpawnObject;
+        public MoveInfo Move;
     }
 }

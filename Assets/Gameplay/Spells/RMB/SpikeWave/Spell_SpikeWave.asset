@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Name: Spell_SpikeWave
+  m_EditorClassIdentifier: 
+  Name: Spike Wave
+  Icon: {fileID: -768691935143330167, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Description: 'Launches at a targeted direction a cone of spikes, dealing damage
+    and slowing affected enemies
+
+    <b>Damage</b>: 4                             5% <b>Stackable slow</b>'
+  ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
+    type: 2}
+  LifeSteal: 0
+  BloodCost: 9
+  CastRange: 5
+  DefaultSlot: 1
+  Cooldown: 1
+  Flags: 4
+  PreCastDelay: 0
+  PostCastDelay: 0
+  SubSpells:
+  - {fileID: 11400000, guid: afe9894e2d403364eba2688a8519927b, type: 2}
+  - {fileID: 11400000, guid: 91b1425ba49a7f84e89eb504921776e2, type: 2}
+  - {fileID: 11400000, guid: 2864752511d0c934d8fa164441bed79b, type: 2}
+  - {fileID: 11400000, guid: 25727bd6489080d40a46cf7d75dffa80, type: 2}
+  - {fileID: 11400000, guid: e101e78b7872742429025605721b5fec, type: 2}
+  SpellEffect: {fileID: 0}
+  DropItem: {fileID: 131193077828940303, guid: b97354f0857bded449811f9f327d95a5, type: 3}

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Actors;
 using Assets.Scripts.Data;
+using Data;
 using TMPro;
 
 [RequireComponent(typeof(Cheats))]

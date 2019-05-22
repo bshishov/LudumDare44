@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Assets.Scripts.Utils.Debugger
+namespace Utils.Debugger
 {
     [Serializable]
     public class FixedSizeStack<T> : IEnumerable<T>, IEnumerable
@@ -50,10 +50,7 @@ namespace Assets.Scripts.Utils.Debugger
             return _count;
         }
 
-        public int Size
-        {
-            get { return _data.Length; }
-        }
+        public int Size => _data.Length;
 
         public void Clear()
         {

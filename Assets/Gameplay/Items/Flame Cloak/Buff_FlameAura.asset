@@ -13,39 +13,132 @@ MonoBehaviour:
   m_Name: Buff_FlameAura
   m_EditorClassIdentifier: 
   Name: Flame Cloak
-  Behaviour: 1
+  Behaviour: 0
   TickCooldown: 1
   Duration: 100000
   Modifiers: []
-  OnApplyBuff:
-  - ApplyModifier:
-      Parameter: 0
-      Value: 0
-      EffectiveStacks: 0
-    CastSpell:
-      SpellStacks: 0
-      Spell: {fileID: 0}
-      Target: 0
-      StacksOverride: 0
-    SpawnObject:
-      Prefab: {fileID: 4870443499398435086, guid: aa40de8e742a8cf47b201c85ecd0e809,
-        type: 3}
-      CharacterNode: 4
-      AttachToTransform: 1
-      AutoDestroyAfterBuff: 1
-  OnTickBuff:
-  - ApplyModifier:
-      Parameter: 1
-      Value: 0
-      EffectiveStacks: 10
-    CastSpell:
-      SpellStacks: 0
-      Spell: {fileID: 11400000, guid: 2a8dd3ba9c3fbc9469d8766cbd46f7e8, type: 2}
-      Target: 2
-      StacksOverride: 1
-    SpawnObject:
-      Prefab: {fileID: 0}
-      CharacterNode: 0
-      AttachToTransform: 0
-      AutoDestroyAfterBuff: 0
-  OnRemove: []
+  Events:
+  - EventType: 2
+    Affect:
+      Type: 3
+      ApplyModifier:
+        Parameter: 0
+        Value: 0
+        EffectiveStacks: 10
+      CastSpell:
+        SpellStacks: 0
+        Spell: {fileID: 0}
+        Target: 0
+        StacksOverride: 1
+      ApplyBuff:
+        Target: 0
+        StacksBehaviour: 0
+        Buff: {fileID: 0}
+        StacksOverride: 0
+      SpawnObject:
+        Prefab: {fileID: 4870443499398435086, guid: aa40de8e742a8cf47b201c85ecd0e809,
+          type: 3}
+        CharacterNode: 4
+        AttachToTransform: 1
+        AutoDestroyAfterBuff: 1
+      Move:
+        RelativeTo: 0
+        Type: 0
+        Speed:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MovementDuration:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MaxDistanceFromOrigin:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        BreakOnDestination: 0
+  - EventType: 8
+    Affect:
+      Type: 0
+      ApplyModifier:
+        Parameter: 1
+        Value: 0
+        EffectiveStacks: 10
+      CastSpell:
+        SpellStacks: 0
+        Spell: {fileID: 0}
+        Target: 0
+        StacksOverride: 1
+      ApplyBuff:
+        Target: 0
+        StacksBehaviour: 0
+        Buff: {fileID: 0}
+        StacksOverride: 0
+      SpawnObject:
+        Prefab: {fileID: 0}
+        CharacterNode: 0
+        AttachToTransform: 0
+        AutoDestroyAfterBuff: 0
+      Move:
+        RelativeTo: 0
+        Type: 0
+        Speed:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MovementDuration:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MaxDistanceFromOrigin:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        BreakOnDestination: 0
+  - EventType: 8
+    Affect:
+      Type: 1
+      ApplyModifier:
+        Parameter: 0
+        Value: 0
+        EffectiveStacks: 10
+      CastSpell:
+        SpellStacks: 0
+        Spell: {fileID: 11400000, guid: b5208ff054c83014a8c1a55fe443cdee, type: 2}
+        Target: 2
+        StacksOverride: 1
+      ApplyBuff:
+        Target: 0
+        StacksBehaviour: 0
+        Buff: {fileID: 0}
+        StacksOverride: 0
+      SpawnObject:
+        Prefab: {fileID: 0}
+        CharacterNode: 0
+        AttachToTransform: 0
+        AutoDestroyAfterBuff: 0
+      Move:
+        RelativeTo: 0
+        Type: 0
+        Speed:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MovementDuration:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MaxDistanceFromOrigin:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        BreakOnDestination: 0

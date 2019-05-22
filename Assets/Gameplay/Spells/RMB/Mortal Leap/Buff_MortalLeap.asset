@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
+  m_Name: Buff_MortalLeap
+  m_EditorClassIdentifier: 
+  Name: Blink
+  Behaviour: 0
+  TickCooldown: 0.5
+  Duration: 0.5
+  Modifiers: []
+  Events:
+  - EventType: 6
+    Affect:
+      Type: 4
+      ApplyModifier:
+        Parameter: 0
+        Value: 0
+        EffectiveStacks: 0
+      CastSpell:
+        SpellStacks: 0
+        Spell: {fileID: 0}
+        Target: 0
+        StacksOverride: 0
+      ApplyBuff:
+        Target: 0
+        StacksBehaviour: 0
+        Buff: {fileID: 0}
+        StacksOverride: 0
+      SpawnObject:
+        Prefab: {fileID: 0}
+        CharacterNode: 0
+        AttachToTransform: 0
+        AutoDestroyAfterBuff: 0
+      Move:
+        RelativeTo: 5
+        Type: 0
+        Speed:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MovementDuration:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MaxDistanceFromOrigin:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        BreakOnDestination: 1
+  - EventType: 6
+    Affect:
+      Type: 1
+      ApplyModifier:
+        Parameter: 0
+        Value: 0
+        EffectiveStacks: 0
+      CastSpell:
+        SpellStacks: 0
+        Spell: {fileID: 11400000, guid: d2bb7d8c46387aa41b8e8e510df9aa73, type: 2}
+        Target: 0
+        StacksOverride: 1
+      ApplyBuff:
+        Target: 0
+        StacksBehaviour: 0
+        Buff: {fileID: 0}
+        StacksOverride: 0
+      SpawnObject:
+        Prefab: {fileID: 0}
+        CharacterNode: 0
+        AttachToTransform: 0
+        AutoDestroyAfterBuff: 0
+      Move:
+        RelativeTo: 5
+        Type: 0
+        Speed:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MovementDuration:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MaxDistanceFromOrigin:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        BreakOnDestination: 1

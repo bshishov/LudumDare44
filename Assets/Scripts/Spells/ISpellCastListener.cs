@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Data;
+using Data;
 
 namespace Spells
 {
