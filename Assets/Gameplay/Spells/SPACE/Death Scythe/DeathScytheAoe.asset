@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Size: 5
   MinSize: 0
-  Angle: 60
+  Angle: 180
   Area: 3
