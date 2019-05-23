@@ -733,7 +733,7 @@ namespace Actors
                     // If taking damage
                     if (_hp < oldHp)
                     {
-                        if (_hp < 0)
+                        if (_hp <= 0f)
                             HandleDeath();
                         else
                             _animationController.PlayHitImpactAnimation();
