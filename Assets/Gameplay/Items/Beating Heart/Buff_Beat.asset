@@ -59,3 +59,44 @@ MonoBehaviour:
           ModifierPerStack: 0
           EffectiveStacks: 0
         BreakOnDestination: 0
+  - EventType: 6
+    Affect:
+      Type: 0
+      ApplyModifier:
+        Parameter: 1
+        Value: -2
+        EffectiveStacks: 5
+      CastSpell:
+        SpellStacks: 0
+        Spell: {fileID: 0}
+        Target: 0
+        StacksOverride: 0
+      ApplyBuff:
+        Target: 0
+        StacksBehaviour: 0
+        Buff: {fileID: 0}
+        StacksOverride: 0
+      SpawnObject:
+        Prefab: {fileID: 0}
+        CharacterNode: 0
+        AttachToTransform: 0
+        AutoDestroyAfterBuff: 0
+      Move:
+        RelativeTo: 3
+        Type: 2
+        Speed:
+          Type: 0
+          BaseValue: -3
+          ModifierPerStack: 0
+          EffectiveStacks: 0
+        MovementDuration:
+          Type: 0
+          BaseValue: 0.5
+          ModifierPerStack: 0
+          EffectiveStacks: 0
+        MaxDistanceFromOrigin:
+          Type: 0
+          BaseValue: 1000000
+          ModifierPerStack: 0
+          EffectiveStacks: 0
+        BreakOnDestination: 0
