@@ -28,3 +28,6 @@ MonoBehaviour:
   - Slot: 1
     Weight: 1
     WaitAfterCast: 0
+  - Slot: 2
+    Weight: 1
+    WaitAfterCast: 0

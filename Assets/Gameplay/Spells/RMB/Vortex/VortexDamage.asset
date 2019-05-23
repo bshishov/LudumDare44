@@ -24,7 +24,7 @@ MonoBehaviour:
       ApplyModifier:
         Parameter: 1
         Value: -8
-        EffectiveStacks: 0
+        EffectiveStacks: 1
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}

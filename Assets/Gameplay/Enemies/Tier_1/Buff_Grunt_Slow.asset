@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Buff_Grunt_Slow
   m_EditorClassIdentifier: 
   Name: 
-  Behaviour: 2
+  Behaviour: 1
   TickCooldown: 0.5
   Duration: 3
   Modifiers:
