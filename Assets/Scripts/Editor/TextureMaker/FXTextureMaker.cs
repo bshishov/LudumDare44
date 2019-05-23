@@ -11,6 +11,13 @@ namespace Assets.Scripts.Editor.TextureMaker
             TextureAlpha,
         }
 
+        public enum CMapMode
+        {
+            None,
+            ReplaceColor = 1,
+            MultiplyColor = 2
+        }
+
         [MenuItem("Window/FX Texture Maker")]
         public static void ShowWindow()
         {
@@ -22,17 +29,20 @@ namespace Assets.Scripts.Editor.TextureMaker
 
         private Texture2D _textureA;
         private Texture2D _textureB;
-        private RenderTexture _resTexture;
+        private Texture2D _resTexture;
+        private Texture2D _colorMapRender;
         private Color _color = Color.white;
+        private Gradient _colorMap = new Gradient();
         private GUIStyle _textureFieldStyle;
         private Source _rgbSource;
         private Source _aSource;
-
+        private CMapMode _cMapMode;
         private bool _settingsToggle;
         private int _resWidth = 512;
         private int _resHeight = 512;
         private TextureFormat _resFormat = TextureFormat.ARGB32;
         private bool _resMipChain = true;
+        private Material _material;
 
         void OnGUI()
         {
@@ -57,6 +67,16 @@ namespace Assets.Scripts.Editor.TextureMaker
 
             _color = EditorGUILayout.ColorField(new GUIContent("Color"), _color, true, true, true);
 
+            _cMapMode = (CMapMode) EditorGUILayout.EnumPopup("Color map", _cMapMode);
+
+            if (_cMapMode != CMapMode.None)
+            {
+                EditorGUI.BeginChangeCheck();
+                _colorMap = EditorGUILayout.GradientField("Color Map", _colorMap);
+                if (EditorGUI.EndChangeCheck())
+                    _colorMapRender = RenderGradient(_colorMap);
+            }
+
             // Settings
             _settingsToggle = EditorGUILayout.BeginToggleGroup("Result settings", _settingsToggle);
             _resWidth = EditorGUILayout.IntField("Width", _resWidth);
@@ -67,47 +87,69 @@ namespace Assets.Scripts.Editor.TextureMaker
             
 
             if (GUILayout.Button("Combine"))
-                DoCombine();
-
+                _resTexture = Render();
+            
             if (GUILayout.Button("Save"))
                 Save(_resTexture);
 
-            EditorGUILayout.BeginHorizontal();
-            var r1 = EditorGUILayout.GetControlRect(false, 200);
-            r1.width = Mathf.Min(r1.height, r1.width);
-            EditorGUI.DrawPreviewTexture(r1, _resTexture);
-
-            var r2 = EditorGUILayout.GetControlRect(false, 200);
-            r2.width = Mathf.Min(r2.height, r2.width);
-            EditorGUI.DrawTextureAlpha(r2, _resTexture);
-            
-            EditorGUILayout.EndHorizontal();
-            //GUILayout.Label(_resTexture);
+            DrawPreview(_colorMapRender);
+            DrawPreview(_resTexture);
 
             EditorGUILayout.EndVertical();
         }
 
-        private void DoCombine()
+        private void DrawPreview(Texture texture)
+        {
+            if (texture != null)
+            {
+                EditorGUILayout.BeginHorizontal();
+                var r1 = EditorGUILayout.GetControlRect(false, 200);
+                r1.width = Mathf.Min(r1.height, r1.width);
+                EditorGUI.DrawPreviewTexture(r1, texture);
+
+                var r2 = EditorGUILayout.GetControlRect(false, 200);
+                r2.width = Mathf.Min(r2.height, r2.width);
+                EditorGUI.DrawTextureAlpha(r2, texture);
+                EditorGUILayout.EndHorizontal();
+            }
+        }
+
+        private Texture2D Render()
         {
             var shader = Shader.Find(CombineShaderName);
             if (shader == null)
             {
                 Debug.LogWarningFormat("Can't find shader: {0}", CombineShaderName);
-                return;
+                return null;
             }
 
-            var material = new Material(shader);
-            material.SetTexture("_TexA", _textureA);
-            material.SetTexture("_TexB", _textureB);
-            material.color = _color;
-            material.SetInt("_rgbMode", (int)_rgbSource);
-            material.SetInt("_alphaSource", (int)_aSource);
+            if(_material == null)
+                _material = new Material(shader);
 
-            if (_resWidth > 0 && _resHeight > 0)
-            {
-                _resTexture = new RenderTexture(_resWidth, _resHeight, 0, RenderTextureFormat.ARGBFloat);
-                Graphics.Blit(null, _resTexture, material);
-            }
+            // Setup material
+            _material.SetTexture("_TexA", _textureA);
+            _material.SetTexture("_TexB", _textureB);
+            _material.SetTexture("_ColorMap", _colorMapRender);
+            _material.color = _color;
+            _material.SetInt("_rgbMode", (int)_rgbSource);
+            _material.SetInt("_alphaSource", (int)_aSource);
+            _material.SetInt("_cMapMode", (int)_cMapMode); 
+
+            // Render
+            var rt = RenderTexture.GetTemporary(_resWidth, _resHeight, 0, RenderTextureFormat.ARGBFloat);
+            Graphics.Blit(null, rt, _material);
+
+            // Read
+            var result = new Texture2D(rt.width, rt.height, _resFormat, _resMipChain);
+            RenderTexture.active = rt;
+            result.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0, true);
+            result.Apply();
+            RenderTexture.active = null;
+
+            // Dispose
+            rt.Release();
+
+            return result;
         }
 
         private Texture2D TextureField(string label, Texture2D texture)
@@ -133,16 +175,10 @@ namespace Assets.Scripts.Editor.TextureMaker
             return result;
         }
 
-        void Save(RenderTexture rt)
+        void Save(Texture2D tex)
         {
-            if (_resTexture == null)
+            if (tex == null)
                 return;
-
-            var tex = new Texture2D(rt.width, rt.height, _resFormat, _resMipChain);
-            RenderTexture.active = rt;
-            tex.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0, true);
-            tex.Apply();
-            RenderTexture.active = null;
 
             var path = EditorUtility.SaveFilePanel("Save generated texture", "", "gradient", "png");
             if (!string.IsNullOrEmpty(path))
@@ -151,6 +187,33 @@ namespace Assets.Scripts.Editor.TextureMaker
                 AssetDatabase.Refresh();
                 //AssetDatabase.ImportAsset(path);
             }
+        }
+
+        public static Texture2D RenderGradient(Gradient gradient, int width = 256, int height = 256, TextureFormat format = TextureFormat.ARGB32, bool mipChain=true)
+        {
+            if (gradient == null)
+                return null;
+
+            var result = new Texture2D(width, height, format, mipChain)
+            {
+                wrapMode = TextureWrapMode.Clamp,
+                alphaIsTransparency = true,
+                filterMode = FilterMode.Bilinear
+            };
+            var colors = new Color[width * height];
+            for (var j = 0; j < result.width; j++)
+            {
+                var u = j / (result.width - 0f);
+                for (var i = 0; i < result.height; i++)
+                {
+                    var v = i / (result.height - 0f);
+                    colors[i * width + j] = gradient.Evaluate(u);
+                }
+            }
+
+            result.SetPixels(colors);
+            result.Apply(mipChain);
+            return result;
         }
     }
 }
