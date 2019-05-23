@@ -106,7 +106,7 @@ namespace Actors
                 }
             }
 
-            public static Change operator-(Change a, Change b)
+            public static Change operator+(Change a, Change b)
             {
                 if(!a.Parameter.Equals(b.Parameter))
                     throw new InvalidOperationException();
@@ -119,14 +119,14 @@ namespace Actors
                         return new Change
                         {
                             Parameter = a.Parameter,
-                            Amount = a.Amount / b.Amount,
+                            Amount = a.Amount * b.Amount,
                         };
                     // Additive changes
                     default:
                         return new Change
                         {
                             Parameter = a.Parameter,
-                            Amount = a.Amount - b.Amount
+                            Amount = a.Amount + b.Amount
                         };
                 }
             }
@@ -352,9 +352,10 @@ namespace Actors
                 // If there is an actual change
                 var activeChange = oldChanges.FirstOrDefault(ch => ch.Parameter.Equals(mod.Parameter));
                 if (activeChange.Parameter != ModificationParameter.None)
-                    change = change - activeChange;
-
-                ApplyChange(change);
+                    ApplyChange(change + activeChange.Inverse());
+                else
+                    ApplyChange(change);
+                
                 state.ActiveChanges.Add(change);
             }
         }

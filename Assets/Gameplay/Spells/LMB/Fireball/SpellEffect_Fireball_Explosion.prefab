@@ -45,10 +45,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExplosionPrefab: {fileID: 4409930091263542376, guid: 70b0082be09bbc848916a71c6e41d914,
     type: 3}
-  Origin: 1
-  SpawnInGround: 0
+  Origin: 0
+  SpawnInGround: 1
   AlignRotation: 1
   XZRotationOnly: 1
-  AutoDestroy: 0
+  AutoDestroy: 1
   DestroyAfter: 2
   StartEffectOnInputTargetValidated: 0
