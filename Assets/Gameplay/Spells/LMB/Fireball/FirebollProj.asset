@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AffectedTarget: 8
   Area: {fileID: 0}
+  Targeting: 2
+  Origin: 1
   Buffs: []
   BloodCost: 0
   Effect: {fileID: 0}
   Flags: 8
-  Obstacles: -1
-  Origin: 1
+  Obstacles: 46
   PreCastDelay: 0
   PreDamageDelay: 0
   PostCastDelay: 0
   Projectile: {fileID: 11400000, guid: 68e80e8896f3eb444ac6fa47990c4eba, type: 2}
-  Targeting: 2
   NewSource: 1

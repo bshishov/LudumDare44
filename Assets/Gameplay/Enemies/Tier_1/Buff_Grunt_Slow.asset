@@ -13,16 +13,11 @@ MonoBehaviour:
   m_Name: Buff_Grunt_Slow
   m_EditorClassIdentifier: 
   Name: 
-  Behaviour: 1
+  Behaviour: 2
   TickCooldown: 0.5
   Duration: 3
-  ApplyInitialAffectsOnReapply: 0
   Modifiers:
   - Parameter: 11
     Value: -0.1
     EffectiveStacks: 15
   Events: []
-  OnApplyBuff: []
-  OnRefreshBuff: []
-  OnTickBuff: []
-  OnRemove: []
