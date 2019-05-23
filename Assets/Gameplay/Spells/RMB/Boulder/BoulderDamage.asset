@@ -18,7 +18,7 @@ MonoBehaviour:
   Duration: 1
   Modifiers: []
   Events:
-  - EventType: 2
+  - EventType: 6
     Affect:
       Type: 0
       ApplyModifier:
