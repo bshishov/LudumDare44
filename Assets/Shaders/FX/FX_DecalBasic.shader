@@ -1,4 +1,4 @@
-﻿Shader "FX/FX_Decals"
+﻿Shader "FX/DecalBasic"
 {
 	Properties {
 		_MainTex ("Base (RGB)", 2D) = "white" {}

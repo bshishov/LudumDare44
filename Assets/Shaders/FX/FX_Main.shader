@@ -33,7 +33,7 @@
 
             CGPROGRAM
             #pragma vertex vert
-            #pragma fragment frag
+            #pragma fragment frag			
             
             #include "UnityCG.cginc"
 
@@ -97,8 +97,8 @@
 				half4 tex2 = tex2D(_Tex2, i.uv23.xy);
 				half4 tex3 = tex2D(_Tex3, i.uv23.zw);
 
-				// Main color and alpha computation
-				float4 res = ((tex1 * tex2 * 2) * tex3 * 2) * mask * i.color * _Color;
+				// Main color and alpha computation				
+				float4 res = ((tex1 * tex2 * 2) * tex3 * 2) * mask * i.color * _Color;				
 
 				// Premultiply alpha for Diablo-like "Blend-add"
 				res.rgb *= res.a;
