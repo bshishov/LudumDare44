@@ -20,7 +20,7 @@ MonoBehaviour:
   MeleeAttackCooldown: 0
   MeleeDamageDelay: 0
   MeleeAttackBuff: {fileID: 0}
-  SpellCastingCooldown: 1.5
+  SpellCastingCooldown: 2
   SlotConfig:
   - Slot: 0
     Weight: 4

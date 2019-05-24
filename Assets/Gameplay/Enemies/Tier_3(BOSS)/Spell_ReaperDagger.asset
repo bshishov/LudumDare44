@@ -22,7 +22,7 @@ MonoBehaviour:
   DefaultSlot: 0
   Cooldown: 0.6
   Flags: 4
-  PreCastDelay: 0
+  PreCastDelay: 0.8
   PostCastDelay: 0
   SubSpells:
   - {fileID: 11400000, guid: 7ae61376980debd459c97ed849f16f98, type: 2}
