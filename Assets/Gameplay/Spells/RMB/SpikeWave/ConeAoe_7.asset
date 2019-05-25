@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba8401e1d8afc8f40b51d81697cae08f, type: 3}
-  m_Name: ConeAoe_4
+  m_Name: ConeAoe_7
   m_EditorClassIdentifier: 
-  Size: 7
-  MinSize: 4
+  Size: 10
+  MinSize: 7
   Angle: 90
   Area: 3
