@@ -38,3 +38,11 @@ Assets/Prefabs/FX/Anim.meta
 Assets/Editor.meta
 /Assets/ParticlePack.meta
 Assets/EntityCache/Resources.meta
+
+# Lightmaps
+*.exr
+*.exr.meta
+LightmapSnapshot.asset
+LightmapSnapshot.asset.meta
+LightingData.asset
+LightingData.asset.meta
