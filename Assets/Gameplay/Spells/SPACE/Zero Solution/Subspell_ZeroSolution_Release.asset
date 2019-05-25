@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AffectedTarget: 8
   Area: {fileID: 11400000, guid: abdd4d8b66c36494eaaec77d8ec24e42, type: 2}
-  Targeting: 1
+  Targeting: 2
   Origin: 1
   Buffs:
   - {fileID: 11400000, guid: 2d8d9344b4b5ead41bdc7e3b06f0d1fa, type: 2}
