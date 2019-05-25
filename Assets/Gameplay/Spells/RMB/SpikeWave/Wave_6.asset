@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ac5232376e71084dac7b316a64a23a8, type: 3}
-  m_Name: Subspell_ZeroSolution_Release
+  m_Name: Wave_6
   m_EditorClassIdentifier: 
   AffectedTarget: 8
-  Area: {fileID: 11400000, guid: abdd4d8b66c36494eaaec77d8ec24e42, type: 2}
+  Area: {fileID: 11400000, guid: 77ee466bf42d14345bbe152c85f0b0e1, type: 2}
   Targeting: 2
   Origin: 1
   Buffs:
-  - {fileID: 11400000, guid: 2d8d9344b4b5ead41bdc7e3b06f0d1fa, type: 2}
-  - {fileID: 11400000, guid: 0c44983af22db304ea3cf70cfc006dc1, type: 2}
+  - {fileID: 11400000, guid: 71e71f0dc695d0f4ab4925ab764db3ea, type: 2}
+  - {fileID: 11400000, guid: 5b15694beff58df4586b8ef12e754820, type: 2}
   BloodCost: 0
-  Effect: {fileID: 69046374609140073, guid: 808d2eabd56703e49bc97ac49a05e283, type: 3}
-  Flags: 21
+  Effect: {fileID: 1349204274574646620, guid: 969392a480e28e6409a782eb40a9fc1d, type: 3}
+  Flags: 4
   Obstacles: 0
-  PreCastDelay: 0
+  PreCastDelay: 0.03
   PreDamageDelay: 0
-  PostCastDelay: 0
+  PostCastDelay: 0.03
   Projectile: {fileID: 0}
-  NewSource: 1
+  NewSource: 2
