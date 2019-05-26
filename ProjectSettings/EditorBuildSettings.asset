@@ -6,16 +6,16 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Mechanics.unity
+    path: Assets/Scenes/Debug/Mechanics.unity
     guid: 45d5aa4660b71c6479bd646e04f14612
   - enabled: 1
     path: Assets/Scenes/Arena.unity
     guid: 57a1ce37bbed98442b792d864657a3e2
   - enabled: 1
-    path: Assets/Scenes/SpellsPlayground.unity
+    path: Assets/Scenes/Debug/SpellsPlayground.unity
     guid: e1bc70660baa7e54392b7afe1ea4e9f2
   - enabled: 1
-    path: Assets/Scenes/Chunks.unity
+    path: Assets/Scenes/Debug/Chunks.unity
     guid: 075e75a991e6c0c49924336fa6e3f220
   - enabled: 1
     path: Assets/Sandbox/Gleb/Environment.unity
