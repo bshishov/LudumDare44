@@ -3225,8 +3225,8 @@ GameObject:
   m_Component:
   - component: {fileID: 63673206752711339}
   - component: {fileID: 7918574739413623696}
-  - component: {fileID: 5710072582100639584}
   - component: {fileID: 8836296728807264097}
+  - component: {fileID: 6297271223003476333}
   m_Layer: 5
   m_Name: Items
   m_TagString: Untagged
@@ -3249,10 +3249,10 @@ RectTransform:
   m_Father: {fileID: 5353517303451568311}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -7.5200195, y: -30}
-  m_SizeDelta: {x: -100, y: 60}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 522.2, y: 225.29999}
+  m_SizeDelta: {x: -1144.3, y: 172.3}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &7918574739413623696
 CanvasRenderer:
@@ -3262,31 +3262,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628528772051889444}
   m_CullTransparentMesh: 0
---- !u!114 &5710072582100639584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1628528772051889444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -405508275, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 1
-  m_ChildScaleHeight: 1
 --- !u!114 &8836296728807264097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3301,6 +3276,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIItemPrefab: {fileID: 1956623905694917590, guid: 85ed9f9f4cbc96d41972e1e5cd678f02,
     type: 3}
+--- !u!114 &6297271223003476333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628528772051889444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2095666955, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 3
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 60, y: 60}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &1987707145708896957
 GameObject:
   m_ObjectHideFlags: 0
@@ -5876,7 +5875,7 @@ PrefabInstance:
     - target: {fileID: 1956623905694917590, guid: 85ed9f9f4cbc96d41972e1e5cd678f02,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9175413551108131433, guid: 85ed9f9f4cbc96d41972e1e5cd678f02,
         type: 3}
@@ -5946,12 +5945,12 @@ PrefabInstance:
     - target: {fileID: 9175413551108131433, guid: 85ed9f9f4cbc96d41972e1e5cd678f02,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 60
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9175413551108131433, guid: 85ed9f9f4cbc96d41972e1e5cd678f02,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9175413551108131433, guid: 85ed9f9f4cbc96d41972e1e5cd678f02,
         type: 3}
@@ -5986,22 +5985,22 @@ PrefabInstance:
     - target: {fileID: 1202239681138094730, guid: 85ed9f9f4cbc96d41972e1e5cd678f02,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1202239681138094730, guid: 85ed9f9f4cbc96d41972e1e5cd678f02,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1202239681138094730, guid: 85ed9f9f4cbc96d41972e1e5cd678f02,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1202239681138094730, guid: 85ed9f9f4cbc96d41972e1e5cd678f02,
         type: 3}
       propertyPath: m_textInfo.pageCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85ed9f9f4cbc96d41972e1e5cd678f02, type: 3}
