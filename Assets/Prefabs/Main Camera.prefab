@@ -195,8 +195,8 @@ MonoBehaviour:
   CameraTransform: {fileID: 5359113313316784582}
   EnableCameraShake: 1
   TraumaDecayStep: 0.02
-  MaxPosOffset: {x: 0.5, y: 0.5, z: 0.5}
-  MaxRotAngleOffset: {x: 5, y: 5, z: 5}
+  MaxPosOffset: {x: 0.3, y: 0.3, z: 0.3}
+  MaxRotAngleOffset: {x: 3, y: 3, z: 3}
 --- !u!1 &5359113314570607407
 GameObject:
   m_ObjectHideFlags: 0
