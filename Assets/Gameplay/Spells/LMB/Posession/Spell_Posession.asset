@@ -19,7 +19,7 @@ MonoBehaviour:
     <b>Damage</b>: 0.5 p/s    <b>Duration</b>: 4 seconds    <b>Stackable</b>'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
     type: 2}
-  LifeSteal: 0.01
+  LifeSteal: 0.5
   BloodCost: 0
   CastRange: 8
   DefaultSlot: 0
