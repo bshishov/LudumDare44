@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7547348210591549195}
-  - component: {fileID: 493646288555134705}
+  - component: {fileID: 9202079863376951630}
   m_Layer: 0
   m_Name: SpellEffect_DeathScythe
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &493646288555134705
+--- !u!114 &9202079863376951630
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,11 +40,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1349204274574646620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e9238565e584cc4b832f11cf54f3b99, type: 3}
+  m_Script: {fileID: 11500000, guid: b8fd067e385f83e4899bc4be0f0b8ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Object: {fileID: 5474067922000414525, guid: 58d20705beadc544fb11d9df92cc767f, type: 3}
-  StartEffectOnInputTargetValidated: 1
-  LifeTime: 2
-  RotateTowardsTarget: 1
-  Node: 4
+  Prefab: {fileID: 5474067922000414525, guid: 58d20705beadc544fb11d9df92cc767f, type: 3}
+  SpawnEvent: 0
+  SpawnOrigin: 0
+  InstancingMode: 1
+  PreferredNode: 1
+  ScaleWithAoE: 0
+  RotationMode: 2
+  OnlyXzRotation: 1
+  DestroyAfterSpell: 0
+  DestroyAfterLifetime: 1
+  Lifetime: 3

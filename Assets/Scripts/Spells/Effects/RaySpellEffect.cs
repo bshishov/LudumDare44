@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Actors;
 using UnityEngine;
 
@@ -18,24 +16,9 @@ namespace Spells.Effects
             public ISpellContext Context;
         }
 
-        [Serializable]
-        public enum SpellEvent
-        {
-            OnInputTargetsValidated,
-            OnTargetsFinalized,
-            OnTargetsAffected
-        }
-
-        [Serializable]
-        public enum InstancingMode
-        {
-            OnePerEventTarget,
-            OnePerSubSpell
-        }
-
         public GameObject RayPrefab;
-        public SpellEvent SpawnEvent = SpellEvent.OnTargetsFinalized;
-        public InstancingMode InstanceMode;
+        public EffectSpawnEvent SpawnEvent = EffectSpawnEvent.OnTargetsFinalized;
+        public EffectInstancingMode InstanceMode;
         public bool AutoDestroyAfterSpell = true;
         public bool UseChannelingInfoAsTarget = false;
         public CharacterState.NodeRole PreferredSourceNode = CharacterState.NodeRole.SpellEmitter;
@@ -58,25 +41,25 @@ namespace Spells.Effects
 
         public void OnInputTargetsValidated(ISpellContext context, SpellTargets targets)
         {
-            if (SpawnEvent == SpellEvent.OnInputTargetsValidated)
+            if (SpawnEvent == EffectSpawnEvent.OnInputTargetsValidated)
                 HandleEvent(context, targets);
         }
 
         public void OnTargetsFinalized(SpellContext context, SpellTargets targets)
         {
-            if (SpawnEvent == SpellEvent.OnTargetsFinalized)
+            if (SpawnEvent == EffectSpawnEvent.OnTargetsFinalized)
                 HandleEvent(context, targets);
         }
 
         public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
         {
-            if(SpawnEvent == SpellEvent.OnTargetsAffected)
+            if(SpawnEvent == EffectSpawnEvent.OnTargetsAffected)
                 HandleEvent(context, targets);
         }
 
         private void HandleEvent(ISpellContext context, SpellTargets targets)
         {
-            if (InstanceMode == InstancingMode.OnePerSubSpell)
+            if (InstanceMode == EffectInstancingMode.OnePerSubSpell)
             {
                 // If the mode is one per subspell than we need to find existing one
                 // and update its target information. And also raise its UpdateEvent
@@ -119,7 +102,7 @@ namespace Spells.Effects
                     }
                 }
             }
-            else if(InstanceMode == InstancingMode.OnePerEventTarget)
+            else if(InstanceMode == EffectInstancingMode.OnePerEventTarget)
             {
                 foreach (var spellTarget in targets.Destinations)
                 {
