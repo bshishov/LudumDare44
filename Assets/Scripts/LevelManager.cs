@@ -1,9 +1,7 @@
-﻿using Assets.Scripts;
-using Assets.Scripts.UI;
-using Assets.Scripts.Utils;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 using Utils.Sound;
 
 

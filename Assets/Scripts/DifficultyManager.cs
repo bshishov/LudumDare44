@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.Utils;
-using System;
+﻿using System;
 using Data;
 using UnityEngine;
+using Utils;
 
 public class DifficultyManager : Singleton<DifficultyManager>
 {
@@ -9,26 +9,42 @@ public class DifficultyManager : Singleton<DifficultyManager>
     public class Difficulty
     {
         public string DifficultyName;
-        public float NextDifficultyStamp;
+        public float Duration;
         public Buff[] DifficultyBuffs;        
     }
     
     public Difficulty[] Difficulties;
     public int CurrentDifficultyIndex { get; private set; }
-    private float _timeSinceStart;
+    public Difficulty CurrentDifficulty => GetDifficulty(CurrentDifficultyIndex);
+    public Difficulty NextDifficulty => GetDifficulty(CurrentDifficultyIndex + 1);
+
+    public float Progress
+    {
+        get
+        {
+            var current = CurrentDifficulty;
+            if (current == null)
+                return 1f;
+            return Mathf.Clamp01(_elapsedSinceDifficultyStart / CurrentDifficulty.Duration);
+        }
+    }
+
+    private float _elapsedSinceDifficultyStart;
     
     private void Start()
     {
         CurrentDifficultyIndex = 0;
-        _timeSinceStart = 0;
+        _elapsedSinceDifficultyStart = 0;
     }
 
     private void Update()
     {
-        _timeSinceStart += Time.deltaTime;
-        if (CurrentDifficultyIndex + 1 < Difficulties.Length && 
-            Difficulties[CurrentDifficultyIndex].NextDifficultyStamp < _timeSinceStart)
+        _elapsedSinceDifficultyStart += Time.deltaTime;
+        if (NextDifficulty != null && _elapsedSinceDifficultyStart > CurrentDifficulty?.Duration)
+        {
             CurrentDifficultyIndex += 1;
+            _elapsedSinceDifficultyStart = 0f;
+        }
     }
 
     public Difficulty GetDifficulty(int difficultyIndex)
@@ -37,10 +53,5 @@ public class DifficultyManager : Singleton<DifficultyManager>
             return null;
 
         return Difficulties[difficultyIndex];
-    }
-    
-    public float GetTimeSinceStart()
-    {
-        return _timeSinceStart;
     }
 }

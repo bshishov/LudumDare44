@@ -1,10 +1,10 @@
 ﻿using System;
 using Actors;
+using Assets.Scripts.UI;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Assets.Scripts.UI
+namespace UI
 {
     public class UIBloodBar : MonoBehaviour
     {

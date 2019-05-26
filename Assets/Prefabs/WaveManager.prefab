@@ -84,14 +84,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Difficulties:
   - DifficultyName: Easy
-    NextDifficultyStamp: 2
+    Duration: 60
     DifficultyBuffs: []
   - DifficultyName: Medium
-    NextDifficultyStamp: 10
+    Duration: 60
     DifficultyBuffs:
     - {fileID: 11400000, guid: f59f455ca5dc2374982e4e63157301aa, type: 2}
   - DifficultyName: Infinity
-    NextDifficultyStamp: 1e+9
+    Duration: 60
     DifficultyBuffs:
     - {fileID: 11400000, guid: f59f455ca5dc2374982e4e63157301aa, type: 2}
     - {fileID: 11400000, guid: fed751b7e7e1a144187ce6213ce2b553, type: 2}

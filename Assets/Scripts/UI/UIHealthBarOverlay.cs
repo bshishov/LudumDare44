@@ -1,6 +1,6 @@
 ﻿using Actors;
-using Assets.Scripts.Utils;
 using UnityEngine;
+using Utils;
 
 namespace UI
 {

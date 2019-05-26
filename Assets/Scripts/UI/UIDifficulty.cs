@@ -20,33 +20,24 @@ namespace UI
                 Debug.Log("Difficulty manager is missing in the scene, disabling difficulty UI", this);
                 this.gameObject.SetActive(false);
             }
+
+            if (DiffSlider != null)
+            {
+                DiffSlider.minValue = 0;
+                DiffSlider.maxValue = 1;
+            }
         }
     
         void Update()
         {
-            if(_difficultyManager == null)
-                return;
+            if (CurrDiffText != null)
+                CurrDiffText.text = _difficultyManager.CurrentDifficulty.DifficultyName;
 
-            var prevDifficulty = _difficultyManager.GetDifficulty(_difficultyManager.CurrentDifficultyIndex - 1);
-            var currentDifficulty = _difficultyManager.GetDifficulty(_difficultyManager.CurrentDifficultyIndex);
-            var nextDifficulty = _difficultyManager.GetDifficulty(_difficultyManager.CurrentDifficultyIndex + 1);
-            
-            if (nextDifficulty == null)
-                NextDiffText.text = "Infinity";
-            else
-                NextDiffText.text = nextDifficulty.DifficultyName;
+            if (NextDiffText != null)
+                NextDiffText.text = _difficultyManager.CurrentDifficulty.DifficultyName;
 
-            if (prevDifficulty == null)
-                DiffSlider.minValue = 0;
-            else
-                DiffSlider.minValue = prevDifficulty.NextDifficultyStamp;
-
-            if (currentDifficulty != null)
-            {
-                CurrDiffText.text = currentDifficulty.DifficultyName;
-                DiffSlider.value = _difficultyManager.GetTimeSinceStart();
-                DiffSlider.maxValue = currentDifficulty.NextDifficultyStamp;
-            }
+            if (DiffSlider != null)
+                DiffSlider.value = _difficultyManager.Progress;
         }
     }
 }

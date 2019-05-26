@@ -1,19 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Actors;
-using Assets.Scripts.Data;
-using Assets.Scripts.Utils;
 using Assets.Scripts.Utils.Sound;
 using Attributes;
 using Data;
 using UnityEngine;
 using UnityEngine.AI;
+using Utils;
 using Utils.Debugger;
 using Utils.Sound;
 
 [RequireComponent(typeof(DifficultyManager))]
 public class WaveManager : Singleton<WaveManager>
 {
+    public event Action NewWaveStarted;
+
     public List<Transform> SpawnPoints;
     public GameObject Target;
     [Expandable]
@@ -112,6 +114,7 @@ public class WaveManager : Singleton<WaveManager>
             StartCoroutine(WaveRoutine(CurrentWave));
         }
 
+        NewWaveStarted?.Invoke();
         SoundManager.Instance.Play(WaveStartedSound);
     }
 

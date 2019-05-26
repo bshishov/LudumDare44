@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using Assets.Scripts.Utils;
 using Assets.Scripts.Utils.UI;
 using TMPro;
 using UnityEngine;
+using Utils;
 
 namespace UI
 {
