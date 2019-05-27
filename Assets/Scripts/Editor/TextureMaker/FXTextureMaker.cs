@@ -42,6 +42,7 @@ namespace Assets.Scripts.Editor.TextureMaker
         private int _resHeight = 512;
         private TextureFormat _resFormat = TextureFormat.ARGB32;
         private bool _resMipChain = true;
+        private bool _resAlphaisTransparency = true;
         private Material _material;
 
         void OnGUI()
@@ -83,6 +84,7 @@ namespace Assets.Scripts.Editor.TextureMaker
             _resHeight = EditorGUILayout.IntField("Height", _resHeight);
             _resFormat = (TextureFormat)EditorGUILayout.EnumPopup("Format", _resFormat);
             _resMipChain = EditorGUILayout.Toggle("Mip chain", _resMipChain);
+            _resAlphaisTransparency = EditorGUILayout.Toggle("Alpha is transparency", _resAlphaisTransparency);
             EditorGUILayout.EndToggleGroup();
             
 
@@ -140,7 +142,10 @@ namespace Assets.Scripts.Editor.TextureMaker
             Graphics.Blit(null, rt, _material);
 
             // Read
-            var result = new Texture2D(rt.width, rt.height, _resFormat, _resMipChain);
+            var result = new Texture2D(rt.width, rt.height, _resFormat, _resMipChain)
+            {
+                alphaIsTransparency = _resAlphaisTransparency
+            };
             RenderTexture.active = rt;
             result.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0, true);
             result.Apply();
@@ -180,16 +185,19 @@ namespace Assets.Scripts.Editor.TextureMaker
             if (tex == null)
                 return;
 
-            var path = EditorUtility.SaveFilePanel("Save generated texture", "", "gradient", "png");
-            if (!string.IsNullOrEmpty(path))
-            {
-                System.IO.File.WriteAllBytes(path, tex.EncodeToPNG());
-                AssetDatabase.Refresh();
-                //AssetDatabase.ImportAsset(path);
-            }
+            var path = EditorUtility.SaveFilePanel("Save generated texture", "", "fx_", "png");
+
+            if (string.IsNullOrEmpty(path))
+                return;
+            
+            System.IO.File.WriteAllBytes(path, tex.EncodeToPNG());
+            AssetDatabase.Refresh();
         }
 
-        public static Texture2D RenderGradient(Gradient gradient, int width = 256, int height = 256, TextureFormat format = TextureFormat.ARGB32, bool mipChain=true)
+        public static Texture2D RenderGradient(
+            Gradient gradient, 
+            int width = 256, 
+            int height = 256, TextureFormat format = TextureFormat.ARGB32, bool mipChain=true, bool alphaIsTransparency=true)
         {
             if (gradient == null)
                 return null;
@@ -197,8 +205,8 @@ namespace Assets.Scripts.Editor.TextureMaker
             var result = new Texture2D(width, height, format, mipChain)
             {
                 wrapMode = TextureWrapMode.Clamp,
-                alphaIsTransparency = true,
-                filterMode = FilterMode.Bilinear
+                alphaIsTransparency = alphaIsTransparency,
+                filterMode = FilterMode.Bilinear,
             };
             var colors = new Color[width * height];
             for (var j = 0; j < result.width; j++)

@@ -53,7 +53,7 @@ namespace Actors
                 _stateMachine.AddState(AIState.WaitingMeleeAttackAnimation,
                     new WaitingInRangeState(agent,
                         agent.Config.AI.MeleeDamageDelay,
-                        agent.Config.AI.MeleeRange,
+                        agent.Config.AI.MaxMeleeRange,
                         AIState.EndingMeleeAttack,
                         AIState.Wandering,
                         1000f));

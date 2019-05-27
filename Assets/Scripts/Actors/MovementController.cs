@@ -65,7 +65,8 @@ public class MovementController : MonoBehaviour
         _stateMachine.AddState(MovementState.Stunned,
             new LambdaStateBehaviour<MovementState>(StunnedUpdate)
             {
-                Started = () => { _navMeshAgent.isStopped = true; }
+                Started = () => { _navMeshAgent.enabled = false; },
+                Ended = () => { _navMeshAgent.enabled = true; }
             });
         _stateMachine.AddState(MovementState.Dead,
             new LambdaStateBehaviour<MovementState>()

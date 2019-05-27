@@ -11,6 +11,7 @@ namespace Data
         public float AggroRange;
         public float FearRange;
         public float MeleeRange;
+        public float MaxMeleeRange;
 
         [Tooltip("Maximum range (in meters) in which an AI can cast any spell. " +
                  "Used to prevent casting way too far from target even if spell allows")]
