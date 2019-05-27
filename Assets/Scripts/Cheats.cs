@@ -26,6 +26,17 @@ public class Cheats : MonoBehaviour
         _playerState = _playerController.GetComponent<CharacterState>();
         _playerSpellbookState = _playerController.GetComponent<SpellbookState>();
 
+        Debugger.Default.Display($"Cheats/GOD mode", () =>
+            {
+                _playerState.ApplyModifier(ModificationParameter.HpFlat, 10000, 1, 1, _playerState, null);
+                _playerState.ApplyModifier(ModificationParameter.MaxHpFlat, 10000, 1, 1, _playerState, null);
+            });
+
+        Debugger.Default.Display($"Cheats/WTF mode", () =>
+            {
+                _playerSpellbookState.NoCooldowns = !_playerSpellbookState.NoCooldowns;
+            });
+
         if (Buffs != null)
             foreach (var buff in Buffs)
             {

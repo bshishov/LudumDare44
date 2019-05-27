@@ -43,6 +43,7 @@ namespace Spells
 
         public bool IsCasting { get; private set; }
         public readonly SpellSlotState[] SpellSlots = new SpellSlotState[SpellCount];
+        public bool NoCooldowns = false;
 
         private void Awake()
         {
@@ -269,8 +270,16 @@ namespace Spells
             Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
             Assert.IsTrue(SpellSlots[slotIndex].State != SpellState.Recharging);
 
-            SpellSlots[slotIndex].State = SpellState.Recharging;
-            SpellSlots[slotIndex].RemainingCooldown = spell.Cooldown;
+            if (NoCooldowns)
+            {
+                SpellSlots[slotIndex].State = SpellState.Recharging;
+                SpellSlots[slotIndex].RemainingCooldown = 0.2f;
+            }
+            else
+            {
+                SpellSlots[slotIndex].State = SpellState.Recharging;
+                SpellSlots[slotIndex].RemainingCooldown = spell.Cooldown;
+            }
         }
 
         public void OnEndCasting(Spell spell)
