@@ -35,7 +35,7 @@ public class GenerateRooms : MonoBehaviour
         CreateRooms();
         SetRoomDoors();
         DrawMap();
-        //_lastRoom.GetComponent<NavMeshSurface>().BuildNavMesh();
+        _lastRoom.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
     void CreateRooms()
     {
@@ -224,7 +224,7 @@ public class GenerateRooms : MonoBehaviour
         Debug.Log(possibleRooms.Count);
         var placedRoom = RandomUtils.Choice(possibleRooms);
         _lastRoom = Instantiate(placedRoom, drawPos, placedRoom.transform.rotation);
-        _lastRoom.GetComponent<NavMeshSurface>().BuildNavMesh();
+        //_lastRoom.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
     void SetRoomDoors()
     {

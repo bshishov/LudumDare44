@@ -606,7 +606,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 58c6ebebbf90fad4eacf31860c44e1ba, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!1 &7864190334484798224
 GameObject:
   m_ObjectHideFlags: 0
