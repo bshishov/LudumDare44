@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Utils;
+using UnityEngine.AI;
 
 public class GenerateRooms : MonoBehaviour
 {
     public Vector3 worldSize;
     public int numberOfRooms = 20;
+    public NavMeshSurface surface;
 
     private Room[,] _rooms;
 
     private List<Vector3> _takenPositions = new List<Vector3>();
 
     private int _gridSizeX, _gridSizeZ;
+    private GameObject _lastRoom;
         
 
     private List<GameObject> _allRooms = new List<GameObject>();
@@ -32,6 +35,7 @@ public class GenerateRooms : MonoBehaviour
         CreateRooms();
         SetRoomDoors();
         DrawMap();
+        //_lastRoom.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
     void CreateRooms()
     {
@@ -219,7 +223,8 @@ public class GenerateRooms : MonoBehaviour
 
         Debug.Log(possibleRooms.Count);
         var placedRoom = RandomUtils.Choice(possibleRooms);
-        Instantiate(placedRoom, drawPos, placedRoom.transform.rotation);
+        _lastRoom = Instantiate(placedRoom, drawPos, placedRoom.transform.rotation);
+        _lastRoom.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
     void SetRoomDoors()
     {
