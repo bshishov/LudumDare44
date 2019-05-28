@@ -15,42 +15,42 @@ MonoBehaviour:
   Items:
   - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
       type: 3}
-    NumberOfThisType: 7
+    NumberOfThisType: 10
     DelayBetween: 0.1
     DelayBeforeNext: 0
     SpawnIndex: 0
     InitialBuffs: []
   - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
       type: 3}
-    NumberOfThisType: 7
+    NumberOfThisType: 10
     DelayBetween: 0.1
     DelayBeforeNext: 0
     SpawnIndex: 1
     InitialBuffs: []
   - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
       type: 3}
-    NumberOfThisType: 7
+    NumberOfThisType: 10
     DelayBetween: 0.1
     DelayBeforeNext: 0
     SpawnIndex: 2
     InitialBuffs: []
   - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
       type: 3}
-    NumberOfThisType: 7
+    NumberOfThisType: 10
     DelayBetween: 0.1
     DelayBeforeNext: 0
     SpawnIndex: 0
     InitialBuffs: []
   - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
       type: 3}
-    NumberOfThisType: 7
+    NumberOfThisType: 10
     DelayBetween: 0.1
     DelayBeforeNext: 0
     SpawnIndex: 1
     InitialBuffs: []
   - EnemyPrefab: {fileID: 8494352879362307199, guid: 3a8e39418b3642c47b53bcef6fb6d3a4,
       type: 3}
-    NumberOfThisType: 7
+    NumberOfThisType: 10
     DelayBetween: 0.1
     DelayBeforeNext: 5
     SpawnIndex: 2

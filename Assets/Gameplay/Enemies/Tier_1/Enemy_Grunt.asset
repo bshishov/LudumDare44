@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 1
   Damage: 2
-  Speed: 5
+  Speed: 6
   Evasion: 0
   Size: 1
   HealthModifier: 1
   SpellDamageAmp: 0
   AdditionalSpellStacks: 0
   AI: {fileID: 11400000, guid: 576e1bb8a60ef8e44b47523087616396, type: 2}
-  DropRate: 0.02
+  DropRate: 0.015
   DropSpells:
   - {fileID: 11400000, guid: 0f5e31d5e7d195e4dbcf8c1f34aa4da3, type: 2}
   - {fileID: 11400000, guid: 4dea2418d8494ae43ba01a378694fbf2, type: 2}
