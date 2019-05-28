@@ -15,8 +15,8 @@ MonoBehaviour:
   Class: 0
   AggroRange: 100
   FearRange: 0
-  MeleeRange: 2.5
-  MaxMeleeRange: 2.5
+  MeleeRange: 3
+  MaxMeleeRange: 5.5
   MaxCastRange: 0
   MeleeAttackCooldown: 0.5
   MeleeDamageDelay: 0.4

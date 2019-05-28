@@ -24,7 +24,7 @@ namespace AI
                 return _fallbackState;
 
             if (Vector3.Distance(_agent.ActiveTarget.transform.position, _agent.transform.position) >
-                _agent.Config.AI.MeleeRange)
+                _agent.Config.AI.MaxMeleeRange)
                 return _fallbackState;
 
             _agent.LastAttackTime = Time.time;
