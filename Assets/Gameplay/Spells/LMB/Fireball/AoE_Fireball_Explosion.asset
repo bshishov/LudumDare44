@@ -10,9 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba8401e1d8afc8f40b51d81697cae08f, type: 3}
-  m_Name: FireballAoe
+  m_Name: AoE_Fireball_Explosion
   m_EditorClassIdentifier: 
-  Size: 3
-  MinSize: 0
-  Angle: 45
-  Area: 1
+  Area: 0
+  Size:
+    Type: 0
+    BaseValue: 3
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MinSize:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  Angle:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1

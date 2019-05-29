@@ -46,6 +46,10 @@ namespace Spells
 
         public void Update()
         {
+            // If targets are invalid because of something - try to abort
+            if (!Source.IsValid || !Target.IsValid)
+                Abort();
+
             // State machine
             switch (_state)
             {
@@ -175,7 +179,7 @@ namespace Spells
                 return;
 
             if(_projectile != null)
-                GameObject.Destroy(_projectile.gameObject);
+                Object.Destroy(_projectile.gameObject);
 
             _state = SpellState.Ended;
             FireEvent(SubSpellEvent.Ended, null);

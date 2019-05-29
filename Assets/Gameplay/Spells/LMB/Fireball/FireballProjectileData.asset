@@ -12,8 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3030d9deb419ea245a3f54c0b8afad23, type: 3}
   m_Name: FireballProjectileData
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 2905237645726948510, guid: 40d6c2c3d5b89954597f3915deca0139,
-    type: 3}
-  Speed: 15
-  MaxDistance: 10
-  Trajectory: 1
+  Prefab: {fileID: 2905237645726948510, guid: 40d6c2c3d5b89954597f3915deca0139, type: 3}
+  Speed:
+    Type: 0
+    BaseValue: 20
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxDistance:
+    Type: 0
+    BaseValue: 100
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  TimeToLive:
+    Type: 0
+    BaseValue: 100
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxPiercingTargets:
+    Type: 0
+    BaseValue: 1
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  Offset: {x: 0, y: 0, z: 0}
+  Trajectory: 0
+  FallingSpeed: 0
+  HoverHeight: 1
+  Affects: 2
+  FireSubSpellCondition: 14
+  DestroyCondition: 122
