@@ -15,7 +15,7 @@ MonoBehaviour:
   Items:
   - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
       type: 3}
-    NumberOfThisType: 15
+    NumberOfThisType: 20
     DelayBetween: 0.2
     DelayBeforeNext: 0
     SpawnIndex: 0

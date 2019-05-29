@@ -43,7 +43,7 @@ MonoBehaviour:
     InitialBuffs: []
   - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
       type: 3}
-    NumberOfThisType: 7
+    NumberOfThisType: 10
     DelayBetween: 0.2
     DelayBeforeNext: 0
     SpawnIndex: 0
@@ -57,7 +57,7 @@ MonoBehaviour:
     InitialBuffs: []
   - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
       type: 3}
-    NumberOfThisType: 7
+    NumberOfThisType: 10
     DelayBetween: 0.2
     DelayBeforeNext: 0
     SpawnIndex: 1
@@ -71,7 +71,7 @@ MonoBehaviour:
     InitialBuffs: []
   - EnemyPrefab: {fileID: 1119262111710084556, guid: b11609520a45bec4696141e4b6e0e2ee,
       type: 3}
-    NumberOfThisType: 7
+    NumberOfThisType: 10
     DelayBetween: 0.2
     DelayBeforeNext: 5
     SpawnIndex: 2

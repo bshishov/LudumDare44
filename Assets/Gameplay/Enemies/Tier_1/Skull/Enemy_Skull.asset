@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 1
   Damage: 0
-  Speed: 6.4
+  Speed: 7.4
   Evasion: 0
   Size: 1
   HealthModifier: 1
@@ -29,6 +29,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c26cb1742481020428164b5b9dea2f1e, type: 2}
   - {fileID: 11400000, guid: 31be8eca39c7d5246bcbf291c434efdc, type: 2}
   - {fileID: 11400000, guid: 31be8eca39c7d5246bcbf291c434efdc, type: 2}
+  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
   UseSpells:
   - {fileID: 11400000, guid: 68e826cf2cafd45449b6a08b1dc50168, type: 2}
   - {fileID: 11400000, guid: fc0f19a4347619e408f537f7821ab5c8, type: 2}
