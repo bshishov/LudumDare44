@@ -23,14 +23,14 @@ namespace AI
             if (_agent.ActiveTarget == null || !_agent.ActiveTarget.IsAlive)
                 return _fallbackState;
 
-            if (Vector3.Distance(_agent.ActiveTarget.transform.position, _agent.transform.position) >
+            if (Vector3.Distance(_agent.ActiveTarget.transform.position, _agent.Transform.position) >
                 _agent.Config.AI.MaxMeleeRange)
                 return _fallbackState;
 
             _agent.LastAttackTime = Time.time;
             _agent.ActiveTarget.ReceiveMeleeDamage(_agent.CharacterState.Damage);
             if (_agent.Config.AI.MeleeAttackBuff != null)
-                _agent.ActiveTarget.ApplyBuff(_agent.Config.AI.MeleeAttackBuff, _agent.CharacterState, null, 1 + _agent.CharacterState.AdditionSpellStacks);
+                _agent.ActiveTarget.ApplyBuff(_agent.Config.AI.MeleeAttackBuff, _agent.CharacterState, 1 + _agent.CharacterState.AdditionSpellStacks);
 
             return _nextState;
         }

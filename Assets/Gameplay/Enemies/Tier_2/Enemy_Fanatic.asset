@@ -30,5 +30,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 395f7d7af2939d846a1177374209da5f, type: 2}
   - {fileID: 11400000, guid: 07e1798c77649b04fbedac47f3f4498b, type: 2}
   UseSpells:
-  - {fileID: 11400000, guid: c7da297eae374e94cbd3021973c82735, type: 2}
+  - {fileID: 11400000, guid: 9bfb99d8846c56e4f97dabe3cd348e88, type: 2}
+  - {fileID: 11400000, guid: d7808e7fb811ac247a488fdf8e4a970d, type: 2}
   UseBuff: {fileID: 0}

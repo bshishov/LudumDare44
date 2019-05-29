@@ -38,7 +38,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 
-namespace Assets.Scripts.Editor
+namespace Editor
 {
     [CustomEditor(typeof(UnityEngine.Object), true, isFallback = true)]
     [CanEditMultipleObjects]

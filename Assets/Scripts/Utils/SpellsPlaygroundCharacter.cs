@@ -1,37 +1,33 @@
 ﻿using Actors;
-using Assets.Scripts.Data;
-using Data;
 using Spells;
 using UnityEngine;
 
-[RequireComponent(typeof(SpellbookState))]
-public class SpellsPlaygroundCharacter : MonoBehaviour, IChannelingInfo
+namespace Utils
 {
-    private SpellbookState _spellbookState;
-
-    private TargetInfo _targetInfo;
-    public  float      Interval = 2.0f;
-    public  Spell      SpellToCast;
-
-    public CharacterState Target;
-
-    public TargetInfo GetNewTarget() { return _targetInfo; }
-
-    private void Start()
+    [RequireComponent(typeof(SpellbookState))]
+    public class SpellsPlaygroundCharacter : MonoBehaviour
     {
-        _spellbookState = GetComponent<SpellbookState>();
+        private SpellbookState _spellbookState;
 
-        _spellbookState.PlaceSpell(SpellToCast, 1);
+        private Target _target;
+        public  float      Interval = 2.0f;
+        public  Spell      SpellToCast;
 
-        _targetInfo = new TargetInfo
-                      {
-                          Character = Target,
-                          Position  = Target.transform.position,
-                          Transform = Target.GetNodeTransform(CharacterState.NodeRole.Chest)
-                      };
+        public CharacterState Target;
 
-        InvokeRepeating(nameof(CastSpell), 2.0f, Interval);
+        public Target GetNewTarget() { return _target; }
+
+        private void Start()
+        {
+            _spellbookState = GetComponent<SpellbookState>();
+            _spellbookState.PlaceSpell(SpellToCast, 1);
+            _target = new Target(Target);
+            InvokeRepeating(nameof(CastSpell), 2.0f, Interval);
+        }
+
+        private void CastSpell()
+        {
+            _spellbookState.TryFireSpellToTarget((int) SpellToCast.DefaultSlot, _target);
+        }
     }
-
-    private void CastSpell() { _spellbookState.TryFireSpellToTarget((int) SpellToCast.DefaultSlot, _targetInfo, this); }
 }

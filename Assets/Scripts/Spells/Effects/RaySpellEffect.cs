@@ -4,31 +4,25 @@ using UnityEngine;
 
 namespace Spells.Effects
 {
-    public class RaySpellEffect : MonoBehaviour, ISubSpellEffect
+    public class RaySpellEffect : MonoBehaviour, ISpellEffectHandler
     {
         private struct SubSpellEffectInstance
         {
             public GameObject InstanceObject;
             public IRayEffect Ray;
-            public TargetInfo Source;
-            public TargetInfo Target;
-            public bool UseChannelingInfoAsTarget;
-            public ISpellContext Context;
+            public Target Source;
+            public Target Target;
+            public ISubSpellHandler Handler;
         }
 
         public GameObject RayPrefab;
-        public EffectSpawnEvent SpawnEvent = EffectSpawnEvent.OnTargetsFinalized;
+        public SubSpellEvent SpawnEvent = SubSpellEvent.OnFire;
         public EffectInstancingMode InstanceMode;
         public bool AutoDestroyAfterSpell = true;
-        public bool UseChannelingInfoAsTarget = false;
         public CharacterState.NodeRole PreferredSourceNode = CharacterState.NodeRole.SpellEmitter;
         public CharacterState.NodeRole PreferredTargetNode = CharacterState.NodeRole.Chest;
 
         private readonly List<SubSpellEffectInstance> _instances = new List<SubSpellEffectInstance>(1);
-
-        void Start()
-        {
-        }
         
         void Update()
         {
@@ -38,42 +32,31 @@ namespace Spells.Effects
                 instance.Ray?.RayUpdated(src, dst);
             }
         }
-
-        public void OnInputTargetsValidated(ISpellContext context, SpellTargets targets)
+        public void OnEvent(SubSpellEventArgs args)
         {
-            if (SpawnEvent == EffectSpawnEvent.OnInputTargetsValidated)
-                HandleEvent(context, targets);
-        }
+            if (args.Event == SubSpellEvent.Ended)
+            {
+                OnEndSubSpell(args.Handler);
+                return;
+            }
 
-        public void OnTargetsFinalized(SpellContext context, SpellTargets targets)
-        {
-            if (SpawnEvent == EffectSpawnEvent.OnTargetsFinalized)
-                HandleEvent(context, targets);
-        }
+            if(args.Event != SpawnEvent)
+                return;
 
-        public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
-        {
-            if(SpawnEvent == EffectSpawnEvent.OnTargetsAffected)
-                HandleEvent(context, targets);
-        }
-
-        private void HandleEvent(ISpellContext context, SpellTargets targets)
-        {
             if (InstanceMode == EffectInstancingMode.OnePerSubSpell)
             {
                 // If the mode is one per subspell than we need to find existing one
                 // and update its target information. And also raise its UpdateEvent
-                var existingInstanceIdx = _instances.FindIndex(i => i.Context.Equals(context));
+                var existingInstanceIdx = _instances.FindIndex(i => i.Handler.Equals(args.Handler));
                 if (existingInstanceIdx >= 0)
                 {
                     var existing = _instances[existingInstanceIdx];
                     var instance = new SubSpellEffectInstance
                     {
                         InstanceObject = existing.InstanceObject,
-                        Target = UseChannelingInfoAsTarget ? context.ChannelingInfo.GetNewTarget() : targets.Destinations[0],
-                        Source = targets.Source,
-                        UseChannelingInfoAsTarget = existing.UseChannelingInfoAsTarget,
-                        Context = context,
+                        Target = args.Handler.Target,
+                        Source = args.Handler.Source,
+                        Handler = args.Handler,
                         Ray = existing.Ray
                     };
                     _instances[existingInstanceIdx] = instance;
@@ -90,10 +73,9 @@ namespace Spells.Effects
                         var instance = new SubSpellEffectInstance
                         {
                             InstanceObject = gameObjectInstance,
-                            Target = UseChannelingInfoAsTarget ? context.ChannelingInfo.GetNewTarget() : targets.Destinations[0],
-                            Source = targets.Source,
-                            UseChannelingInfoAsTarget = UseChannelingInfoAsTarget,
-                            Context = context,
+                            Target = args.Handler.Target,
+                            Source = args.Handler.Source,
+                            Handler = args.Handler,
                             Ray = ray
                         };
                         _instances.Add(instance);
@@ -104,23 +86,25 @@ namespace Spells.Effects
             }
             else if(InstanceMode == EffectInstancingMode.OnePerEventTarget)
             {
-                foreach (var spellTarget in targets.Destinations)
+                if (args.QueriedTargets != null)
                 {
-                    CreateRayEffectInstance(out var gameObjectInstance, out var ray);
-                    if (ray != null)
+                    foreach (var target in args.QueriedTargets)
                     {
-                        var instance = new SubSpellEffectInstance
+                        CreateRayEffectInstance(out var gameObjectInstance, out var ray);
+                        if (ray != null)
                         {
-                            Ray = ray,
-                            InstanceObject = gameObjectInstance,
-                            Source = targets.Source,
-                            Target = spellTarget,
-                            Context = context,
-                            UseChannelingInfoAsTarget = UseChannelingInfoAsTarget
-                        };
-                        _instances.Add(instance);
-                        GetRayStartAndEnd(instance, out var src, out var dst);
-                        ray.RayStarted(src, dst);
+                            var instance = new SubSpellEffectInstance
+                            {
+                                Ray = ray,
+                                InstanceObject = gameObjectInstance,
+                                Source = args.Handler.Source,
+                                Target = target,
+                                Handler = args.Handler
+                            };
+                            _instances.Add(instance);
+                            GetRayStartAndEnd(instance, out var src, out var dst);
+                            ray.RayStarted(src, dst);
+                        }
                     }
                 }
             }
@@ -132,13 +116,13 @@ namespace Spells.Effects
             rayInstance = gameObjectInstance.GetComponent<IRayEffect>();
         }
 
-        public void OnEndSubSpell(ISpellContext context)
+        public void OnEndSubSpell(ISubSpellHandler handler)
         {
             // If SubSpell has ended - remove and destroy all instances that are assigned to that SubSpell
             for (var i = _instances.Count - 1; i >= 0; i--)
             {
                 var instance = _instances[i];
-                if(!instance.Context.Equals(context))
+                if(!instance.Handler.Equals(handler))
                     continue;
 
                 instance.Ray?.RayEnded();
@@ -150,32 +134,19 @@ namespace Spells.Effects
             }
         }
 
-        private Vector3 GetPosition(TargetInfo tgtInfo, CharacterState.NodeRole preferredRole = CharacterState.NodeRole.Default)
+        private Vector3 GetPosition(Target target, CharacterState.NodeRole preferredRole = CharacterState.NodeRole.Default)
         {
-            if (tgtInfo.Transform != null)
-                return tgtInfo.Transform.position;
+            // Character target overrider
+            if (target.Type == TargetType.Character)
+                return target.Character.GetNodeTransform(preferredRole).position;
 
-            if (tgtInfo.Character != null)
-                return tgtInfo.Character.GetNodeTransform(preferredRole).position;
-
-            if (tgtInfo.Position.HasValue)
-                return tgtInfo.Position.Value;
-
-            return Vector3.zero;
+            return target.Position;
         }
 
         private void GetRayStartAndEnd(SubSpellEffectInstance instance, out Vector3 source, out Vector3 destination)
         {
-            source = GetPosition(instance.Source);
-            if (instance.UseChannelingInfoAsTarget)
-            {
-                // TODO: Fails after release of lbm
-                destination = GetPosition(instance.Context.ChannelingInfo.GetNewTarget(), PreferredSourceNode); 
-            }
-            else
-            {
-                destination = GetPosition(instance.Target, PreferredTargetNode);
-            }
+            source = GetPosition(instance.Source, PreferredSourceNode);
+            destination = GetPosition(instance.Target, PreferredTargetNode);
         }
     }
 }

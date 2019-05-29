@@ -45,7 +45,7 @@ namespace AI
             {
                 _agent.Movement.ControlLookAt(_agent.ActiveTarget.transform.position);
 
-                var distance = (_agent.ActiveTarget.transform.position - _agent.transform.position).magnitude;
+                var distance = (_agent.ActiveTarget.transform.position - _agent.Transform.position).magnitude;
                 if (Mathf.Abs(distance - _keepRange) > _tolerance)
                     return _targetOutOfRange;
             }

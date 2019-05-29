@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Actors;
-using Assets.Scripts.Data;
+﻿using Actors;
 using UnityEngine;
 
 public class CheatSpellSpawner : MonoBehaviour

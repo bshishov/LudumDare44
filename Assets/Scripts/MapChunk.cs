@@ -1,5 +1,4 @@
 ﻿using System;
-using Assets.Scripts.Utils;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;

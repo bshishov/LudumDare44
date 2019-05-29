@@ -1,5 +1,6 @@
 ﻿using System;
 using Actors;
+using Spells;
 using UnityEngine;
 
 namespace Data
@@ -42,8 +43,7 @@ namespace Data
             public enum SpellTarget
             { 
                 Self,
-                Source,
-                CurrentSpellEmitter
+                Source
             }
 
             [Tooltip("How many stacks casted spell will have")]
@@ -85,10 +85,10 @@ namespace Data
             {
                 LookDirection,
                 SourceCharacter,
-                SpellTarget,
-                SpellSource,
-                SpellTargetSource,
-                ChanellingTarget,
+                OriginalSpellSource,
+                OriginalSpellCastTarget,
+                SubSpellSource,
+                SubSpellTarget
             }
 
             public enum MovementType
@@ -100,9 +100,9 @@ namespace Data
 
             public MoveRelation RelativeTo;
             public MovementType Type;
-            public StackableProperty Speed;
-            public StackableProperty MovementDuration;
-            public StackableProperty MaxDistanceFromOrigin;
+            public StackableFloat Speed;
+            public StackableFloat MovementDuration;
+            public StackableFloat MaxDistanceFromOrigin;
             public bool BreakOnDestination;
         }
 

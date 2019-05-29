@@ -9,28 +9,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
   m_Name: Spell_BloodDagger
   m_EditorClassIdentifier: 
-  Name: Blood Dagger
+  Name: Blood dagger
   Icon: {fileID: 3770519954012001039, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 'Fires a blood dagger at a chosen direction dealing damage and piercing
-    enemies
-
-    <b>Damage</b>: 1'
+  Description: 
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
     type: 2}
-  LifeSteal: 0.8
-  BloodCost: 0
-  CastRange: 20
+  LifeSteal:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  Cooldown:
+    Type: 0
+    BaseValue: 2
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  BloodCost:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxRange:
+    Type: 0
+    BaseValue: 10
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MinRange:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
   DefaultSlot: 0
-  Cooldown: 0.6
-  Flags: 5
-  PreCastDelay: 0
-  PostCastDelay: 0
-  SubSpells:
-  - {fileID: 11400000, guid: 7ae61376980debd459c97ed849f16f98, type: 2}
-  - {fileID: 11400000, guid: cc2b8d602883b9948b2cce67a064a97f, type: 2}
-  SpellEffect: {fileID: 0}
-  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
-    type: 3}
+  ManualAbort: 1
+  CheckRangeOnCast: 0
+  TargetType: 4
+  RangeBehaviour: 1
+  MainSubSpells:
+  - {fileID: 11400000, guid: dde4aa1aa2be73b4bb5cc906eb6b308c, type: 2}
+  DropItem: {fileID: 0}

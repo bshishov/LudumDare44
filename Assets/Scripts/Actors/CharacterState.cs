@@ -41,24 +41,20 @@ namespace Actors
             public float TickCd;
             public int Stacks;
             public CharacterState SourceCharacter;
-            public Spell Spell;
-            public ISpellContext SpellContext;
-            public SpellTargets SpellTargets;
+            public ISubSpellHandler SubSpellHandler;
 
             public List<Change> ActiveChanges = new List<Change>();
             public List<GameObject> TrackedObjects = new List<GameObject>();
 
-            public BuffState(Buff buff, CharacterState sourceCharacter, int stacks, Spell spell = null)
+            public BuffState(Buff buff, CharacterState sourceCharacter, int stacks, ISubSpellHandler subSpell = null)
             {
                 Stacks = stacks;
                 Buff = buff;
                 TimeRemaining = buff.Duration;
                 TickCd = 0;
                 SourceCharacter = sourceCharacter;
-                Spell = spell;
+                SubSpellHandler = subSpell;
             }
-
-            
 
             public void RefreshTime()
             {
@@ -140,7 +136,7 @@ namespace Actors
             AgainstTheWorld
         }
 
-        [EnumFlag] public Team CurrentTeam = Team.Undefined;
+        [EnumFlag] public Team CurrentTeam = Team.Undefined; 
 
         public event Action Died;
         public event Action<float> HealthChanged;
@@ -148,7 +144,7 @@ namespace Actors
         public event Action<Spell, int> OnSpellPickup;
 
 #if DEBUG
-        public event Action<ModificationParameter, Spell, int, float> ModifierApplied;
+        public event Action<ModificationParameter, ISubSpellHandler, int, float> ModifierApplied;
 #endif
 
         public CharacterConfig character;
@@ -274,17 +270,18 @@ namespace Actors
 
             // Todo: track picked items and their stats
             foreach (var buff in item.Buffs)
-                ApplyBuff(buff, this, null, stacks = 1);
+                ApplyBuff(buff, this, stacks = 1);
         }
 
         public void ApplyBuff(
             Buff newBuff, 
             CharacterState sourceCharacter, 
-            Spell spell, 
             int stacks, 
-            ISpellContext spellContext = null,
-            SpellTargets targets = null)
+            ISubSpellHandler subSpell = null)
         {
+            if(!IsAlive)
+                return;
+
             if (newBuff == null)
                 return;
 
@@ -299,18 +296,16 @@ namespace Actors
                         existingState.Stacks = Mathf.Max(stacks, existingState.Stacks);
                         ApplyBuffModifiers(existingState);
                         existingState.RefreshTime();
-                        existingState.SpellContext = spellContext;
-                        existingState.SpellTargets = targets;
+                        existingState.SubSpellHandler = subSpell;
                         HandleBuffEvents(existingState, BuffEventType.OnRefresh);
                         break;
                     case BuffStackBehaviour.AddNewAsSeparate:
-                        AddNewBuff(newBuff, stacks, sourceCharacter, spell, spellContext, targets);
+                        AddNewBuff(newBuff, stacks, sourceCharacter, subSpell);
                         break; 
                     case BuffStackBehaviour.SumStacks:
                         existingState.Stacks += stacks;
                         ApplyBuffModifiers(existingState);
-                        existingState.SpellContext = spellContext;
-                        existingState.SpellTargets = targets;
+                        existingState.SubSpellHandler = subSpell;
                         existingState.RefreshTime();
                         HandleBuffEvents(existingState, BuffEventType.OnRefresh);
                         break;
@@ -326,7 +321,7 @@ namespace Actors
             else
             {
                 // The buff is completely new. So create and store new BuffState and apply all effects
-                AddNewBuff(newBuff, stacks, sourceCharacter, spell, spellContext, targets);
+                AddNewBuff(newBuff, stacks, sourceCharacter, subSpell);
             }
         }
 
@@ -346,7 +341,7 @@ namespace Actors
                     mod.Value, state.Stacks, 
                     mod.EffectiveStacks, 
                     state.SourceCharacter, 
-                    state.Spell,
+                    state.SubSpellHandler,
                     false);
 
                 // If there is an actual change
@@ -364,15 +359,9 @@ namespace Actors
             Buff buff, 
             int stacks, 
             CharacterState sourceCharacter, 
-            Spell spell, 
-            ISpellContext spellContext, 
-            SpellTargets targets)
+            ISubSpellHandler subSpell)
         {
-            var buffState = new BuffState(buff, sourceCharacter, stacks, spell)
-            {
-                SpellContext = spellContext,
-                SpellTargets = targets
-            };
+            var buffState = new BuffState(buff, sourceCharacter, stacks, subSpell);
             _buffStates.Add(buffState);
 
 #if DEBUG_COMBAT
@@ -407,23 +396,20 @@ namespace Actors
                     buffState.Stacks, 
                     affect.ApplyModifier.EffectiveStacks, 
                     buffState.SourceCharacter, 
-                    buffState.Spell);
+                    buffState.SubSpellHandler);
 
             // Cast affect spells
             if (affect.Type == Affect.AffectType.CastSpell)
             {
-                TargetInfo tgt = null;
+                var tgt = Target.None;
                 var spellStacks = 1;
                 switch (affect.CastSpell.Target)
                 {
                     case Affect.SpellCastInfo.SpellTarget.Source:
-                        tgt = TargetInfo.Create(buffState.SourceCharacter);
+                        tgt = new Target(buffState.SourceCharacter);
                         break;
                     case Affect.SpellCastInfo.SpellTarget.Self:
-                        tgt = TargetInfo.Create(this);
-                        break;
-                    case Affect.SpellCastInfo.SpellTarget.CurrentSpellEmitter:
-                        tgt = new TargetInfo {Transform = GetNodeTransform(NodeRole.SpellEmitter)};
+                        tgt = new Target(this);
                         break;
                     default:
                         break;
@@ -439,13 +425,7 @@ namespace Actors
                         break;
                 }
 
-                _spellCaster.CastSpell(
-                    affect.CastSpell.Spell,
-                    spellStacks,
-                    new SpellTargets(TargetInfo.Create(this,
-                        GetNodeTransform(NodeRole.SpellEmitter)), tgt),
-                    null,
-                    null);
+                _spellCaster.Cast(affect.CastSpell.Spell, new Target(this), tgt, spellStacks);
             }
 
             if (affect.Type == Affect.AffectType.SpawnObject)
@@ -496,37 +476,37 @@ namespace Actors
 
                 if (target != null)
                 {
-                    target.ApplyBuff(affect.ApplyBuff.Buff, this, null, stacks);
+                    target.ApplyBuff(affect.ApplyBuff.Buff, this, stacks);
                 }
             }
 
             if (affect.Type == Affect.AffectType.Move)
             {
-                TargetInfo moveTarget;
+                Target moveTarget;
                 switch (affect.Move.RelativeTo)
                 {
                     case Affect.MoveInfo.MoveRelation.SourceCharacter:
-                        moveTarget = TargetInfo.Create(buffState.SourceCharacter);
+                        moveTarget = new Target(buffState.SourceCharacter);
                         break;
-                    case Affect.MoveInfo.MoveRelation.SpellSource:
-                        moveTarget = TargetInfo.Create(buffState.SpellContext.InitialSource);
+                    case Affect.MoveInfo.MoveRelation.OriginalSpellSource:
+                        moveTarget = buffState.SubSpellHandler.SpellHandler.Source;
                         break;
-                    case Affect.MoveInfo.MoveRelation.ChanellingTarget:
-                        moveTarget = buffState.SpellContext?.ChannelingInfo?.GetNewTarget();
+                    case Affect.MoveInfo.MoveRelation.OriginalSpellCastTarget:
+                        moveTarget = buffState.SubSpellHandler.SpellHandler.CastTarget;
                         break;
-                    case Affect.MoveInfo.MoveRelation.SpellTargetSource:
-                        moveTarget = buffState.SpellTargets?.Source;
+                    case Affect.MoveInfo.MoveRelation.SubSpellSource:
+                        moveTarget = buffState.SubSpellHandler.Source;
                         break;
-                    case Affect.MoveInfo.MoveRelation.SpellTarget:
-                        moveTarget = buffState.SpellTargets?.Destinations[0];
+                    case Affect.MoveInfo.MoveRelation.SubSpellTarget:
+                        moveTarget = buffState.SubSpellHandler.Target;
                         break;
                     default:
                     case Affect.MoveInfo.MoveRelation.LookDirection:
-                        moveTarget = TargetInfo.Create(null, null, transform.position + transform.forward * 10);
+                        moveTarget = new Target(transform.position + transform.forward * 10);
                         break;
                 }
 
-                if (moveTarget != null)
+                if (moveTarget.HasPosition)
                 {
                     _movement?.ForceMove(
                         affect.Move.Type,
@@ -538,7 +518,7 @@ namespace Actors
                 }
                 else
                 {
-                    Debug.LogError("Movement target is null", this);
+                    Debug.LogError("Movement target is invalid", this);
                 }
             }
         }
@@ -549,12 +529,12 @@ namespace Actors
             int stacks,
             float effectiveStacks,
             CharacterState sourceCharacter,
-            Spell spell, 
+            ISubSpellHandler subSpell, 
             bool applyChange=true)
         {
             // First - calculate an actual change of modifier
             // using all spell amplification things, evasions and other stuff
-            var change = CalcChange(parameter, amount, stacks, effectiveStacks, sourceCharacter, spell);
+            var change = CalcChange(parameter, amount, stacks, effectiveStacks, sourceCharacter, subSpell);
 
 #if DEBUG_COMBAT
             _combatLog.Log(
@@ -565,7 +545,7 @@ namespace Actors
             if (applyChange)
             {
 #if DEBUG
-                ModifierApplied?.Invoke(parameter, spell, stacks, change.Amount);
+                ModifierApplied?.Invoke(parameter, subSpell, stacks, change.Amount);
 #endif
                 // Apply an actual change
                 ApplyChange(change);
@@ -579,7 +559,7 @@ namespace Actors
             int stacks,
             float effectiveStacks,
             CharacterState sourceCharacter,
-            Spell spell)
+            ISubSpellHandler subSpell)
         {
             // Zero-change
             if (parameter == ModificationParameter.None || Mathf.Abs(amount) < 1e-6)
@@ -602,32 +582,33 @@ namespace Actors
                 if (delta < 0)
                 {
                     // If the damage comes from spell, amplify it buy character source damage multiplier
-                    if (spell != null && sourceCharacter != null)
+                    if (subSpell != null && sourceCharacter != null)
                     {
                         // Damage amplification
                         delta *= sourceCharacter.SpellDamageMultiplier;
 #if DEBUG_COMBAT
                         _combatLog.Log(
                             $"Receiving in total <b>{-delta}</b> spell multiplied ({100 * sourceCharacter.SpellDamageMultiplier}%) damage from <b>{sourceCharacter.name}</b> " +
-                            $"from spell <b>{spell.name}</b>");
+                            $"from spell <b>{subSpell.Spell.name}</b>");
 #endif
 
                         // Lifesteal
                         // TODO: Shouldn't we apply lifesteal afterwards?
-                        var lifesteal = -delta * spell.LifeSteal;
-                        if (lifesteal > 0)
+                        var lifeStealFactor = subSpell.Spell.LifeSteal.GetValue(subSpell.Stacks);
+                        var hpStolen = -delta * lifeStealFactor;
+                        if (hpStolen > 0)
                         {
 #if DEBUG_COMBAT
                             _combatLog.Log(
-                                $"Returning <b>{-delta * spell.LifeSteal}</b> hp back to <b>{sourceCharacter.name}</b> " +
-                                $"because spell <b>{spell.name}</b> has <b>{100 * spell.LifeSteal}%</b> lifesteal");
+                                $"Returning <b>{hpStolen}</b> hp back to <b>{sourceCharacter.name}</b> " +
+                                $"because spell <b>{subSpell.Spell.name}</b> has <b>{100 * lifeStealFactor}%</b> lifesteal");
 #endif
                             sourceCharacter.ApplyModifier(ModificationParameter.HpFlat,
-                                lifesteal,
+                                hpStolen,
                                 1,
                                 1,
                                 this,
-                                spell);
+                                subSpell);
                         }
                     }
                 }
@@ -850,6 +831,9 @@ namespace Actors
 
         void HandleDeath()
         {
+            if(!IsAlive)
+                return;
+
             IsAlive = false;
             if (DropSpells.Count > 0 && Random.value < character.DropRate)
             {
@@ -878,30 +862,6 @@ namespace Actors
                     });
                 else
                     _animationController.PlayEvasionEffect(GetNodeTransform(NodeRole.Chest));
-            }
-        }
-
-        internal void ApplySpell(ISpellContext spellContext, SpellTargets targets)
-        {
-            if (!IsAlive)
-                return;
-
-            var currentSub = spellContext.CurrentSubSpell;
-#if DEBUG_COMBAT
-            _combatLog.Log($"<b>{gameObject.name}</b> received spell cast <b>{spellContext.Spell.name}</b>"
-                           + $" (sub: <b>{currentSub.name}</b>) with <b>{spellContext.Stacks}</b>");
-#endif
-            
-            // Apply SubSpell payload
-            foreach (var buff in spellContext.CurrentSubSpell.Buffs)
-            {
-                //ApplyBuff(buff, spellContext.InitialSource, spellContext.Spell, spellContext.Stacks);
-                ApplyBuff(buff, 
-                    spellContext.InitialSource, 
-                    spellContext.Spell, 
-                    spellContext.Stacks, 
-                    spellContext,
-                    targets);
             }
         }
 

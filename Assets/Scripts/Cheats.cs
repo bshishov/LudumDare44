@@ -44,7 +44,7 @@ public class Cheats : MonoBehaviour
                     continue;
 
                 Debugger.Default.Display($"Cheats/Apply Buffs/{buff.name}",
-                    () => { _playerState.ApplyBuff(buff, _playerState, null, 1); });
+                    () => { _playerState.ApplyBuff(buff, _playerState, 1); });
             }
 
         foreach (var spell in Spells)

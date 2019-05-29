@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Utils.FSM
+﻿namespace Utils.FSM
 {
     public interface IStateBehaviour<TStateKey>
         where TStateKey : struct

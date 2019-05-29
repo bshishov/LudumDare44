@@ -1,16 +1,16 @@
 ﻿using System;
-using Assets.Scripts.Data;
+using Actors;
 using Data;
 using Spells;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI
+namespace UI
 {
     public class UISlotState : MonoBehaviour
     {
-        public Spell.Slot Slot;
+        public SpellSlot Slot;
         public Sprite DefaultSpellIcon;
         public Image SpellIcon;
         public Image CooldownOverlay;
@@ -39,11 +39,13 @@ namespace Assets.Scripts.UI
         void Update()
         {
             var slotState = _spellBookState.GetSpellSlotState((int)Slot);
+            if(slotState == null)
+                return;
             
             if (slotState.Spell != null && slotState.State != SpellbookState.SpellState.None)
             {
                 SpellIcon.sprite = slotState.Spell.Icon;
-                CooldownOverlay.fillAmount = slotState.RemainingCooldown / slotState.Spell.Cooldown;
+                CooldownOverlay.fillAmount = slotState.RemainingCooldown / slotState.Spell.Cooldown.GetValue(slotState.NumStacks);
 
                 if(slotState.RemainingCooldown > 0)
                     CooldownText.text = string.Format("{0:0.#}", slotState.RemainingCooldown);

@@ -1,45 +1,11 @@
-﻿using Assets.Scripts.Data;
-using UnityEngine;
-using UnityEngine.Assertions;
+﻿using UnityEngine;
 
 namespace Spells.Effects
 {
-    public class SpikeWaveEffect : MonoBehaviour, ISubSpellEffect
+    public class SpikeWaveEffect : MonoBehaviour, ISpellEffectHandler
     {
         public ParticleSystem SpikePrefab;
         public float SpikesPerDistance = 7.5f;
-
-        public void OnInputTargetsValidated(ISpellContext context, SpellTargets targets)
-        {
-            Assert.AreEqual(context.CurrentSubSpell.Area.Area, AreaOfEffect.AreaType.Cone);
-
-            foreach (var target in targets.Destinations)
-            {
-                var orient = Quaternion.LookRotation(target.Position.Value - targets.Source.Position.Value);
-                orient.x = orient.z = 0;
-
-                Assert.IsTrue(targets.Source.Position.HasValue, "targets.Source.Position != null");
-                SpawnParticle(targets.Source.Position.Value,
-                    orient,
-                    (context.CurrentSubSpell.Area.Size + context.CurrentSubSpell.Area.MinSize) / 2,
-                    context.CurrentSubSpell.Area.Angle);
-            }
-        }
-
-        public void OnTargetsFinalized(SpellContext context, SpellTargets castData) {}
-
-        public void OnTargetsAffected(ISpellContext context, SpellTargets targets) {}
-
-        public void OnEndSubSpell(ISpellContext context) {}
-
-        [ContextMenu("DO!")]
-        public void TestSpikes()
-        {
-            if (SpikePrefab == null)
-                return;
-            for (var i = 1; i < 6; ++i)
-                SpawnParticle(gameObject.transform.position, Quaternion.identity, i, 60);
-        }
 
         private void SpawnParticle(Vector3 origin, Quaternion rotation, float distance, float angle)
         {
@@ -66,6 +32,24 @@ namespace Spells.Effects
             emission.SetBurst(0, burst);
 
             particles.Play();
+        }
+
+        public void OnEvent(SubSpellEventArgs args)
+        {
+            if(args.Event != SubSpellEvent.OnFire)
+                return;
+
+            if(args.Query.NewTargetsQueryType == Query.QueryType.None)
+                return;
+
+            var sourcePos = args.Handler.Source.Position;
+            var orientation = Quaternion.LookRotation(args.Handler.Target.Position - sourcePos);
+            orientation.x = orientation.z = 0;
+
+            SpawnParticle(sourcePos, 
+                orientation,
+                (args.Query.Area.Size.GetValue(args.Handler.Stacks) + args.Query.Area.MinSize.GetValue(args.Handler.Stacks)) * 0.5f,
+                args.Query.Area.Angle.GetValue(args.Handler.Stacks));
         }
     }
 }

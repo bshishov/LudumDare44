@@ -53,4 +53,4 @@ MonoBehaviour:
   OnlyXzRotation: 1
   DestroyAfterSpell: 0
   DestroyAfterLifetime: 1
-  Lifetime: 3
+  Lifetime: 1

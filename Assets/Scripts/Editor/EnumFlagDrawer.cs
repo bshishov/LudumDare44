@@ -3,7 +3,7 @@ using Attributes;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts.Editor
+namespace Editor
 {
     [CustomPropertyDrawer(typeof(EnumFlagAttribute))]
     public class EnumFlagDrawer : PropertyDrawer

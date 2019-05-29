@@ -1,8 +1,9 @@
-﻿using Spells;
+﻿using Actors;
+using Spells;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI
+namespace UI
 {
     public class UISpellBar : MonoBehaviour
     {
@@ -53,7 +54,7 @@ namespace Assets.Scripts.UI
             if (slotState.Spell != null)
             {
                 icon.sprite = slotState.Spell.Icon;
-                cooldownMask.fillAmount = slotState.RemainingCooldown / slotState.Spell.Cooldown;
+                cooldownMask.fillAmount = slotState.RemainingCooldown / slotState.Spell.Cooldown.GetValue(slotState.NumStacks);
             }
         }
     }

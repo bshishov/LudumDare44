@@ -1,6 +1,5 @@
 ﻿using Actors;
 using Assets.Scripts;
-using Assets.Scripts.Utils;
 using Assets.Scripts.Utils.UI;
 using TMPro;
 using UnityEngine;

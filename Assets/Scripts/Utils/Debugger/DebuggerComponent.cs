@@ -82,7 +82,8 @@ namespace Utils.Debugger
         private void LateUpdate()
         {
             if (_isDrawingDebugLines)
-                _drawer.LateUpdate();
+                _drawer.DrawQueuedMeshes();
+            _drawer.ProcessQueue();
         }
 
         public void Open()

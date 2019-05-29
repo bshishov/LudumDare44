@@ -4,7 +4,7 @@ using Attributes;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts.Editor
+namespace Editor
 {
     /// <summary>
     /// Draws the property field for any field marked with ExpandableAttribute.

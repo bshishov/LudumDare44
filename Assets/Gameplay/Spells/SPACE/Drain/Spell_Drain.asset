@@ -9,23 +9,45 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
   m_Name: Spell_Drain
   m_EditorClassIdentifier: 
   Name: Drain
   Icon: {fileID: -5485510380186969285, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: Drain targetted enemy, dealing damage and healing yourself per second
-  ApplyBuffOnDismantle: {fileID: 0}
-  LifeSteal: 0
-  BloodCost: 0
-  CastRange: 5
+  Description: 
+  ApplyBuffOnDismantle: {fileID: 11400000, guid: c2bf24e4004b1954e99e4ce13852e4fb,
+    type: 2}
+  LifeSteal:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  Cooldown:
+    Type: 0
+    BaseValue: 1
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  BloodCost:
+    Type: 0
+    BaseValue: 1
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxRange:
+    Type: 0
+    BaseValue: 10
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MinRange:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
   DefaultSlot: 2
-  Cooldown: 20
-  Flags: 6
-  PreCastDelay: 0
-  PostCastDelay: 0
-  SubSpells:
+  ManualAbort: 1
+  CheckRangeOnCast: 1
+  TargetType: 1
+  RangeBehaviour: 0
+  MainSubSpells:
   - {fileID: 11400000, guid: 1c02cfc229837cc4b92d5ffe8d537fc1, type: 2}
-  SpellEffect: {fileID: 0}
   DropItem: {fileID: 6059088751739097296, guid: d24928aed2d10f340aeee188f330f4b8,
     type: 3}

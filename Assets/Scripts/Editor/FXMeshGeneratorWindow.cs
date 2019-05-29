@@ -3,7 +3,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-namespace Assets.Scripts.Editor
+namespace Editor
 {
     public class FXMeshGeneratorWindow : EditorWindow
     {

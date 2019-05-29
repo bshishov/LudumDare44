@@ -1,5 +1,4 @@
-﻿using System;
-using Utils.FSM;
+﻿using Utils.FSM;
 
 namespace AI
 {
@@ -27,7 +26,7 @@ namespace AI
                 return null;
             }
 
-            var distance = (_agent.ActiveTarget.transform.position - _agent.transform.position).magnitude;
+            var distance = (_agent.ActiveTarget.transform.position - _agent.Transform.position).magnitude;
             if (distance < _agent.Config.AI.AggroRange)
                 return _aggroState;
 

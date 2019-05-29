@@ -1,7 +1,11 @@
-﻿namespace Spells.Effects {
-public enum EffectOrigin
+﻿namespace Spells.Effects
 {
-    InSource,
-    InDestination
-}
+    public enum EffectOrigin
+    {
+        InSource,
+        InTarget,
+        InOriginalSpellSource,
+        InOriginalSpellCastTarget,
+        InEachQueriedTargets
+    }
 }

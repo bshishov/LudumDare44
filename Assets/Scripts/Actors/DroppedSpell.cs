@@ -1,7 +1,5 @@
-﻿using System;
-using Assets.Scripts;
-using Assets.Scripts.Data;
-using Data;
+﻿using Assets.Scripts;
+using Spells;
 using UnityEngine;
 
 namespace Actors
@@ -34,7 +32,7 @@ namespace Actors
             if (interaction == Interaction.Dismantle)
             {
                 if(Spell.ApplyBuffOnDismantle != null)
-                    character.ApplyBuff(Spell.ApplyBuffOnDismantle, character, null, Stacks);
+                    character.ApplyBuff(Spell.ApplyBuffOnDismantle, character, Stacks);
             }
 
             Destroy(gameObject);

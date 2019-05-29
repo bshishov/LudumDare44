@@ -33,7 +33,7 @@ namespace Spells.Effects
             for (var i = 0; i < Points; i++)
                 _points[i] = Vector3.Lerp(from, to, i / (Points - 1f));
             
-            _renderer.SetPositions(_points);
+            _renderer?.SetPositions(_points);
         }
 
         public void RayStarted(Vector3 source, Vector3 destination)

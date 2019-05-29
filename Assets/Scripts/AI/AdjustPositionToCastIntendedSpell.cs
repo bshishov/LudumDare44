@@ -22,7 +22,7 @@ namespace AI
             if (_agent?.IntendedSpell != null)
             {
                 var slotState = _agent.SpellBook.GetSpellSlotState(_agent.IntendedSpell.Slot);
-                _desiredRange = slotState.Spell.CastRange;
+                _desiredRange = slotState.Spell.MaxRange.GetValue(slotState.NumStacks);
             }
         }
 
@@ -41,7 +41,7 @@ namespace AI
             if (distance < _desiredRange)
                 return _nextState;
 
-            var direction = (_agent.ActiveTarget.transform.position - _agent.transform.position).normalized;
+            var direction = (_agent.ActiveTarget.transform.position - _agent.Transform.position).normalized;
 
             var moveTo = _agent.ActiveTarget.transform.position - direction * (_desiredRange - 0.1f);
             _agent.Movement.ControlSetDestination(moveTo);

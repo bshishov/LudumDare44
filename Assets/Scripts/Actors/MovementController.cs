@@ -27,7 +27,7 @@ public class MovementController : MonoBehaviour
     private Quaternion _targetRotation;
 
     // Force 
-    private TargetInfo _forceTargetInfo;
+    private Target _forceTargetInfo;
     private float _forceSpeed;
     private float _forceDuration;
     private bool _forceBreakOnDestination;
@@ -84,7 +84,7 @@ public class MovementController : MonoBehaviour
     {
         _forceDuration -= Time.deltaTime;
 
-        var targetPos = _forceTargetInfo.Position.Value;
+        var targetPos = _forceTargetInfo.Position;
         _navMeshAgent.SetDestination(targetPos);
         _navMeshAgent.speed = _forceSpeed;
         LookAt(targetPos);
@@ -120,7 +120,7 @@ public class MovementController : MonoBehaviour
     {
         _forceDuration -= Time.deltaTime;
 
-        var targetPos = _forceTargetInfo.Position.Value;
+        var targetPos = _forceTargetInfo.Position;
 
         var dir = targetPos - transform.position;
         if (_forceBreakOnDestination && dir.magnitude < 1f)
@@ -163,7 +163,7 @@ public class MovementController : MonoBehaviour
 
     public void ForceMove(
         Affect.MoveInfo.MovementType type,
-        TargetInfo target, 
+        Target target, 
         float speed, 
         float duration, 
         bool breakOnDestination,
@@ -172,7 +172,7 @@ public class MovementController : MonoBehaviour
 
         if (type == Affect.MoveInfo.MovementType.Warp)
         {
-            _navMeshAgent.Warp(target.Position.Value);
+            _navMeshAgent.Warp(target.Position);
             return;
         }
         

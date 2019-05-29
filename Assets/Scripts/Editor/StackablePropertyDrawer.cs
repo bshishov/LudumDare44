@@ -2,9 +2,9 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts.Editor
+namespace Editor
 {
-    [CustomPropertyDrawer(typeof(StackableProperty))]
+    [CustomPropertyDrawer(typeof(StackableFloat))]
     public class StackablePropertyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect rect, SerializedProperty property, GUIContent label)
@@ -17,7 +17,7 @@ namespace Assets.Scripts.Editor
             var modProp = property.FindPropertyRelative("ModifierPerStack");
             var eSProp = property.FindPropertyRelative("EffectiveStacks");
 
-            var type = (StackableProperty.ModifierType) typeProp.intValue;
+            var type = (StackableFloat.ModifierType) typeProp.intValue;
 
             var indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
@@ -25,9 +25,9 @@ namespace Assets.Scripts.Editor
             EditorGUI.PropertyField(Column(rect, 0f, 0.3f), baseProp, GUIContent.none);
             EditorGUI.PropertyField(Column(rect, 0.3f, 0.45f), typeProp, GUIContent.none);
 
-            if (type != StackableProperty.ModifierType.Exact)
+            if (type != StackableFloat.ModifierType.Exact)
             {
-                if (type == StackableProperty.ModifierType.Mult)
+                if (type == StackableFloat.ModifierType.Mult)
                     EditorGUI.LabelField(Column(rect, 0.45f, 0.55f), "*(1+");
                 else
                     EditorGUI.LabelField(Column(rect, 0.45f, 0.55f), "+(");

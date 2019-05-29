@@ -1,14 +1,11 @@
 ﻿using System;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.Serialization;
-using Utils;
 
 namespace Spells.Effects
 {
-    public class ExplosionSpellEffect : MonoBehaviour, ISubSpellEffect
+    public class ExplosionSpellEffect : MonoBehaviour, ISpellEffectHandler
     {
+        public SubSpellEvent SpawnEvent;
         public GameObject   ExplosionPrefab;
         public EffectOrigin Origin;
         public bool         SpawnInGround;
@@ -19,57 +16,21 @@ namespace Spells.Effects
         public bool AutoDestroy;
         public float DestroyAfter = 2f;
 
-        [FormerlySerializedAs("StartEffectOnPreSelected")]
-        public bool         StartEffectOnInputTargetValidated;
-
-        public void OnInputTargetsValidated(ISpellContext context, SpellTargets targets)
-        {
-            if (StartEffectOnInputTargetValidated)
-                SpawnEffect(targets);
-            }
-
-        public void OnTargetsFinalized(SpellContext context, SpellTargets castData) { }
-
-        public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
-        {
-            if (!StartEffectOnInputTargetValidated)
-                SpawnEffect(targets);
-        }
-
-        public void OnEndSubSpell(ISpellContext context) { }
-
-        private void SpawnEffect(SpellTargets targets)
-        {
-            switch (Origin)
-            {
-                case EffectOrigin.InSource:
-                    SpawnEffect(targets.Source, Quaternion.identity);
-                    break;
-                case EffectOrigin.InDestination:
-                    foreach (var destination in targets.Destinations)
-                        SpawnEffect(destination, GetRotation(targets.Source, destination));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private Quaternion GetRotation(TargetInfo source, TargetInfo target)
+        private Quaternion GetRotation(Target source, Target target)
         {
             if(!AlignRotation)
                 return Quaternion.identity;
 
-            var dir = target.Position.Value - source.Position.Value;
+            var dir = target.Position - source.Position;
             if (XZRotationOnly)
                 dir.y = 0;
 
             return Quaternion.LookRotation(dir.normalized, Vector3.up);
         }
 
-        private void SpawnEffect(TargetInfo target, Quaternion rotation)
+        private void SpawnEffect(Target target, Quaternion rotation)
         {
-            Assert.IsTrue(target.Position.HasValue, "targets.Source.Position != null");
-            var position = target.Position.Value;
+            var position = target.Position;
             if (SpawnInGround)
                 if (Physics.Raycast(position, Vector3.down, out var hitInfo, 2.0f, Common.LayerMasks.ActorsOrGround))
                     position = hitInfo.point;
@@ -79,9 +40,35 @@ namespace Spells.Effects
                 Destroy(instance, DestroyAfter);
         }
 
-#if UNITY_EDITOR
-        [MenuItem("Assets/Create/Effect Wrappers/Explosion", false, 1)]
-        public static void ExplosionSpellEffect1() { AssetUtility.CreateAsset<ExplosionSpellEffect>(); }
-#endif
+        public void OnEvent(SubSpellEventArgs args)
+        {
+            // If it is not a spawn event -> do nothing
+            if(args.Event != SpawnEvent)
+                return;
+
+            switch (Origin)
+            {
+                case EffectOrigin.InSource:
+                    SpawnEffect(args.Handler.Source, Quaternion.identity);
+                    break;
+                case EffectOrigin.InTarget:
+                    SpawnEffect(args.Handler.Target, Quaternion.identity);
+                    break;
+                case EffectOrigin.InOriginalSpellSource:
+                    SpawnEffect(args.Handler.SpellHandler.Source, Quaternion.identity);
+                    break;
+                case EffectOrigin.InOriginalSpellCastTarget:
+                    SpawnEffect(args.Handler.SpellHandler.CastTarget, Quaternion.identity);
+                    break;
+                case EffectOrigin.InEachQueriedTargets:
+                    if(args.QueriedTargets == null)
+                        break;
+                    foreach (var target in args.QueriedTargets)
+                        SpawnEffect(target, GetRotation(args.Handler.Source, target));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }

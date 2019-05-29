@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Actors;
-using Assets.Scripts.Data;
-using Data;
+using Spells;
 using TMPro;
+using Utils;
 
 [RequireComponent(typeof(Cheats))]
 public class SpellsPlayground : MonoBehaviour

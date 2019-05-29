@@ -16,6 +16,7 @@ MonoBehaviour:
   AggroRange: 100
   FearRange: 5
   MeleeRange: 0
+  MaxMeleeRange: 0
   MaxCastRange: 20
   MeleeAttackCooldown: 0
   MeleeDamageDelay: 0
@@ -23,5 +24,8 @@ MonoBehaviour:
   SpellCastingCooldown: 1
   SlotConfig:
   - Slot: 0
-    Weight: 0
-    WaitAfterCast: 0
+    Weight: 1
+    WaitAfterCast: 1
+  - Slot: 1
+    Weight: 1
+    WaitAfterCast: 1

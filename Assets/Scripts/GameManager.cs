@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Data;
 using UnityEngine;
-using Assets.Scripts.Utils;
 using UnityEngine.AI;
 using UnityEngine.Assertions;
 using Utils;

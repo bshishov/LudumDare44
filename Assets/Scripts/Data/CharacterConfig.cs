@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Attributes;
+using Spells;
 using UnityEngine;
 
 namespace Data

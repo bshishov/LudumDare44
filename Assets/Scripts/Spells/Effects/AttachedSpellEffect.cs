@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Actors;
-using Assets.Scripts.Data;
+using Data;
 using UnityEngine;
 
 namespace Spells.Effects
 {
-    public class AttachedSpellEffect: MonoBehaviour, ISubSpellEffect
+    public class AttachedSpellEffect: MonoBehaviour, ISpellEffectHandler
     {
         private struct SubSpellEffectInstance
         {
             public GameObject InstanceObject;
             public Transform AttachedTo;
-            public Transform Relative;
-            public ISpellContext Context;
+            public Target Relative;
+            public ISubSpellHandler Handler;
         }
 
         [Serializable]
@@ -33,7 +32,7 @@ namespace Spells.Effects
         }
 
         public GameObject Prefab;
-        public EffectSpawnEvent SpawnEvent = EffectSpawnEvent.OnTargetsFinalized;
+        public SubSpellEvent SpawnEvent = SubSpellEvent.OnFire;
         public EffectSpawnOrigin SpawnOrigin;
         public EffectInstancingMode InstancingMode;
 
@@ -64,57 +63,17 @@ namespace Spells.Effects
             }
         }
 
-        public void OnInputTargetsValidated(ISpellContext context, SpellTargets targets)
-        {
-            if (SpawnEvent == EffectSpawnEvent.OnInputTargetsValidated)
-                HandleEvent(context, targets);
-        }
-
-        public void OnTargetsFinalized(SpellContext context, SpellTargets targets)
-        {
-            if (SpawnEvent == EffectSpawnEvent.OnTargetsFinalized)
-                HandleEvent(context, targets);
-        }
-
-        public void OnTargetsAffected(ISpellContext context, SpellTargets targets)
-        {
-            if (SpawnEvent == EffectSpawnEvent.OnTargetsAffected)
-                HandleEvent(context, targets);
-        }
-
-        private void HandleEvent(ISpellContext context, SpellTargets targets)
-        {
-            if (InstancingMode == EffectInstancingMode.OnePerSubSpell)
-            {
-                var existingInstanceIdx = _instances.FindIndex(i => i.Context.Equals(context));
-                if (existingInstanceIdx >= 0)
-                {
-                    // Skip existing ???
-                }
-                else
-                {
-                    var target = targets.Destinations.FirstOrDefault();
-                    _instances.Add(Create(context, targets.Source, target));
-                }
-            }
-            else if (InstancingMode == EffectInstancingMode.OnePerEventTarget)
-            {
-                foreach (var target in targets.Destinations)
-                    _instances.Add(Create(context, targets.Source, target));
-            }
-        }
-
-        public GameObject SpawnInstance(Vector3 position, Quaternion rotation, AreaOfEffect aoe)
+        public GameObject SpawnInstance(Vector3 position, Quaternion rotation, AreaOfEffect aoe, int stacks)
         {
             var go = Instantiate(Prefab, position, rotation, transform);
             if (DestroyAfterLifetime)
                 Destroy(go, Lifetime);
             if (ScaleWithAoE && aoe != null)
-                go.transform.localScale *= aoe.Size;
+                go.transform.localScale *= aoe.Size.GetValue(stacks);
             return go;
         }
 
-        public void OnEndSubSpell(ISpellContext context)
+        public void OnEndSubSpell(ISubSpellHandler handler)
         {
             // If SubSpell has ended - remove and destroy all instances that are assigned to that SubSpell
             for (var i = _instances.Count - 1; i >= 0; i--)
@@ -127,7 +86,7 @@ namespace Spells.Effects
                     continue;
                 }
 
-                if (!instance.Context.Equals(context))
+                if (!instance.Handler.Equals(handler))
                     continue;
 
                 if (DestroyAfterSpell)
@@ -137,20 +96,20 @@ namespace Spells.Effects
             }
         }
 
-        private SubSpellEffectInstance Create(ISpellContext context, TargetInfo source, TargetInfo target)
+        private SubSpellEffectInstance Create(ISubSpellHandler handler, Target source, Target target)
         {
             Transform attachTo;
-            Transform relativeTo;
+            Target relativeTo;
             switch (SpawnOrigin)
             {
                 case EffectSpawnOrigin.Target:
-                    attachTo = GetTransform(target);
-                    relativeTo = GetTransform(source);
+                    attachTo = target.Transform;
+                    relativeTo = source;
                     break;
                 default:
                 case EffectSpawnOrigin.Source:
-                    attachTo = GetTransform(source);
-                    relativeTo = GetTransform(target);
+                    attachTo = source.Transform;
+                    relativeTo = target;
                     break;
             }
 
@@ -159,37 +118,23 @@ namespace Spells.Effects
             {
                 AttachedTo = attachTo,
                 Relative = relativeTo,
-                Context = context,
-                InstanceObject = SpawnInstance(position, rotation, context.CurrentSubSpell?.Area)
+                Handler = handler,
+                InstanceObject = SpawnInstance(position, rotation, null, handler.Stacks)
             };
-        }
-
-        private Transform GetTransform(TargetInfo target)
-        {
-            if (target == null)
-                return null;
-
-            if (target.Character != null)
-                return target.Character.GetNodeTransform(PreferredNode);
-
-            if (target.Transform != null)
-                return target.Transform;
-
-            return null;
         }
 
         private void CalculateTransform(
             Transform attachedTo, 
-            Transform relative, 
+            Target relative, 
             out Vector3 position, 
             out Quaternion rotation)
         {
             position = attachedTo.position;
 
             var direction = Vector3.forward;
-            if (relative != null)
+            if (relative.HasPosition)
             {
-                direction = relative.position - attachedTo.position;
+                direction = relative.Position - attachedTo.position;
                 if (OnlyXzRotation)
                     direction.y = 0;
                 direction = direction.normalized;
@@ -210,6 +155,36 @@ namespace Spells.Effects
                 case RotationControls.NoControl:
                     rotation = Quaternion.identity;
                     break;
+            }
+        }
+
+        public void OnEvent(SubSpellEventArgs args)
+        {
+            if (args.Event == SubSpellEvent.Ended)
+            {
+                OnEndSubSpell(args.Handler);
+                return;
+            }
+
+            if (args.Event == SpawnEvent)
+            {
+                if (InstancingMode == EffectInstancingMode.OnePerSubSpell)
+                {
+                    var existingInstanceIdx = _instances.FindIndex(i => i.Handler.Equals(args.Handler));
+                    if (existingInstanceIdx >= 0)
+                    {
+                        // Skip existing ???
+                    }
+                    else
+                    {
+                        _instances.Add(Create(args.Handler, args.Handler.Source, args.Handler.Target));
+                    }
+                }
+                else if (InstancingMode == EffectInstancingMode.OnePerEventTarget)
+                {
+                    foreach (var target in args.QueriedTargets)
+                        _instances.Add(Create(args.Handler, args.Handler.Source, target));
+                }
             }
         }
     }

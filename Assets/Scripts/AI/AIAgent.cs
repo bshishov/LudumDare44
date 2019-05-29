@@ -21,7 +21,7 @@ namespace AI
         public readonly SpellbookState SpellBook;
         public readonly CharacterConfig Config;
         public readonly Logger Logger;
-        public readonly Transform transform;
+        public readonly Transform Transform;
 
         // Operational memory
         public CharacterState ActiveTarget;
@@ -35,7 +35,7 @@ namespace AI
             // Cache everything once and for all
             Logger = Debugger.Default.GetLogger(enemyController.gameObject.name + "/AI Log", unityLog: false);
             EnemyController = enemyController;
-            transform = enemyController.gameObject.transform;
+            Transform = enemyController.gameObject.transform;
             CharacterState = enemyController.GetComponent<CharacterState>();
             Movement = enemyController.GetComponent<MovementController>();
             AnimationController = enemyController.GetComponent<AnimationController>();
@@ -45,7 +45,7 @@ namespace AI
 
         public float GetLineDistanceToTarget()
         {
-            return Vector3.Distance(transform.position, ActiveTarget.transform.position);
+            return Vector3.Distance(Transform.position, ActiveTarget.transform.position);
         }
 
         public bool HasTarget()
@@ -55,7 +55,7 @@ namespace AI
 
         public bool IsBetweenFearAndAggro()
         {
-            var distance = Vector3.Distance(transform.position, ActiveTarget.transform.position);
+            var distance = Vector3.Distance(Transform.position, ActiveTarget.transform.position);
             if (distance < Config.AI.FearRange)
                 return false;
             if (distance > Config.AI.AggroRange)

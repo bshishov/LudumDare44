@@ -8,11 +8,12 @@ namespace AI
     /// This state performs spell casting. Including channeling
     /// It uses "spell intention" from memory. It should be set from another state
     /// </summary>
-    class CastIntendedSpell : IStateBehaviour<AIState>, IChannelingInfo
+    class CastIntendedSpell : IStateBehaviour<AIState>, ITargetLocationProvider
     {
         private readonly AIAgent _agent;
         private readonly AIState _nextState;
         private readonly AIState _fallbackState;
+        private bool _isCasting;
 
         public CastIntendedSpell(AIAgent agent, AIState next, AIState fallback)
         {
@@ -21,36 +22,68 @@ namespace AI
             _fallbackState = fallback;
         }
 
-        public void StateStarted() { }
+        public void StateStarted()
+        {
+            _isCasting = false;
+        }
 
         public AIState? StateUpdate()
         {
             if (!_agent.IsAlive())
+            {
+                AbortIfCasting();
                 return _fallbackState;
+            }
 
             if (!_agent.HasTarget())
+            {
+                AbortIfCasting();
                 return _fallbackState;
+            }
 
             if (!_agent.IsBetweenFearAndAggro())
+            {
+                AbortIfCasting();
                 return _fallbackState;
+            }
 
             if (_agent.IntendedSpell == null)
-                return _fallbackState;
-
-            // TODO: Figure out channeling
-            if (Time.time > _agent.Config.AI.SpellCastingCooldown + _agent.LastSpellCastTime)
             {
-                _agent.Movement.ControlLookAt(_agent.ActiveTarget.transform.position);
-                _agent.Movement.ControlStop();
-                
-                if (_agent.SpellBook.TryFireSpellToTarget(
-                    _agent.IntendedSpell.Slot, 
-                    _agent.ActiveTarget, 
-                    this))
+                AbortIfCasting();
+                return _fallbackState;
+            }
+
+            var slotState = _agent.SpellBook.GetSpellSlotState(_agent.IntendedSpell.Slot);
+            if (slotState.State == SpellbookState.SpellState.Ready)
+            {
+                if (_isCasting)
                 {
+                    // If we are casting and ended up in ready state
+                    // then it means that the cast is completed
                     _agent.LastSpellCastTime = Time.time;
                     return _nextState;
                 }
+                
+                // If AI is not casting and the slot is ready
+                // Cast the spell
+                _agent.Movement.ControlLookAt(_agent.ActiveTarget.transform.position);
+                _agent.Movement.ControlStop();
+                
+                if (_agent.SpellBook.TryFireSpellToTarget(_agent.IntendedSpell.Slot, 
+                    GetTarget(slotState.Spell.TargetType)))
+                {
+                    _isCasting = true;
+                    return null;
+                }
+
+                // Casting failed, fallback
+                return _fallbackState;
+            }
+            else if(slotState.State == SpellbookState.SpellState.Firing || 
+                    slotState.State == SpellbookState.SpellState.Preparing)
+            {
+                // We are casting, we cool
+                return null;
             }
 
             // Failed to cast
@@ -59,9 +92,38 @@ namespace AI
 
         public void StateEnded() { }
 
-        public TargetInfo GetNewTarget()
+        public Vector3 GetTargetLocation()
         {
-            return TargetInfo.Create(_agent.ActiveTarget);
+            return _agent.ActiveTarget.transform.position;
+        }
+
+        private void AbortIfCasting()
+        {
+            if (_agent.IntendedSpell == null)
+                return;
+            
+            var slotState = _agent.SpellBook.GetSpellSlotState(_agent.IntendedSpell.Slot);
+            slotState.SpellHandler?.Abort();
+        }
+
+        private Target GetTarget(TargetType type)
+        {
+            switch (type)
+            {
+                case TargetType.None:
+                    return Target.None;
+                case TargetType.Location:
+                    var t = _agent.ActiveTarget.transform;
+                    return new Target(t.position, t.forward);
+                case TargetType.Transform:
+                    return new Target(_agent.ActiveTarget.transform);
+                case TargetType.LocationProvider:
+                    return new Target(this);
+                case TargetType.Character:
+                    return new Target(_agent.ActiveTarget);
+                default:
+                    return Target.None;
+            }
         }
     }
 }

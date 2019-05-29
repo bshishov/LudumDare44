@@ -1,7 +1,6 @@
 ﻿using System;
 using Actors;
 using Assets.Scripts;
-using Assets.Scripts.Utils;
 using Data;
 using TMPro;
 using UnityEngine;

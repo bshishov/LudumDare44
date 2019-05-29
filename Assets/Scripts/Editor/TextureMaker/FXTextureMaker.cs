@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts.Editor.TextureMaker
+namespace Editor.TextureMaker
 {
     public class FXTextureMaker : EditorWindow
     {

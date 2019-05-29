@@ -74,24 +74,26 @@ namespace Utils.Debugger
                 Until = Time.time + duration
             });
 
-        public void LateUpdate()
+        public void DrawQueuedMeshes()
         {
             foreach (var data in _queuedMeshes)
             {
                 Graphics.DrawMesh(data.Mesh, data.Transform, data.Material, 0, null);
             }
+        }
 
+        public void ProcessQueue()
+        {
             _queuedMeshes.RemoveAll((data) => data.Until < Time.time);
         }
 
         public void DrawCone(Vector3 origin, Vector3 direction, float sphereSize, float angle, Color color, float duration)
         {
-            Debugger.Default.DrawCircleSphere(origin, sphereSize, color, duration);
+            direction.Normalize();
+            Debugger.Default.DrawCircle(origin, Vector3.up, sphereSize, color, duration);
             Debugger.Default.DrawRay(new Ray(origin, direction), color, sphereSize, duration);
-            Debugger.Default.DrawRay(new Ray(origin, Quaternion.Euler(-angle, 0, 0) * direction), color, sphereSize, duration);
-            Debugger.Default.DrawRay(new Ray(origin, Quaternion.Euler(angle, 0, 0) * direction), color, sphereSize, duration);
-            Debugger.Default.DrawRay(new Ray(origin, Quaternion.Euler(0, -angle, 0) * direction), color, sphereSize, duration);
-            Debugger.Default.DrawRay(new Ray(origin, Quaternion.Euler(0, angle, 0) * direction), color, sphereSize, duration);
+            Debugger.Default.DrawRay(new Ray(origin, Quaternion.Euler(0, -angle * 0.5f, 0) * direction), color, sphereSize, duration);
+            Debugger.Default.DrawRay(new Ray(origin, Quaternion.Euler(0, +angle * 0.5f, 0) * direction), color, sphereSize, duration);
         }
     }
 

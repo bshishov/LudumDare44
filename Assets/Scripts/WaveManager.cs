@@ -127,13 +127,13 @@ public class WaveManager : Singleton<WaveManager>
         // Apply buffs
         if(buffs != null)
             foreach (var buff in buffs)
-                enemyState.ApplyBuff(buff, enemyState, null, 1);
+                enemyState.ApplyBuff(buff, enemyState, 1);
 
         var currDiff = DifficultyManager.Instance.GetDifficulty(DifficultyManager.Instance.CurrentDifficultyIndex);
         if (currDiff != null)
             foreach (var buff in currDiff.DifficultyBuffs)
             {
-                enemyState.ApplyBuff(buff, enemyState, null, 1);
+                enemyState.ApplyBuff(buff, enemyState, 1);
             }
 
         _aliveEnemies.Add(enemyState);

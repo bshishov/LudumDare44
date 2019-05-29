@@ -1,14 +1,12 @@
-﻿using Actors;
-using Assets.Scripts.Data;
+using Actors;
 using Data;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Assertions.Must;
 
 namespace Spells
 {
     [RequireComponent(typeof(SpellCaster))]
-    public class SpellbookState : MonoBehaviour, ISpellCastListener
+    public class SpellbookState : MonoBehaviour
     {
         public enum PlaceOptions : int
         {
@@ -20,29 +18,27 @@ namespace Spells
 
         public enum SpellState : int
         {
-            None = 0,
+            None,
             Ready,
             Preparing,
             Firing,
             Recharging
         }
 
-        public struct SpellSlotState
+        public class SpellSlotState
         {
             public Spell Spell;
             public SpellState State;
             public float RemainingCooldown;
             public int NumStacks;
+            public ISpellHandler SpellHandler;
         };
 
         private SpellCaster _spellCaster;
         private CharacterState _characterState;
         private AnimationController _animationController;
 
-        public static readonly int SpellCount = 3;
-
-        public bool IsCasting { get; private set; }
-        public readonly SpellSlotState[] SpellSlots = new SpellSlotState[SpellCount];
+        public SpellSlotState[] SpellSlots;
         public bool NoCooldowns = false;
 
         private void Awake()
@@ -51,13 +47,13 @@ namespace Spells
             _animationController = GetComponent<AnimationController>();
             _characterState = GetComponent<CharacterState>();
 
-            var initialSpells = _characterState.character.UseSpells;
-            if (initialSpells.Count > 3)
-            {
-                Debug.LogWarning("To much spells!");
-            }
+            var totalSlots = new SpellSlotState[Mathf.Max(3, _characterState.character.UseSpells.Count)];
+            SpellSlots = totalSlots;
+            for (var i = 0; i < SpellSlots.Length; i++)
+                SpellSlots[i] = new SpellSlotState();
 
-            for (var i = 0; i < SpellCount && i < initialSpells.Count; ++i)
+            var initialSpells = _characterState.character.UseSpells;
+            for (var i = 0; i < initialSpells.Count; ++i)
             {
                 if (initialSpells[i] != null)
                     AddSpellToSlot(i, initialSpells[i], 1);
@@ -86,7 +82,7 @@ namespace Spells
 
         public SpellSlotState GetSpellSlotState(int slotIndex)
         {
-            Assert.IsTrue(slotIndex >= 0 && slotIndex <= SpellCount);
+            Assert.IsTrue(slotIndex >= 0 && slotIndex <= SpellSlots.Length);
             return SpellSlots[slotIndex];
         }
 
@@ -115,38 +111,29 @@ namespace Spells
             }
         }
 
-        public bool IsSpellReady(int slotIndex)
+        private bool FireSpell(int index, Target target)
         {
-            var slotState = GetSpellSlotState(slotIndex).State;
-            if (slotState == SpellbookState.SpellState.Ready)
-                return true;
-
-            return false;
-        }
-
-        private bool FireSpell(int index, SpellTargets targets, IChannelingInfo channelingInfo)
-        {
-            if (IsCasting)
-            {
-                Debug.Log("Already casting");
-                return false;
-            }
-
-            Assert.IsTrue(index >= 0 && index <= SpellCount);
+            Assert.IsTrue(index >= 0 && index < SpellSlots.Length);
             var slotState = GetSpellSlotState(index);
-
-            if (slotState.State != SpellState.Ready || !SpellCaster.IsValidTarget(_characterState, slotState.Spell, targets))
+            
+            if (slotState.State != SpellState.Ready)
                 return false;
 
-            if (!_spellCaster.CastSpell(slotState.Spell, slotState.NumStacks + _characterState.AdditionSpellStacks,
-                targets, channelingInfo, this))
+            // If already casting
+            var handler = _spellCaster.Cast(
+                slotState.Spell, 
+                new Target(_characterState), 
+                target,
+                slotState.NumStacks + _characterState.AdditionSpellStacks);
+            if (handler == null)
                 return false;
+
+            handler.Event += HandlerOnStateChanged;
 
             // Start cooldown
-            SpellSlots[index].State = SpellState.Preparing;
-            SpellSlots[index].RemainingCooldown = 0;
-
-            IsCasting = true;
+            slotState.State = SpellState.Preparing;
+            slotState.RemainingCooldown = 0;
+            slotState.SpellHandler = handler;
 
             // Animation
             if (_animationController != null)
@@ -155,39 +142,87 @@ namespace Spells
             return true;
         }
 
-
-        public bool TryFireSpellToTarget(int slotIndex, CharacterState target, IChannelingInfo channelingInfo)
+        private void HandlerOnStateChanged(ISpellHandler handler, SpellEvent e, ISubSpellHandler subHandler)
         {
-            return TryFireSpellToTarget(slotIndex,
-                TargetInfo.Create(target, target.GetNodeTransform(CharacterState.NodeRole.Chest)), channelingInfo);
+            // Even when event if from spell that is already not in slot - decrease hp for cast
+            if (e == SpellEvent.SubSpellCasted && subHandler != null)
+            {
+                _characterState.ApplyModifier(
+                    ModificationParameter.HpFlat,
+                    -subHandler.SubSpell.BloodCost.GetValue(subHandler.Stacks),
+                    1,
+                    1,
+                    _characterState,
+                    null);
+            }
+
+
+            for (var i = 0; i < SpellSlots.Length; i++)
+            {
+                if (handler.Equals(SpellSlots[i].SpellHandler))
+                {
+                    OnSlotHandlerStateChanged(i, handler, e, subHandler);
+                    return;
+                }
+            }
+            
+            // If the handler (finished or aborted state) is inactive - unsubscribe
+            if (!handler.IsActive)
+            {
+                // Unsubscribe
+                handler.Event -= HandlerOnStateChanged;
+            }
         }
 
-        public bool TryFireSpellToTarget(int slotIndex, TargetInfo target, IChannelingInfo channelingInfo)
+        private void OnSlotHandlerStateChanged(int slotIndex, ISpellHandler handler, SpellEvent e, ISubSpellHandler subHandler)
         {
-            return FireSpell(slotIndex,
-                new SpellTargets(
-                    TargetInfo.Create(_characterState,
-                        _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter)), target),
-                channelingInfo);
+            var slotState = GetSpellSlotState(slotIndex);
+            if (e == SpellEvent.StartedFiring)
+            {
+                slotState.State = SpellState.Firing;
+            }
+            else if (e == SpellEvent.FinishedFire || e == SpellEvent.Aborted || e == SpellEvent.Ended)
+            {
+                // If we are ending spell that has not yet started
+                if (slotState.State == SpellState.Preparing)
+                    slotState.RemainingCooldown = 0.1f;
+                else
+                    slotState.RemainingCooldown = slotState.Spell.Cooldown.GetValue(slotState.NumStacks);
+
+                // Remove handler from state and start recharging
+                slotState.SpellHandler = null;
+                slotState.State = SpellState.Recharging;
+
+                if (NoCooldowns)
+                    slotState.RemainingCooldown = 0.1f;
+            }
+        }
+
+        public bool TryFireSpellToTarget(int slotIndex, CharacterState target)
+        {
+            return TryFireSpellToTarget(slotIndex, new Target(target));
+        }
+
+        public bool TryFireSpellToTarget(int slotIndex, Target target)
+        {
+            return FireSpell(slotIndex, target);
         }
 
         private void AddSpellToSlot(int slotIndex, Spell spell, int stacks)
         {
             Debug.Log($"Spell {spell.name} placed into slot {slotIndex}");
-            SpellSlots[slotIndex] = new SpellSlotState
-            {
-                Spell = spell,
-                State = SpellState.Ready,
-                RemainingCooldown = 0.0f,
-                NumStacks = stacks
-            };
+            var slotState = GetSpellSlotState(slotIndex);
+            slotState.Spell = spell;
+            slotState.State = SpellState.Ready;
+            slotState.RemainingCooldown = 0f;
+            slotState.NumStacks = stacks;
         }
 
         private void UpgradeSpellInSlot(int slotIndex, int stacks)
         {
             // Number of stacks increased
             var slotState = GetSpellSlotState(slotIndex);
-            SpellSlots[slotIndex].NumStacks = slotState.NumStacks + stacks;
+            slotState.NumStacks += stacks;
         }
 
         void Update()
@@ -195,106 +230,15 @@ namespace Spells
             // Update cooldowns
             for (var slotIndex = 0; slotIndex < SpellSlots.Length; slotIndex++)
             {
-                var slotState = SpellSlots[slotIndex];
+                var slotState = GetSpellSlotState(slotIndex);
 
-                if (SpellSlots[slotIndex].RemainingCooldown > 0)
-                    SpellSlots[slotIndex].RemainingCooldown = slotState.RemainingCooldown - Time.deltaTime;
-                if (slotState.RemainingCooldown <= 0f && SpellSlots[slotIndex].State == SpellState.Recharging)
+                if (slotState.RemainingCooldown > 0)
+                    slotState.RemainingCooldown = slotState.RemainingCooldown - Time.deltaTime;
+                if (slotState.RemainingCooldown <= 0f && slotState.State == SpellState.Recharging)
                 {
-                    SpellSlots[slotIndex].State = SpellState.Ready;
+                    slotState.State = SpellState.Ready;
                 }
             }
-        }
-
-        public void OnAbortedFiring(Spell spell)
-        {
-            Assert.IsTrue(IsCasting);
-
-            var slotIndex = GetSpellSlot(spell);
-
-            Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
-            if (SpellSlots[slotIndex].State == SpellState.Preparing)
-            {
-                Debug.Log("Spell was aborted at preparing stage");
-                SpellSlots[slotIndex].State = SpellState.Ready;
-                SpellSlots[slotIndex].RemainingCooldown = 0;
-
-                return;
-            }
-
-            Debug.Log("Spell was aborted after preparing stage");
-            SpellSlots[slotIndex].State = SpellState.Recharging;
-            SpellSlots[slotIndex].RemainingCooldown = spell.Cooldown;
-        }
-
-        private int GetSpellSlot(Spell spell)
-        {
-            for (int i = 0; i < SpellSlots.Length; ++i)
-            {
-                if (SpellSlots[i].Spell == spell)
-                    return i;
-            }
-
-            Assert.IsTrue(false);
-            return -1;
-        }
-
-        public void OnStartFiring(Spell spell, SubSpell subSpell)
-        {
-            Debug.Log("OnStartFiring");
-            Assert.IsTrue(IsCasting);
-
-            var slotIndex = GetSpellSlot(spell);
-            if (slotIndex < 0)
-                return;
-
-            Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
-            Assert.IsTrue(SpellSlots[slotIndex].State == SpellState.Preparing ||
-                          SpellSlots[slotIndex].State == SpellState.Firing);
-
-            SpellSlots[slotIndex].State = SpellState.Firing;
-
-            // TODO: refactor this. Move it to another place
-            _characterState.ApplyModifier(ModificationParameter.HpFlat, -subSpell.BloodCost, 1, 1, _characterState, null);
-        }
-
-        public void OnEndFiring(Spell spell)
-        {
-            Debug.Log("OnEndFiring");
-            Assert.IsTrue(IsCasting);
-
-            var slotIndex = GetSpellSlot(spell);
-            if (slotIndex < 0)
-                return;
-
-            Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
-            Assert.IsTrue(SpellSlots[slotIndex].State != SpellState.Recharging);
-
-            if (NoCooldowns)
-            {
-                SpellSlots[slotIndex].State = SpellState.Recharging;
-                SpellSlots[slotIndex].RemainingCooldown = 0.2f;
-            }
-            else
-            {
-                SpellSlots[slotIndex].State = SpellState.Recharging;
-                SpellSlots[slotIndex].RemainingCooldown = spell.Cooldown;
-            }
-        }
-
-        public void OnEndCasting(Spell spell)
-        {
-            Debug.Log("OnEndCasting");
-            Assert.IsTrue(IsCasting);
-
-            var slotIndex = GetSpellSlot(spell);
-            if (slotIndex < 0)
-                return;
-
-            Assert.IsTrue(SpellSlots[slotIndex].Spell == spell);
-            Assert.IsTrue(SpellSlots[slotIndex].State == SpellState.Recharging ||
-                          SpellSlots[slotIndex].State == SpellState.Ready);
-            IsCasting = false;
         }
     }
 }

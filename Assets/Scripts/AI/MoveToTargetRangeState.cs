@@ -46,7 +46,7 @@ namespace AI
                 return _outOfAggroRangeState;
 
             // Distance and direction
-            var direction = _agent.ActiveTarget.transform.position - _agent.transform.position;
+            var direction = _agent.ActiveTarget.transform.position - _agent.Transform.position;
             var distance = (direction).magnitude;
             direction = direction.normalized;
 

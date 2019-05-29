@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Actors;
-using Assets.Scripts;
+﻿using Actors;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -23,7 +23,7 @@ MonoBehaviour:
   Events:
   - EventType: 2
     Affect:
-      Type: 4
+      Type: 3
       ApplyModifier:
         Parameter: 0
         Value: 0
@@ -45,7 +45,20 @@ MonoBehaviour:
         AutoDestroyAfterBuff: 0
       Move:
         RelativeTo: 0
-        Speed: 10
-        MovementDuration: 1
+        Type: 0
+        Speed:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MovementDuration:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MaxDistanceFromOrigin:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
         BreakOnDestination: 0
-        BreakOnDuration: 1

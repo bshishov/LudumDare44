@@ -1,25 +1,23 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Data
+namespace Data
 {
     [Serializable]
-    [CreateAssetMenu(fileName = "AreaOfEffect", menuName = "Spells/AreaOfEffect")]
+    [CreateAssetMenu(fileName = "AoE_", menuName = "Spells/AoE")]
     public class AreaOfEffect : ScriptableObject
     {
         [Serializable]
-        public enum AreaType : int
+        public enum AreaType
         {
-            Ray,
             Sphere,
-            Cylinder,
-            Cone
+            Cone,
+            Line
         }
 
-        public float Size = 0.0f;
-        public float MinSize = 0.0f;
-
-        public float Angle = 45.0f;
         public AreaType Area;
+        public StackableFloat Size;
+        public StackableFloat MinSize;
+        public StackableFloat Angle;
     }
 }

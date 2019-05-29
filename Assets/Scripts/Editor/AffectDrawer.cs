@@ -3,7 +3,7 @@ using Data;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts.Editor
+namespace Editor
 {
     [CustomPropertyDrawer(typeof(Affect))]
     public class AffectDrawer : PropertyDrawer

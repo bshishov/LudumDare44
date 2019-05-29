@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Actors;
-using Assets.Scripts.Data;
 using Data;
+using Spells;
 using TMPro;
 using UnityEngine;
 using Utils.Debugger;
@@ -29,11 +27,11 @@ public class Dummy : MonoBehaviour
 #endif
     }
 
-    private void CharacterStateOnOnModifierApplied(ModificationParameter parameter, Spell spell, int stacks, float actualChange)
+    private void CharacterStateOnOnModifierApplied(ModificationParameter parameter, ISubSpellHandler spell, int stacks, float actualChange)
     {
         var spellName = String.Empty;
         if (spell != null)
-            spellName = spell.name;
+            spellName = spell.Spell.name;
         _modLog.Push($"{spellName} <color=red>x{stacks}</color> <color=yellow>{parameter}</color>: {actualChange:0.##}");
 
         foreach (var line in _modLog.Reverse())
