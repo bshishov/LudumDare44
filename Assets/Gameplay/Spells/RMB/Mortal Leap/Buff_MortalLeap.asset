@@ -18,7 +18,7 @@ MonoBehaviour:
   Duration: 0.5
   Modifiers: []
   Events:
-  - EventType: 6
+  - EventType: 2
     Affect:
       Type: 4
       ApplyModifier:
@@ -41,7 +41,7 @@ MonoBehaviour:
         AttachToTransform: 0
         AutoDestroyAfterBuff: 0
       Move:
-        RelativeTo: 5
+        RelativeTo: 3
         Type: 0
         Speed:
           Type: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
         EffectiveStacks: 0
       CastSpell:
         SpellStacks: 0
-        Spell: {fileID: 11400000, guid: d2bb7d8c46387aa41b8e8e510df9aa73, type: 2}
+        Spell: {fileID: 11400000, guid: 7acdd2cd3afb8f943b4a45d7cbf510ca, type: 2}
         Target: 0
         StacksOverride: 1
       ApplyBuff:

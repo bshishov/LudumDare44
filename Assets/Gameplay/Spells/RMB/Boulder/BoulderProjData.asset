@@ -12,10 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3030d9deb419ea245a3f54c0b8afad23, type: 3}
   m_Name: BoulderProjData
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 1191982563402584559, guid: b661be16b86ec6f4b967ae402bf54b0b,
-    type: 3}
-  Speed: 20
-  MaxDistance: 10
+  Prefab: {fileID: 1191982563402584559, guid: b661be16b86ec6f4b967ae402bf54b0b, type: 3}
+  Speed:
+    Type: 0
+    BaseValue: 50
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxDistance:
+    Type: 0
+    BaseValue: 30
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  TimeToLive:
+    Type: 0
+    BaseValue: 10
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxPiercingTargets:
+    Type: 0
+    BaseValue: 100
+    ModifierPerStack: 0
+    EffectiveStacks: 1
   Offset: {x: 0, y: 10, z: -10}
-  Trajectory: 3
+  Trajectory: 0
   FallingSpeed: 40
+  HoverHeight: 1
+  Affects: 2
+  FireSubSpellCondition: 4
+  DestroyCondition: 112

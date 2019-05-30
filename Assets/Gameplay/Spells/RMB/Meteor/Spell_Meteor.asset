@@ -9,25 +9,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
   m_Name: Spell_Meteor
   m_EditorClassIdentifier: 
-  Name: Meteor Strike
+  Name: Meteor
   Icon: {fileID: 8409708482411832467, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: "After a short delay, launches a meteor at a targettet location\n<b>Damage</b>:
-    7 \n<b>Fire Damage</b>: 5 p/s    <b>Duration</b>: 5 seconds"
+  Description: 
   ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
     type: 2}
-  LifeSteal: 0
-  BloodCost: 15
-  CastRange: 5
+  LifeSteal:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  Cooldown:
+    Type: 0
+    BaseValue: 1
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  BloodCost:
+    Type: 0
+    BaseValue: 15
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxRange:
+    Type: 0
+    BaseValue: 5
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MinRange:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
   DefaultSlot: 1
-  Cooldown: 15
-  Flags: 0
-  PreCastDelay: 0
-  PostCastDelay: 0
-  SubSpells:
-  - {fileID: 11400000, guid: 4cb3d184c6ea43d42a389a862c9449ad, type: 2}
-  - {fileID: 11400000, guid: fe5fce75e6cf6f2489a653f9cf8d3315, type: 2}
-  SpellEffect: {fileID: 0}
-  DropItem: {fileID: 131193077828940303, guid: b97354f0857bded449811f9f327d95a5, type: 3}
+  ManualAbort: 0
+  CheckRangeOnCast: 0
+  TargetType: 2
+  RangeBehaviour: 1
+  MainSubSpells:
+  - {fileID: 11400000, guid: 51c18e0b89b4ae247b6b9700ecdfaadb, type: 2}
+  DropItem: {fileID: 0}

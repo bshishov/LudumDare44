@@ -9,25 +9,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
   m_Name: Spell_Vortex
   m_EditorClassIdentifier: 
   Name: Vortex
   Icon: {fileID: 1237171051246916101, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 'Explosive self centered burst that deals damage and slowes enemies
-
-    <b>Damage</b>: 7                                   <b>Slow</b>: 40%'
+  Description: 
   ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
     type: 2}
-  LifeSteal: 0
-  BloodCost: 7
-  CastRange: 4
+  LifeSteal:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  Cooldown:
+    Type: 0
+    BaseValue: 1
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  BloodCost:
+    Type: 0
+    BaseValue: 7
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxRange:
+    Type: 0
+    BaseValue: 6
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MinRange:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
   DefaultSlot: 1
-  Cooldown: 0.5
-  Flags: 0
-  PreCastDelay: 0
-  PostCastDelay: 0
-  SubSpells:
-  - {fileID: 11400000, guid: e207bf1060357b84c8d3d1e029b5cc81, type: 2}
-  SpellEffect: {fileID: 0}
-  DropItem: {fileID: 131193077828940303, guid: b97354f0857bded449811f9f327d95a5, type: 3}
+  ManualAbort: 0
+  CheckRangeOnCast: 0
+  TargetType: 2
+  RangeBehaviour: 1
+  MainSubSpells:
+  - {fileID: 11400000, guid: f99f56012b037304995f91d048f69477, type: 2}
+  DropItem: {fileID: 0}

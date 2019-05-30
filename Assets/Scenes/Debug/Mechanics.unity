@@ -284,7 +284,7 @@ PrefabInstance:
     - target: {fileID: 6549064236389485685, guid: 6a834835673a7c7419e205c02c055a09,
         type: 3}
       propertyPath: Spells.Array.size
-      value: 9
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 6549064236389485685, guid: 6a834835673a7c7419e205c02c055a09,
         type: 3}
@@ -297,6 +297,30 @@ PrefabInstance:
       propertyPath: Spells.Array.data[8]
       value: 
       objectReference: {fileID: 11400000, guid: 219b740593e374547b1a7d1abb645958,
+        type: 2}
+    - target: {fileID: 6549064236389485685, guid: 6a834835673a7c7419e205c02c055a09,
+        type: 3}
+      propertyPath: Spells.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: e587b6503ba02ec44aa7881ea0c32057,
+        type: 2}
+    - target: {fileID: 6549064236389485685, guid: 6a834835673a7c7419e205c02c055a09,
+        type: 3}
+      propertyPath: Spells.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9,
+        type: 2}
+    - target: {fileID: 6549064236389485685, guid: 6a834835673a7c7419e205c02c055a09,
+        type: 3}
+      propertyPath: Spells.Array.data[11]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ccb917811925bd44aa2772304f8d0d0,
+        type: 2}
+    - target: {fileID: 6549064236389485685, guid: 6a834835673a7c7419e205c02c055a09,
+        type: 3}
+      propertyPath: Spells.Array.data[12]
+      value: 
+      objectReference: {fileID: 11400000, guid: b68c04cbeb37eda4a99856ef5358d680,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a834835673a7c7419e205c02c055a09, type: 3}

@@ -9,24 +9,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
   m_Name: Spell_MortalLeap
   m_EditorClassIdentifier: 
   Name: Mortal Leap
-  Icon: {fileID: 0}
+  Icon: {fileID: -4398554660853359821, guid: 31ec042ca000c8346a1fbbc8cbdd9b6f, type: 3}
   Description: 
   ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
     type: 2}
-  LifeSteal: 0
-  BloodCost: 5
-  CastRange: 6
+  LifeSteal:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  Cooldown:
+    Type: 0
+    BaseValue: 3
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  BloodCost:
+    Type: 0
+    BaseValue: 5
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxRange:
+    Type: 0
+    BaseValue: 12
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MinRange:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
   DefaultSlot: 1
-  Cooldown: 3
-  Flags: 0
-  PreCastDelay: 0
-  PostCastDelay: 0
-  SubSpells:
-  - {fileID: 11400000, guid: 28dfe1145f1ce5d4fad6b98d9f66c028, type: 2}
-  SpellEffect: {fileID: 0}
-  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
-    type: 3}
+  ManualAbort: 0
+  CheckRangeOnCast: 0
+  TargetType: 2
+  RangeBehaviour: 1
+  MainSubSpells:
+  - {fileID: 11400000, guid: 19e0814bc7851c443993675ed74c3c61, type: 2}
+  DropItem: {fileID: 0}

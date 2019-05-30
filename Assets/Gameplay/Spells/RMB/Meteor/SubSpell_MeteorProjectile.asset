@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ca5cafdfa5c75143b3321cc57d70bb9, type: 3}
+  m_Name: SubSpell_MeteorProjectile
+  m_EditorClassIdentifier: 
+  Source: 3
+  Target: 4
+  BloodCost:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  AbortSpellIfAborted: 0
+  SpellShouldWaitUntilEnd: 0
+  CanBeAborted: 1
+  MaxInstances:
+    Type: 0
+    BaseValue: 10
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  AffectsCharactersOnlyOncePerSpell: 0
+  PreCastDelay:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  FireDelay:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  PostCastDelay:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  FireDuration:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  FireSubSpellEvents:
+  - Type: 5
+    Query:
+      NewTargetsQueryType: 5
+      Origin: 0
+      Area: {fileID: 0}
+      AffectsTeam: 2
+    FireSubSpell: {fileID: 11400000, guid: c6fafad1c348ca7479b3eb55b810d46c, type: 2}
+    ApplyBuffToTarget: {fileID: 0}
+  Projectile: {fileID: 11400000, guid: 4cb3d184c6ea43d42a389a862c9449ad, type: 2}
+  Effect: {fileID: 0}
