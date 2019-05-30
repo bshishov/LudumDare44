@@ -52,4 +52,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ed6816adbf30d83408bd580cd8184804, type: 2}
   - {fileID: 11400000, guid: 42a3d61bbe6e22c468733d729b84005e, type: 2}
   - {fileID: 11400000, guid: f62218f32d0839c4aaa630dbf9b8e08d, type: 2}
-  DropItem: {fileID: 0}
+  DropItem: {fileID: 131193077828940303, guid: b97354f0857bded449811f9f327d95a5, type: 3}

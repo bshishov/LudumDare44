@@ -39,4 +39,4 @@ MonoBehaviour:
   HoverHeight: 1
   Affects: 2
   FireSubSpellCondition: 2
-  DestroyCondition: 122
+  DestroyCondition: -1

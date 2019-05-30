@@ -15,7 +15,7 @@ MonoBehaviour:
   Area: 0
   Size:
     Type: 0
-    BaseValue: 0
+    BaseValue: 10
     ModifierPerStack: 0
     EffectiveStacks: 1
   MinSize:

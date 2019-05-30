@@ -49,4 +49,5 @@ MonoBehaviour:
   RangeBehaviour: 1
   MainSubSpells:
   - {fileID: 11400000, guid: 9f906caf6655a3b44b724e2df074aae3, type: 2}
-  DropItem: {fileID: 0}
+  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
+    type: 3}

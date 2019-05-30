@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Buff_ZeroSolution_Release
   m_EditorClassIdentifier: 
   Name: 
-  Behaviour: 1
-  TickCooldown: 1
-  Duration: 1
+  Behaviour: 0
+  TickCooldown: 0.1
+  Duration: 0.2
   Modifiers: []
   Events:
-  - EventType: 2
+  - EventType: 16
     Affect:
       Type: 0
       ApplyModifier:
@@ -59,7 +59,7 @@ MonoBehaviour:
           ModifierPerStack: 0
           EffectiveStacks: 1
         BreakOnDestination: 0
-  - EventType: 2
+  - EventType: 16
     Affect:
       Type: 4
       ApplyModifier:
@@ -82,11 +82,11 @@ MonoBehaviour:
         AttachToTransform: 0
         AutoDestroyAfterBuff: 0
       Move:
-        RelativeTo: 3
+        RelativeTo: 2
         Type: 2
         Speed:
           Type: 1
-          BaseValue: -1
+          BaseValue: -100
           ModifierPerStack: -5
           EffectiveStacks: 100
         MovementDuration:

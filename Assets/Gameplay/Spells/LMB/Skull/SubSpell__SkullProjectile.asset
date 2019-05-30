@@ -51,10 +51,10 @@ MonoBehaviour:
   FireSubSpellEvents:
   - Type: 5
     Query:
-      NewTargetsQueryType: 0
+      NewTargetsQueryType: 5
       Origin: 0
-      Area: {fileID: 0}
-      AffectsTeam: 0
+      Area: {fileID: 11400000, guid: f4d535cf0236d7b45b2d903fdd2f8d89, type: 2}
+      AffectsTeam: 2
     FireSubSpell: {fileID: 0}
     ApplyBuffToTarget: {fileID: 11400000, guid: 736c79006a33c1041a831e1f13c6912d,
       type: 2}

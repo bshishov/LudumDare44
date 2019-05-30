@@ -43,10 +43,11 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   DefaultSlot: 2
-  ManualAbort: 0
+  ManualAbort: 1
   CheckRangeOnCast: 0
   TargetType: 2
   RangeBehaviour: 1
   MainSubSpells:
   - {fileID: 11400000, guid: 7e3b97dc63140ce4cb31f1c7c8617fa2, type: 2}
-  DropItem: {fileID: 0}
+  DropItem: {fileID: 6059088751739097296, guid: d24928aed2d10f340aeee188f330f4b8,
+    type: 3}
