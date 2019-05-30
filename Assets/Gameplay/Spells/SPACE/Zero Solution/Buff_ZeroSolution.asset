@@ -16,7 +16,6 @@ MonoBehaviour:
   Behaviour: 1
   TickCooldown: 0.1
   Duration: 0.3
-  ApplyInitialAffectsOnReapply: 0
   Modifiers: []
   Events:
   - EventType: 16
@@ -28,7 +27,7 @@ MonoBehaviour:
         EffectiveStacks: 10
       CastSpell:
         SpellStacks: 0
-        Spell: {fileID: 11400000, guid: eb423ab5a16ca1240b9390ca20ed6f55, type: 2}
+        Spell: {fileID: 11400000, guid: 9e796d5cd562c3f4c86ea7188dea4dcd, type: 2}
         Target: 0
         StacksOverride: 0
       ApplyBuff:
@@ -41,27 +40,22 @@ MonoBehaviour:
         CharacterNode: 0
         AttachToTransform: 0
         AutoDestroyAfterBuff: 0
-  OnApplyBuff: []
-  OnRefreshBuff: []
-  OnTickBuff: []
-  OnRemove:
-  - Type: 0
-    ApplyModifier:
-      Parameter: 0
-      Value: 0
-      EffectiveStacks: 0
-    CastSpell:
-      SpellStacks: 0
-      Spell: {fileID: 11400000, guid: eb423ab5a16ca1240b9390ca20ed6f55, type: 2}
-      Target: 0
-      StacksOverride: 0
-    ApplyBuff:
-      Target: 0
-      StacksBehaviour: 0
-      Buff: {fileID: 0}
-      StacksOverride: 0
-    SpawnObject:
-      Prefab: {fileID: 0}
-      CharacterNode: 0
-      AttachToTransform: 0
-      AutoDestroyAfterBuff: 0
+      Move:
+        RelativeTo: 0
+        Type: 0
+        Speed:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MovementDuration:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MaxDistanceFromOrigin:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        BreakOnDestination: 0

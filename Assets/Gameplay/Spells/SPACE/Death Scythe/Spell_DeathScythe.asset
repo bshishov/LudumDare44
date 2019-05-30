@@ -9,27 +9,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
   m_Name: Spell_DeathScythe
   m_EditorClassIdentifier: 
   Name: Death Scythe
   Icon: {fileID: 4398446536174290518, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 'After a short delay, creates an otherwordly scythe, which deals damage
-    at a targetted cone and applies heavy bleed to enemies
-
-    <b>Damage</b>: 4'
+  Description: 
   ApplyBuffOnDismantle: {fileID: 11400000, guid: c2bf24e4004b1954e99e4ce13852e4fb,
     type: 2}
-  LifeSteal: 0
-  BloodCost: 0
-  CastRange: 6
+  LifeSteal:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  Cooldown:
+    Type: 0
+    BaseValue: 30
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  BloodCost:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxRange:
+    Type: 0
+    BaseValue: 6
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MinRange:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
   DefaultSlot: 2
-  Cooldown: 30
-  Flags: 4
-  PreCastDelay: 0
-  PostCastDelay: 0
-  SubSpells:
-  - {fileID: 11400000, guid: 6bd8c5315b5ab7d4e960ffea8d6a64b3, type: 2}
-  SpellEffect: {fileID: 0}
-  DropItem: {fileID: 6059088751739097296, guid: d24928aed2d10f340aeee188f330f4b8,
-    type: 3}
+  ManualAbort: 0
+  CheckRangeOnCast: 0
+  TargetType: 2
+  RangeBehaviour: 1
+  MainSubSpells:
+  - {fileID: 11400000, guid: 84a3e9e253da08b4a8907873fdcbca87, type: 2}
+  DropItem: {fileID: 0}

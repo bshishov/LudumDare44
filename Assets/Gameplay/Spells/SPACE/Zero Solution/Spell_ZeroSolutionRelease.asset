@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
-  m_Name: Spell_PainHammer
+  m_Name: Spell_ZeroSolutionRelease
   m_EditorClassIdentifier: 
-  Name: Pain Hammer
-  Icon: {fileID: 6876218924004010766, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Name: 
+  Icon: {fileID: 0}
   Description: 
-  ApplyBuffOnDismantle: {fileID: 11400000, guid: c2bf24e4004b1954e99e4ce13852e4fb,
-    type: 2}
+  ApplyBuffOnDismantle: {fileID: 0}
   LifeSteal:
     Type: 0
     BaseValue: 0
@@ -24,7 +23,7 @@ MonoBehaviour:
     EffectiveStacks: 1
   Cooldown:
     Type: 0
-    BaseValue: 15
+    BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
   BloodCost:
@@ -42,11 +41,11 @@ MonoBehaviour:
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
-  DefaultSlot: 2
+  DefaultSlot: 0
   ManualAbort: 0
   CheckRangeOnCast: 0
   TargetType: 2
-  RangeBehaviour: 0
+  RangeBehaviour: 1
   MainSubSpells:
-  - {fileID: 11400000, guid: 10b0219d6a7ec5048b6d45f9d13c035a, type: 2}
+  - {fileID: 11400000, guid: 71d3e3f34bebee1438b5dc58df3f648d, type: 2}
   DropItem: {fileID: 0}

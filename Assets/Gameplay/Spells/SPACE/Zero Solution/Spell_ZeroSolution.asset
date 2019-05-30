@@ -9,27 +9,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
   m_Name: Spell_ZeroSolution
   m_EditorClassIdentifier: 
   Name: Zero Solution
   Icon: {fileID: 7431186755973459390, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 'Channel your blood into a sphere of power and deal huge damage on
-    release
-
-    Deal damage proportional to hp spent over channeling'
+  Description: 
   ApplyBuffOnDismantle: {fileID: 11400000, guid: c2bf24e4004b1954e99e4ce13852e4fb,
     type: 2}
-  LifeSteal: 0
-  BloodCost: 0
-  CastRange: 10
+  LifeSteal:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  Cooldown:
+    Type: 0
+    BaseValue: 10
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  BloodCost:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxRange:
+    Type: 0
+    BaseValue: 10
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MinRange:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
   DefaultSlot: 2
-  Cooldown: 10
-  Flags: 0
-  PreCastDelay: 0
-  PostCastDelay: 0
-  SubSpells:
-  - {fileID: 11400000, guid: 4759ceccee052c14e88ef26fd5844d44, type: 2}
-  SpellEffect: {fileID: 0}
-  DropItem: {fileID: 6059088751739097296, guid: d24928aed2d10f340aeee188f330f4b8,
-    type: 3}
+  ManualAbort: 0
+  CheckRangeOnCast: 0
+  TargetType: 2
+  RangeBehaviour: 1
+  MainSubSpells:
+  - {fileID: 11400000, guid: 7e3b97dc63140ce4cb31f1c7c8617fa2, type: 2}
+  DropItem: {fileID: 0}

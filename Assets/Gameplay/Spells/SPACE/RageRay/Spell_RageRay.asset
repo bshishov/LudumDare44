@@ -42,7 +42,7 @@ MonoBehaviour:
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
-  DefaultSlot: 0
+  DefaultSlot: 2
   ManualAbort: 1
   CheckRangeOnCast: 1
   TargetType: 4
