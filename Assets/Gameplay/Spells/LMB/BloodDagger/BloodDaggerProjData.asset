@@ -15,7 +15,7 @@ MonoBehaviour:
   Prefab: {fileID: 8329142908447375752, guid: 5656836628b484b4ab828a088177e318, type: 3}
   Speed:
     Type: 0
-    BaseValue: 20
+    BaseValue: 25
     ModifierPerStack: 0
     EffectiveStacks: 1
   MaxDistance:
@@ -24,18 +24,19 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   TimeToLive:
-    Type: 0
+    Type: 1
     BaseValue: 5
-    ModifierPerStack: 0
-    EffectiveStacks: 1
+    ModifierPerStack: 0.5
+    EffectiveStacks: 10
   MaxPiercingTargets:
-    Type: 0
-    BaseValue: 1
-    ModifierPerStack: 0
-    EffectiveStacks: 1
+    Type: 1
+    BaseValue: 0
+    ModifierPerStack: 1
+    EffectiveStacks: 10
   Offset: {x: 0, y: 0, z: 0}
   Trajectory: 0
   FallingSpeed: 0
+  HoverHeight: 1
   Affects: 2
-  FireSubSpellCondition: -1
+  FireSubSpellCondition: 4
   DestroyCondition: 112

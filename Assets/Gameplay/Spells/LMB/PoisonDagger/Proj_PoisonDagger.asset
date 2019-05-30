@@ -12,10 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3030d9deb419ea245a3f54c0b8afad23, type: 3}
   m_Name: Proj_PoisonDagger
   m_EditorClassIdentifier: 
-  ProjectilePrefab: {fileID: 429807270828845083, guid: b4d0a1ce57cf2e344bf93f6eacec71d4,
-    type: 3}
-  Speed: 40
-  MaxDistance: 50
+  Prefab: {fileID: 429807270828845083, guid: b4d0a1ce57cf2e344bf93f6eacec71d4, type: 3}
+  Speed:
+    Type: 0
+    BaseValue: 25
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxDistance:
+    Type: 0
+    BaseValue: 20
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  TimeToLive:
+    Type: 0
+    BaseValue: 5
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxPiercingTargets:
+    Type: 1
+    BaseValue: 0
+    ModifierPerStack: 0.8
+    EffectiveStacks: 10
   Offset: {x: 0, y: 0, z: 0}
-  Trajectory: 1
+  Trajectory: 0
   FallingSpeed: 0
+  HoverHeight: 1
+  Affects: 2
+  FireSubSpellCondition: 4
+  DestroyCondition: 112

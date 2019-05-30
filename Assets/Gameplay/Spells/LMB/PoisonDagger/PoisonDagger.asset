@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
-  m_Name: Spell_Lightning
+  m_Name: PoisonDagger
   m_EditorClassIdentifier: 
-  Name: Lightning
-  Icon: {fileID: -8252871216045270066, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Name: PoisonDagger
+  Icon: {fileID: 8339939493531242580, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
   Description: 
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
     type: 2}
@@ -24,7 +24,7 @@ MonoBehaviour:
     EffectiveStacks: 1
   Cooldown:
     Type: 0
-    BaseValue: 0.6
+    BaseValue: 0.8
     ModifierPerStack: 0
     EffectiveStacks: 1
   BloodCost:
@@ -48,6 +48,5 @@ MonoBehaviour:
   TargetType: 2
   RangeBehaviour: 1
   MainSubSpells:
-  - {fileID: 11400000, guid: fdef0d72414360e48882daf99f5e87ea, type: 2}
-  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
-    type: 3}
+  - {fileID: 11400000, guid: 9f906caf6655a3b44b724e2df074aae3, type: 2}
+  DropItem: {fileID: 0}

@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca5cafdfa5c75143b3321cc57d70bb9, type: 3}
   m_Name: BloodDaggerMain
   m_EditorClassIdentifier: 
-  Source: 0
-  Target: 0
+  Source: 3
+  Target: 4
   BloodCost:
     Type: 0
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
-  AbortSpellIfAborted: 1
+  AbortSpellIfAborted: 0
   SpellShouldWaitUntilEnd: 0
-  CanBeAborted: 1
+  CanBeAborted: 0
   MaxInstances:
     Type: 0
-    BaseValue: 10
+    BaseValue: 1
     ModifierPerStack: 0
     EffectiveStacks: 1
   AffectsCharactersOnlyOncePerSpell: 0
@@ -34,7 +34,7 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   FireDelay:
-    Type: 2
+    Type: 0
     BaseValue: 0.1
     ModifierPerStack: -0.1
     EffectiveStacks: 10
@@ -44,8 +44,8 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   FireDuration:
-    Type: 1
-    BaseValue: 5
+    Type: 0
+    BaseValue: 0
     ModifierPerStack: 0.1
     EffectiveStacks: 10
   FireSubSpellEvents:

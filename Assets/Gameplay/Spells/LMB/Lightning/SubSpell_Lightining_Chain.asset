@@ -24,7 +24,7 @@ MonoBehaviour:
   CanBeAborted: 1
   MaxInstances:
     Type: 1
-    BaseValue: 100
+    BaseValue: 1
     ModifierPerStack: 1
     EffectiveStacks: 100
   AffectsCharactersOnlyOncePerSpell: 1

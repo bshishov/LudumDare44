@@ -58,5 +58,14 @@ MonoBehaviour:
     FireSubSpell: {fileID: 0}
     ApplyBuffToTarget: {fileID: 11400000, guid: 9c702456310773d44a951398ac115d36,
       type: 2}
+  - Type: 2
+    Query:
+      NewTargetsQueryType: 3
+      Origin: 1
+      Area: {fileID: 0}
+      AffectsTeam: 0
+    FireSubSpell: {fileID: 0}
+    ApplyBuffToTarget: {fileID: 11400000, guid: d40e48dd350aed349885aac0bdcb656f,
+      type: 2}
   Projectile: {fileID: 0}
   Effect: {fileID: 1349204274574646620, guid: a55be5abd6fc4954e81a606e64d716c3, type: 3}

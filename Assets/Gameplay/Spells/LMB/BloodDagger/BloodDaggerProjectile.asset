@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BloodDaggerProjectile
   m_EditorClassIdentifier: 
   Source: 3
-  Target: 0
+  Target: 4
   BloodCost:
     Type: 0
     BaseValue: 0
@@ -24,7 +24,7 @@ MonoBehaviour:
   CanBeAborted: 0
   MaxInstances:
     Type: 0
-    BaseValue: 10
+    BaseValue: 1
     ModifierPerStack: 0
     EffectiveStacks: 1
   AffectsCharactersOnlyOncePerSpell: 0

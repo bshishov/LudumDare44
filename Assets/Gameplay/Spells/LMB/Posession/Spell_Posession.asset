@@ -19,7 +19,7 @@ MonoBehaviour:
     type: 2}
   LifeSteal:
     Type: 0
-    BaseValue: 0
+    BaseValue: 0.1
     ModifierPerStack: 0
     EffectiveStacks: 1
   Cooldown:
@@ -29,14 +29,14 @@ MonoBehaviour:
     EffectiveStacks: 1
   BloodCost:
     Type: 0
-    BaseValue: 1
+    BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
   MaxRange:
-    Type: 0
+    Type: 1
     BaseValue: 10
-    ModifierPerStack: 0
-    EffectiveStacks: 1
+    ModifierPerStack: 1
+    EffectiveStacks: 10
   MinRange:
     Type: 0
     BaseValue: 0

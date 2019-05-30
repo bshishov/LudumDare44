@@ -45,7 +45,7 @@ MonoBehaviour:
     EffectiveStacks: 1
   FireDuration:
     Type: 1
-    BaseValue: 0.5
+    BaseValue: 0.1
     ModifierPerStack: 0.1
     EffectiveStacks: 20
   FireSubSpellEvents:

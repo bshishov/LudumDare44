@@ -30,7 +30,7 @@ MonoBehaviour:
     EffectiveStacks: 1
   MaxPiercingTargets:
     Type: 0
-    BaseValue: 1
+    BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
   Offset: {x: 0, y: 0, z: 0}
@@ -38,5 +38,5 @@ MonoBehaviour:
   FallingSpeed: 0
   HoverHeight: 1
   Affects: 2
-  FireSubSpellCondition: 14
+  FireSubSpellCondition: 4
   DestroyCondition: -1

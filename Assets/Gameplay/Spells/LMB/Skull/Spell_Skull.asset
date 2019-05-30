@@ -9,27 +9,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
   m_Name: Spell_Skull
   m_EditorClassIdentifier: 
   Name: Skull
   Icon: {fileID: -8055246306674290579, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 'Launches a homing skull at a targetted enemy
-
-    <b>Damage</b>: 2'
-  ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
-    type: 2}
-  LifeSteal: 2
-  BloodCost: 0
-  CastRange: 20
+  Description: 
+  ApplyBuffOnDismantle: {fileID: 0}
+  LifeSteal:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  Cooldown:
+    Type: 0
+    BaseValue: 0.5
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  BloodCost:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxRange:
+    Type: 1
+    BaseValue: 10
+    ModifierPerStack: 1
+    EffectiveStacks: 10
+  MinRange:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
   DefaultSlot: 0
-  Cooldown: 0.4
-  Flags: 3
-  PreCastDelay: 0
-  PostCastDelay: 0
-  SubSpells:
-  - {fileID: 11400000, guid: bf4761a310970764db7e2f20a20ac097, type: 2}
-  - {fileID: 11400000, guid: 47fb4be650084304ab33e27529fa9cec, type: 2}
-  SpellEffect: {fileID: 0}
-  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
-    type: 3}
+  ManualAbort: 0
+  CheckRangeOnCast: 1
+  TargetType: 1
+  RangeBehaviour: 0
+  MainSubSpells:
+  - {fileID: 11400000, guid: 645b24877aa053a479fa8e342e71605f, type: 2}
+  DropItem: {fileID: 0}

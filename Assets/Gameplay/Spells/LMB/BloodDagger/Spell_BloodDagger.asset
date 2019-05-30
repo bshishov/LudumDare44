@@ -19,12 +19,12 @@ MonoBehaviour:
     type: 2}
   LifeSteal:
     Type: 0
-    BaseValue: 0
+    BaseValue: 1
     ModifierPerStack: 0
     EffectiveStacks: 1
   Cooldown:
     Type: 0
-    BaseValue: 2
+    BaseValue: 0.6
     ModifierPerStack: 0
     EffectiveStacks: 1
   BloodCost:
@@ -33,10 +33,10 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   MaxRange:
-    Type: 0
+    Type: 1
     BaseValue: 10
-    ModifierPerStack: 0
-    EffectiveStacks: 1
+    ModifierPerStack: 1
+    EffectiveStacks: 10
   MinRange:
     Type: 0
     BaseValue: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   DefaultSlot: 0
   ManualAbort: 1
   CheckRangeOnCast: 0
-  TargetType: 4
+  TargetType: 2
   RangeBehaviour: 1
   MainSubSpells:
   - {fileID: 11400000, guid: dde4aa1aa2be73b4bb5cc906eb6b308c, type: 2}
