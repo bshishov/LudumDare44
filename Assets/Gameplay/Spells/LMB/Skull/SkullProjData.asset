@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3030d9deb419ea245a3f54c0b8afad23, type: 3}
   m_Name: SkullProjData
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 8704103856658010905, guid: 816cdcc0a1b3c02479c04878b1aa4186, type: 3}
+  Prefab: {fileID: 4385171735532075985, guid: a6da86c9ac5158e4dacc4471fab35c78, type: 3}
   Speed:
     Type: 0
     BaseValue: 15
@@ -25,7 +25,7 @@ MonoBehaviour:
     EffectiveStacks: 1
   TimeToLive:
     Type: 1
-    BaseValue: 8
+    BaseValue: 2
     ModifierPerStack: 1
     EffectiveStacks: 10
   MaxPiercingTargets:
@@ -34,9 +34,9 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   Offset: {x: 0, y: 0, z: 0}
-  Trajectory: 1
+  Trajectory: 0
   FallingSpeed: 0
   HoverHeight: 1
   Affects: 2
   FireSubSpellCondition: 2
-  DestroyCondition: -1
+  DestroyCondition: 46

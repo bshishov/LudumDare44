@@ -20,15 +20,15 @@ MonoBehaviour:
   Events:
   - EventType: 16
     Affect:
-      Type: 2
+      Type: 1
       ApplyModifier:
         Parameter: 0
         Value: 0
         EffectiveStacks: 10
       CastSpell:
         SpellStacks: 0
-        Spell: {fileID: 0}
-        Target: 0
+        Spell: {fileID: 11400000, guid: 9e796d5cd562c3f4c86ea7188dea4dcd, type: 2}
+        Target: 1
         StacksOverride: 0
       ApplyBuff:
         Target: 0

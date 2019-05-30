@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca5cafdfa5c75143b3321cc57d70bb9, type: 3}
   m_Name: SubSpell_ZeroSolutionRelease
   m_EditorClassIdentifier: 
-  Source: 3
-  Target: 3
+  Source: 0
+  Target: 0
   BloodCost:
     Type: 0
     BaseValue: 0
@@ -49,7 +49,7 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   FireSubSpellEvents:
-  - Type: 0
+  - Type: 2
     Query:
       NewTargetsQueryType: 5
       Origin: 0

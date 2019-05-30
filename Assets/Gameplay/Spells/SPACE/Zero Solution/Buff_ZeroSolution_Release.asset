@@ -18,7 +18,7 @@ MonoBehaviour:
   Duration: 0.2
   Modifiers: []
   Events:
-  - EventType: 16
+  - EventType: 6
     Affect:
       Type: 0
       ApplyModifier:
@@ -59,7 +59,7 @@ MonoBehaviour:
           ModifierPerStack: 0
           EffectiveStacks: 1
         BreakOnDestination: 0
-  - EventType: 16
+  - EventType: 6
     Affect:
       Type: 4
       ApplyModifier:

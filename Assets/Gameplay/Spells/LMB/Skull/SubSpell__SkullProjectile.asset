@@ -20,7 +20,7 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   AbortSpellIfAborted: 1
-  SpellShouldWaitUntilEnd: 1
+  SpellShouldWaitUntilEnd: 0
   CanBeAborted: 0
   MaxInstances:
     Type: 0
