@@ -18,16 +18,22 @@ MonoBehaviour:
   Duration: 1
   Modifiers:
   - Parameter: 11
-    Value: -0.1
-    EffectiveStacks: 10
+    ChangeAmount:
+      Type: 0
+      BaseValue: 10
+      ModifierPerStack: 0
+      EffectiveStacks: 100
   Events:
   - EventType: 6
     Affect:
       Type: 0
       ApplyModifier:
         Parameter: 1
-        Value: -10
-        EffectiveStacks: 10
+        ChangeAmount:
+          Type: 0
+          BaseValue: -10
+          ModifierPerStack: 0
+          EffectiveStacks: 100
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}

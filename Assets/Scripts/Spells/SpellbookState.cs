@@ -150,8 +150,6 @@ namespace Spells
                 _characterState.ApplyModifier(
                     ModificationParameter.HpFlat,
                     -subHandler.SubSpell.BloodCost.GetValue(subHandler.Stacks),
-                    1,
-                    1,
                     _characterState,
                     null);
             }

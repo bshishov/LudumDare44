@@ -28,8 +28,8 @@ public class Cheats : MonoBehaviour
 
         Debugger.Default.Display($"Cheats/GOD mode", () =>
             {
-                _playerState.ApplyModifier(ModificationParameter.HpFlat, 10000, 1, 1, _playerState, null);
-                _playerState.ApplyModifier(ModificationParameter.MaxHpFlat, 10000, 1, 1, _playerState, null);
+                _playerState.ApplyModifier(ModificationParameter.HpFlat, 10000, _playerState, null);
+                _playerState.ApplyModifier(ModificationParameter.MaxHpFlat, 10000, _playerState, null);
             });
 
         Debugger.Default.Display($"Cheats/WTF mode", () =>

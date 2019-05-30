@@ -27,12 +27,12 @@ public class Dummy : MonoBehaviour
 #endif
     }
 
-    private void CharacterStateOnOnModifierApplied(ModificationParameter parameter, ISubSpellHandler spell, int stacks, float actualChange)
+    private void CharacterStateOnOnModifierApplied(ModificationParameter parameter, ISubSpellHandler spell, float actualChange)
     {
         var spellName = String.Empty;
         if (spell != null)
             spellName = spell.Spell.name;
-        _modLog.Push($"{spellName} <color=red>x{stacks}</color> <color=yellow>{parameter}</color>: {actualChange:0.##}");
+        _modLog.Push($"{spellName} <color=yellow>{parameter}</color>: {actualChange:0.##}");
 
         foreach (var line in _modLog.Reverse())
         {

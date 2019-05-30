@@ -144,7 +144,7 @@ namespace Actors
         public event Action<Spell, int> OnSpellPickup;
 
 #if DEBUG
-        public event Action<ModificationParameter, ISubSpellHandler, int, float> ModifierApplied;
+        public event Action<ModificationParameter, ISubSpellHandler, float> ModifierApplied;
 #endif
 
         public CharacterConfig character;
@@ -337,9 +337,8 @@ namespace Actors
             foreach (var mod in state.Buff.Modifiers)
             {
                 var change = ApplyModifier(
-                    mod.Parameter, 
-                    mod.Value, state.Stacks, 
-                    mod.EffectiveStacks, 
+                    mod.Parameter,
+                    mod.ChangeAmount.GetValue(state.Stacks),
                     state.SourceCharacter, 
                     state.SubSpellHandler,
                     false);
@@ -392,9 +391,7 @@ namespace Actors
             if (affect.Type == Affect.AffectType.ApplyModifier)
                 ApplyModifier(
                     affect.ApplyModifier.Parameter, 
-                    affect.ApplyModifier.Value, 
-                    buffState.Stacks, 
-                    affect.ApplyModifier.EffectiveStacks, 
+                    affect.ApplyModifier.ChangeAmount.GetValue(buffState.Stacks),
                     buffState.SourceCharacter, 
                     buffState.SubSpellHandler);
 
@@ -526,26 +523,23 @@ namespace Actors
         public Change ApplyModifier(
             ModificationParameter parameter,
             float amount,
-            int stacks,
-            float effectiveStacks,
             CharacterState sourceCharacter,
-            ISubSpellHandler subSpell, 
+            ISubSpellHandler subSpell=null, 
             bool applyChange=true)
         {
             // First - calculate an actual change of modifier
             // using all spell amplification things, evasions and other stuff
-            var change = CalcChange(parameter, amount, stacks, effectiveStacks, sourceCharacter, subSpell);
+            var change = CalcChange(parameter, amount, sourceCharacter, subSpell);
 
 #if DEBUG_COMBAT
             _combatLog.Log(
-                $"<b>{gameObject.name}</b> received modifier <b>{parameter}</b> with amount <b>{amount}</b>. Actual change: <b>{change.Amount}</b>" +
-                $" Stacks: <b>{stacks}</b>. EffectiveStacks: <b>{effectiveStacks}</b>");
+                $"<b>{gameObject.name}</b> received modifier <b>{parameter}</b> with amount <b>{amount}</b>. Actual change: <b>{change.Amount}</b>");
 #endif
 
             if (applyChange)
             {
 #if DEBUG
-                ModifierApplied?.Invoke(parameter, subSpell, stacks, change.Amount);
+                ModifierApplied?.Invoke(parameter, subSpell, change.Amount);
 #endif
                 // Apply an actual change
                 ApplyChange(change);
@@ -556,8 +550,6 @@ namespace Actors
 
         private Change CalcChange(ModificationParameter parameter,
             float amount,
-            int stacks,
-            float effectiveStacks,
             CharacterState sourceCharacter,
             ISubSpellHandler subSpell)
         {
@@ -573,9 +565,9 @@ namespace Actors
             {
                 var targetHp = _hp;
                 if (parameter == ModificationParameter.HpFlat)
-                    targetHp += MathUtils.StackedModifier(amount, stacks, effectiveStacks);
+                    targetHp += amount;
                 if (parameter == ModificationParameter.HpMult)
-                    targetHp *= 1 + MathUtils.StackedModifier(amount, stacks, effectiveStacks);
+                    targetHp *= amount;
                 targetHp = Mathf.Min(targetHp, MaxHealth);
                 var delta = targetHp - _hp;
                 // If taking damage
@@ -605,8 +597,6 @@ namespace Actors
 #endif
                             sourceCharacter.ApplyModifier(ModificationParameter.HpFlat,
                                 hpStolen,
-                                1,
-                                1,
                                 this,
                                 subSpell);
                         }
@@ -629,7 +619,7 @@ namespace Actors
                     return new Change
                     {
                         Parameter = parameter,
-                        Amount = Mathf.Pow(1 - amount, stacks)
+                        Amount = 1 - amount
                     };
             }
 
@@ -637,7 +627,7 @@ namespace Actors
             return new Change
             {
                 Parameter = parameter,
-                Amount = MathUtils.StackedModifier(amount, stacks, effectiveStacks)
+                Amount = amount
             };
         }
 
@@ -741,13 +731,7 @@ namespace Actors
                 return false;
             }
 
-            ApplyModifier(
-                ModificationParameter.MaxHpFlat,
-                -amount,
-                1,
-                1,
-                this,
-                null);
+            ApplyModifier(ModificationParameter.MaxHpFlat, -amount, this);
             return true;
         }
 

@@ -73,7 +73,7 @@ namespace Spells
                     case TargetType.Character:
                         return Transform.position + Offset;
                     case TargetType.LocationProvider:
-                        return _locationProvider.GetTargetLocation();
+                        return _locationProvider.Location;
                     default:
                     case TargetType.None:
                         throw new InvalidOperationException($"Target of type {Type} does not have position");
@@ -109,11 +109,11 @@ namespace Spells
                     case TargetType.Location:
                         return true;
                     case TargetType.Character:
-                        return Character != null && Transform != null;
+                        return Character != null && Transform != null && Character.IsAlive;
                     case TargetType.Transform:
                         return Transform != null;
                     case TargetType.LocationProvider:
-                        return _locationProvider != null;
+                        return _locationProvider != null && _locationProvider.IsValid;
                     case TargetType.None:
                         // NOTE! None is a valid target
                         return true;
@@ -136,7 +136,7 @@ namespace Spells
                     case TargetType.Transform:
                         return Transform != null;
                     case TargetType.LocationProvider:
-                        return _locationProvider != null;
+                        return _locationProvider != null && _locationProvider.IsValid;
                     case TargetType.None:
                         // NOTE: None target can't have a position
                         return false;

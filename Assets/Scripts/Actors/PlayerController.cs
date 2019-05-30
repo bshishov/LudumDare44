@@ -3,10 +3,11 @@ using Data;
 using Spells;
 using UI;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Actors
 {
-    public class PlayerController : MonoBehaviour, ITargetLocationProvider
+    public class PlayerController : MonoBehaviour
     {
         private Vector3 _inputMoveDirection;
         private CharacterState _characterState;
@@ -14,6 +15,8 @@ namespace Actors
         private MovementController _movement;
         private Interactor _interactor;
         private Camera _mainCamera;
+        private readonly TargetLocationProvider _cursorTarget = new TargetLocationProvider();
+        private Vector3? _cursorWorldPosition;
 
         void Start()
         {
@@ -57,8 +60,6 @@ namespace Actors
                 // If cast was successful, reduce hp by cost amount
                 _characterState.ApplyModifier(ModificationParameter.HpFlat, 
                     -bloodCost, 
-                    1, 
-                    1, 
                     _characterState, 
                     null);
             }
@@ -84,13 +85,14 @@ namespace Actors
                 return Target.None;
 
             if (type == TargetType.LocationProvider)
-                return new Target(this);
+                return new Target(_cursorTarget);
 
             // Construct screen ray
             var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             if (type == TargetType.Character)
             {
                 // Raycast characters
+                // TODO: raycast all?
                 if (Physics.Raycast(ray, out var charHit, 100f, Common.LayerMasks.Actors))
                 {
                     var character = charHit.transform.GetComponent<CharacterState>();
@@ -99,16 +101,18 @@ namespace Actors
                 }
             }
 
-            if (Physics.Raycast(ray, out var hit, 100f, Common.LayerMasks.Ground))
-            {
-                // Hits ground -> return location target
-                //var targetY = _characterState.GetNodeTransform(CharacterState.NodeRole.SpellEmitter).position.y;
-                //return new Target(ray.origin + ray.direction * (targetY - ray.origin.y) / ray.direction.y);
-                var forward = (hit.point - transform.position).normalized;
-                return new Target(hit.point, forward);
-            }
-
+            if (_cursorTarget.IsValid)
+                return new Target(_cursorTarget.Location);
+            
             return Target.None;
+        }
+
+        private Vector3? GetCursorPointOnGround()
+        {
+            var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out var hit, 100f, Common.LayerMasks.Ground))
+                return hit.point;
+            return null;
         }
 
         void Update()
@@ -118,28 +122,50 @@ namespace Actors
                 // Character is dead no need to move and handle input controls
                 return;
             }
+            
+            // Tray raycast cursor to ground 
+            _cursorWorldPosition = GetCursorPointOnGround();
 
             // Get input movement direction
             _inputMoveDirection.x = Input.GetAxis(Common.Input.HorizontalAxis);
             _inputMoveDirection.z = Input.GetAxis(Common.Input.VerticalAxis);
 
             // Check buttons
-            if (Input.GetMouseButton(0))
+            var lmb = Input.GetMouseButton(0);
+            var lmbUp = Input.GetMouseButtonUp(0);
+            var rmb = Input.GetMouseButton(1);
+            var rmbUp = Input.GetMouseButtonUp(1);
+            var ult = Input.GetButton(Common.Input.UltButton);
+            var ultUp = Input.GetButtonUp(Common.Input.UltButton);
+
+            // If anything is pressed and cursor has the location on ground (raycast succeeded)
+            // then dynamic target is updated
+            if ((lmb || rmb || ult) && _cursorWorldPosition.HasValue)
+            {
+                _cursorTarget.IsValid = true;
+                _cursorTarget.Location = _cursorWorldPosition.Value;
+            }
+            else
+            {
+                _cursorTarget.IsValid = false;
+            }
+            
+            if (lmb)
                 FireSpell((int)SpellSlot.LMB);
 
-            if (Input.GetMouseButtonUp(0))
+            if (lmbUp)
                 TryAbortSpell((int)SpellSlot.LMB);
 
-            if (Input.GetMouseButton(1))
+            if (rmb)
                 FireSpell((int)SpellSlot.RMB);
 
-            if (Input.GetMouseButtonUp(1))
+            if (rmbUp)
                 TryAbortSpell((int)SpellSlot.RMB);
 
-            if (Input.GetButton(Common.Input.UltButton))
+            if (ult)
                 FireSpell((int)SpellSlot.ULT);
 
-            if (Input.GetButtonUp(Common.Input.UltButton))
+            if (ultUp)
                 TryAbortSpell((int)SpellSlot.ULT);
 
             // If there is an interactable in range and corresponding button is pressed
@@ -157,19 +183,9 @@ namespace Actors
             var motionVector = _characterState.Speed * Time.deltaTime * _inputMoveDirection.normalized;
             _movement.ControlMove(motionVector);
 
-            // Rotate towards location under the cursor
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out var hit, 100f, Common.LayerMasks.Ground))
-            {
-                _movement.ControlLookAt(hit.point);
-            }
-        }
-
-        public Vector3 GetTargetLocation()
-        {
-            if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetButton(Common.Input.UltButton))
-                return GetTarget(TargetType.Location).Position;
-            return Vector3.zero;
+            // Rotate towards cursor
+            if (_cursorWorldPosition.HasValue)
+                _movement.ControlLookAt(_cursorWorldPosition.Value);
         }
     }
 }

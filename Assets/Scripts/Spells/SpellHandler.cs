@@ -13,7 +13,7 @@ namespace Spells
     /// Lifetime of SpellHandler instances covers the time until every SubSpell is finished
     /// Once there are no children in spell state, instance should be disposed.
     /// </summary>
-    public class SpellHandler : ISpellHandler, ITargetLocationProvider
+    public class SpellHandler : ISpellHandler
     {
         public Spell Spell { get; }
         public int Stacks { get; }
@@ -29,6 +29,7 @@ namespace Spells
         private readonly List<SubSpellHandler> _children = new List<SubSpellHandler>();
         private bool _isFiring;
         private readonly Target _originalTarget;
+        private readonly TargetLocationProvider _locationTargetProxy = new TargetLocationProvider();
         private readonly float _minRange;
         private readonly float _maxRange;
 
@@ -49,13 +50,9 @@ namespace Spells
                 spell.RangeBehaviour == Spell.TargetRangeBehaviour.SetMaxRange)
             {
                 if (castTarget.Type == TargetType.Location || castTarget.Type == TargetType.LocationProvider)
-                {
-                    CastTarget = new Target(this);
-                }
+                    CastTarget = new Target(_locationTargetProxy);
                 else
-                {
                     Debug.LogWarning($"Can't create proxy target for target of type {castTarget.Type}");
-                }
             }
             else
             {
@@ -68,6 +65,18 @@ namespace Spells
 
         public void Update()
         {
+            // Update proxy target
+            var proxyLocation = GetTargetLocation();
+            if (proxyLocation.HasValue)
+            {
+                _locationTargetProxy.IsValid = true;
+                _locationTargetProxy.Location = proxyLocation.Value;
+            }
+            else
+            {
+                _locationTargetProxy.IsValid = false;
+            }
+            
             switch (_state)
             {
                 case SpellState.Started:
@@ -150,10 +159,10 @@ namespace Spells
             }
         }
 
-
         public void Abort()
         {
-            // If current state is not aborted or finilized
+            // If current state is not "aborted" or "finilizing"
+            // We need to switch to finilizing state
             if (_state != SpellState.Finilizing && 
                 _state != SpellState.Ended)
             {
@@ -166,6 +175,19 @@ namespace Spells
 
         public void CastSubSpell(SubSpell subSpell, Target source, Target target)
         {
+            if (!source.IsValid)
+            {
+                Debug.LogWarning($"Invalid source while casting SubSpell: {subSpell}");
+                return;
+            }
+            
+            if (!target.IsValid)
+            {
+                Debug.LogWarning($"Invalid target while casting SubSpell: {subSpell}");
+                return;
+            }
+
+
             Assert.IsNotNull(subSpell);
 
             if (_instances.ContainsKey(subSpell))
@@ -197,8 +219,16 @@ namespace Spells
         }
 #endif
         // Proxy targeting for special range handling
-        public Vector3 GetTargetLocation()
+        private Vector3? GetTargetLocation()
         {
+            // If target is invalid, we can't update proxy
+            if (!_originalTarget.IsValid || !_originalTarget.HasPosition)
+                return null;
+            
+            // If source is invalid, we can't update proxy
+            if (!Source.IsValid || !Source.HasPosition)
+                return null;
+            
             var desired = _originalTarget.Position;
             var source = Source.Position;
             var dir = desired - source;

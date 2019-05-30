@@ -40,10 +40,8 @@ namespace Data
     public class Modifier
     {
         public ModificationParameter Parameter;
-        public float Value;
-
-        // Indicating that the value will not scale too much after this amount of stacks
-        public float EffectiveStacks = 10f;
+        public StackableFloat ChangeAmount 
+            = new StackableFloat(10) { EffectiveStacks = 100f }; 
     }
 
     [Serializable]

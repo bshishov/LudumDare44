@@ -8,23 +8,29 @@ namespace AI
     /// This state performs spell casting. Including channeling
     /// It uses "spell intention" from memory. It should be set from another state
     /// </summary>
-    class CastIntendedSpell : IStateBehaviour<AIState>, ITargetLocationProvider
+    class CastIntendedSpell : IStateBehaviour<AIState>
     {
         private readonly AIAgent _agent;
         private readonly AIState _nextState;
         private readonly AIState _fallbackState;
         private bool _isCasting;
+        private readonly TargetLocationProvider _targetProxy;
 
         public CastIntendedSpell(AIAgent agent, AIState next, AIState fallback)
         {
             _agent = agent;
             _nextState = next;
             _fallbackState = fallback;
+            _targetProxy = new TargetLocationProvider
+            {
+                IsValid = false
+            };
         }
 
         public void StateStarted()
         {
             _isCasting = false;
+            _targetProxy.IsValid = false;
         }
 
         public AIState? StateUpdate()
@@ -82,6 +88,9 @@ namespace AI
             else if(slotState.State == SpellbookState.SpellState.Firing || 
                     slotState.State == SpellbookState.SpellState.Preparing)
             {
+                // Update target while casting
+                _targetProxy.Location = _agent.ActiveTarget.transform.position;
+                
                 // We are casting, we cool
                 return null;
             }
@@ -90,15 +99,15 @@ namespace AI
             return _fallbackState;
         }
 
-        public void StateEnded() { }
-
-        public Vector3 GetTargetLocation()
+        public void StateEnded()
         {
-            return _agent.ActiveTarget.transform.position;
+            _targetProxy.IsValid = false;
         }
 
         private void AbortIfCasting()
         {
+            _targetProxy.IsValid = false;
+            
             if (_agent.IntendedSpell == null)
                 return;
             
@@ -118,7 +127,9 @@ namespace AI
                 case TargetType.Transform:
                     return new Target(_agent.ActiveTarget.transform);
                 case TargetType.LocationProvider:
-                    return new Target(this);
+                    _targetProxy.IsValid = true;
+                    _targetProxy.Location = _agent.ActiveTarget.transform.position;
+                    return new Target(_targetProxy);
                 case TargetType.Character:
                     return new Target(_agent.ActiveTarget);
                 default:

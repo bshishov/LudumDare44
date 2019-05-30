@@ -34,6 +34,8 @@ namespace Spells
             Target source, 
             Target target)
         {
+            Assert.IsTrue(source.IsValid);
+            Assert.IsTrue(target.IsValid);
             Assert.IsNotNull(subSpell);
             Assert.IsNotNull(spellHandler);
 
