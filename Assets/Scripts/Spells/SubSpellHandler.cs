@@ -72,7 +72,7 @@ namespace Spells
                         else
                         {
                             _state = SpellState.FireDelay;
-                            _timer = SubSpell.FireDelay.GetValue(Stacks);
+                            _timer = 0;
                             _fireStartedTime = Time.time;
                         }
                         FireEvent(SubSpellEvent.AfterPreCastDelay);
@@ -142,6 +142,10 @@ namespace Spells
                     targets = new List<Target>();
                 if(additionalTargets != null)
                     targets.AddRange(additionalTargets);
+                
+                
+                // Get only valid targets
+                targets = targets.Where(t => t.IsValid).ToList();
 
                 // Targeted event
                 SubSpell.GetEffect()?.OnEvent(new SubSpellEventArgs(this, eventType, e.Query, targets));

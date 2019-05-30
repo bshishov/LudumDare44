@@ -4,6 +4,6 @@ namespace Spells
 {
     public interface ITargetLocationProvider
     {
-        Vector3 GetTargetLocation();
+        Vector3? GetTargetLocation();
     }
 }

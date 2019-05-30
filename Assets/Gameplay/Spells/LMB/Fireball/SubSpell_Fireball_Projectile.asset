@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ca5cafdfa5c75143b3321cc57d70bb9, type: 3}
-  m_Name: SubSpell_Fireball
+  m_Name: SubSpell_Fireball_Projectile
   m_EditorClassIdentifier: 
   Source: 3
   Target: 4
@@ -20,14 +20,14 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   AbortSpellIfAborted: 0
-  SpellShouldWaitUntilEnd: 1
+  SpellShouldWaitUntilEnd: 0
   CanBeAborted: 0
   MaxInstances:
     Type: 0
     BaseValue: 20
     ModifierPerStack: 0
     EffectiveStacks: 1
-  AffectsCharactersOnlyOncePerSpell: 1
+  AffectsCharactersOnlyOncePerSpell: 0
   PreCastDelay:
     Type: 0
     BaseValue: 0
@@ -44,18 +44,18 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   FireDuration:
-    Type: 1
-    BaseValue: 0.5
-    ModifierPerStack: 0.1
-    EffectiveStacks: 20
+    Type: 0
+    BaseValue: 1
+    ModifierPerStack: 0
+    EffectiveStacks: 1
   FireSubSpellEvents:
-  - Type: 2
+  - Type: 5
     Query:
-      NewTargetsQueryType: 2
-      Origin: 3
+      NewTargetsQueryType: 0
+      Origin: 0
       Area: {fileID: 0}
       AffectsTeam: 2
-    FireSubSpell: {fileID: 11400000, guid: 06aa2040713cbe944a65dde7e95d2b9f, type: 2}
+    FireSubSpell: {fileID: 11400000, guid: 24e5e214a96deef4394d2a5630f79f05, type: 2}
     ApplyBuffToTarget: {fileID: 0}
-  Projectile: {fileID: 0}
+  Projectile: {fileID: 11400000, guid: 68e80e8896f3eb444ac6fa47990c4eba, type: 2}
   Effect: {fileID: 0}

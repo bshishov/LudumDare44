@@ -92,9 +92,11 @@ namespace AI
 
         public void StateEnded() { }
 
-        public Vector3 GetTargetLocation()
+        public Vector3? GetTargetLocation()
         {
-            return _agent.ActiveTarget.transform.position;
+            if (_agent.ActiveTarget != null) 
+                return _agent.ActiveTarget.transform.position;
+            return null;
         }
 
         private void AbortIfCasting()

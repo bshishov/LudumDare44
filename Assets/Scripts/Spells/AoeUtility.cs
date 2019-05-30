@@ -27,6 +27,8 @@ namespace Spells
             return CharactersInsideSphere(origin, radius)
                 .Where(collider =>
                 {
+                    if (collider == null)
+                        return false;
                     var position = collider.transform.position;
                     var dir = position - origin;
                     var distance = dir.magnitude;
