@@ -92,17 +92,17 @@ MonoBehaviour:
         Type: 2
         Speed:
           Type: 0
-          BaseValue: -25
+          BaseValue: -10
           ModifierPerStack: 0
           EffectiveStacks: 0
         MovementDuration:
           Type: 0
-          BaseValue: 0.02
+          BaseValue: 0.3
           ModifierPerStack: 0
           EffectiveStacks: 0
         MaxDistanceFromOrigin:
           Type: 0
-          BaseValue: 100
+          BaseValue: 3
           ModifierPerStack: 0
           EffectiveStacks: 0
         BreakOnDestination: 0
