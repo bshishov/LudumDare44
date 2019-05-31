@@ -196,7 +196,7 @@ namespace Spells
 
             if (_instances.ContainsKey(subSpell))
             {
-                // Max instances of this subspell casted
+                // Max instances of this SubSpell casted
                 if (_instances[subSpell] >= subSpell.MaxInstances.GetValue(Stacks))
                     return;
 

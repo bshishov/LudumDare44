@@ -10,10 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ca5cafdfa5c75143b3321cc57d70bb9, type: 3}
-  m_Name: SubSpell_Lightning_Main
+  m_Name: SubSpell_Lightining
   m_EditorClassIdentifier: 
-  Source: 2
-  Target: 0
   BloodCost:
     Type: 0
     BaseValue: 0
@@ -21,13 +19,12 @@ MonoBehaviour:
     EffectiveStacks: 1
   AbortSpellIfAborted: 0
   SpellShouldWaitUntilEnd: 0
-  CanBeAborted: 0
+  CanBeAborted: 1
   MaxInstances:
-    Type: 0
+    Type: 1
     BaseValue: 1
     ModifierPerStack: 1
     EffectiveStacks: 100
-  AffectsCharactersOnlyOncePerSpell: 0
   PreCastDelay:
     Type: 0
     BaseValue: 0
@@ -49,13 +46,30 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   FireSubSpellEvents:
-  - Type: 3
+  - Type: 4
     Query:
-      NewTargetsQueryType: 6
-      Origin: 1
+      NewTargetsQueryType: 3
+      Origin: 2
       Area: {fileID: 11400000, guid: 44ce6c470760f744383c2b3296187e31, type: 2}
       AffectsTeam: 2
-    FireSubSpell: {fileID: 11400000, guid: 2660a28435ae64f42b6192643304b6b7, type: 2}
+      ExcludeAlreadyAffected: 1
+    TrackAffectedCharacters: 1
+    SubSpellSource: 2
+    SubSpellTarget: 0
+    FireSubSpell: {fileID: 11400000}
     ApplyBuffToTarget: {fileID: 0}
+  - Type: 2
+    Query:
+      NewTargetsQueryType: 1
+      Origin: 2
+      Area: {fileID: 0}
+      AffectsTeam: 2
+      ExcludeAlreadyAffected: 1
+    TrackAffectedCharacters: 1
+    SubSpellSource: 2
+    SubSpellTarget: 0
+    FireSubSpell: {fileID: 0}
+    ApplyBuffToTarget: {fileID: 11400000, guid: 009ca85ded63e9c4285c42d3ac947fd9,
+      type: 2}
   Projectile: {fileID: 0}
   Effect: {fileID: 1349204274574646620, guid: 97b50922a392d41499e890a3452714e0, type: 3}
