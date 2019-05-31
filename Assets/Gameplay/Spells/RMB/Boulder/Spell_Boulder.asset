@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
-  m_Name: Boulder
+  m_Name: Spell_Boulder
   m_EditorClassIdentifier: 
   Name: Boulder
   Icon: {fileID: 7420673300757599502, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
@@ -48,5 +48,5 @@ MonoBehaviour:
   TargetType: 2
   RangeBehaviour: 1
   MainSubSpells:
-  - {fileID: 11400000, guid: 5650b780699c97649ade2112d819fc77, type: 2}
+  - {fileID: 11400000, guid: 5fdc35e0f27710149be77c4519d8f3d1, type: 2}
   DropItem: {fileID: 131193077828940303, guid: b97354f0857bded449811f9f327d95a5, type: 3}

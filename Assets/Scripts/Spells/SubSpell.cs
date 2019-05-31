@@ -29,12 +29,12 @@ namespace Spells
             public Query Query;
             public bool TrackAffectedCharacters;
 
-            [Header("SubSpell targeting")]
+            [Header("Cast SubSpell")]
             public TargetResolution SubSpellSource;
             public TargetResolution SubSpellTarget;
-            
-            [Header("Payload")]
             public SubSpell FireSubSpell;
+            
+            [Header("Buff")]
             public Buff ApplyBuffToTarget;
         }
 
