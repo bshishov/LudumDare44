@@ -58,7 +58,7 @@ namespace Spells
                 case SubSpellState.Ended:
                     return;
                 case SubSpellState.Started:
-                    FireEvent(SubSpellEvent.Started);
+                    FireEvent(SubSpellEvent.Started, Target.None);
                     _timer = SubSpell.PreCastDelay.GetValue(Stacks);
                     _state = SubSpellState.PreCastDelay;
                     return;
@@ -77,7 +77,7 @@ namespace Spells
                             _timer = 0;
                             _fireStartedTime = Time.time;
                         }
-                        FireEvent(SubSpellEvent.AfterPreCastDelay);
+                        FireEvent(SubSpellEvent.AfterPreCastDelay, Target.None);
                     }
                     break;
                 case SubSpellState.FireDelay:
@@ -86,14 +86,14 @@ namespace Spells
                         _state = SubSpellState.Firing;
                     break;
                 case SubSpellState.Firing:
-                    FireEvent(SubSpellEvent.OnFire);
+                    FireEvent(SubSpellEvent.OnFire, Target.None);
                     var timeSinceFirstFire = Time.time - _fireStartedTime;
                     if (timeSinceFirstFire > SubSpell.FireDuration.GetValue(Stacks))
                     {
                         // Finished firing
                         _state = SubSpellState.PostCastDelay;
                         _timer = SubSpell.PostCastDelay.GetValue(Stacks);
-                        FireEvent(SubSpellEvent.AfterFinishedFire);
+                        FireEvent(SubSpellEvent.AfterFinishedFire, Target.None);
                     }
                     else
                     {
@@ -116,7 +116,7 @@ namespace Spells
                     if (_timer < 0)
                     {
                         _state = SubSpellState.Ended;
-                        FireEvent(SubSpellEvent.Ended);
+                        FireEvent(SubSpellEvent.Ended, Target.None);
                     }
                     break;
             }
@@ -124,38 +124,36 @@ namespace Spells
 
         public void HandleProjectileFireEvent(Target target)
         {
-            FireEvent(SubSpellEvent.ProjectileHit, new []{ target });
+            FireEvent(SubSpellEvent.ProjectileHit, target);
         }
 
         public void HandleProjectileDestroyEvent(Target target)
         {
-            FireEvent(SubSpellEvent.ProjectileDestroy, new[] { target });
+            FireEvent(SubSpellEvent.ProjectileDestroy, target);
         }
 
-        private void FireEvent(SubSpellEvent eventType, IList<Target> additionalTargets = null)
+        private static readonly List<Target> Queried = new List<Target>(1);
+        private void FireEvent(SubSpellEvent eventType, Target projectileHit)
         {
             // Send non-targeted event to effect
             SubSpell.EffectHandler?.OnEvent(new SubSpellEventArgs(this, eventType));
 
-            foreach (var e in SubSpell.FireSubSpellEvents.Where(e => e.Type.Equals(eventType)))
+            for (var eventIndex = 0; eventIndex < SubSpell.FireSubSpellEvents.Length; eventIndex++)
             {
-                var targets = QueryTargets(e.Query);
-                if (targets == null)
-                    targets = new List<Target>();
-                if(additionalTargets != null)
-                    targets.AddRange(additionalTargets);
-                
-                
-                // Get only valid targets
-                targets = targets.Where(t => t.IsValid).ToList();
+                // Filter SubSpell events
+                var e = SubSpell.FireSubSpellEvents[eventIndex];
+                if(e.Type != eventType)
+                    continue;
+            
+                QueryTargets(Queried, e.Query, projectileHit);
 
                 // Targeted event
-                SubSpell.EffectHandler?.OnEvent(new SubSpellEventArgs(this, eventType, e.Query, targets));
+                SubSpell.EffectHandler?.OnEvent(new SubSpellEventArgs(this, eventType, e.Query, Queried));
                 
                 // New source of SubSpell
                 var newSsSource = ResolveTarget(e.SubSpellSource, ResolveTarget(e.Query.Origin, Source));
                 
-                foreach (var target in targets)
+                foreach (var target in Queried)
                 {
                     #if DEBUG
                     if (target.HasPosition)
@@ -208,61 +206,95 @@ namespace Spells
                 Object.Destroy(_projectile.gameObject);
 
             _state = SubSpellState.Ended;
-            FireEvent(SubSpellEvent.Ended, null);
+            FireEvent(SubSpellEvent.Ended, Target.None);
 
             if(SubSpell.AbortSpellIfAborted)
                 SpellHandler.Abort();
         }
 
-        public List<Target> QueryTargets(Query query)
+        private void QueryTargets(List<Target> queried, Query query, Target projectileHit)
         {
-            if (query.NewTargetsQueryType == Query.QueryType.None)
-                return null;
-            
+            queried.Clear();
             var origin = ResolveTarget(query.Origin, Source);
-
-            if (query.NewTargetsQueryType == Query.QueryType.AsOrigin)
-                return new List<Target>() { origin };
-            
-            if(query.NewTargetsQueryType == Query.QueryType.RandomLocationInAoe)
+            switch (query.NewTargetsQueryType)
             {
-                var randomLoc = RandomLocationInAoe(query.Area, origin);
-                return new List<Target> { new Target(randomLoc) };
+                case Query.QueryType.None:
+                    return;
+                case Query.QueryType.OriginAsTarget:
+                    if(origin.IsValid)
+                        queried.Add(origin);
+                    return;
+                case Query.QueryType.RandomLocationInAoe:
+                    var randomLoc = RandomLocationInAoe(query.Area, origin);
+                    queried.Add(new Target(randomLoc, origin.Forward));
+                    return;
+                case Query.QueryType.ProjectileHitTarget:
+                    if(projectileHit.IsValid)
+                        queried.Add(projectileHit);
+                    return;
+                default:
+                    break;
             }
+            
+            var filteredChars = new List<CharacterState>(1);
+            CharactersInAoe(filteredChars, query.Area, origin);
 
-            var targetChars = CharactersInAoe(query.Area, origin);
-            if (targetChars == null)
-                return null;
-
-            // Filter by team
-            // Check team for character targets
-            targetChars = targetChars.Where(c =>
-                SpellManager.IsValidTeam(SpellHandler.Source.Character, c, query.AffectsTeam));
-
-            // Filter affected
-            // If we should exclude already affected characters - exclude them
-            if (query.ExcludeAlreadyAffected && _spellHandler.AffectedCharacters != null)
-                targetChars = targetChars.Except(_spellHandler.AffectedCharacters);
-
-            if (!targetChars.Any())
-                return null;
+            for (var i = filteredChars.Count - 1; i >= 0; i--)
+            {
+                var c = filteredChars[i];
+                
+                // Team filtering
+                if (!SpellManager.IsValidTeam(SpellHandler.Source.Character, c, query.AffectsTeam))
+                {
+                    filteredChars.RemoveAt(i);
+                    continue;
+                }
+                
+                // Filter affected
+                if (query.ExcludeAlreadyAffected &&
+                    _spellHandler.AffectedCharacters != null &&
+                    _spellHandler.AffectedCharacters.Contains(c))
+                {
+                    filteredChars.RemoveAt(i);
+                }
+            }
+            
+            // If we are empty after filtering
+            if (filteredChars.Count == 0)
+                return;
 
             if (query.NewTargetsQueryType == Query.QueryType.RandomTargetInAoe)
-                targetChars = new[] {RandomUtils.Choice(targetChars.ToList())};
+            {
+                queried.Add(new Target(RandomUtils.Choice(filteredChars)));
+                return;
+            }
+            
+            if (query.NewTargetsQueryType == Query.QueryType.AllTargetsInAoe)
+            {
+                for (var i = 0; i < filteredChars.Count; i++)
+                    queried.Add(new Target(filteredChars[i]));
+                return;
+            }
 
             if (query.NewTargetsQueryType == Query.QueryType.ClosestToOriginInAoe)
             {
+                var minDistance = 1e8f;
+                var minIndex = 0;
                 var originPos = origin.Position;
-                var closest = targetChars.OrderBy(c => Vector3.Distance(originPos, c.transform.position))
-                    .FirstOrDefault();
-                if (closest != null)
-                    targetChars = new[] { closest };
-                else
-                    targetChars = null;
+                for (var i = 1; i < filteredChars.Count; i++)
+                {
+                    var c = filteredChars[i];
+                    var distance = Vector3.Distance(originPos, c.transform.position); 
+                    if (distance < minDistance)
+                    {
+                        minIndex = i;
+                        minDistance = distance;
+                    }
+                }
+                
+                queried.Add(new Target(filteredChars[minIndex]));
+                return;
             }
-
-            // Convert characters to targets
-            return targetChars?.Select(c => new Target(c)).ToList();
         }
 
         private void SpawnProjectile()
@@ -279,28 +311,38 @@ namespace Spells
             }
         }
 
-        private IEnumerable<CharacterState> CharactersInAoe(AreaOfEffect area, Target origin)
+        private void CharactersInAoe(
+            List<CharacterState> characters, 
+            AreaOfEffect area, 
+            Target origin)
         {
             if (area == null)
             {
-                Debug.LogWarning("Area is null");
-                return null;
+                Debug.LogWarning("Area is not set");
+                return;
             }
             
             switch (area.Area)
             {
                 case AreaOfEffect.AreaType.Cone:
-                    return AoeUtility.CharactersInsideCone(origin.Position, 
+                    AoeUtility.CharactersInsideConeNonAlloc(
+                        characters,
+                        origin.Position, 
                         origin.Forward, 
                         area.Angle.GetValue(SpellHandler.Stacks), 
                         area.Size.GetValue(SpellHandler.Stacks),
                         area.MinSize.GetValue(SpellHandler.Stacks));
+                    return;
                 case AreaOfEffect.AreaType.Sphere:
-                    return AoeUtility.CharactersInsideSphere(origin.Position, 
+                    AoeUtility.CharactersInsideSphereNonAlloc(
+                        characters,
+                        origin.Position, 
                         area.Size.GetValue(SpellHandler.Stacks), 
                         area.MinSize.GetValue(SpellHandler.Stacks));
+                    return;
                 case AreaOfEffect.AreaType.Line:
-                    return AoeUtility.CharactersLine(origin.Position, Target.Position);
+                    AoeUtility.CharactersInLineNonAlloc(characters, origin.Position, Target.Position);
+                    return;
                 default:
                     throw new InvalidOperationException($"Invalid area type: {area.Area}");
             }

@@ -262,6 +262,11 @@ namespace Utils.Debugger
         {
             _drawer.DrawLine(ray.origin, ray.origin + ray.direction * maxRange, col, duration);
         }
+        
+        public void DrawRay(Vector3 origin, Vector3 direction, Color col, float maxRange = 100f, float duration = 0.0f)
+        {
+            _drawer.DrawLine(origin, origin + direction.normalized * maxRange, col, duration);
+        }
 
         public void DrawLine(Vector3 from, Vector3 to, Color col, float duration = 0.0f)
         {

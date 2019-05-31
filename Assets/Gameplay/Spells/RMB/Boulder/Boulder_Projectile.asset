@@ -48,7 +48,7 @@ MonoBehaviour:
   FireSubSpellEvents:
   - Type: 5
     Query:
-      NewTargetsQueryType: 0
+      NewTargetsQueryType: 6
       Origin: 0
       Area: {fileID: 0}
       AffectsTeam: 2

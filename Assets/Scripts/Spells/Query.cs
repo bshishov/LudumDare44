@@ -10,11 +10,12 @@ namespace Spells
         public enum QueryType
         {
             None,
-            AsOrigin,
+            OriginAsTarget,
             AllTargetsInAoe,
             ClosestToOriginInAoe,
             RandomTargetInAoe,
-            RandomLocationInAoe
+            RandomLocationInAoe,
+            ProjectileHitTarget,
         }
 
         public enum QueryTeam
