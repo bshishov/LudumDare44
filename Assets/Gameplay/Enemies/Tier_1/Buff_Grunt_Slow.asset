@@ -18,6 +18,9 @@ MonoBehaviour:
   Duration: 3
   Modifiers:
   - Parameter: 11
-    Value: -0.1
-    EffectiveStacks: 15
+    ChangeAmount:
+      Type: 0
+      BaseValue: -0.1
+      ModifierPerStack: 0
+      EffectiveStacks: 100
   Events: []

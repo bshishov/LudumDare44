@@ -23,8 +23,11 @@ MonoBehaviour:
       Type: 0
       ApplyModifier:
         Parameter: 1
-        Value: -1
-        EffectiveStacks: 1
+        ChangeAmount:
+          Type: 1
+          BaseValue: -0.8
+          ModifierPerStack: -0.2
+          EffectiveStacks: 100
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}
@@ -64,12 +67,15 @@ MonoBehaviour:
       Type: 1
       ApplyModifier:
         Parameter: 1
-        Value: -1
-        EffectiveStacks: 1
+        ChangeAmount:
+          Type: 0
+          BaseValue: 10
+          ModifierPerStack: 0
+          EffectiveStacks: 100
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 11400000, guid: b65a6f353371ff54c8e3cfbe85276fad, type: 2}
-        Target: 0
+        Target: 1
         StacksOverride: 0
       ApplyBuff:
         Target: 0

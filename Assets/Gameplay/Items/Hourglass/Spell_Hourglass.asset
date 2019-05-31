@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
-  m_Name: Spell_FlameCloak
+  m_Name: Spell_Hourglass
   m_EditorClassIdentifier: 
   Name: 
   Icon: {fileID: 0}
@@ -47,5 +47,5 @@ MonoBehaviour:
   TargetType: 1
   RangeBehaviour: 1
   MainSubSpells:
-  - {fileID: 11400000, guid: d9d741b01b417ef48a8b832dfa1a5967, type: 2}
+  - {fileID: 11400000, guid: 405834085bf8cce48b726c355f8e9c01, type: 2}
   DropItem: {fileID: 0}

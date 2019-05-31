@@ -20,11 +20,14 @@ MonoBehaviour:
   Events:
   - EventType: 6
     Affect:
-      Type: 4
+      Type: 0
       ApplyModifier:
-        Parameter: 0
-        Value: 0
-        EffectiveStacks: 0
+        Parameter: 1
+        ChangeAmount:
+          Type: 1
+          BaseValue: -1
+          ModifierPerStack: -1
+          EffectiveStacks: 100
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}
@@ -61,11 +64,14 @@ MonoBehaviour:
         BreakOnDestination: 0
   - EventType: 6
     Affect:
-      Type: 0
+      Type: 4
       ApplyModifier:
-        Parameter: 1
-        Value: -2
-        EffectiveStacks: 5
+        Parameter: 0
+        ChangeAmount:
+          Type: 0
+          BaseValue: 10
+          ModifierPerStack: 0
+          EffectiveStacks: 100
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}
@@ -82,18 +88,18 @@ MonoBehaviour:
         AttachToTransform: 0
         AutoDestroyAfterBuff: 0
       Move:
-        RelativeTo: 3
+        RelativeTo: 2
         Type: 2
         Speed:
-          Type: 0
-          BaseValue: -3
-          ModifierPerStack: 0
-          EffectiveStacks: 0
+          Type: 1
+          BaseValue: -2
+          ModifierPerStack: -1
+          EffectiveStacks: 10
         MovementDuration:
-          Type: 0
-          BaseValue: 0.5
-          ModifierPerStack: 0
-          EffectiveStacks: 0
+          Type: 1
+          BaseValue: 0.05
+          ModifierPerStack: 0.05
+          EffectiveStacks: 10
         MaxDistanceFromOrigin:
           Type: 0
           BaseValue: 1000000

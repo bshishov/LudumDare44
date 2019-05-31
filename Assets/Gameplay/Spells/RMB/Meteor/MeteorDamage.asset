@@ -23,8 +23,11 @@ MonoBehaviour:
       Type: 0
       ApplyModifier:
         Parameter: 1
-        Value: -10
-        EffectiveStacks: 0
+        ChangeAmount:
+          Type: 1
+          BaseValue: -10
+          ModifierPerStack: -10
+          EffectiveStacks: 100
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}
@@ -64,8 +67,11 @@ MonoBehaviour:
       Type: 4
       ApplyModifier:
         Parameter: 1
-        Value: -10
-        EffectiveStacks: 0
+        ChangeAmount:
+          Type: 0
+          BaseValue: 10
+          ModifierPerStack: 0
+          EffectiveStacks: 100
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}
@@ -105,8 +111,11 @@ MonoBehaviour:
       Type: 0
       ApplyModifier:
         Parameter: 1
-        Value: -2.5
-        EffectiveStacks: 1
+        ChangeAmount:
+          Type: 0
+          BaseValue: 10
+          ModifierPerStack: 0
+          EffectiveStacks: 100
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}
@@ -147,8 +156,11 @@ MonoBehaviour:
       Type: 3
       ApplyModifier:
         Parameter: 1
-        Value: -10
-        EffectiveStacks: 0
+        ChangeAmount:
+          Type: 0
+          BaseValue: 10
+          ModifierPerStack: 0
+          EffectiveStacks: 100
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}

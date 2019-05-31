@@ -9,23 +9,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36b5fa14dbe5fc049b7e0af265d9e1c8, type: 3}
+  m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
   m_Name: Spell_Beat
   m_EditorClassIdentifier: 
   Name: 
   Icon: {fileID: 0}
   Description: 
   ApplyBuffOnDismantle: {fileID: 0}
-  LifeSteal: 0
-  BloodCost: 0
-  CastRange: 0
+  LifeSteal:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  Cooldown:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  BloodCost:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MaxRange:
+    Type: 0
+    BaseValue: 4
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MinRange:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
   DefaultSlot: 0
-  Cooldown: 0
-  Flags: 0
-  PreCastDelay: 0
-  PostCastDelay: 0
-  SubSpells:
+  ManualAbort: 0
+  CheckRangeOnCast: 0
+  TargetType: 1
+  RangeBehaviour: 1
+  MainSubSpells:
   - {fileID: 11400000, guid: 7f519e0eb8b0f614d9132a92f4fb1485, type: 2}
-  SpellEffect: {fileID: 0}
-  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
-    type: 3}
+  DropItem: {fileID: 0}

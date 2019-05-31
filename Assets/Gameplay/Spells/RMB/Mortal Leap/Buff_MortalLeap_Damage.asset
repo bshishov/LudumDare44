@@ -23,8 +23,11 @@ MonoBehaviour:
       Type: 0
       ApplyModifier:
         Parameter: 1
-        Value: -5
-        EffectiveStacks: 1
+        ChangeAmount:
+          Type: 1
+          BaseValue: 0
+          ModifierPerStack: -5
+          EffectiveStacks: 100
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}

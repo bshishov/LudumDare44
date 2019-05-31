@@ -23,8 +23,11 @@ MonoBehaviour:
       Type: 0
       ApplyModifier:
         Parameter: 1
-        Value: -1
-        EffectiveStacks: 10
+        ChangeAmount:
+          Type: 1
+          BaseValue: 0
+          ModifierPerStack: -1
+          EffectiveStacks: 100
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 0}
@@ -42,7 +45,20 @@ MonoBehaviour:
         AutoDestroyAfterBuff: 0
       Move:
         RelativeTo: 0
-        Speed: 0
-        MovementDuration: 0
+        Type: 0
+        Speed:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MovementDuration:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
+        MaxDistanceFromOrigin:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 1
         BreakOnDestination: 0
-        BreakOnDuration: 0

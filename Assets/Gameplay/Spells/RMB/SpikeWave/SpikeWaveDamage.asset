@@ -19,10 +19,10 @@ MonoBehaviour:
   Modifiers:
   - Parameter: 11
     ChangeAmount:
-      Type: 0
-      BaseValue: 10
-      ModifierPerStack: 0
-      EffectiveStacks: 100
+      Type: 1
+      BaseValue: 0
+      ModifierPerStack: -0.1
+      EffectiveStacks: 10
   Events:
   - EventType: 6
     Affect:
@@ -30,9 +30,9 @@ MonoBehaviour:
       ApplyModifier:
         Parameter: 1
         ChangeAmount:
-          Type: 0
-          BaseValue: -10
-          ModifierPerStack: 0
+          Type: 1
+          BaseValue: 0
+          ModifierPerStack: -10
           EffectiveStacks: 100
       CastSpell:
         SpellStacks: 0

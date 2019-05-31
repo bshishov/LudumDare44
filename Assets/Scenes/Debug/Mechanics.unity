@@ -288,6 +288,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6549064236389485685, guid: 6a834835673a7c7419e205c02c055a09,
         type: 3}
+      propertyPath: Items.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6549064236389485685, guid: 6a834835673a7c7419e205c02c055a09,
+        type: 3}
       propertyPath: Spells.Array.data[7]
       value: 
       objectReference: {fileID: 11400000, guid: 5ef7bef0c1988da44909b9545c443139,
@@ -351,6 +356,12 @@ PrefabInstance:
       propertyPath: Spells.Array.data[17]
       value: 
       objectReference: {fileID: 11400000, guid: 9e796d5cd562c3f4c86ea7188dea4dcd,
+        type: 2}
+    - target: {fileID: 6549064236389485685, guid: 6a834835673a7c7419e205c02c055a09,
+        type: 3}
+      propertyPath: Items.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: 006ebcef5a2ac8142b954a50d6c1cc3a,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a834835673a7c7419e205c02c055a09, type: 3}
