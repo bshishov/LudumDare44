@@ -7,21 +7,10 @@ namespace Spells
     [Serializable]
     public struct Query
     {
-        public enum QueryOrigin
-        {
-            CurrentSource,
-            CurrentTarget,
-            OriginalSpellSource,
-            OriginalSpellTarget
-        }
-
         public enum QueryType
         {
             None,
-            CurrentSource,
-            CurrentTarget,
-            OriginalSpellSource,
-            OriginalSpellTarget,
+            AsOrigin,
             AllTargetsInAoe,
             ClosestToOriginInAoe,
             RandomTargetInAoe,
@@ -38,10 +27,12 @@ namespace Spells
         }
 
         public QueryType NewTargetsQueryType;
-        public QueryOrigin Origin;
+        public TargetResolution Origin;
 
         [Expandable]
         public AreaOfEffect Area;
         public QueryTeam AffectsTeam;
+        
+        public bool ExcludeAlreadyAffected;
     }
 }

@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Prefab: {fileID: 6543671326251851641, guid: 8c38daf406f52be4796452c9dda5d917, type: 3}
-  SpawnEvent: 1
+  SpawnEvent: 0
   SpawnOrigin: 0
   InstancingMode: 1
   PreferredNode: 3

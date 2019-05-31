@@ -40,13 +40,13 @@ namespace UI
                 return;
 
             if (Slot0Image != null && Slot0Cooldown != null)
-                UpdateSlotImage(Slot0Image, Slot0Cooldown, _spellBookState.SpellSlots[0]);
+                UpdateSlotImage(Slot0Image, Slot0Cooldown, _spellBookState.GetSpellSlotState(0));
 
             if (Slot1Image != null && Slot0Cooldown != null)
-                UpdateSlotImage(Slot1Image, Slot1Cooldown, _spellBookState.SpellSlots[1]);
+                UpdateSlotImage(Slot1Image, Slot1Cooldown, _spellBookState.GetSpellSlotState(1));
 
             if (Slot2Image != null && Slot2Cooldown != null)
-                UpdateSlotImage(Slot2Image, Slot2Cooldown, _spellBookState.SpellSlots[2]);
+                UpdateSlotImage(Slot2Image, Slot2Cooldown, _spellBookState.GetSpellSlotState(2));
         }
 
         private void UpdateSlotImage(Image icon, Image cooldownMask, SpellbookState.SpellSlotState slotState)

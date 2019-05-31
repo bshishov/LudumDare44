@@ -8,9 +8,9 @@
         Target Source { get; }
         Target Target { get; }
         bool IsActive { get; }
-        SpellState State { get; }
+        SubSpellState State { get; }
         int Stacks { get; }
         void Abort();
-        Target ResolveOrigin(Query.QueryOrigin originType);
+        Target ResolveTarget(TargetResolution originType, Target defaultTarget);
     }
 }

@@ -12,12 +12,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Fanatic
       objectReference: {fileID: 0}
-    - target: {fileID: 6517796079095819127, guid: b712f3f15ab305d449f79a874de842dc,
-        type: 3}
-      propertyPath: character
-      value: 
-      objectReference: {fileID: 11400000, guid: 9881006fe6740764fb9da49c57302115,
-        type: 2}
     - target: {fileID: 359091722465383797, guid: b712f3f15ab305d449f79a874de842dc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -73,6 +67,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6517796079095819127, guid: b712f3f15ab305d449f79a874de842dc,
+        type: 3}
+      propertyPath: character
+      value: 
+      objectReference: {fileID: 11400000, guid: 9881006fe6740764fb9da49c57302115,
+        type: 2}
     - target: {fileID: 3265378571675921851, guid: b712f3f15ab305d449f79a874de842dc,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -93,5 +93,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 449668989877713086, guid: b712f3f15ab305d449f79a874de842dc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b712f3f15ab305d449f79a874de842dc, type: 3}

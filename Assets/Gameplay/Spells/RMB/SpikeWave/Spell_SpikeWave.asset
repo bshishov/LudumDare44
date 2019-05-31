@@ -44,12 +44,8 @@ MonoBehaviour:
   DefaultSlot: 1
   ManualAbort: 0
   CheckRangeOnCast: 0
-  TargetType: 2
-  RangeBehaviour: 1
+  TargetType: 0
+  RangeBehaviour: 0
   MainSubSpells:
-  - {fileID: 11400000, guid: 1ec6c8fd0748f1a42854e5d078b0ebd4, type: 2}
-  - {fileID: 11400000, guid: 52322f8a4e258664aaf03b2ea0741c3c, type: 2}
-  - {fileID: 11400000, guid: ed6816adbf30d83408bd580cd8184804, type: 2}
-  - {fileID: 11400000, guid: 42a3d61bbe6e22c468733d729b84005e, type: 2}
-  - {fileID: 11400000, guid: f62218f32d0839c4aaa630dbf9b8e08d, type: 2}
+  - {fileID: 11400000, guid: 74506a3871e775844b2ec795c76f1983, type: 2}
   DropItem: {fileID: 131193077828940303, guid: b97354f0857bded449811f9f327d95a5, type: 3}

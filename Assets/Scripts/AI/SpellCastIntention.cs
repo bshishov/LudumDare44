@@ -45,7 +45,7 @@ namespace AI
             var readySlots = _agent.Config.AI.SlotConfig.Where(s =>
             {
                 var slotState = _agent.SpellBook.GetSpellSlotState(s.Slot);
-                return slotState.State == SpellbookState.SpellState.Ready;
+                return slotState.State == SpellbookState.SlotState.Ready;
             }).ToList();
 
             // Find and randomly choose an active slot

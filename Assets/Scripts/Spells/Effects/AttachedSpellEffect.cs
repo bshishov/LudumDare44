@@ -103,12 +103,12 @@ namespace Spells.Effects
             switch (SpawnOrigin)
             {
                 case EffectSpawnOrigin.Target:
-                    attachTo = target.Transform;
+                    attachTo = GetTransform(target);
                     relativeTo = source;
                     break;
                 default:
                 case EffectSpawnOrigin.Source:
-                    attachTo = source.Transform;
+                    attachTo = GetTransform(source);
                     relativeTo = target;
                     break;
             }
@@ -121,6 +121,14 @@ namespace Spells.Effects
                 Handler = handler,
                 InstanceObject = SpawnInstance(position, rotation, null, handler.Stacks)
             };
+        }
+
+        private Transform GetTransform(Target target)
+        {
+            if (target.Type == TargetType.Character)
+                return target.Character.GetNodeTransform(PreferredNode);
+
+            return target.Transform;
         }
 
         private void CalculateTransform(

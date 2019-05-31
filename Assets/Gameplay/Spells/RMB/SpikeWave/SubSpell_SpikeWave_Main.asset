@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ca5cafdfa5c75143b3321cc57d70bb9, type: 3}
+  m_Name: SubSpell_SpikeWave_Main
+  m_EditorClassIdentifier: 
+  BloodCost:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  AbortSpellIfAborted: 0
+  SpellShouldWaitUntilEnd: 1
+  CanBeAborted: 1
+  MaxInstances:
+    Type: 0
+    BaseValue: 10
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  PreCastDelay:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  FireDelay:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  PostCastDelay:
+    Type: 0
+    BaseValue: 0.5
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  FireDuration:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  FireSubSpellEvents:
+  - Type: 2
+    Query:
+      NewTargetsQueryType: 1
+      Origin: 4
+      Area: {fileID: 0}
+      AffectsTeam: 0
+      ExcludeAlreadyAffected: 0
+    TrackAffectedCharacters: 0
+    SubSpellSource: 7
+    SubSpellTarget: 0
+    FireSubSpell: {fileID: 11400000, guid: 1ec6c8fd0748f1a42854e5d078b0ebd4, type: 2}
+    ApplyBuffToTarget: {fileID: 0}
+  - Type: 2
+    Query:
+      NewTargetsQueryType: 1
+      Origin: 4
+      Area: {fileID: 0}
+      AffectsTeam: 0
+      ExcludeAlreadyAffected: 0
+    TrackAffectedCharacters: 0
+    SubSpellSource: 7
+    SubSpellTarget: 0
+    FireSubSpell: {fileID: 11400000, guid: 52322f8a4e258664aaf03b2ea0741c3c, type: 2}
+    ApplyBuffToTarget: {fileID: 0}
+  - Type: 2
+    Query:
+      NewTargetsQueryType: 1
+      Origin: 4
+      Area: {fileID: 0}
+      AffectsTeam: 0
+      ExcludeAlreadyAffected: 0
+    TrackAffectedCharacters: 0
+    SubSpellSource: 7
+    SubSpellTarget: 0
+    FireSubSpell: {fileID: 11400000, guid: ed6816adbf30d83408bd580cd8184804, type: 2}
+    ApplyBuffToTarget: {fileID: 0}
+  - Type: 2
+    Query:
+      NewTargetsQueryType: 1
+      Origin: 4
+      Area: {fileID: 0}
+      AffectsTeam: 0
+      ExcludeAlreadyAffected: 0
+    TrackAffectedCharacters: 0
+    SubSpellSource: 7
+    SubSpellTarget: 0
+    FireSubSpell: {fileID: 11400000, guid: 42a3d61bbe6e22c468733d729b84005e, type: 2}
+    ApplyBuffToTarget: {fileID: 0}
+  - Type: 2
+    Query:
+      NewTargetsQueryType: 1
+      Origin: 4
+      Area: {fileID: 0}
+      AffectsTeam: 0
+      ExcludeAlreadyAffected: 0
+    TrackAffectedCharacters: 0
+    SubSpellSource: 7
+    SubSpellTarget: 0
+    FireSubSpell: {fileID: 11400000, guid: f62218f32d0839c4aaa630dbf9b8e08d, type: 2}
+    ApplyBuffToTarget: {fileID: 0}
+  Projectile: {fileID: 0}
+  Effect: {fileID: 0}

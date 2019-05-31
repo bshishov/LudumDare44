@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
-  m_Name: Spell_ZeroSolutionRelease
+  m_Name: Spell_ZeroSolution_Release
   m_EditorClassIdentifier: 
   Name: 
   Icon: {fileID: 0}
@@ -44,8 +44,8 @@ MonoBehaviour:
   DefaultSlot: 0
   ManualAbort: 0
   CheckRangeOnCast: 0
-  TargetType: 2
-  RangeBehaviour: 1
+  TargetType: 1
+  RangeBehaviour: 0
   MainSubSpells:
   - {fileID: 11400000, guid: 71d3e3f34bebee1438b5dc58df3f648d, type: 2}
   DropItem: {fileID: 0}

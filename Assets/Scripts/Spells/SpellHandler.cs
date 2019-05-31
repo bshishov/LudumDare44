@@ -23,7 +23,7 @@ namespace Spells
         public bool IsActive => _state != SpellState.Ended;
         public event Action<ISpellHandler, SpellEvent, ISubSpellHandler> Event;
 
-        private readonly Dictionary<SubSpell, List<CharacterState>> _affectedTargets = new Dictionary<SubSpell, List<CharacterState>>();
+        public readonly List<CharacterState> AffectedCharacters = new List<CharacterState>();
         private readonly Dictionary<SubSpell, int> _instances = new Dictionary<SubSpell, int>();
         private SpellState _state;
         private readonly List<SubSpellHandler> _children = new List<SubSpellHandler>();
@@ -37,6 +37,7 @@ namespace Spells
         {
             Assert.IsNotNull(spell, "spell != null");
             Assert.IsTrue(source.IsValid, "source.IsValid");
+            Assert.IsTrue(castTarget.IsValid, "castTarget.IsValid");
             Assert.IsTrue(castTarget.Type == spell.TargetType, "castTarget.Type == spell.TargetType");
 
             Spell = spell;
@@ -65,6 +66,31 @@ namespace Spells
 
         public void Update()
         {
+            switch (_state)
+            {
+                case SpellState.Started:
+                    UpdateProxyTarget();
+                    FireMainSubSpells();
+                    EndIfNoSubSpellsLeft();
+                    return;
+                case SpellState.Firing:
+                    UpdateProxyTarget();
+                    FiringUpdate();
+                    EndIfNoSubSpellsLeft();
+                    return;
+                case SpellState.Finilizing:
+                    UpdateProxyTarget();
+                    ProcessChildren();
+                    EndIfNoSubSpellsLeft();
+                    return;
+                default:
+                case SpellState.Ended:
+                    return;
+            }
+        }
+
+        private void UpdateProxyTarget()
+        {
             // Update proxy target
             var proxyLocation = GetTargetLocation();
             if (proxyLocation.HasValue)
@@ -75,25 +101,6 @@ namespace Spells
             else
             {
                 _locationTargetProxy.IsValid = false;
-            }
-            
-            switch (_state)
-            {
-                case SpellState.Started:
-                    FireMainSubSpells();
-                    EndIfNoSubSpellsLeft();
-                    return;
-                case SpellState.Firing:
-                    FiringUpdate();
-                    EndIfNoSubSpellsLeft();
-                    return;
-                case SpellState.Finilizing:
-                    ProcessChildren();
-                    EndIfNoSubSpellsLeft();
-                    return;
-                default:
-                case SpellState.Ended:
-                    return;
             }
         }
 
@@ -112,27 +119,26 @@ namespace Spells
         {
             // If SpellTarget is out of range - switch to abort state
             if (Spell.RangeBehaviour == Spell.TargetRangeBehaviour.AbortWhenOutOfRange &&
-                !SpellCaster.IsInRange(Source, CastTarget, _minRange, _maxRange))
+                !SpellManager.IsInRange(Source, CastTarget, _minRange, _maxRange))
             {
                 Abort();
                 return;
             }
 
-            var fireEnded = true;
+            var canStopFiring = true;
             for (var i = _children.Count - 1; i >= 0; i--)
             {
                 var subProcessor = _children[i];
                 subProcessor.Update();
 
-                // If there is at least one subspell that is considered as firing
-                if (subProcessor.IsActive && subProcessor.SubSpell.SpellShouldWaitUntilEnd)
-                    fireEnded = false;
-
+                // Remove inactive SubSpells
                 if (!subProcessor.IsActive)
                     _children.RemoveAt(i);
+                else if (subProcessor.SubSpell.SpellShouldWaitUntilEnd)
+                    canStopFiring = false;
             }
 
-            if (fireEnded)
+            if (canStopFiring)
             {
                 _state = SpellState.Finilizing;
                 Event?.Invoke(this, SpellEvent.FinishedFire, null);
@@ -161,10 +167,9 @@ namespace Spells
 
         public void Abort()
         {
-            // If current state is not "aborted" or "finilizing"
-            // We need to switch to finilizing state
-            if (_state != SpellState.Finilizing && 
-                _state != SpellState.Ended)
+            // If current state is not "aborted" or "Finilizing"
+            // We need to switch to Finilizing state
+            if (_state != SpellState.Finilizing && _state != SpellState.Ended)
             {
                 _state = SpellState.Finilizing;
                 foreach (var subSpellHandler in _children)
@@ -186,7 +191,6 @@ namespace Spells
                 Debug.LogWarning($"Invalid target while casting SubSpell: {subSpell}");
                 return;
             }
-
 
             Assert.IsNotNull(subSpell);
 
@@ -247,24 +251,6 @@ namespace Spells
                 return hit.point;
 
             return desired;
-        }
-
-        public void AddAffectedCharacter(SubSpell subSpell, CharacterState character)
-        {
-            if (_affectedTargets.ContainsKey(subSpell))
-                _affectedTargets[subSpell].Add(character);
-            else
-            {
-                _affectedTargets.Add(subSpell, new List<CharacterState>(1) { character });
-            }
-        }
-
-        public List<CharacterState> GetAffectedCharacters(SubSpell subSpell)
-        {
-            if (_affectedTargets.TryGetValue(subSpell, out var chars))
-                return chars;
-
-            return null;
         }
     }
 }

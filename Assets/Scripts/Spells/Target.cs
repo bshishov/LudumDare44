@@ -2,6 +2,7 @@
 using System.Text;
 using Actors;
 using UnityEngine;
+using Utils.Debugger;
 
 namespace Spells
 {
@@ -88,8 +89,9 @@ namespace Spells
                 switch (Type)
                 {
                     case TargetType.Location:
-                    case TargetType.LocationProvider:
                         return _forward;
+                    case TargetType.LocationProvider:
+                        return _locationProvider.Forward;
                     case TargetType.Transform:
                     case TargetType.Character:
                         return Transform.forward;

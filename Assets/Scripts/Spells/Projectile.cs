@@ -111,7 +111,7 @@ namespace Spells
             }
             else if (character.Equals(_handler.Target.Character))
             {
-                if (SpellCaster.IsValidTeam(_handler.SpellHandler.Source.Character, character, _projectile.Affects))
+                if (SpellManager.IsValidTeam(_handler.SpellHandler.Source.Character, character, _projectile.Affects))
                 {
                     // Collision with target character object
                     HandleEvent(ProjectileEvents.CollisionWithTarget, new Target(character));
@@ -119,7 +119,7 @@ namespace Spells
             }
             else
             {
-                if (SpellCaster.IsValidTeam(_handler.SpellHandler.Source.Character, character, _projectile.Affects))
+                if (SpellManager.IsValidTeam(_handler.SpellHandler.Source.Character, character, _projectile.Affects))
                 {
                     // Collision with non-target character object
                     HandleEvent(ProjectileEvents.CollisionWithOtherTargets, new Target(character));

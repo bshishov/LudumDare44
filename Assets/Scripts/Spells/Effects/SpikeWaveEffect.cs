@@ -41,9 +41,14 @@ namespace Spells.Effects
 
             if(args.Query.NewTargetsQueryType == Query.QueryType.None)
                 return;
-
-            var sourcePos = args.Handler.Source.Position;
-            var orientation = Quaternion.LookRotation(args.Handler.Target.Position - sourcePos);
+            
+            var source = args.Handler.Source;
+            
+            if (!(source.IsValid && source.HasPosition))
+                return;
+            
+            var sourcePos = source.Position;
+            var orientation = Quaternion.LookRotation(source.Forward);
             orientation.x = orientation.z = 0;
 
             SpawnParticle(sourcePos, 

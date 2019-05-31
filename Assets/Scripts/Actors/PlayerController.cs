@@ -31,7 +31,7 @@ namespace Actors
         {
             // TODO: Separate/decouple logic into spellbook
             var slotState = _spellbook.GetSpellSlotState(slotIndex);
-            if (slotState.State != SpellbookState.SpellState.Ready)
+            if (slotState.State != SpellbookState.SlotState.Ready)
             {
                 // TODO: B-O-O-B! DO SOMETHING!
                 if(slotState.Spell != null && slotState.Spell.Cooldown.GetValue(slotState.NumStacks) > 5f)
@@ -72,7 +72,7 @@ namespace Actors
         private void TryAbortSpell(int slotIndex)
         {
             var slotState = _spellbook.GetSpellSlotState(slotIndex);
-            if (slotState.State == SpellbookState.SpellState.Firing)
+            if (slotState.State == SpellbookState.SlotState.Firing)
             {
                 if(slotState.Spell.ManualAbort)
                     slotState.SpellHandler?.Abort();

@@ -17,10 +17,9 @@ namespace Utils
 
                     if (_instance == null)
                     {
-                        var obj = new GameObject(string.Format("[LazySingleton] {0}", typeof(T).Name));
-                        var comp = obj.AddComponent<T>();
-                        _instance = comp;
-                        return comp;
+                        var obj = new GameObject($"[LazySingleton] {typeof(T).Name}");
+                        _instance = obj.AddComponent<T>();
+                        return _instance;
                     }
                 }
 

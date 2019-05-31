@@ -60,7 +60,7 @@ namespace AI
             }
 
             var slotState = _agent.SpellBook.GetSpellSlotState(_agent.IntendedSpell.Slot);
-            if (slotState.State == SpellbookState.SpellState.Ready)
+            if (slotState.State == SpellbookState.SlotState.Ready)
             {
                 if (_isCasting)
                 {
@@ -85,8 +85,8 @@ namespace AI
                 // Casting failed, fallback
                 return _fallbackState;
             }
-            else if(slotState.State == SpellbookState.SpellState.Firing || 
-                    slotState.State == SpellbookState.SpellState.Preparing)
+            else if(slotState.State == SpellbookState.SlotState.Firing || 
+                    slotState.State == SpellbookState.SlotState.Preparing)
             {
                 // Update target while casting
                 _targetProxy.Location = _agent.ActiveTarget.transform.position;

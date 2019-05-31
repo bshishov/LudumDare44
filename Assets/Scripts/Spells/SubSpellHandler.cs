@@ -19,11 +19,11 @@ namespace Spells
         public SubSpell SubSpell { get; }
         public Target Source { get; }
         public Target Target { get; }
-        public SpellState State => _state;
+        public SubSpellState State => _state;
         public int Stacks => _spellHandler.Stacks;
-        public bool IsActive => _state != SpellState.Ended;
+        public bool IsActive => _state != SubSpellState.Ended;
 
-        private SpellState _state;
+        private SubSpellState _state;
         private float _timer;
         private float _fireStartedTime;
         private Projectile _projectile;
@@ -43,7 +43,7 @@ namespace Spells
             _spellHandler = spellHandler;
             Source = source;
             Target = target;
-            _state = SpellState.Started;
+            _state = SubSpellState.Started;
         }
 
         public void Update()
@@ -55,67 +55,67 @@ namespace Spells
             // State machine
             switch (_state)
             {
-                case SpellState.Ended:
+                case SubSpellState.Ended:
                     return;
-                case SpellState.Started:
+                case SubSpellState.Started:
                     FireEvent(SubSpellEvent.Started);
                     _timer = SubSpell.PreCastDelay.GetValue(Stacks);
-                    _state = SpellState.PreCastDelay;
+                    _state = SubSpellState.PreCastDelay;
                     return;
-                case SpellState.PreCastDelay:
+                case SubSpellState.PreCastDelay:
                     _timer -= Time.deltaTime;
                     if (_timer < 0)
                     {
                         if (SubSpell.IsProjectileSubSpell)
                         {
-                            _state = SpellState.ServicingProjectile;
+                            _state = SubSpellState.ServicingProjectile;
                             SpawnProjectile();
                         }
                         else
                         {
-                            _state = SpellState.FireDelay;
+                            _state = SubSpellState.FireDelay;
                             _timer = 0;
                             _fireStartedTime = Time.time;
                         }
                         FireEvent(SubSpellEvent.AfterPreCastDelay);
                     }
                     break;
-                case SpellState.FireDelay:
+                case SubSpellState.FireDelay:
                     _timer -= Time.deltaTime;
                     if (_timer < 0)
-                        _state = SpellState.Firing;
+                        _state = SubSpellState.Firing;
                     break;
-                case SpellState.Firing:
+                case SubSpellState.Firing:
                     FireEvent(SubSpellEvent.OnFire);
                     var timeSinceFirstFire = Time.time - _fireStartedTime;
                     if (timeSinceFirstFire > SubSpell.FireDuration.GetValue(Stacks))
                     {
                         // Finished firing
-                        _state = SpellState.PostCastDelay;
+                        _state = SubSpellState.PostCastDelay;
                         _timer = SubSpell.PostCastDelay.GetValue(Stacks);
                         FireEvent(SubSpellEvent.AfterFinishedFire);
                     }
                     else
                     {
                         // Back to delayed state. Still firing
-                        _state = SpellState.FireDelay;
+                        _state = SubSpellState.FireDelay;
                         _timer = SubSpell.FireDelay.GetValue(Stacks);
                     }
                     break;
-                case SpellState.ServicingProjectile:
+                case SubSpellState.ServicingProjectile:
                     // If projectile was destroyed or inactive
                     if (_projectile == null || !_projectile.IsActive)
                     {
-                        _state = SpellState.PostCastDelay;
+                        _state = SubSpellState.PostCastDelay;
                         _timer = SubSpell.PostCastDelay.GetValue(Stacks);
                     }
                     // Otherwise do nothing. Wait.
                     break;
-                case SpellState.PostCastDelay:
+                case SubSpellState.PostCastDelay:
                     _timer -= Time.deltaTime;
                     if (_timer < 0)
                     {
-                        _state = SpellState.Ended;
+                        _state = SubSpellState.Ended;
                         FireEvent(SubSpellEvent.Ended);
                     }
                     break;
@@ -135,7 +135,7 @@ namespace Spells
         private void FireEvent(SubSpellEvent eventType, IList<Target> additionalTargets = null)
         {
             // Send non-targeted event to effect
-            SubSpell.GetEffect()?.OnEvent(new SubSpellEventArgs(this, eventType));
+            SubSpell.EffectHandler?.OnEvent(new SubSpellEventArgs(this, eventType));
 
             foreach (var e in SubSpell.FireSubSpellEvents.Where(e => e.Type.Equals(eventType)))
             {
@@ -150,15 +150,25 @@ namespace Spells
                 targets = targets.Where(t => t.IsValid).ToList();
 
                 // Targeted event
-                SubSpell.GetEffect()?.OnEvent(new SubSpellEventArgs(this, eventType, e.Query, targets));
+                SubSpell.EffectHandler?.OnEvent(new SubSpellEventArgs(this, eventType, e.Query, targets));
+                
+                // New source of SubSpell
+                var newSsSource = ResolveTarget(e.SubSpellSource, ResolveTarget(e.Query.Origin, Source));
                 
                 foreach (var target in targets)
                 {
-                    Debugger.Default.DrawCircleSphere(target.Position, 0.5f, Color.green, 1f);
+                    #if DEBUG
+                    if (target.HasPosition)
+                    {
+                        var tPos = target.Position;
+                        Debugger.Default.DrawCircle(tPos, Vector3.up, 0.5f, Color.yellow, 1f);
+                        Debugger.Default.DrawRay(new Ray(tPos, target.Forward), Color.yellow, 0.5f, 1f);
+                    }
+                    #endif
                     if (target.Type == TargetType.Character)
                     {
-                        if (SubSpell.AffectsCharactersOnlyOncePerSpell)
-                            _spellHandler.AddAffectedCharacter(SubSpell, target.Character);
+                        if (e.TrackAffectedCharacters)
+                            _spellHandler.AffectedCharacters.Add(target.Character);
                         
                         if(e.ApplyBuffToTarget != null)
                             target.Character.ApplyBuff(
@@ -168,8 +178,18 @@ namespace Spells
                                 this);
                     }
 
+                    // SubSpell firing
                     if (e.FireSubSpell != null)
-                        CastChildSubSpell(e.FireSubSpell, Target, target);
+                    {
+                        // Before adding SubSpell we first need to figure out what
+                        // new sources and targets will be. 
+                        // Because some SubSpells overrides targeting
+                        var newTarget = ResolveTarget(e.SubSpellTarget, target);
+
+                        // Fire child sub spell
+                        // Queue it to the spell processor
+                        _spellHandler.CastSubSpell(e.FireSubSpell, newSsSource, newTarget);
+                    }
                 }
             }
         }
@@ -181,13 +201,13 @@ namespace Spells
                 return;
 
             // If already inactive - do nothing
-            if (_state == SpellState.Ended)
+            if (_state == SubSpellState.Ended)
                 return;
 
             if(_projectile != null)
                 Object.Destroy(_projectile.gameObject);
 
-            _state = SpellState.Ended;
+            _state = SubSpellState.Ended;
             FireEvent(SubSpellEvent.Ended, null);
 
             if(SubSpell.AbortSpellIfAborted)
@@ -196,37 +216,18 @@ namespace Spells
 
         public List<Target> QueryTargets(Query query)
         {
-            var origin = ResolveOrigin(query.Origin);
-            var originPos = origin.Position;
+            if (query.NewTargetsQueryType == Query.QueryType.None)
+                return null;
+            
+            var origin = ResolveTarget(query.Origin, Source);
 
-            // Todo: Handle special target cases like "current source". Do we need to check team on them?
-            switch (query.NewTargetsQueryType)
+            if (query.NewTargetsQueryType == Query.QueryType.AsOrigin)
+                return new List<Target>() { origin };
+            
+            if(query.NewTargetsQueryType == Query.QueryType.RandomLocationInAoe)
             {
-                case Query.QueryType.None:
-                    return null;
-                case Query.QueryType.CurrentSource:
-                    return new List<Target> { Source };
-                    //targetChars = new[] { Source.Character };
-                    //break;
-                case Query.QueryType.CurrentTarget:
-                    return new List<Target> { Target };
-                    //targetChars = new[] { Target.Character };
-                    //break;
-                case Query.QueryType.OriginalSpellSource:
-                    return new List<Target> { SpellHandler.Source };
-                    //targetChars = new[] { SpellHandler.Source.Character };
-                    //break;
-                case Query.QueryType.OriginalSpellTarget:
-                    return new List<Target> { SpellHandler.CastTarget };
-                //targetChars = new[] { SpellHandler.CastTarget.Character };
-                //break;
-                case Query.QueryType.RandomLocationInAoe:
-                    var randomLoc = RandomLocationInAoe(query.Area, origin);
-                    return new List<Target> { new Target(randomLoc) };
-
-                // Special cases handled below
-                default:
-                    break;
+                var randomLoc = RandomLocationInAoe(query.Area, origin);
+                return new List<Target> { new Target(randomLoc) };
             }
 
             var targetChars = CharactersInAoe(query.Area, origin);
@@ -236,16 +237,12 @@ namespace Spells
             // Filter by team
             // Check team for character targets
             targetChars = targetChars.Where(c =>
-                SpellCaster.IsValidTeam(SpellHandler.Source.Character, c, query.AffectsTeam));
+                SpellManager.IsValidTeam(SpellHandler.Source.Character, c, query.AffectsTeam));
 
             // Filter affected
             // If we should exclude already affected characters - exclude them
-            if (SubSpell.AffectsCharactersOnlyOncePerSpell)
-            {
-                var affected = _spellHandler.GetAffectedCharacters(SubSpell);
-                if(affected != null)
-                    targetChars = targetChars.Except(affected);
-            }
+            if (query.ExcludeAlreadyAffected && _spellHandler.AffectedCharacters != null)
+                targetChars = targetChars.Except(_spellHandler.AffectedCharacters);
 
             if (!targetChars.Any())
                 return null;
@@ -255,6 +252,7 @@ namespace Spells
 
             if (query.NewTargetsQueryType == Query.QueryType.ClosestToOriginInAoe)
             {
+                var originPos = origin.Position;
                 var closest = targetChars.OrderBy(c => Vector3.Distance(originPos, c.transform.position))
                     .FirstOrDefault();
                 if (closest != null)
@@ -336,52 +334,30 @@ namespace Spells
             }
         }
 
-        public Target ResolveOrigin(Query.QueryOrigin originType)
+        public Target ResolveTarget(TargetResolution targetResolution, Target defaultTarget)
         {
-            switch (originType)
+            switch (targetResolution)
             {
-                case Query.QueryOrigin.OriginalSpellSource:
+                case TargetResolution.OriginalSpellSource:
                     return SpellHandler.Source;
-                case Query.QueryOrigin.OriginalSpellTarget:
+                case TargetResolution.OriginalSpellTarget:
                     return SpellHandler.CastTarget;
-                case Query.QueryOrigin.CurrentSource:
+                case TargetResolution.CurrentSource:
                     return Source;
-                case Query.QueryOrigin.CurrentTarget:
+                case TargetResolution.CurrentTarget:
                     return Target;
-                default:
-                    throw new InvalidOperationException("Unknown origin type");
-            }
-        }
-        
-        private void CastChildSubSpell(SubSpell subSpell, Target defaultSource, Target defaultTarget)
-        {
-            // Before adding SubSpell we first need to figure out what
-            // new sources and targets will be. 
-            // Because some SubSpells overrides targeting
-            var source = ResolveTarget(subSpell.Source, defaultSource);
-            var target = ResolveTarget(subSpell.Target, defaultTarget);
-
-            // Fire child sub spell
-            // Queue it to the spell processor
-            _spellHandler.CastSubSpell(subSpell, source, target);
-        }
-
-        private Target ResolveTarget(SubSpell.Targeting targeting, Target defaultTarget)
-        {
-            switch (targeting)
-            {
-                case SubSpell.Targeting.OriginalSpellSource:
-                    return SpellHandler.Source;
-                case SubSpell.Targeting.OriginalSpellTarget:
-                    return SpellHandler.CastTarget;
-                case SubSpell.Targeting.PreviousSource:
-                    return Source;
-                case SubSpell.Targeting.PreviousTarget:
-                    return Target;
-                case SubSpell.Targeting.None:
+                case TargetResolution.SourceLocation:
+                    return Source.ToLocationTarget();
+                case TargetResolution.TargetLocation:
+                    return Target.ToLocationTarget();
+                case TargetResolution.OriginalSpellSourceLocation:
+                    return SpellHandler.Source.ToLocationTarget();
+                case TargetResolution.OriginalSpellTargetLocation:
+                    return SpellHandler.CastTarget.ToLocationTarget();
+                case TargetResolution.None:
                     return Target.None;
+                case TargetResolution.Default:
                 default:
-                case SubSpell.Targeting.Default:
                     return defaultTarget;
             }
         }

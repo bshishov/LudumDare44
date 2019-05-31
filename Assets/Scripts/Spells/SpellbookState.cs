@@ -5,7 +5,6 @@ using UnityEngine.Assertions;
 
 namespace Spells
 {
-    [RequireComponent(typeof(SpellCaster))]
     public class SpellbookState : MonoBehaviour
     {
         public enum PlaceOptions : int
@@ -16,7 +15,7 @@ namespace Spells
             Replace
         }
 
-        public enum SpellState : int
+        public enum SlotState : int
         {
             None,
             Ready,
@@ -28,13 +27,13 @@ namespace Spells
         public class SpellSlotState
         {
             public Spell Spell;
-            public SpellState State;
+            public SlotState State;
             public float RemainingCooldown;
             public int NumStacks;
             public ISpellHandler SpellHandler;
         };
 
-        private SpellCaster _spellCaster;
+        private SpellManager _spellCaster;
         private CharacterState _characterState;
         private AnimationController _animationController;
 
@@ -43,7 +42,7 @@ namespace Spells
 
         private void Awake()
         {
-            _spellCaster = GetComponent<SpellCaster>();
+            _spellCaster = SpellManager.Instance;
             _animationController = GetComponent<AnimationController>();
             _characterState = GetComponent<CharacterState>();
 
@@ -65,7 +64,7 @@ namespace Spells
             var slot = GetSpellSlotState((int) spell.DefaultSlot);
 
             // If slot state is empty, should just add spell to a slot
-            if (slot.State == SpellState.None)
+            if (slot.State == SlotState.None)
                 return PlaceOptions.Place;
 
             // If same spell - should upgrade
@@ -111,12 +110,12 @@ namespace Spells
             }
         }
 
-        private bool FireSpell(int index, Target target)
+        public bool TryFireSpellToTarget(int slotIndex, Target target)
         {
-            Assert.IsTrue(index >= 0 && index < SpellSlots.Length);
-            var slotState = GetSpellSlotState(index);
+            Assert.IsTrue(slotIndex >= 0 && slotIndex < SpellSlots.Length);
+            var slotState = GetSpellSlotState(slotIndex);
             
-            if (slotState.State != SpellState.Ready)
+            if (slotState.State != SlotState.Ready)
                 return false;
 
             // If already casting
@@ -125,13 +124,15 @@ namespace Spells
                 new Target(_characterState), 
                 target,
                 slotState.NumStacks + _characterState.AdditionSpellStacks);
+            
+            // Cast failed
             if (handler == null)
                 return false;
 
             handler.Event += HandlerOnStateChanged;
 
             // Start cooldown
-            slotState.State = SpellState.Preparing;
+            slotState.State = SlotState.Preparing;
             slotState.RemainingCooldown = 0;
             slotState.SpellHandler = handler;
 
@@ -177,33 +178,23 @@ namespace Spells
             var slotState = GetSpellSlotState(slotIndex);
             if (e == SpellEvent.StartedFiring)
             {
-                slotState.State = SpellState.Firing;
+                slotState.State = SlotState.Firing;
             }
             else if (e == SpellEvent.FinishedFire || e == SpellEvent.Aborted || e == SpellEvent.Ended)
             {
                 // If we are ending spell that has not yet started
-                if (slotState.State == SpellState.Preparing)
+                if (slotState.State == SlotState.Preparing)
                     slotState.RemainingCooldown = 0.1f;
                 else
                     slotState.RemainingCooldown = slotState.Spell.Cooldown.GetValue(slotState.NumStacks);
 
                 // Remove handler from state and start recharging
                 slotState.SpellHandler = null;
-                slotState.State = SpellState.Recharging;
+                slotState.State = SlotState.Recharging;
 
                 if (NoCooldowns)
                     slotState.RemainingCooldown = 0.1f;
             }
-        }
-
-        public bool TryFireSpellToTarget(int slotIndex, CharacterState target)
-        {
-            return TryFireSpellToTarget(slotIndex, new Target(target));
-        }
-
-        public bool TryFireSpellToTarget(int slotIndex, Target target)
-        {
-            return FireSpell(slotIndex, target);
         }
 
         private void AddSpellToSlot(int slotIndex, Spell spell, int stacks)
@@ -211,7 +202,7 @@ namespace Spells
             Debug.Log($"Spell {spell.name} placed into slot {slotIndex}");
             var slotState = GetSpellSlotState(slotIndex);
             slotState.Spell = spell;
-            slotState.State = SpellState.Ready;
+            slotState.State = SlotState.Ready;
             slotState.RemainingCooldown = 0f;
             slotState.NumStacks = stacks;
         }
@@ -231,11 +222,10 @@ namespace Spells
                 var slotState = GetSpellSlotState(slotIndex);
 
                 if (slotState.RemainingCooldown > 0)
-                    slotState.RemainingCooldown = slotState.RemainingCooldown - Time.deltaTime;
-                if (slotState.RemainingCooldown <= 0f && slotState.State == SpellState.Recharging)
-                {
-                    slotState.State = SpellState.Ready;
-                }
+                    slotState.RemainingCooldown -= Time.deltaTime;
+                
+                if (slotState.RemainingCooldown <= 0f && slotState.State == SlotState.Recharging)
+                    slotState.State = SlotState.Ready;
             }
         }
     }

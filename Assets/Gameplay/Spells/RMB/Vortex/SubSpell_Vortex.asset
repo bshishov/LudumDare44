@@ -12,25 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca5cafdfa5c75143b3321cc57d70bb9, type: 3}
   m_Name: SubSpell_Vortex
   m_EditorClassIdentifier: 
-  Source: 3
-  Target: 5
   BloodCost:
     Type: 0
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
   AbortSpellIfAborted: 0
-  SpellShouldWaitUntilEnd: 0
+  SpellShouldWaitUntilEnd: 1
   CanBeAborted: 0
   MaxInstances:
     Type: 0
     BaseValue: 1
     ModifierPerStack: 0
     EffectiveStacks: 1
-  AffectsCharactersOnlyOncePerSpell: 0
   PreCastDelay:
     Type: 0
-    BaseValue: 0.001
+    BaseValue: 0.1
     ModifierPerStack: 0
     EffectiveStacks: 1
   FireDelay:
@@ -51,12 +48,16 @@ MonoBehaviour:
   FireSubSpellEvents:
   - Type: 2
     Query:
-      NewTargetsQueryType: 5
-      Origin: 0
+      NewTargetsQueryType: 2
+      Origin: 3
       Area: {fileID: 11400000, guid: 88a1e9d9a1c488e49884bc38718772ea, type: 2}
       AffectsTeam: 2
+      ExcludeAlreadyAffected: 0
+    TrackAffectedCharacters: 0
+    SubSpellSource: 0
+    SubSpellTarget: 0
     FireSubSpell: {fileID: 0}
     ApplyBuffToTarget: {fileID: 11400000, guid: 57518b42b6d196842a27af8c3c5a4176,
       type: 2}
   Projectile: {fileID: 0}
-  Effect: {fileID: 6543671326251851641, guid: 8c38daf406f52be4796452c9dda5d917, type: 3}
+  Effect: {fileID: 1349204274574646620, guid: f2d4cfd1fbb0b4242a48f9950056d22e, type: 3}

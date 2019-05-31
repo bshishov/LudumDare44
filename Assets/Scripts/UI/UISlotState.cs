@@ -42,7 +42,7 @@ namespace UI
             if(slotState == null)
                 return;
             
-            if (slotState.Spell != null && slotState.State != SpellbookState.SpellState.None)
+            if (slotState.Spell != null && slotState.State != SpellbookState.SlotState.None)
             {
                 SpellIcon.sprite = slotState.Spell.Icon;
                 CooldownOverlay.fillAmount = slotState.RemainingCooldown / slotState.Spell.Cooldown.GetValue(slotState.NumStacks);

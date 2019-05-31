@@ -207,7 +207,7 @@ namespace Actors
         // Internal
         private AnimationController _animationController;
         private SpellbookState _spellBook;
-        private SpellCaster _spellCaster;
+        private SpellManager _spellManager;
         private MovementController _movement;
         private readonly List<BuffState> _buffStates = new List<BuffState>();
         private readonly List<ItemState> _itemStates = new List<ItemState>();
@@ -226,7 +226,7 @@ namespace Actors
 
             _movement = GetComponent<MovementController>();
             _spellBook = GetComponent<SpellbookState>();
-            _spellCaster = GetComponent<SpellCaster>();
+            _spellManager = SpellManager.Instance;
             _animationController = GetComponent<AnimationController>();
             _hp = character.HealthModifier * MaxHealth;
 
@@ -422,7 +422,7 @@ namespace Actors
                         break;
                 }
 
-                _spellCaster.Cast(affect.CastSpell.Spell, new Target(this), tgt, spellStacks);
+                _spellManager.Cast(affect.CastSpell.Spell, new Target(this), tgt, spellStacks);
             }
 
             if (affect.Type == Affect.AffectType.SpawnObject)
