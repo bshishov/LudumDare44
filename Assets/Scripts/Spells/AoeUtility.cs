@@ -135,7 +135,7 @@ namespace Spells
                     break;
 
                 var state = collider.GetComponent<CharacterState>();
-                if(state == null)
+                if(state == null || !state.IsAlive)
                     continue;
                 
                 var position = collider.transform.position;
@@ -194,7 +194,7 @@ namespace Spells
                     break;
 
                 var state = hit.collider.GetComponent<CharacterState>();
-                if(state != null)
+                if(state != null && state.IsAlive)
                     results.Add(state);
             }
         }

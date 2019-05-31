@@ -14,8 +14,7 @@ namespace Spells
             AllTargetsInAoe,
             ClosestToOriginInAoe,
             RandomTargetInAoe,
-            RandomLocationInAoe,
-            ProjectileHitTarget,
+            RandomLocationInAoe
         }
 
         public enum QueryTeam
