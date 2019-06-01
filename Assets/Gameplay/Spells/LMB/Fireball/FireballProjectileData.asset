@@ -38,5 +38,5 @@ MonoBehaviour:
   FallingSpeed: 0
   HoverHeight: 1
   Affects: 2
-  FireSubSpellCondition: 12
+  FireSubSpellCondition: 4
   DestroyCondition: -1
