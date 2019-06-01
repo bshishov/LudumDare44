@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   Behaviour: 0
-  TickCooldown: 1
+  TickCooldown: 0.2
   Duration: 0.2
   Modifiers: []
   Events:

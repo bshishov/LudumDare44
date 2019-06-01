@@ -12,22 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca5cafdfa5c75143b3321cc57d70bb9, type: 3}
   m_Name: BloodDaggerProjectile
   m_EditorClassIdentifier: 
-  Source: 3
-  Target: 4
   BloodCost:
     Type: 0
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
-  AbortSpellIfAborted: 1
-  SpellShouldWaitUntilEnd: 1
+  AbortSpellIfAborted: 0
+  SpellShouldWaitUntilEnd: 0
   CanBeAborted: 0
   MaxInstances:
     Type: 0
     BaseValue: 1
     ModifierPerStack: 0
     EffectiveStacks: 1
-  AffectsCharactersOnlyOncePerSpell: 0
   PreCastDelay:
     Type: 0
     BaseValue: 0
@@ -51,10 +48,14 @@ MonoBehaviour:
   FireSubSpellEvents:
   - Type: 5
     Query:
-      NewTargetsQueryType: 0
+      NewTargetsQueryType: 1
       Origin: 0
       Area: {fileID: 0}
-      AffectsTeam: 0
+      AffectsTeam: 2
+      ExcludeAlreadyAffected: 0
+    TrackAffectedCharacters: 0
+    SubSpellSource: 0
+    SubSpellTarget: 0
     FireSubSpell: {fileID: 0}
     ApplyBuffToTarget: {fileID: 11400000, guid: 8481d00a1ada76949b3dccd932ffa79b,
       type: 2}
