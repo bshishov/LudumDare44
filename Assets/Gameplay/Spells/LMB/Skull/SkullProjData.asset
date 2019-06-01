@@ -25,7 +25,7 @@ MonoBehaviour:
     EffectiveStacks: 1
   TimeToLive:
     Type: 1
-    BaseValue: 2
+    BaseValue: 3
     ModifierPerStack: 1
     EffectiveStacks: 10
   MaxPiercingTargets:
@@ -38,5 +38,5 @@ MonoBehaviour:
   FallingSpeed: 0
   HoverHeight: 1
   Affects: 2
-  FireSubSpellCondition: 2
+  FireSubSpellCondition: 6
   DestroyCondition: 46
