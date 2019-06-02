@@ -14,10 +14,12 @@ namespace UI
         public Sprite DefaultSpellIcon;
         public Image SpellIcon;
         public Image CooldownOverlay;
+        public Image ActiveOverlay;
         public TextMeshProUGUI CooldownText;
         public TextMeshProUGUI StacksText;
 
         private SpellbookState _spellBookState;
+        private Color _activeColor;
 
         void Start()
         {
@@ -34,6 +36,9 @@ namespace UI
             SpellIcon.sprite = DefaultSpellIcon;
             StacksText.text = String.Empty;
             CooldownText.text = String.Empty;
+
+            if(ActiveOverlay != null)
+                _activeColor = ActiveOverlay.color;
         }
         
         void Update()
@@ -64,6 +69,15 @@ namespace UI
             else
             {
                 SpellIcon.sprite = DefaultSpellIcon;
+            }
+
+            // Todo: make it more fancy, animations and stuff
+            if (ActiveOverlay != null)
+            {
+                if (slotState.State == SpellbookState.SlotState.Firing)
+                    ActiveOverlay.color = _activeColor;
+                else
+                    ActiveOverlay.color = new Color(0, 0, 0, 0);
             }
         }
     }

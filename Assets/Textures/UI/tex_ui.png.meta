@@ -35,6 +35,9 @@ TextureImporter:
   - first:
       213: 4086694384672381192
     second: UI_SpellBar_10
+  - first:
+      213: -2933384619692647103
+    second: tex_ui_0
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -354,6 +357,27 @@ TextureImporter:
       bones: []
       spriteID: c0285e89e95bbb444b0cb6919e2092b8
       internalID: 4086694384672381192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_ui_0
+      rect:
+        serializedVersion: 2
+        x: 930
+        y: 368
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 35, y: 35, z: 35, w: 35}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40ed3534ffbb21142b4591291c8281cd
+      internalID: -2933384619692647103
       vertices: []
       indices: 
       edges: []
