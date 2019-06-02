@@ -36,7 +36,7 @@ MonoBehaviour:
     BaseValue: 0
     ModifierPerStack: 1
     EffectiveStacks: 10
-  HoverGround: 0
+  HoverGround: 1
   HeightProfile:
     serializedVersion: 2
     m_Curve:
@@ -45,7 +45,7 @@ MonoBehaviour:
       value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
       value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
