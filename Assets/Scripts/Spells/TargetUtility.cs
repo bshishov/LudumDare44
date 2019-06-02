@@ -100,7 +100,7 @@ namespace Spells
         public static float XZDistance(Vector3 a, Vector3 b)
         {
             var dx = a.x - b.x;
-            var dz = a.x - b.x;
+            var dz = a.z - b.z;
             return Mathf.Sqrt(dx * dx + dz * dz);
         }
     }

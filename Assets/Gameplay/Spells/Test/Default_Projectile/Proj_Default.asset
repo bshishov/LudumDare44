@@ -28,7 +28,7 @@ MonoBehaviour:
     EffectiveStacks: 1
   TimeToLive:
     Type: 0
-    BaseValue: 10
+    BaseValue: 5
     ModifierPerStack: 0
     EffectiveStacks: 1
   MaxPiercingTargets:
@@ -63,6 +63,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   Affects: 2
   FireSubSpellCondition: 0
-  DestroyCondition: 160
+  DestroyCondition: 176
   DestroyDelay: 0.3
   CollisionTarget: 0

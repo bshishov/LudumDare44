@@ -100,13 +100,12 @@ namespace Spells
 
             // Sample new target since the target can move (i.e. character)
             _lastValidTargetPosition = _target.Position;
-            Debugger.Default.DrawAxis(_lastValidTargetPosition, Quaternion.identity, 0f);
             var currentPosition = transform.position;
             
             // If we have reached destination than no additional movement required
             if (TargetUtility.XZDistance(currentPosition, _lastValidTargetPosition) < DestinationThreshold)
                 return;
-            
+
             // Calculate direction and distance
             var xzDir = _lastValidTargetPosition - currentPosition;
             xzDir.y = 0;
