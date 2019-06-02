@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: BloodDaggerProjData
   m_EditorClassIdentifier: 
   Prefab: {fileID: 8329142908447375752, guid: 5656836628b484b4ab828a088177e318, type: 3}
+  SpawnNode: 0
+  TargetNode: 0
+  Type: 0
   Speed:
     Type: 0
     BaseValue: 25
@@ -33,10 +36,32 @@ MonoBehaviour:
     BaseValue: 0
     ModifierPerStack: 1
     EffectiveStacks: 10
-  Offset: {x: 0, y: 0, z: 0}
-  Trajectory: 0
-  FallingSpeed: 0
-  HoverHeight: 1
+  HoverGround: 0
+  HeightProfile:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   Affects: 2
-  FireSubSpellCondition: 4
-  DestroyCondition: 112
+  FireSubSpellCondition: 132
+  DestroyCondition: 240
+  DestroyDelay: 0
