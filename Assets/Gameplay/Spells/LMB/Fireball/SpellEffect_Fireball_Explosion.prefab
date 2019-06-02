@@ -46,7 +46,7 @@ MonoBehaviour:
   SpawnEvent: 2
   ExplosionPrefab: {fileID: 4409930091263542376, guid: 70b0082be09bbc848916a71c6e41d914,
     type: 3}
-  Origin: 1
+  Origin: 0
   SpawnInGround: 0
   AlignRotation: 1
   XZRotationOnly: 1

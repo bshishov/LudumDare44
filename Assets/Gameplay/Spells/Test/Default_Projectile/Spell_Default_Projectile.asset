@@ -44,7 +44,7 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   CheckRangeOnCast: 0
-  TargetType: 2
+  TargetType: 1
   AffectsTeam: 2
   RangeBehaviour: 3
   ManualAbort: 0

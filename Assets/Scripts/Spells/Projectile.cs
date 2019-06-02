@@ -56,6 +56,15 @@ namespace Spells
             if (_projectile.Type == ProjectileType.Directional)
             {
                 var direction = handler.Source.Forward;
+                
+                // If target is specified, use it
+                if (handler.Target.HasPosition)
+                {
+                    direction = handler.Target.Position - _spawnPoint;
+                    direction.y = 0;
+                    direction.Normalize();
+                }
+                
                 NavMesh.Raycast(_spawnPoint, _spawnPoint + direction * 100f, out var hit, NavMesh.AllAreas);
                 _target = new Target(hit.position);
             }
@@ -82,7 +91,7 @@ namespace Spells
             {
                 _timer -= Time.deltaTime;
                 if (_timer <= 0)
-                    HandleEvent(ProjectileEvents.TimeExpired, new Target(transform));
+                    HandleEvent(ProjectileEvents.TimeExpired, new Target(transform.position));
             }
             
             // If target become invalid (i.e. character died) - retarget to its last location
@@ -147,7 +156,7 @@ namespace Spells
 
             // Distance check
             if (_maxDistance > 0 && _distanceTraveled > _maxDistance)
-                HandleEvent(ProjectileEvents.ReachedMaxDistance, new Target(transform));
+                HandleEvent(ProjectileEvents.ReachedMaxDistance, new Target(transform.position));
         }
         
         private void OnTriggerEnter(Collider other)
@@ -155,18 +164,42 @@ namespace Spells
             if(!IsActive)
                 return;
 
+            Target eventTarget;
+            switch (_projectile.CollisionTarget)
+            {
+                case ProjectileData.EventTarget.CollisionPosition:
+                    eventTarget = new Target(transform.position);
+                    break;
+                case ProjectileData.EventTarget.OtherColliderTransform:
+                    eventTarget = new Target(other.transform);
+                    break;
+                case ProjectileData.EventTarget.OtherColliderPosition:
+                    eventTarget = new Target(other.transform.position);
+                    break;
+                case ProjectileData.EventTarget.OtherColliderCharacter:
+                    eventTarget = new Target(other.GetComponent<CharacterState>());
+                    break;
+                case ProjectileData.EventTarget.SelfPosition:
+                    eventTarget = new Target(transform.position);
+                    break;
+                default:
+                case ProjectileData.EventTarget.SelfTransform:
+                    eventTarget = new Target(transform);
+                    break;
+            }
+            
             var character = other.GetComponent<CharacterState>();
             if (character == null)
             {
                 // Collision with non-character object.
-                HandleEvent(ProjectileEvents.CollisionWithWorld, new Target(other.transform.position));
+                HandleEvent(ProjectileEvents.CollisionWithWorld, eventTarget);
             }
             else if (character.Equals(_handler.Target.Character))
             {
                 if (TargetUtility.IsValidTeam(_handler.SpellHandler.Source.Character, character, _projectile.Affects))
                 {
                     // Collision with target character object
-                    HandleEvent(ProjectileEvents.CollisionWithTarget, new Target(character));
+                    HandleEvent(ProjectileEvents.CollisionWithTarget, eventTarget);
                 }
             }
             else
@@ -174,7 +207,7 @@ namespace Spells
                 if (TargetUtility.IsValidTeam(_handler.SpellHandler.Source.Character, character, _projectile.Affects))
                 {
                     // Collision with non-target character object
-                    HandleEvent(ProjectileEvents.CollisionWithOtherTargets, new Target(character));
+                    HandleEvent(ProjectileEvents.CollisionWithOtherTargets, eventTarget);
                 }
             }
         }

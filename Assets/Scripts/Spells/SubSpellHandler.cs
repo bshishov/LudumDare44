@@ -313,6 +313,9 @@ namespace Spells
             AreaOfEffect area, 
             Target origin)
         {
+            // Clear buffer
+            characters.Clear();
+            
             if (area == null)
             {
                 Debug.LogWarning("Area is not set");

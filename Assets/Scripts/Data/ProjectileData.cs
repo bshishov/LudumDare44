@@ -47,5 +47,17 @@ namespace Data
         [EnumFlag] public ProjectileEvents FireSubSpellCondition;
         [EnumFlag] public ProjectileEvents DestroyCondition = ProjectileEvents.ReachedMaxDistance | ProjectileEvents.TimeExpired | ProjectileEvents.ReachedMaxPiercingTargets;
         public float DestroyDelay = 0.1f;
+        
+        public enum EventTarget
+        {
+            CollisionPosition,
+            OtherColliderPosition,
+            OtherColliderTransform,
+            OtherColliderCharacter,
+            SelfPosition,
+            SelfTransform
+        }
+        
+        public EventTarget CollisionTarget = EventTarget.CollisionPosition;
     }
 }

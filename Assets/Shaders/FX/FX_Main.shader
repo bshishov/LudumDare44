@@ -67,8 +67,6 @@
 			half2 _Speed2;
 			half2 _Speed3;
 
-			half2 _Custom1;
-
             v2f vert (appdata v)
             {
                 v2f o;

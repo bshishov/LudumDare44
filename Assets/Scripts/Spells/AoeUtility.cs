@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Actors;
-using Unity.Collections;
 using UnityEngine;
 using Utils.Debugger;
 using Random = UnityEngine.Random;
@@ -15,16 +13,16 @@ namespace Spells
         private static Color Color = Color.cyan;
         private static float LifeTime = 1f;
 #endif
-        private static Collider[] CollidersBuffer = new Collider[100];
-        private static RaycastHit[] RaycastHits = new RaycastHit[50];
+        private static readonly Collider[] CollidersBuffer = new Collider[100];
+        private static readonly RaycastHit[] RaycastHits = new RaycastHit[50];
         
-        public static void InLineNonAlloc(RaycastHit[] results, Vector3 from, Vector3 to, LayerMask mask)
+        public static int InLineNonAlloc(RaycastHit[] results, Vector3 from, Vector3 to, LayerMask mask)
         {
             #if DEBUG
             Debugger.Default.DrawLine(from, to, Color.cyan, 1f);
             #endif
             var dir = to - from;
-            Physics.RaycastNonAlloc(from, dir.normalized, results, dir.magnitude, mask);
+            return Physics.RaycastNonAlloc(from, dir.normalized, results, dir.magnitude, mask);
         }
 
         public static IEnumerable<CharacterState> CharactersInsideSphere(Vector3 origin, float radius)
@@ -64,8 +62,8 @@ namespace Spells
             Debugger.Default.DrawCircle(origin, Vector3.up, radius, Color, LifeTime);
             #endif
             
-            Physics.OverlapSphereNonAlloc(origin, radius, CollidersBuffer, Common.LayerMasks.Actors);
-            for (var i = 0; i < CollidersBuffer.Length; i++)
+            var cols = Physics.OverlapSphereNonAlloc(origin, radius, CollidersBuffer, Common.LayerMasks.Actors);
+            for (var i = 0; i < cols; i++)
             {
                 var collider = CollidersBuffer[i];
                 if(collider == null)
@@ -74,7 +72,7 @@ namespace Spells
                 var state = collider.GetComponent<CharacterState>();
                 if (state != null && state.IsAlive)
                 {
-                    if (Vector3.Distance(collider.transform.position, origin) > minDistance)
+                    if (Vector3.Distance(collider.transform.position, origin) >= minDistance)
                         results.Add(state);
                 }
             }
@@ -102,7 +100,7 @@ namespace Spells
                 dir.Normalize();
                 
                 // Distance check
-                if (distance > maxDistance || distance < minDistance)
+                if (distance > maxDistance || distance <= minDistance)
                     return false;
 
                 // Angle check
@@ -127,8 +125,8 @@ namespace Spells
             Debugger.Default.DrawCone(origin, direction, maxDistance, maxAngle, Color.cyan, 1f);
             #endif  
             
-            Physics.OverlapSphereNonAlloc(origin, maxDistance, CollidersBuffer, Common.LayerMasks.Actors);
-            for (var i = 0; i < CollidersBuffer.Length; i++)
+            var cols = Physics.OverlapSphereNonAlloc(origin, maxDistance, CollidersBuffer, Common.LayerMasks.Actors);
+            for (var i = 0; i < cols; i++)
             {
                 var collider = CollidersBuffer[i];
                 if(collider == null)
@@ -144,7 +142,7 @@ namespace Spells
                 dir.Normalize();
                 
                 // Distance check
-                if (distance > maxDistance || distance < minDistance)
+                if (distance > maxDistance || distance <= minDistance)
                     continue;
 
                 // Angle check
@@ -185,9 +183,9 @@ namespace Spells
             Debugger.Default.DrawRay(origin, direction, Color, maxDistance, LifeTime);
             #endif
 
-            Physics.RaycastNonAlloc(origin, direction, RaycastHits, maxDistance, Common.LayerMasks.Actors);
+            var hits = Physics.RaycastNonAlloc(origin, direction, RaycastHits, maxDistance, Common.LayerMasks.Actors);
 
-            for (var i = 0; i < RaycastHits.Length; i++)
+            for (var i = 0; i < hits; i++)
             {
                 var hit = RaycastHits[i];
                 if(hit.collider == null)
