@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
   m_Name: Spell_Default_Projectile
   m_EditorClassIdentifier: 
-  Name: 
-  Icon: {fileID: 0}
+  Name: Default projectile
+  Icon: {fileID: 5541140945621423325, guid: 79f8526ca8b62344a9fc6dfbb87b4366, type: 3}
   Description: 
   ApplyBuffOnDismantle: {fileID: 0}
   LifeSteal:
@@ -23,7 +23,7 @@ MonoBehaviour:
     EffectiveStacks: 1
   Cooldown:
     Type: 0
-    BaseValue: 1
+    BaseValue: 0.1
     ModifierPerStack: 0
     EffectiveStacks: 1
   BloodCost:
@@ -31,6 +31,8 @@ MonoBehaviour:
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
+  DefaultSlot: 0
+  DropItem: {fileID: 0}
   MaxRange:
     Type: 0
     BaseValue: 10
@@ -41,11 +43,10 @@ MonoBehaviour:
     BaseValue: 1
     ModifierPerStack: 0
     EffectiveStacks: 1
-  DefaultSlot: 0
-  ManualAbort: 0
   CheckRangeOnCast: 0
-  TargetType: 4
-  RangeBehaviour: 1
+  TargetType: 2
+  AffectsTeam: 2
+  RangeBehaviour: 3
+  ManualAbort: 0
   MainSubSpells:
   - {fileID: 11400000, guid: 1b2c0b92387d75f4f9fb66639be94787, type: 2}
-  DropItem: {fileID: 0}

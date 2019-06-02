@@ -32,6 +32,8 @@ MonoBehaviour:
     BaseValue: 13
     ModifierPerStack: 0
     EffectiveStacks: 1
+  DefaultSlot: 1
+  DropItem: {fileID: 131193077828940303, guid: b97354f0857bded449811f9f327d95a5, type: 3}
   MaxRange:
     Type: 0
     BaseValue: 15
@@ -42,11 +44,10 @@ MonoBehaviour:
     BaseValue: 4
     ModifierPerStack: 0
     EffectiveStacks: 1
-  DefaultSlot: 1
-  ManualAbort: 0
   CheckRangeOnCast: 0
-  TargetType: 1
+  TargetType: 2
+  AffectsTeam: 2
   RangeBehaviour: 0
+  ManualAbort: 0
   MainSubSpells:
   - {fileID: 11400000, guid: 5fdc35e0f27710149be77c4519d8f3d1, type: 2}
-  DropItem: {fileID: 131193077828940303, guid: b97354f0857bded449811f9f327d95a5, type: 3}
