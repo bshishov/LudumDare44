@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
-  m_Name: PoisonDagger
+  m_Name: Spell_PoisonDagger
   m_EditorClassIdentifier: 
   Name: PoisonDagger
   Icon: {fileID: 8339939493531242580, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
@@ -32,6 +32,9 @@ MonoBehaviour:
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
+  DefaultSlot: 0
+  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
+    type: 3}
   MaxRange:
     Type: 1
     BaseValue: 10
@@ -42,12 +45,10 @@ MonoBehaviour:
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
-  DefaultSlot: 0
-  ManualAbort: 0
   CheckRangeOnCast: 0
   TargetType: 2
+  AffectsTeam: 2
   RangeBehaviour: 1
+  ManualAbort: 0
   MainSubSpells:
-  - {fileID: 11400000, guid: 9f906caf6655a3b44b724e2df074aae3, type: 2}
-  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
-    type: 3}
+  - {fileID: 11400000, guid: e69e61efb3fd85c478bbc15eda32f7bc, type: 2}
