@@ -46,9 +46,9 @@ namespace Spells
             _minRange = spell.MinRange.GetValue(Stacks);
             _maxRange = spell.MaxRange.GetValue(Stacks);
 
-            // Create target proxy
-            if (spell.RangeBehaviour == Spell.TargetRangeBehaviour.ClampToRange ||
-                spell.RangeBehaviour == Spell.TargetRangeBehaviour.SetMaxRange)
+            // Create target proxy if we need to retarget
+            if (spell.RangeBehaviour == Spell.TargetRangeBehaviour.RetargetClampToRange ||
+                spell.RangeBehaviour == Spell.TargetRangeBehaviour.RetargetSetMaxRange)
             {
                 if (castTarget.Type == TargetType.Location || castTarget.Type == TargetType.LocationProvider)
                     CastTarget = new Target(_locationTargetProxy);
@@ -119,7 +119,7 @@ namespace Spells
         {
             // If SpellTarget is out of range - switch to abort state
             if (Spell.RangeBehaviour == Spell.TargetRangeBehaviour.AbortWhenOutOfRange &&
-                !SpellManager.IsInRange(Source, CastTarget, _minRange, _maxRange))
+                !TargetUtility.IsInRange(Source, CastTarget, _minRange, _maxRange))
             {
                 Abort();
                 return;
@@ -235,22 +235,22 @@ namespace Spells
             
             var desired = _originalTarget.Position;
             var source = Source.Position;
-            var dir = desired - source;
-            dir.y = 0;
+            var dir = new Vector3(desired.x - source.x, 0, desired.z - source.z);
             var distance = dir.magnitude;
             dir.Normalize();
+            
+            switch (Spell.RangeBehaviour)
+            {
+                case Spell.TargetRangeBehaviour.RetargetClampToRange:
+                    desired = source + dir * Mathf.Clamp(distance, _minRange, _maxRange);
+                    break;
+                case Spell.TargetRangeBehaviour.RetargetSetMaxRange:
+                    desired = source + dir * _maxRange;
+                    break;
+            }
 
-            if (Spell.RangeBehaviour == Spell.TargetRangeBehaviour.ClampToRange)
-                desired = source + dir * Mathf.Clamp(distance, _minRange, _maxRange);
-
-            if (Spell.RangeBehaviour == Spell.TargetRangeBehaviour.SetMaxRange)
-                desired = source + dir * _maxRange;
-
-            // Recast to floor
-            if (Physics.Raycast(desired + Vector3.up * 5f, Vector3.down, out var hit, 10f, Common.LayerMasks.Ground))
-                return hit.point;
-
-            return desired;
+            // Stick to floor
+            return TargetUtility.AboveGround(desired);
         }
     }
 }

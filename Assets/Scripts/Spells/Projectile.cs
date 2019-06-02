@@ -1,6 +1,8 @@
 ﻿using Actors;
 using Data;
 using UnityEngine;
+using UnityEngine.AI;
+using Utils.Debugger;
 
 namespace Spells
 {
@@ -14,35 +16,59 @@ namespace Spells
         private float _speed;
         private float _maxDistance;
         private float _distanceTraveled;
-        private Vector3 _direction;
-        private int _hits;
+        private int _numberOfHits;
+        private Vector3 _spawnPoint;
+        private Target _target;
+        private Vector3 _lastValidTargetPosition;
+
+        private const float DestinationThreshold = 0.2f;
 
         public void Initialize(SubSpellHandler handler, ProjectileData projectileData)
         {
             _projectile = projectileData;
             _handler = handler;
-
+            
+            // Setup RigidBody to handle collisions
             var body = GetComponentInChildren<Rigidbody>();
             if (body == null)
                 body = gameObject.AddComponent<Rigidbody>();
-
             body.isKinematic = false;
             body.useGravity = false;
 
-            var targetPos = handler.Target.Position;
-            var position = transform.position;
-            _direction = (targetPos - position).normalized;
+            // Bake source point
+            if (handler.Source.Type == TargetType.Character)
+                _spawnPoint = handler.Source.Character.GetNodeTransform(_projectile.SpawnNode).position;
+            else
+                _spawnPoint = handler.Source.Transform.position;
+            
+            if (_projectile.Type == ProjectileType.Targeted && handler.Target.IsValid)
+            {
+                TargetUtility.DebugDraw(handler.Target, Color.blue);
+                
+                // ReTargeting to specific transform of character
+                if (handler.Target.Type == TargetType.Character)
+                    _target = new Target(handler.Target.Character.GetNodeTransform(_projectile.TargetNode));
+                else
+                    _target = handler.Target;
+            }
 
-            position += Quaternion.LookRotation(_direction) * _projectile.Offset;
-            transform.position = AboveGround(position, _projectile.HoverHeight);
+            // Get initial direction
+            if (_projectile.Type == ProjectileType.Directional)
+            {
+                var direction = handler.Source.Forward;
+                NavMesh.Raycast(_spawnPoint, _spawnPoint + direction * 100f, out var hit, NavMesh.AllAreas);
+                _target = new Target(hit.position);
+            }
 
-            _direction = (targetPos - position).normalized;
-            transform.LookAt(targetPos);
-
-            _timer = projectileData.TimeToLive.GetValue(handler.SpellHandler.Stacks);
-            _speed = projectileData.Speed.GetValue(handler.SpellHandler.Stacks);
-            _maxDistance = projectileData.MaxDistance.GetValue(handler.SpellHandler.Stacks);
-
+            // Resolve stacked properties
+            _timer = projectileData.TimeToLive.GetValue(handler.Stacks);
+            _speed = projectileData.Speed.GetValue(handler.Stacks);
+            _maxDistance = projectileData.MaxDistance.GetValue(handler.Stacks);
+            
+            // Initial positioning
+            transform.position = _spawnPoint;
+            //transform.rotation = Quaternion.LookRotation(_direction);
+            
             IsActive = true;
         }
 
@@ -50,54 +76,80 @@ namespace Spells
         {
             if(!IsActive)
                 return;
-
+                
+            // Lifetime check
             if (_timer > 0)
             {
                 _timer -= Time.deltaTime;
                 if (_timer <= 0)
-                    HandleEvent(ProjectileEvents.TimeExpired, new Target(transform.position));
+                    HandleEvent(ProjectileEvents.TimeExpired, new Target(transform));
             }
+            
+            // If target become invalid (i.e. character died) - retarget to its last location
+            if (!_target.IsValid)
+                _target = new Target(_lastValidTargetPosition);
 
-            var moveDistance = _speed * Time.deltaTime;
+            // Sample new target since the target can move (i.e. character)
+            _lastValidTargetPosition = _target.Position;
+            Debugger.Default.DrawAxis(_lastValidTargetPosition, Quaternion.identity, 0f);
+            var currentPosition = transform.position;
+            
+            // If we have reached destination than no additional movement required
+            if (TargetUtility.XZDistance(currentPosition, _lastValidTargetPosition) < DestinationThreshold)
+                return;
+            
+            // Calculate direction and distance
+            var xzDir = _lastValidTargetPosition - currentPosition;
+            xzDir.y = 0;
+            var xzDistance = xzDir.magnitude;
+            
+            // XZ direction only
+            xzDir.Normalize();
 
-            switch (_projectile.Trajectory)
+            // Calculate desired position
+            var nextPosition = currentPosition + _speed * Time.deltaTime * xzDir;
+            _distanceTraveled += _speed * Time.deltaTime * xzDir.magnitude;
+
+            // Update height by calculating relative progress using traveled and remaining distance
+            var progress = Mathf.Clamp01(_distanceTraveled / (_distanceTraveled + xzDistance));
+            
+            // And sampling height from Height curve
+            float baseY;
+            if (_projectile.HoverGround)
             {
-                case ProjectileTrajectory.StraightLine:
-                    _distanceTraveled += moveDistance;
-                    transform.position += _direction * moveDistance;
-                    break;
+                baseY = TargetUtility.AboveGround(nextPosition).y;
+            }
+            else
+            {
+                baseY = Mathf.Lerp(_spawnPoint.y, _lastValidTargetPosition.y, progress);
+            }
+            
+            nextPosition.y = baseY + _projectile.HeightProfile.Evaluate(progress);
 
-                case ProjectileTrajectory.Follow:
-                    _distanceTraveled += moveDistance;
-                    transform.position += transform.position + (_handler.Target.Transform.position - transform.position).normalized * moveDistance;
-                    break;
-
-                case ProjectileTrajectory.Falling:
-                    if (IsNearGround(transform.position, _projectile.HoverHeight))
-                    {
-                        _direction.y = 0;
-                        _direction = _direction.normalized;
-                        _projectile.Trajectory = ProjectileTrajectory.StraightLine;
-                    }
-                    else
-                    {
-                        transform.position += _direction * _projectile.FallingSpeed * Time.deltaTime;
-                    }
-                    break;
+            // If projectile have reached the destination
+            var targetDir = nextPosition - _lastValidTargetPosition;
+            
+            // Update position and rotation 
+            transform.position = nextPosition;
+            transform.rotation = Quaternion.LookRotation(targetDir.normalized);    
+            
+            if (TargetUtility.XZDistance(nextPosition, _lastValidTargetPosition) < DestinationThreshold)
+            {
+                var eventTarget = _handler.Target;
+                
+                // If eventTarget (destination) is not valid
+                // Raise event with repositioned target
+                if (!eventTarget.IsValid)
+                    eventTarget = _target;
+                    
+                HandleEvent(ProjectileEvents.ReachedDestination, eventTarget);
             }
 
+            // Distance check
             if (_maxDistance > 0 && _distanceTraveled > _maxDistance)
-            {
-                HandleEvent(ProjectileEvents.ReachedMaxDistance, new Target(transform.position));
-            }
+                HandleEvent(ProjectileEvents.ReachedMaxDistance, new Target(transform));
         }
-
-        private void FixedUpdate()
-        {
-            // Position fix
-            transform.position = AboveGround(transform.position, _projectile.HoverHeight);
-        }
-
+        
         private void OnTriggerEnter(Collider other)
         {
             if(!IsActive)
@@ -111,7 +163,7 @@ namespace Spells
             }
             else if (character.Equals(_handler.Target.Character))
             {
-                if (SpellManager.IsValidTeam(_handler.SpellHandler.Source.Character, character, _projectile.Affects))
+                if (TargetUtility.IsValidTeam(_handler.SpellHandler.Source.Character, character, _projectile.Affects))
                 {
                     // Collision with target character object
                     HandleEvent(ProjectileEvents.CollisionWithTarget, new Target(character));
@@ -119,7 +171,7 @@ namespace Spells
             }
             else
             {
-                if (SpellManager.IsValidTeam(_handler.SpellHandler.Source.Character, character, _projectile.Affects))
+                if (TargetUtility.IsValidTeam(_handler.SpellHandler.Source.Character, character, _projectile.Affects))
                 {
                     // Collision with non-target character object
                     HandleEvent(ProjectileEvents.CollisionWithOtherTargets, new Target(character));
@@ -135,8 +187,8 @@ namespace Spells
             // Piercing
             if (e == ProjectileEvents.CollisionWithTarget || e == ProjectileEvents.CollisionWithOtherTargets)
             {
-                _hits += 1;
-                if (_hits > _projectile.MaxPiercingTargets.GetValue(_handler.Stacks))
+                _numberOfHits += 1;
+                if (_numberOfHits > _projectile.MaxPiercingTargets.GetValue(_handler.Stacks))
                     HandleEvent(ProjectileEvents.ReachedMaxPiercingTargets, target);
             }
 
@@ -152,21 +204,8 @@ namespace Spells
 
         private void HandleDestroy()
         {
-            Destroy(gameObject);
+            Destroy(gameObject, _projectile.DestroyDelay);
             IsActive = false;
-        }
-
-        public static Vector3 AboveGround(Vector3 position, float hoverHeight = 0f)
-        {
-            if (Physics.Raycast(position + Vector3.up, Vector3.down, out var hit, 10f, Common.LayerMasks.Ground))
-                return hit.point + Vector3.up * hoverHeight;
-            
-            return position;
-        }
-
-        public static bool IsNearGround(Vector3 position, float testHeight = 0.5f)
-        {
-            return Physics.Raycast(position + Vector3.up, Vector3.down, testHeight, Common.LayerMasks.Ground);
         }
     }
 }

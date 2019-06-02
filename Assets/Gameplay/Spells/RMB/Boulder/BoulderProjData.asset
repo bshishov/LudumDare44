@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: BoulderProjData
   m_EditorClassIdentifier: 
   Prefab: {fileID: 1191982563402584559, guid: b661be16b86ec6f4b967ae402bf54b0b, type: 3}
+  SpawnNode: 1
+  TargetNode: 0
+  Type: 1
   Speed:
     Type: 0
-    BaseValue: 50
+    BaseValue: 10
     ModifierPerStack: 0
     EffectiveStacks: 1
   MaxDistance:
@@ -25,7 +28,7 @@ MonoBehaviour:
     EffectiveStacks: 1
   TimeToLive:
     Type: 0
-    BaseValue: 10
+    BaseValue: 5
     ModifierPerStack: 0
     EffectiveStacks: 1
   MaxPiercingTargets:
@@ -33,10 +36,59 @@ MonoBehaviour:
     BaseValue: 100
     ModifierPerStack: 0
     EffectiveStacks: 1
-  Offset: {x: 0, y: 10, z: -10}
-  Trajectory: 0
-  FallingSpeed: 40
-  HoverHeight: 1
+  Hover: 1
+  BlendHeight: 1
+  HeightOverDistance:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.019398276
+      value: 5.0309286
+      inSlope: -0.41788927
+      outSlope: -0.41788927
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.2492079
+    - serializedVersion: 3
+      time: 2.3051105
+      value: 1.056967
+      inSlope: -4.345051
+      outSlope: 5.16009
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.12505509
+      outWeight: 0.07722792
+    - serializedVersion: 3
+      time: 3.14227
+      value: 1.0343113
+      inSlope: -4.344708
+      outSlope: 0.85839087
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.10399118
+      outWeight: 0.3532487
+    - serializedVersion: 3
+      time: 4.363807
+      value: 1.013378
+      inSlope: -0.93580675
+      outSlope: -0.010808161
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.20516178
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 9.998627
+      value: 1.0219679
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.05014465
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   Affects: 2
-  FireSubSpellCondition: 4
+  FireSubSpellCondition: 6
   DestroyCondition: 112

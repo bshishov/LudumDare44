@@ -1,4 +1,5 @@
 ﻿using System;
+using Actors;
 using Attributes;
 using Data;
 using UnityEngine;
@@ -18,24 +19,29 @@ namespace Spells
         public StackableFloat LifeSteal;
         public StackableFloat Cooldown = new StackableFloat(1f);
         public StackableFloat BloodCost = new StackableFloat(1f);
+        public SpellSlot DefaultSlot;
+        public GameObject DropItem;
+        
+        [Header("Initial targeting")]
         public StackableFloat MaxRange = new StackableFloat(10);
         public StackableFloat MinRange = new StackableFloat(0);
-        public SpellSlot DefaultSlot;
-        public bool ManualAbort;
         public bool CheckRangeOnCast;
 
         public enum TargetRangeBehaviour
         {
-            AbortWhenOutOfRange,
-            ClampToRange,
-            SetMaxRange
+            Free = 3,
+            AbortWhenOutOfRange = 0,
+            RetargetClampToRange = 1,
+            RetargetSetMaxRange = 2
         }
-        
         public TargetType TargetType = TargetType.Location;
-        public TargetRangeBehaviour RangeBehaviour = TargetRangeBehaviour.ClampToRange;
-
+        public Query.QueryTeam AffectsTeam = Query.QueryTeam.Enemy;
+        
+        [Header("Logic")]
+        public TargetRangeBehaviour RangeBehaviour = TargetRangeBehaviour.Free;
+        public bool ManualAbort;
         [Expandable]
         public SubSpell[] MainSubSpells;
-        public GameObject DropItem;
+        
     }
 }

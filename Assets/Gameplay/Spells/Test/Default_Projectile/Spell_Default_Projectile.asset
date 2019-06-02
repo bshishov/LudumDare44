@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
-  m_Name: Spell_Boulder
+  m_Name: Spell_Default_Projectile
   m_EditorClassIdentifier: 
-  Name: Boulder
-  Icon: {fileID: 7420673300757599502, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Name: 
+  Icon: {fileID: 0}
   Description: 
-  ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
-    type: 2}
+  ApplyBuffOnDismantle: {fileID: 0}
   LifeSteal:
     Type: 0
     BaseValue: 0
@@ -29,24 +28,24 @@ MonoBehaviour:
     EffectiveStacks: 1
   BloodCost:
     Type: 0
-    BaseValue: 13
+    BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
   MaxRange:
     Type: 0
-    BaseValue: 15
+    BaseValue: 10
     ModifierPerStack: 0
     EffectiveStacks: 1
   MinRange:
     Type: 0
-    BaseValue: 4
+    BaseValue: 1
     ModifierPerStack: 0
     EffectiveStacks: 1
-  DefaultSlot: 1
+  DefaultSlot: 0
   ManualAbort: 0
   CheckRangeOnCast: 0
-  TargetType: 1
-  RangeBehaviour: 0
+  TargetType: 4
+  RangeBehaviour: 1
   MainSubSpells:
-  - {fileID: 11400000, guid: 5fdc35e0f27710149be77c4519d8f3d1, type: 2}
-  DropItem: {fileID: 131193077828940303, guid: b97354f0857bded449811f9f327d95a5, type: 3}
+  - {fileID: 11400000, guid: 1b2c0b92387d75f4f9fb66639be94787, type: 2}
+  DropItem: {fileID: 0}

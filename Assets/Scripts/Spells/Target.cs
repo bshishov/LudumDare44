@@ -14,7 +14,6 @@ namespace Spells
         private readonly Vector3 _location;
         private readonly Vector3 _forward;
         private readonly ITargetLocationProvider _locationProvider;
-        private static readonly Vector3 Offset = new Vector3(0, 1f, 0);
 
         public static Target None = new Target();
 
@@ -72,7 +71,7 @@ namespace Spells
                         return _location;
                     case TargetType.Transform:
                     case TargetType.Character:
-                        return Transform.position + Offset;
+                        return Transform.position;
                     case TargetType.LocationProvider:
                         return _locationProvider.Location;
                     default:

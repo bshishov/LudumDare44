@@ -210,7 +210,7 @@ namespace Spells
             return Vector3.Lerp(from, to, Random.value);
         }
 
-        public static Vector3 RandomInSphere(Vector3 origin, float radius, float minRadius)
+        public static Vector3 RandomInsideSphere(Vector3 origin, float radius, float minRadius)
         {
             // Y plane omitted
             var distance = Mathf.Lerp(minRadius, radius, Random.value);

@@ -422,7 +422,7 @@ namespace Actors
                         break;
                 }
 
-                _spellManager.Cast(affect.CastSpell.Spell, new Target(this), tgt, spellStacks);
+                _spellManager.Cast(affect.CastSpell.Spell, this, tgt, spellStacks);
             }
 
             if (affect.Type == Affect.AffectType.SpawnObject)

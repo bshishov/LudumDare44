@@ -159,15 +159,14 @@ namespace Spells
                 foreach (var target in Queried)
                 {
                     #if DEBUG
-                    if (target.HasPosition)
-                    {
-                        var tPos = target.Position;
-                        Debugger.Default.DrawCircle(tPos, Vector3.up, 0.5f, Color.yellow, 1f);
-                        Debugger.Default.DrawRay(new Ray(tPos, target.Forward), Color.yellow, 0.5f, 1f);
-                    }
+                    TargetUtility.DebugDraw(target, Color.yellow);
                     #endif
                     if (target.Type == TargetType.Character)
                     {
+                        if (e.Query.ExcludeAlreadyAffected &&
+                            _spellHandler.AffectedCharacters.Contains(target.Character))
+                            continue;
+                        
                         if (e.TrackAffectedCharacters)
                             _spellHandler.AffectedCharacters.Add(target.Character);
                         
@@ -244,7 +243,7 @@ namespace Spells
                 var c = QueriedCharactersBuffer[i];
                 
                 // Team filtering
-                if (!SpellManager.IsValidTeam(SpellHandler.Source.Character, c, query.AffectsTeam))
+                if (!TargetUtility.IsValidTeam(SpellHandler.Source.Character, c, query.AffectsTeam))
                 {
                     QueriedCharactersBuffer.RemoveAt(i);
                     continue;
@@ -301,12 +300,10 @@ namespace Spells
         {
             if (SubSpell.Projectile != null)
             {
-                var projectileRoot = new GameObject("Projectile", typeof(Projectile));
-                projectileRoot.transform.position = Source.Position;
-                projectileRoot.transform.rotation = Quaternion.LookRotation(Source.Forward);
-
-                var go = Object.Instantiate(SubSpell.Projectile.Prefab, projectileRoot.transform);
-                _projectile = projectileRoot.GetComponent<Projectile>();
+                var go = Object.Instantiate(SubSpell.Projectile.Prefab, 
+                    Source.Position, 
+                    Quaternion.LookRotation(Source.Forward));
+                _projectile = go.AddComponent<Projectile>();
                 _projectile.Initialize(this, SubSpell.Projectile);
             }
         }
@@ -366,7 +363,7 @@ namespace Spells
                         area.Size.GetValue(SpellHandler.Stacks),
                         area.MinSize.GetValue(SpellHandler.Stacks));
                 case AreaOfEffect.AreaType.Sphere:
-                    return AoeUtility.RandomInSphere(origin.Position,
+                    return AoeUtility.RandomInsideSphere(origin.Position,
                         area.Size.GetValue(SpellHandler.Stacks),
                         area.MinSize.GetValue(SpellHandler.Stacks));
                 case AreaOfEffect.AreaType.Line:

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Actors;
@@ -52,16 +51,15 @@ namespace Spells
             }
         }
 
-        public ISpellHandler Cast(Spell spell, Target source, Target target, int stacks)
+        public ISpellHandler Cast(Spell spell, CharacterState caster, Target target, int stacks)
         {
             if (!target.IsValid)
                 return null;
             
-            if (!source.IsValid)
+            if (caster == null || !caster.IsAlive)
                 return null;
             
             Assert.IsNotNull(spell);
-            Assert.IsTrue(source.Character != null);
 
             if (target.Type != spell.TargetType)
             {
@@ -69,6 +67,7 @@ namespace Spells
                 return null;
             }
 
+            var source = new Target(caster);
             var minRange = spell.MinRange.GetValue(stacks);
             var maxRange = spell.MaxRange.GetValue(stacks);
 
@@ -77,9 +76,16 @@ namespace Spells
             Debugger.Default.DrawCircle(source.Position, Vector3.up, maxRange, Color.yellow, 1f);
 #endif
 
-            if (spell.CheckRangeOnCast && !IsInRange(source, target, minRange, maxRange))
+            if (spell.CheckRangeOnCast && !TargetUtility.IsInRange(source, target, minRange, maxRange))
             {
                 Debug.LogWarning($"Can't cast {spell.name}. Out of range", this);
+                return null;
+            }
+
+            if (target.Type == TargetType.Character &&
+                !TargetUtility.IsValidTeam(caster, target.Character, spell.AffectsTeam))
+            {
+                Debug.LogWarning($"Can't cast {spell.name}. Invalid team", this);
                 return null;
             }
 
@@ -88,38 +94,6 @@ namespace Spells
             return state;
         }
 
-        public static bool IsValidTeam(CharacterState origin, CharacterState other, Query.QueryTeam query)
-        {
-            switch (query)
-            {
-                case Query.QueryTeam.Self:
-                    return origin.Equals(other);
-                case Query.QueryTeam.EveryoneExceptSelf:
-                    return !origin.Equals(other);
-                case Query.QueryTeam.Everyone:
-                    return true;
-                case Query.QueryTeam.Ally:
-                    if (other.CurrentTeam.HasFlag(CharacterState.Team.AgainstTheWorld))
-                        return false;
-                    return origin.CurrentTeam == other.CurrentTeam;
-                case Query.QueryTeam.Enemy:
-                    if (other.CurrentTeam.HasFlag(CharacterState.Team.AgainstTheWorld))
-                        return true;
-                    return origin.CurrentTeam != other.CurrentTeam;
-                default:
-                    throw new InvalidOperationException($"Invalid query team type: {query}");
-            }
-        }
-
-        public static bool IsInRange(Target source, Target target, float minRange, float maxRange)
-        {
-            if (target.Type == TargetType.None)
-                return true;
-
-            var dir = target.Position - source.Position;
-            dir.y = 0;
-            var range = dir.magnitude;
-            return range >= minRange && range <= maxRange;
-        }
+      
     }
 }

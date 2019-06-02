@@ -121,7 +121,7 @@ namespace Spells
             // If already casting
             var handler = _spellCaster.Cast(
                 slotState.Spell, 
-                new Target(_characterState), 
+                _characterState, 
                 target,
                 slotState.NumStacks + _characterState.AdditionSpellStacks);
             
