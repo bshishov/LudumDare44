@@ -43,7 +43,8 @@ namespace Data
             public enum SpellTarget
             { 
                 Self,
-                Source
+                Source,
+                None
             }
 
             [Tooltip("How many stacks casted spell will have")]

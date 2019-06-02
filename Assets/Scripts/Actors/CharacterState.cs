@@ -408,6 +408,9 @@ namespace Actors
                     case Affect.SpellCastInfo.SpellTarget.Self:
                         tgt = new Target(this);
                         break;
+                    case Affect.SpellCastInfo.SpellTarget.None:
+                        tgt = Target.None;
+                        break;
                     default:
                         break;
                 }

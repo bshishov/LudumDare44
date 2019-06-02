@@ -31,7 +31,7 @@ MonoBehaviour:
       CastSpell:
         SpellStacks: 0
         Spell: {fileID: 11400000, guid: 9e796d5cd562c3f4c86ea7188dea4dcd, type: 2}
-        Target: 1
+        Target: 2
         StacksOverride: 0
       ApplyBuff:
         Target: 0
