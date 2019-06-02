@@ -10,10 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ca5cafdfa5c75143b3321cc57d70bb9, type: 3}
-  m_Name: SubSpell_DeathScytheMain
+  m_Name: SubSpell_DeathScythe
   m_EditorClassIdentifier: 
-  Source: 3
-  Target: 4
   BloodCost:
     Type: 0
     BaseValue: 0
@@ -27,7 +25,6 @@ MonoBehaviour:
     BaseValue: 10
     ModifierPerStack: 0
     EffectiveStacks: 1
-  AffectsCharactersOnlyOncePerSpell: 0
   PreCastDelay:
     Type: 0
     BaseValue: 0.4
@@ -55,6 +52,10 @@ MonoBehaviour:
       Origin: 0
       Area: {fileID: 11400000, guid: 12473b6e992603447b5a5bbee4adee7a, type: 2}
       AffectsTeam: 2
+      ExcludeAlreadyAffected: 0
+    TrackAffectedCharacters: 0
+    SubSpellSource: 0
+    SubSpellTarget: 0
     FireSubSpell: {fileID: 0}
     ApplyBuffToTarget: {fileID: 11400000, guid: d8b08e03dc24ced42b9f73e73f382830,
       type: 2}
