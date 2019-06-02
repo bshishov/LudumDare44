@@ -29,9 +29,12 @@ MonoBehaviour:
     EffectiveStacks: 1
   BloodCost:
     Type: 0
-    BaseValue: 10
+    BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
+  DefaultSlot: 2
+  DropItem: {fileID: 6059088751739097296, guid: d24928aed2d10f340aeee188f330f4b8,
+    type: 3}
   MaxRange:
     Type: 0
     BaseValue: 10
@@ -42,12 +45,10 @@ MonoBehaviour:
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
-  DefaultSlot: 2
-  ManualAbort: 1
   CheckRangeOnCast: 1
   TargetType: 4
+  AffectsTeam: 2
   RangeBehaviour: 2
+  ManualAbort: 1
   MainSubSpells:
   - {fileID: 11400000, guid: 0d90175f16bc5a640a73d3a2031d102e, type: 2}
-  DropItem: {fileID: 6059088751739097296, guid: d24928aed2d10f340aeee188f330f4b8,
-    type: 3}
