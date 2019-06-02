@@ -49,7 +49,7 @@ MonoBehaviour:
   InstancingMode: 1
   PreferredNode: 1
   ScaleWithAoE: 0
-  RotationMode: 2
+  RotationMode: 1
   OnlyXzRotation: 1
   DestroyAfterSpell: 0
   DestroyAfterLifetime: 1

@@ -25,6 +25,6 @@ MonoBehaviour:
     EffectiveStacks: 1
   Angle:
     Type: 0
-    BaseValue: 90
+    BaseValue: 140
     ModifierPerStack: 0
     EffectiveStacks: 1

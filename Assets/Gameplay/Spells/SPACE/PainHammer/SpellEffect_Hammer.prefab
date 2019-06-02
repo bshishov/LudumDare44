@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eee3d48d108b6134e9476d472adc2a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpawnEvent: 0
   ExplosionPrefab: {fileID: 8170914362356635174, guid: 4aaebf57ce5eee846b40e271bc81d155,
     type: 3}
   Origin: 1
@@ -51,4 +52,3 @@ MonoBehaviour:
   XZRotationOnly: 1
   AutoDestroy: 0
   DestroyAfter: 2
-  StartEffectOnInputTargetValidated: 1

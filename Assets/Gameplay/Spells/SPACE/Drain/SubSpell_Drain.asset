@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca5cafdfa5c75143b3321cc57d70bb9, type: 3}
   m_Name: SubSpell_Drain
   m_EditorClassIdentifier: 
-  Source: 0
-  Target: 0
   BloodCost:
     Type: 0
     BaseValue: 0
@@ -27,7 +25,6 @@ MonoBehaviour:
     BaseValue: 10
     ModifierPerStack: 0
     EffectiveStacks: 1
-  AffectsCharactersOnlyOncePerSpell: 0
   PreCastDelay:
     Type: 0
     BaseValue: 0
@@ -51,10 +48,14 @@ MonoBehaviour:
   FireSubSpellEvents:
   - Type: 2
     Query:
-      NewTargetsQueryType: 2
-      Origin: 0
+      NewTargetsQueryType: 1
+      Origin: 2
       Area: {fileID: 0}
       AffectsTeam: 0
+      ExcludeAlreadyAffected: 0
+    TrackAffectedCharacters: 0
+    SubSpellSource: 0
+    SubSpellTarget: 0
     FireSubSpell: {fileID: 0}
     ApplyBuffToTarget: {fileID: 11400000, guid: 9ad9be7c9b4e0b94787b4b6a9c31ec9f,
       type: 2}
