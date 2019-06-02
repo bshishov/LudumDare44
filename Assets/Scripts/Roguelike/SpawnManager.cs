@@ -18,6 +18,8 @@ public class SpawnManager : MonoBehaviour
     public int TriggerEnter = 0;
 
     private int _killed = 0;
+    private List<CharacterState> _characterStates = new List<CharacterState>();
+
     public int _needToKill = 0;
     // Start is called before the first frame update
     void Start()
@@ -51,9 +53,9 @@ public class SpawnManager : MonoBehaviour
         foreach (var spawnPoint in SpawnPoints)
             foreach (var enemy in spawnPoint.Enemies)
             {
-                Instantiate(enemy, spawnPoint.Point.transform);
-                var _characterState = enemy.GetComponent<CharacterState>();
-                _characterState.Died += OnEnemyDeath;
+                var enemyObject = Instantiate(enemy, spawnPoint.Point.transform);                
+                var characterState = enemyObject.GetComponent<CharacterState>();
+                characterState.Died += OnEnemyDeath;                
             }
     }
     private void OnEnemyDeath()
