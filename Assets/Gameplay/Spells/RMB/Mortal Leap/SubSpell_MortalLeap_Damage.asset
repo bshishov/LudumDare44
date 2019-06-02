@@ -48,8 +48,8 @@ MonoBehaviour:
   FireSubSpellEvents:
   - Type: 0
     Query:
-      NewTargetsQueryType: 5
-      Origin: 0
+      NewTargetsQueryType: 2
+      Origin: 1
       Area: {fileID: 11400000, guid: 3c971864a3718fa4c8eadb89c44e0371, type: 2}
       AffectsTeam: 2
       ExcludeAlreadyAffected: 0
