@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Proj_PoisonDagger
   m_EditorClassIdentifier: 
   Prefab: {fileID: 429807270828845083, guid: b4d0a1ce57cf2e344bf93f6eacec71d4, type: 3}
-  SpawnNode: 0
-  TargetNode: 0
+  SpawnNode: 1
+  TargetNode: 3
   Type: 0
   Speed:
     Type: 0

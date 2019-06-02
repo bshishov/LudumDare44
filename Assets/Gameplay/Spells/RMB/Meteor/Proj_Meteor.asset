@@ -10,9 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3030d9deb419ea245a3f54c0b8afad23, type: 3}
-  m_Name: Meteor
+  m_Name: Proj_Meteor
   m_EditorClassIdentifier: 
   Prefab: {fileID: 3674095197616854138, guid: 3d7695aa183f8934d9d174c72958917d, type: 3}
+  SpawnNode: 1
+  TargetNode: 3
+  Type: 0
   Speed:
     Type: 0
     BaseValue: 50
@@ -33,10 +36,32 @@ MonoBehaviour:
     BaseValue: 1
     ModifierPerStack: 0
     EffectiveStacks: 1
-  Offset: {x: 0, y: 0, z: 0}
-  Trajectory: 0
-  FallingSpeed: 5
-  HoverHeight: 1
+  HoverGround: 0
+  HeightProfile:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   Affects: 2
   FireSubSpellCondition: -1
   DestroyCondition: 120
+  DestroyDelay: 0.1

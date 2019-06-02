@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Proj_Skull
   m_EditorClassIdentifier: 
   Prefab: {fileID: 4385171735532075985, guid: a6da86c9ac5158e4dacc4471fab35c78, type: 3}
-  SpawnNode: 0
-  TargetNode: 0
+  SpawnNode: 1
+  TargetNode: 3
   Type: 1
   Speed:
     Type: 0
