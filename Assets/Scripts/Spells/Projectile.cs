@@ -176,7 +176,11 @@ namespace Spells
                     eventTarget = new Target(other.transform.position);
                     break;
                 case ProjectileData.EventTarget.OtherColliderCharacter:
-                    eventTarget = new Target(other.GetComponent<CharacterState>());
+                    var otherChar = other.GetComponent<CharacterState>();
+                    if(otherChar != null)
+                        eventTarget = new Target(otherChar);
+                    else
+                        eventTarget = new Target(other.transform);
                     break;
                 case ProjectileData.EventTarget.SelfPosition:
                     eventTarget = new Target(transform.position);

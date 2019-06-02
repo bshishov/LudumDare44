@@ -101,3 +101,4 @@ MonoBehaviour:
   FireSubSpellCondition: 6
   DestroyCondition: 240
   DestroyDelay: 1
+  CollisionTarget: 3
