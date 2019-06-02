@@ -10,9 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3030d9deb419ea245a3f54c0b8afad23, type: 3}
-  m_Name: SkullProjData
+  m_Name: Proj_Skull
   m_EditorClassIdentifier: 
   Prefab: {fileID: 4385171735532075985, guid: a6da86c9ac5158e4dacc4471fab35c78, type: 3}
+  SpawnNode: 0
+  TargetNode: 0
+  Type: 1
   Speed:
     Type: 0
     BaseValue: 15
@@ -33,10 +36,32 @@ MonoBehaviour:
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
-  Offset: {x: 0, y: 0, z: 0}
-  Trajectory: 0
-  FallingSpeed: 0
-  HoverHeight: 1
+  HoverGround: 0
+  HeightProfile:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.00015258789
+      inSlope: 8.185544
+      outSlope: 8.185544
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.030384693
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -7.723446
+      outSlope: -7.723446
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.034108758
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   Affects: 2
-  FireSubSpellCondition: 6
+  FireSubSpellCondition: 134
   DestroyCondition: 46
+  DestroyDelay: 0.05

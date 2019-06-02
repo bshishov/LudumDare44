@@ -48,7 +48,7 @@ MonoBehaviour:
   CheckRangeOnCast: 0
   TargetType: 2
   AffectsTeam: 2
-  RangeBehaviour: 1
+  RangeBehaviour: 3
   ManualAbort: 0
   MainSubSpells:
   - {fileID: 11400000, guid: b60fde060fd73e148a0a877b4153196f, type: 2}
