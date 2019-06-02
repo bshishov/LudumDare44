@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ca5cafdfa5c75143b3321cc57d70bb9, type: 3}
-  m_Name: SubSpell_Meteor_Explosion
+  m_Name: SubSpell_Meteor
   m_EditorClassIdentifier: 
   BloodCost:
     Type: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     EffectiveStacks: 1
   PreCastDelay:
     Type: 0
-    BaseValue: 0
+    BaseValue: 1.2
     ModifierPerStack: 0
     EffectiveStacks: 1
   FireDelay:
@@ -46,10 +46,10 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   FireSubSpellEvents:
-  - Type: 0
+  - Type: 2
     Query:
-      NewTargetsQueryType: 5
-      Origin: 0
+      NewTargetsQueryType: 2
+      Origin: 2
       Area: {fileID: 11400000, guid: 45b3282f6371ec348a78032b84a69483, type: 2}
       AffectsTeam: 2
       ExcludeAlreadyAffected: 0
@@ -60,4 +60,4 @@ MonoBehaviour:
     ApplyBuffToTarget: {fileID: 11400000, guid: dc2d28ea50567e648b06ddb37346dd41,
       type: 2}
   Projectile: {fileID: 0}
-  Effect: {fileID: 0}
+  Effect: {fileID: 3674095197616854138, guid: 3d7695aa183f8934d9d174c72958917d, type: 3}
