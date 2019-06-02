@@ -71,10 +71,7 @@ namespace Spells
             var minRange = spell.MinRange.GetValue(stacks);
             var maxRange = spell.MaxRange.GetValue(stacks);
 
-#if DEBUG
-            Debugger.Default.DrawCircle(source.Position, Vector3.up, minRange, Color.yellow, 1f);
-            Debugger.Default.DrawCircle(source.Position, Vector3.up, maxRange, Color.yellow, 1f);
-#endif
+
 
             if (spell.CheckRangeOnCast && !TargetUtility.IsInRange(source, target, minRange, maxRange))
             {

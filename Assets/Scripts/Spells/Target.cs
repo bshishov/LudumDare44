@@ -80,6 +80,28 @@ namespace Spells
                 }
             }
         }
+        
+        public static readonly Vector3 Offset = Vector3.up;
+        
+        public Vector3 OffsettedPosition
+        {
+            get
+            {
+                switch (Type)
+                {
+                    case TargetType.Location:
+                        return _location + Offset;
+                    case TargetType.Transform:
+                    case TargetType.Character:
+                        return Transform.position + Offset;
+                    case TargetType.LocationProvider:
+                        return _locationProvider.Location + Offset;
+                    default:
+                    case TargetType.None:
+                        throw new InvalidOperationException($"Target of type {Type} does not have position");
+                }
+            }
+        }
 
         public Vector3 Forward
         {

@@ -44,6 +44,10 @@ namespace Spells
             Source = source;
             Target = target;
             _state = SubSpellState.Started;
+            
+            #if DEBUG
+            TargetUtility.DebugDrawSourceAndTarget(source, target);
+            #endif
         }
 
         public void Update()
@@ -327,7 +331,7 @@ namespace Spells
                 case AreaOfEffect.AreaType.Cone:
                     AoeUtility.CharactersInsideConeNonAlloc(
                         characters,
-                        origin.Position, 
+                        origin.OffsettedPosition, 
                         origin.Forward, 
                         area.Angle.GetValue(SpellHandler.Stacks), 
                         area.Size.GetValue(SpellHandler.Stacks),
@@ -336,12 +340,14 @@ namespace Spells
                 case AreaOfEffect.AreaType.Sphere:
                     AoeUtility.CharactersInsideSphereNonAlloc(
                         characters,
-                        origin.Position, 
+                        origin.OffsettedPosition, 
                         area.Size.GetValue(SpellHandler.Stacks), 
                         area.MinSize.GetValue(SpellHandler.Stacks));
                     return;
                 case AreaOfEffect.AreaType.Line:
-                    AoeUtility.CharactersInLineNonAlloc(characters, origin.Position, Target.Position);
+                    AoeUtility.CharactersInLineNonAlloc(characters, 
+                        origin.OffsettedPosition, 
+                        Target.OffsettedPosition);
                     return;
                 default:
                     throw new InvalidOperationException($"Invalid area type: {area.Area}");

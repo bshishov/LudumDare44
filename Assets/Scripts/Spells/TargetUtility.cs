@@ -35,9 +35,30 @@ namespace Spells
 #if DEBUG
             if (target.HasPosition)
             {
-                var tPos = target.Position;
+                var tPos = target.OffsettedPosition;
                 Debugger.Default.DrawCircle(tPos, Vector3.up, 0.5f, color, 1f);
                 Debugger.Default.DrawRay(tPos, target.Forward, color, 0.5f, 1f);
+            }
+#endif
+        }
+        
+        public static void DebugDrawSourceAndTarget(Target source, Target target)
+        {
+#if DEBUG
+            if (source.HasPosition)
+            {
+                var sPos = source.OffsettedPosition;
+                Debugger.Default.DrawCircle(sPos, Vector3.up, 0.5f, Color.red, 1f);
+                Debugger.Default.DrawRay(sPos, source.Forward, Color.red, 0.5f, 1f);
+
+                if (target.HasPosition)
+                {
+                    var tPos = target.OffsettedPosition;
+                    Debugger.Default.DrawCircle(tPos, Vector3.up, 0.5f, Color.blue, 1f);
+                    Debugger.Default.DrawRay(tPos, target.Forward, Color.blue, 0.5f, 1f);
+                    
+                    Debugger.Default.DrawLine(sPos, tPos, Color.magenta, 1f);
+                }
             }
 #endif
         }

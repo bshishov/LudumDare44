@@ -4,6 +4,7 @@ using System.Text;
 using Actors;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Utils.Debugger;
 
 namespace Spells
 {
@@ -45,6 +46,16 @@ namespace Spells
             _originalTarget = castTarget;
             _minRange = spell.MinRange.GetValue(Stacks);
             _maxRange = spell.MaxRange.GetValue(Stacks);
+            
+#if DEBUG
+            // Draw debug info
+            if (spell.TargetType != TargetType.None)
+            {
+                Debugger.Default.DrawCircle(source.OffsettedPosition, Vector3.up, _minRange, Color.yellow, 1f);
+                Debugger.Default.DrawCircle(source.OffsettedPosition, Vector3.up, _maxRange, Color.yellow, 1f);
+            }
+            TargetUtility.DebugDrawSourceAndTarget(source, castTarget);
+#endif
 
             // Create target proxy if we need to retarget
             if (spell.RangeBehaviour == Spell.TargetRangeBehaviour.RetargetClampToRange ||
