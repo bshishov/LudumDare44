@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Boulder
   Icon: {fileID: 7420673300757599502, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 
+  Description: 'Launches a boulder, smashing enemies on its way, dealing 7 damage
+
+    Next level: +5 damage'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
     type: 2}
   LifeSteal:

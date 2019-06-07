@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Mortal Leap
   Icon: {fileID: -4398554660853359821, guid: 31ec042ca000c8346a1fbbc8cbdd9b6f, type: 3}
-  Description: 
+  Description: 'Teleports to a targeted spot and deals 5 damage around you
+
+    Next level: +5 damage'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: d40a7521edefecc42acffe2f661332cd,
     type: 2}
   LifeSteal:
@@ -23,10 +25,10 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   Cooldown:
-    Type: 0
-    BaseValue: 3
-    ModifierPerStack: 0
-    EffectiveStacks: 1
+    Type: 1
+    BaseValue: 3.5
+    ModifierPerStack: -0.25
+    EffectiveStacks: 10
   BloodCost:
     Type: 0
     BaseValue: 5

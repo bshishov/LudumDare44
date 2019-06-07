@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Death Scythe
   Icon: {fileID: 4398446536174290518, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 
+  Description: 'Summoning a ghostly scythe to reap all enemies in a targeted cone
+    for 15 damage and making them bleed
+
+    Next level: +10 damage  -5 cooldown'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: c2bf24e4004b1954e99e4ce13852e4fb,
     type: 2}
   LifeSteal:
@@ -23,10 +26,10 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   Cooldown:
-    Type: 0
-    BaseValue: 30
-    ModifierPerStack: 0
-    EffectiveStacks: 1
+    Type: 1
+    BaseValue: 35
+    ModifierPerStack: -5
+    EffectiveStacks: 10
   BloodCost:
     Type: 0
     BaseValue: 0

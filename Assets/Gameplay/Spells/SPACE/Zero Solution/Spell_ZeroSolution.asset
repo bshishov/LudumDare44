@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Zero Solution
   Icon: {fileID: 7431186755973459390, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 
+  Description: Channels all your thoughts into an orb and after release deals an ungodly
+    amount of damage to every enemy around you. Be wary, however, for the spell drains
+    your blood
   ApplyBuffOnDismantle: {fileID: 11400000, guid: c2bf24e4004b1954e99e4ce13852e4fb,
     type: 2}
   LifeSteal:
@@ -32,6 +34,9 @@ MonoBehaviour:
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
+  DefaultSlot: 2
+  DropItem: {fileID: 6059088751739097296, guid: d24928aed2d10f340aeee188f330f4b8,
+    type: 3}
   MaxRange:
     Type: 0
     BaseValue: 10
@@ -42,12 +47,10 @@ MonoBehaviour:
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
-  DefaultSlot: 2
-  ManualAbort: 1
   CheckRangeOnCast: 0
   TargetType: 0
+  AffectsTeam: 2
   RangeBehaviour: 0
+  ManualAbort: 1
   MainSubSpells:
   - {fileID: 11400000, guid: 7e3b97dc63140ce4cb31f1c7c8617fa2, type: 2}
-  DropItem: {fileID: 6059088751739097296, guid: d24928aed2d10f340aeee188f330f4b8,
-    type: 3}

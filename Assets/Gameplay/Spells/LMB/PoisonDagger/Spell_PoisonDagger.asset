@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: PoisonDagger
   Icon: {fileID: 8339939493531242580, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 
+  Description: 'Throws a poison dagger at a chosen direction, dealing 1 damage, piercing
+    1 enemy in its way and slowing affected enemies by 20% for 2 seconds
+
+    Next level: +1 damage  +1 pierce +5% slow'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
     type: 2}
   LifeSteal:

@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Blood dagger
   Icon: {fileID: 3770519954012001039, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 
+  Description: 'Throws a blood dagger at a chosen direction, dealing 1 damage and
+    piercing 1 enemy in its way
+
+    Next level: +1 damage  +1 pierce'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
     type: 2}
   LifeSteal:

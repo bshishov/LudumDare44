@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Area: 0
   Size:
-    Type: 0
-    BaseValue: 3
-    ModifierPerStack: 0
-    EffectiveStacks: 1
+    Type: 1
+    BaseValue: 2.5
+    ModifierPerStack: 0.5
+    EffectiveStacks: 100
   MinSize:
     Type: 0
     BaseValue: 0

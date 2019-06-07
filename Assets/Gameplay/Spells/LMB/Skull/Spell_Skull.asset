@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Skull
   Icon: {fileID: -8055246306674290579, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 
+  Description: 'Launches a homing skull at a targeted enemy. Deals 2 damage and has
+    a greated bloodback than any other starter spell
+
+    Next level: +2 damage'
   ApplyBuffOnDismantle: {fileID: 0}
   LifeSteal:
     Type: 0

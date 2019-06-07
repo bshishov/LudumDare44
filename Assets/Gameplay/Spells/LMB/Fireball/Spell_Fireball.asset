@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Fireball
   Icon: {fileID: -8173168643058176568, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 
+  Description: 'Launches a barrage of fireballs at a chosen direction, each dealing
+    1 damage
+
+    Nexet level: +1 damage  +1 fireball'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
     type: 2}
   LifeSteal:

@@ -63,7 +63,7 @@ MonoBehaviour:
           ModifierPerStack: 0
           EffectiveStacks: 1
         BreakOnDestination: 0
-  - EventType: 2
+  - EventType: 6
     Affect:
       Type: 0
       ApplyModifier:

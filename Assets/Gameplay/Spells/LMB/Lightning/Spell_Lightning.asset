@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Lightning
   Icon: {fileID: -8252871216045270066, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 
+  Description: 'Casts a chain lightning at a targeted enemy, dealing 1 damage and
+    bouncing to 1 closest enemy
+
+    Next level: +1 damage  +1 bounce'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: ee17f24e16d0b0247b56793fece5c2d5,
     type: 2}
   LifeSteal:
@@ -32,6 +35,9 @@ MonoBehaviour:
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
+  DefaultSlot: 0
+  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
+    type: 3}
   MaxRange:
     Type: 1
     BaseValue: 10
@@ -42,12 +48,10 @@ MonoBehaviour:
     BaseValue: 0
     ModifierPerStack: 0
     EffectiveStacks: 1
-  DefaultSlot: 0
-  ManualAbort: 0
   CheckRangeOnCast: 0
   TargetType: 1
+  AffectsTeam: 2
   RangeBehaviour: 0
+  ManualAbort: 0
   MainSubSpells:
   - {fileID: 11400000, guid: 2660a28435ae64f42b6192643304b6b7, type: 2}
-  DropItem: {fileID: 8991475332634969288, guid: f584162b0e130304bbf07cee8eef3a5b,
-    type: 3}

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: PossessionExplosionDamage
   Behaviour: 1
-  TickCooldown: 1.5
-  Duration: 4.5
+  TickCooldown: 1
+  Duration: 4
   Modifiers: []
   Events:
   - EventType: 2

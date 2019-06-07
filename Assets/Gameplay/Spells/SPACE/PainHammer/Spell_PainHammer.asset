@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Pain Hammer
   Icon: {fileID: 6876218924004010766, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 
+  Description: 'Materializes your fury in a form of hammer, falling on your enemies
+    and dealing 30 damage
+
+    Next level: +30 damage'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: c2bf24e4004b1954e99e4ce13852e4fb,
     type: 2}
   LifeSteal:

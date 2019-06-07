@@ -96,10 +96,10 @@ MonoBehaviour:
           ModifierPerStack: 0
           EffectiveStacks: 0
         MovementDuration:
-          Type: 0
-          BaseValue: 0.3
-          ModifierPerStack: 0
-          EffectiveStacks: 0
+          Type: 1
+          BaseValue: 0.25
+          ModifierPerStack: 0.05
+          EffectiveStacks: 10
         MaxDistanceFromOrigin:
           Type: 0
           BaseValue: 3

@@ -19,9 +19,9 @@ MonoBehaviour:
   Modifiers:
   - Parameter: 11
     ChangeAmount:
-      Type: 0
-      BaseValue: -0.2
-      ModifierPerStack: 0
+      Type: 1
+      BaseValue: -0.15
+      ModifierPerStack: -0.05
       EffectiveStacks: 100
   Events:
   - EventType: 2

@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Rage Ray
   Icon: {fileID: 5774029788521294264, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
-  Description: 
+  Description: 'Lets out all your rage in a form of ray, dealing 16 damage p/s and
+    setting your enemies on fire
+
+    Next level: +10 damage p/s'
   ApplyBuffOnDismantle: {fileID: 11400000, guid: c2bf24e4004b1954e99e4ce13852e4fb,
     type: 2}
   LifeSteal:
