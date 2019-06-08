@@ -60,4 +60,4 @@ MonoBehaviour:
     ApplyBuffToTarget: {fileID: 11400000, guid: 736c79006a33c1041a831e1f13c6912d,
       type: 2}
   Projectile: {fileID: 11400000, guid: 4948532ce620a14418d1e0e2d5585c61, type: 2}
-  Effect: {fileID: 0}
+  Effect: {fileID: 1349204274574646620, guid: b47d23820e84f31409fd18cfe4ffdcf5, type: 3}
