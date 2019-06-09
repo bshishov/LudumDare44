@@ -2,8 +2,8 @@ Shader "FX/BlendAdd"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}		
-		[HDR]_Color("Color", Color) = (1, 1, 1, 1)		
+        _MainTex ("Texture (RGBA)", 2D) = "white" {}		
+		[HDR]_Color("Color (RGBA)", Color) = (1, 1, 1, 1)		
     }
     SubShader
     {

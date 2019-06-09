@@ -43,11 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8fd067e385f83e4899bc4be0f0b8ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 5474067922000414525, guid: 58d20705beadc544fb11d9df92cc767f, type: 3}
+  Prefab: {fileID: 4425751186060024091, guid: 97c00173fe7ef764fb1ab5f60b757888, type: 3}
   SpawnEvent: 0
   SpawnOrigin: 0
   InstancingMode: 1
-  PreferredNode: 1
+  PreferredNode: 4
   ScaleWithAoE: 0
   RotationMode: 1
   OnlyXzRotation: 1

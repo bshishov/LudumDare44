@@ -7,9 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FX_DeathScytheSymbols
-  m_Shader: {fileID: -6465566751694194690, guid: 2399999df20aabf44b6809ddec9b7245,
-    type: 3}
+  m_Name: FX_Scyte_Smoke
+  m_Shader: {fileID: 4800000, guid: 10240f64955e28f46a3cead140d0e3de, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -32,38 +31,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Layer1_Texture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Layer2_Texture:
-        m_Texture: {fileID: 2800000, guid: dc2f5ac115bde90499ab6d1669d79a91, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Layer3_Texture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Mask:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 7eb9db976b3263540b455e8af740b655, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _NoiseTex:
-        m_Texture: {fileID: 2800000, guid: 1dd6bd005e20bba40a81feaf59ceffac, type: 3}
-        m_Scale: {x: 2.98, y: 1.48}
-        m_Offset: {x: 1.72, y: 2.08}
-    - _NoiseTex2:
-        m_Texture: {fileID: 2800000, guid: 1dd6bd005e20bba40a81feaf59ceffac, type: 3}
-        m_Scale: {x: 2.13, y: 4.33}
-        m_Offset: {x: 1.9, y: 3.79}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -72,8 +47,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Tex1:
+        m_Texture: {fileID: 2800000, guid: a1f6f4bc47d05374e9904bf43c2805c1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex2:
+        m_Texture: {fileID: 2800000, guid: 76c38a6a0704ecf4cabe24ef364797d8, type: 3}
+        m_Scale: {x: 0.5, y: 0.5}
+        m_Offset: {x: 0, y: 0}
+    - _Tex3:
+        m_Texture: {fileID: 2800000, guid: 76c38a6a0704ecf4cabe24ef364797d8, type: 3}
+        m_Scale: {x: 0.25, y: 0.25}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AlphaBoost: 2.23
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -91,23 +77,19 @@ Material:
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 20
     - _SrcBlend: 1
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Layer1_Speed: {r: 1, g: 0.2, b: 0, a: 0}
-    - _Layer1_Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _Layer2_Speed: {r: 0, g: 0, b: 0, a: 0}
-    - _Layer2_Tiling: {r: 1.5, g: 1.5, b: 0, a: 0}
-    - _Layer3_Speed: {r: -1, g: 0, b: 0, a: 0}
-    - _Layer3_Tiling: {r: 4, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
---- !u!114 &5428231694952875163
+    - _Speed1: {r: 1, g: 1, b: 0, a: 0}
+    - _Speed2: {r: 2, g: 2, b: 0, a: 0}
+    - _Speed3: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &7020494005913323350
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

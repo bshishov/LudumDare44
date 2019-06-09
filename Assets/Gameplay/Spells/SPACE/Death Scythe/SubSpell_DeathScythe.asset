@@ -27,7 +27,7 @@ MonoBehaviour:
     EffectiveStacks: 1
   PreCastDelay:
     Type: 0
-    BaseValue: 0.4
+    BaseValue: 0.2
     ModifierPerStack: 0
     EffectiveStacks: 1
   FireDelay:

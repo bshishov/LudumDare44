@@ -1,7 +1,7 @@
 ﻿Shader "FX/DecalBasic"
 {
 	Properties {
-		_MainTex ("Base (RGB)", 2D) = "white" {}
+		_MainTex ("Base (RGBA)", 2D) = "white" {}
 		[HDR]_Color("Color", Color) = (1, 1, 1, 1)
 	}
 	SubShader 

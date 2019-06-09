@@ -2,11 +2,11 @@
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
-		_Tex1("Tex1", 2D) = "white" {}
-		_Tex2("Tex2", 2D) = "white" {}
-		_Tex3("Tex3", 2D) = "white" {}
-		[HDR]_Color("Color", Color) = (1, 1, 1, 1)
+        _MainTex ("Mask (RGBA)", 2D) = "white" {}
+		_Tex1("Tex1 (RGBA)", 2D) = "white" {}
+		_Tex2("Tex2 (RGBA)", 2D) = "white" {}
+		_Tex3("Tex3 (RGBA)", 2D) = "white" {}
+		[HDR]_Color("Color (RGBA)", Color) = (1, 1, 1, 1)
 		_Speed1("Speed1", Vector) = (0, 0, 0, 0)
 		_Speed2("Speed2", Vector) = (0, 0, 0, 0)
 		_Speed3("Speed3", Vector) = (0, 0, 0, 0)
