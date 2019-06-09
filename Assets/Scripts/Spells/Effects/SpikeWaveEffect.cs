@@ -9,14 +9,7 @@ namespace Spells.Effects
 
         private void SpawnParticle(Vector3 origin, Quaternion rotation, float distance, float angle)
         {
-            // Try cast a ray to the ground
-            if (Physics.Raycast(origin, Vector3.down, out var hit, 2f, Common.LayerMasks.Ground))
-            {
-                // If succeeded - replace the origin with the hit point, so we spawn particles from ground
-                origin = hit.point;
-            }
-
-            var instance = Instantiate(SpikePrefab, origin, rotation);
+            var instance = Instantiate(SpikePrefab, TargetUtility.AboveGround(origin), rotation);
             Destroy(instance.gameObject, 1.0f);
 
             var particles = instance.GetComponent<ParticleSystem>();
