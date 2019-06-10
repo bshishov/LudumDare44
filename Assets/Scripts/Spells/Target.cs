@@ -11,6 +11,7 @@ namespace Spells
         public readonly TargetType Type;
         public readonly CharacterState Character;
         public readonly Transform Transform;
+        
         private readonly Vector3 _location;
         private readonly Vector3 _forward;
         private readonly ITargetLocationProvider _locationProvider;

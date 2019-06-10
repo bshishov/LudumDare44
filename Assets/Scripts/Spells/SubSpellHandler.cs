@@ -222,13 +222,19 @@ namespace Spells
         {
             queried.Clear();
             var origin = ResolveTarget(query.Origin, defaultOrigin);
+            
+            if(!origin.IsValid)
+                return;
+            
             switch (query.NewTargetsQueryType)
             {
                 case Query.QueryType.None:
                     return;
                 case Query.QueryType.OriginAsTarget:
-                    if(origin.IsValid)
-                        queried.Add(origin);
+                    queried.Add(origin);
+                    return;
+                case Query.QueryType.FillAoE:
+                    FillTargetsInAoe(queried, query.Area, origin);
                     return;
                 case Query.QueryType.RandomLocationInAoe:
                     var randomLoc = RandomLocationInAoe(query.Area, origin);
@@ -299,7 +305,7 @@ namespace Spells
                 return;
             }
         }
-
+        
         private void SpawnProjectile()
         {
             if (SubSpell.Projectile != null)
@@ -312,6 +318,47 @@ namespace Spells
             }
         }
 
+        private void FillTargetsInAoe(List<Target> targets, AreaOfEffect area, Target origin)
+        {
+            targets.Clear();
+            Assert.IsNotNull(area, "Area must be set to use FillTargetsInAoe");
+            IEnumerable<Vector3> positions;
+            switch (area.Area)
+            {
+                case AreaOfEffect.AreaType.Cone:
+                    positions = AoeUtility.EnumerateLocationsInCone(
+                        origin.OffsettedPosition,
+                        origin.Forward,
+                        area.Angle.GetValue(Stacks),
+                        area.Size.GetValue(Stacks),
+                        area.MinSize.GetValue(Stacks),
+                        1f);
+                    break;
+                case AreaOfEffect.AreaType.Sphere:
+                    positions = AoeUtility.EnumerateLocationsInCircle(
+                        origin.OffsettedPosition,
+                        area.Size.GetValue(Stacks),
+                        area.MinSize.GetValue(Stacks),
+                        1f);
+                    break;
+                case AreaOfEffect.AreaType.Line:
+                    // Todo: eliminate direct usage of Target
+                    positions = AoeUtility.EnumerateLocationsInLine(
+                        origin.OffsettedPosition,
+                        Target.OffsettedPosition);
+                    break;
+                default:
+                    positions = null;
+                    break;
+            }
+            
+            if(positions == null)
+                return;
+
+            foreach (var pos in positions)
+                targets.Add(new Target(pos));
+        }
+        
         private void CharactersInAoe(
             List<CharacterState> characters, 
             AreaOfEffect area, 
@@ -319,13 +366,7 @@ namespace Spells
         {
             // Clear buffer
             characters.Clear();
-            
-            if (area == null)
-            {
-                Debug.LogWarning("Area is not set");
-                return;
-            }
-            
+            Assert.IsNotNull(area);
             switch (area.Area)
             {
                 case AreaOfEffect.AreaType.Cone:
@@ -333,18 +374,19 @@ namespace Spells
                         characters,
                         origin.OffsettedPosition, 
                         origin.Forward, 
-                        area.Angle.GetValue(SpellHandler.Stacks), 
-                        area.Size.GetValue(SpellHandler.Stacks),
-                        area.MinSize.GetValue(SpellHandler.Stacks));
+                        area.Angle.GetValue(Stacks), 
+                        area.Size.GetValue(Stacks),
+                        area.MinSize.GetValue(Stacks));
                     return;
                 case AreaOfEffect.AreaType.Sphere:
                     AoeUtility.CharactersInsideSphereNonAlloc(
                         characters,
                         origin.OffsettedPosition, 
-                        area.Size.GetValue(SpellHandler.Stacks), 
-                        area.MinSize.GetValue(SpellHandler.Stacks));
+                        area.Size.GetValue(Stacks), 
+                        area.MinSize.GetValue(Stacks));
                     return;
                 case AreaOfEffect.AreaType.Line:
+                    // Todo: eliminate direct usage of Target
                     AoeUtility.CharactersInLineNonAlloc(characters, 
                         origin.OffsettedPosition, 
                         Target.OffsettedPosition);
@@ -356,12 +398,7 @@ namespace Spells
 
         private Vector3 RandomLocationInAoe(AreaOfEffect area, Target origin)
         {
-            if (area == null)
-            {
-                Debug.LogWarning("Area is null");
-                return origin.Position;
-            }
-
+            Assert.IsNotNull(area);
             switch (area.Area)
             {
                 case AreaOfEffect.AreaType.Cone:

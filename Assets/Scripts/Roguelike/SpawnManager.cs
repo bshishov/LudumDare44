@@ -36,7 +36,7 @@ public class SpawnManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!IsVisited && other.tag == "Player")
+        if (!IsVisited && other.CompareTag("Player"))
         {
             IsVisited = true;
             BuildWall();

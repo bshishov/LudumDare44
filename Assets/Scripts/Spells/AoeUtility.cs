@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Actors;
 using UnityEngine;
 using Utils.Debugger;
@@ -228,6 +230,113 @@ namespace Spells
             var distance = Mathf.Lerp(minRadius, radius, Random.value);
             var angle = Mathf.Lerp(-maxAngle * 0.5f,maxAngle * 0.5f, Random.value);
             return origin + distance * (Quaternion.Euler(0, angle, 0) * direction.normalized);
+        }
+
+        public static IEnumerable<Vector3> EnumerateLocationsInCircle(
+            Vector3 origin,
+            float radius,
+            float minRadius = 0f,
+            float spacing = 1f)
+        {
+            // Check Spacing
+            spacing = Mathf.Max(0.2f, spacing);
+            
+            // Total "ring" band thickness 
+            var rRange = Mathf.Max(0, radius - minRadius);
+            const float arcSize = 360f;
+            const float arc2Len = 2 * Mathf.PI * arcSize / 360f;
+
+            // Orbital-Subdivision (number of rings)
+            // Slight correction for circle-packing like feel
+            var nRings = Subdiv(rRange, spacing * 0.8f);
+            for (var ringIdx = 0; ringIdx < nRings; ringIdx ++)
+            {
+                var ringR = minRadius + SubdividedPos(ringIdx, nRings, rRange);
+                
+                // Radial subdivision
+                // Subdivide ring length
+                var nSegments = Subdiv(arc2Len * ringR, spacing);
+                for (var segmentIdx = 0; segmentIdx < nSegments; segmentIdx++)
+                {
+                    // Angle is in RADIANS
+                    var segmentAngle = SubdividedPos(segmentIdx, nSegments, Mathf.PI * 2);
+                    yield return origin + FromRadialXz(ringR, segmentAngle); 
+                }
+            }
+        }
+        
+        public static IEnumerable<Vector3> EnumerateLocationsInCone(
+            Vector3 origin,
+            Vector3 direction,
+            float angle,
+            float radius,
+            float minRadius = 0f,
+            float spacing = 1f)
+        {
+            // Check Spacing
+            spacing = Mathf.Max(0.2f, spacing);
+            
+            // Total "ring" band thickness 
+            var rRange = Mathf.Max(0, radius - minRadius);
+            var arc2Len = 2 * Mathf.PI * angle / 360f;
+            var arcLen = Mathf.Deg2Rad * angle;
+            var baseAngle = Mathf.Atan2(direction.z, direction.x) - arcLen * 0.5f;
+
+            // Orbital-Subdivision (number of rings)
+            // Slight correction for circle-packing like feel
+            var nRings = Subdiv(rRange, spacing * 0.8f);
+            for (var ringIdx = 0; ringIdx < nRings; ringIdx ++)
+            {
+                var ringR = minRadius + SubdividedPos(ringIdx, nRings, rRange);
+                var ringLength = arc2Len * ringR;
+                
+                // Radial subdivision
+                var nSegments = Subdiv(ringLength, spacing);
+                for (var segmentIdx = 0; segmentIdx < nSegments; segmentIdx++)
+                {
+                    // Angle is in RADIANS
+                    var segmentAngle = baseAngle + SubdividedPos(segmentIdx, nSegments, arcLen);
+                    yield return origin + FromRadialXz(ringR, segmentAngle); 
+                }
+            }
+        }
+
+        public static IEnumerable<Vector3> EnumerateLocationsInLine(
+            Vector3 start,
+            Vector3 end,
+            float spacing = 1f
+        )
+        {
+            spacing = Mathf.Max(0.2f, spacing);
+            var nSegments = Subdiv((end - start).magnitude, spacing);
+            for (var segmentIdx = 0; segmentIdx < nSegments; segmentIdx++)
+            {
+                yield return
+                    Vector3.LerpUnclamped(
+                        start, 
+                        end, 
+                        SubdividedPos(segmentIdx, nSegments, 1f)
+                        );
+            }
+        }
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static float SubdividedPos(int index, int subDivs, float length = 1f)
+        {
+            return (0.5f + index) * length / subDivs;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int Subdiv(float length, float spacing)
+        {
+            return Mathf.Max(1, Mathf.RoundToInt(length / spacing));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Vector3 FromRadialXz(float r, float angle)
+        {
+            return new Vector3(Mathf.Cos(angle) * r, 0 ,Mathf.Sin(angle) * r);
         }
     }
 }
