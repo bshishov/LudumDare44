@@ -23,12 +23,11 @@ MonoBehaviour:
   AI: {fileID: 11400000, guid: e9a23e839936fb8498710caec5f1ddfd, type: 2}
   DropRate: 0.05
   DropSpells:
-  - {fileID: 11400000, guid: 0f5e31d5e7d195e4dbcf8c1f34aa4da3, type: 2}
+  - {fileID: 11400000, guid: 25a82ef5d451e9841b7706dfd4c8c98d, type: 2}
   - {fileID: 11400000, guid: 4dea2418d8494ae43ba01a378694fbf2, type: 2}
-  - {fileID: 11400000, guid: 1e6940b2adb5d7244a4fbff980a6250e, type: 2}
-  - {fileID: 11400000, guid: c26cb1742481020428164b5b9dea2f1e, type: 2}
+  - {fileID: 11400000, guid: c8a8167ed14b0b041972b75f4cd732da, type: 2}
+  - {fileID: 11400000, guid: 5ef7bef0c1988da44909b9545c443139, type: 2}
   - {fileID: 11400000, guid: d7808e7fb811ac247a488fdf8e4a970d, type: 2}
-  - {fileID: 11400000, guid: 1e6940b2adb5d7244a4fbff980a6250e, type: 2}
   - {fileID: 11400000, guid: 061e3a3f356d7fc489e00711052fd343, type: 2}
   UseSpells: []
   UseBuff: {fileID: 0}
