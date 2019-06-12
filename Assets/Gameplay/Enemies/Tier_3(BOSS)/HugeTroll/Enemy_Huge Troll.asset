@@ -10,23 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
-  m_Name: Enemy_Warlock
+  m_Name: Enemy_Huge Troll
   m_EditorClassIdentifier: 
-  Health: 250
+  Health: 200
   Damage: 0
-  Speed: 4
+  Speed: 3.5
   Evasion: 0
   Size: 1.5
   HealthModifier: 1
   SpellDamageAmp: 0
   AdditionalSpellStacks: 0
-  AI: {fileID: 11400000, guid: b27c7d50228530a468d057b1f9765830, type: 2}
+  AI: {fileID: 11400000, guid: 123c40fb0acc9e246a62a7bc7a631912, type: 2}
   DropRate: 1
   DropSpells:
-  - {fileID: 11400000, guid: 41bc41e4122d0d5448573d2df74d1bb3, type: 2}
-  - {fileID: 11400000, guid: 9bfb99d8846c56e4f97dabe3cd348e88, type: 2}
+  - {fileID: 11400000, guid: 4baa6089aa9eda643ba4e2ddbfff3f5b, type: 2}
   UseSpells:
-  - {fileID: 11400000, guid: 41bc41e4122d0d5448573d2df74d1bb3, type: 2}
-  - {fileID: 11400000, guid: 14c05abaa6e1c1d40b2f67c15064319f, type: 2}
-  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
+  - {fileID: 11400000, guid: 2df305a7e497dda419a6811325345002, type: 2}
+  - {fileID: 11400000, guid: ee18b891383f6ad4daac2a17f07cfaac, type: 2}
+  - {fileID: 11400000, guid: e587b6503ba02ec44aa7881ea0c32057, type: 2}
   UseBuff: {fileID: 0}

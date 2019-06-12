@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
-  m_Name: Enemy_Reaper
+  m_Name: Enemy_Warlock
   m_EditorClassIdentifier: 
-  Health: 500
+  Health: 250
   Damage: 0
-  Speed: 10
-  Evasion: 0.2
+  Speed: 4
+  Evasion: 0
   Size: 1.5
   HealthModifier: 1
   SpellDamageAmp: 0
   AdditionalSpellStacks: 0
-  AI: {fileID: 11400000, guid: 46adddf6e96142f4ab54736caf7de263, type: 2}
+  AI: {fileID: 11400000, guid: b27c7d50228530a468d057b1f9765830, type: 2}
   DropRate: 1
   DropSpells:
-  - {fileID: 11400000, guid: a1eb2d413e00b1045a220000494c25b3, type: 2}
-  UseSpells:
-  - {fileID: 11400000, guid: 7ff1a65018cf8f94b9f48ce2f9d3cc5d, type: 2}
-  - {fileID: 11400000, guid: 72d87984ea9c2b4478c726b3a6075e93, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: 9bfb99d8846c56e4f97dabe3cd348e88, type: 2}
-  - {fileID: 11400000, guid: 395f7d7af2939d846a1177374209da5f, type: 2}
+  UseSpells:
+  - {fileID: 11400000, guid: 1ccb917811925bd44aa2772304f8d0d0, type: 2}
+  - {fileID: 11400000, guid: a3e6892de60c51a4c98f36b29033d439, type: 2}
+  - {fileID: 11400000, guid: d02f772372f15d749993bc86f74675c9, type: 2}
   UseBuff: {fileID: 0}

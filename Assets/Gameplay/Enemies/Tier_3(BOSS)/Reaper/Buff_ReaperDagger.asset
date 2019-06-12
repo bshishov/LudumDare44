@@ -19,12 +19,12 @@ MonoBehaviour:
   Modifiers:
   - Parameter: 3
     ChangeAmount:
-      Type: 0
+      Type: 1
       BaseValue: -5
-      ModifierPerStack: -5
+      ModifierPerStack: 0
       EffectiveStacks: 100
   Events:
-  - EventType: 2
+  - EventType: 6
     Affect:
       Type: 0
       ApplyModifier:

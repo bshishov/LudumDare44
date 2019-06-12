@@ -10,22 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9b64b8954365b940ba9a78b3afcd8a2, type: 3}
-  m_Name: Enemy_Huge Troll
+  m_Name: Enemy_Reaper
   m_EditorClassIdentifier: 
-  Health: 200
+  Health: 500
   Damage: 0
-  Speed: 3.5
-  Evasion: 0
+  Speed: 10
+  Evasion: 0.2
   Size: 1.5
   HealthModifier: 1
   SpellDamageAmp: 0
   AdditionalSpellStacks: 0
-  AI: {fileID: 11400000, guid: 123c40fb0acc9e246a62a7bc7a631912, type: 2}
+  AI: {fileID: 11400000, guid: 46adddf6e96142f4ab54736caf7de263, type: 2}
   DropRate: 1
   DropSpells:
-  - {fileID: 11400000, guid: 4baa6089aa9eda643ba4e2ddbfff3f5b, type: 2}
+  - {fileID: 11400000, guid: a1eb2d413e00b1045a220000494c25b3, type: 2}
   UseSpells:
-  - {fileID: 11400000, guid: 5177d30fc3c5dc740b36004dca0c4475, type: 2}
-  - {fileID: 11400000, guid: 4ad16fcbe937be540b4dfd82ed51586a, type: 2}
-  - {fileID: 11400000, guid: 8a148e1b72e4f564c8a500b80c9f76cd, type: 2}
+  - {fileID: 11400000, guid: da73c67674d5c7c439006447e89e628d, type: 2}
+  - {fileID: 11400000, guid: 676a304ed714ace499a1df7db84d74e5, type: 2}
+  - {fileID: 11400000, guid: 9bfb99d8846c56e4f97dabe3cd348e88, type: 2}
+  - {fileID: 0}
   UseBuff: {fileID: 0}

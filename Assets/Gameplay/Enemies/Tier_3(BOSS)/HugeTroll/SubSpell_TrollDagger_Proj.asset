@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ca5cafdfa5c75143b3321cc57d70bb9, type: 3}
+  m_Name: SubSpell_TrollDagger_Proj
+  m_EditorClassIdentifier: 
+  BloodCost:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  AbortSpellIfAborted: 0
+  SpellShouldWaitUntilEnd: 0
+  CanBeAborted: 0
+  MaxInstances:
+    Type: 0
+    BaseValue: 1
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  PreCastDelay:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  FireDelay:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  PostCastDelay:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  FireDuration:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  FireSubSpellEvents:
+  - Type: 5
+    Query:
+      NewTargetsQueryType: 1
+      Origin: 0
+      Area: {fileID: 0}
+      AffectsTeam: 2
+      ExcludeAlreadyAffected: 0
+    TrackAffectedCharacters: 0
+    SubSpellSource: 0
+    SubSpellTarget: 0
+    FireSubSpell: {fileID: 0}
+    ApplyBuffToTarget: {fileID: 11400000, guid: e3a07108322d7c146a250f1dff4f571c,
+      type: 2}
+  Projectile: {fileID: 11400000, guid: 8fb3853ebcae0de4fb6e54df438c206b, type: 2}
+  Effect: {fileID: 0}
