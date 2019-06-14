@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FX_decal
-  m_Shader: {fileID: 4800000, guid: 8c6eb3be67dfb714eb9b7a1dc5d8c86e, type: 3}
+  m_Name: fx_prb_trail
+  m_Shader: {fileID: 4800000, guid: 10240f64955e28f46a3cead140d0e3de, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -32,7 +32,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 3fc29821896d7b74fa08891be8904c04, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -48,13 +48,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex1:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 9ffbf5eeec400f446a6377fdbf486db0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex2:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 3.16}
+        m_Offset: {x: 0, y: 0}
     - _Tex3:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -89,7 +89,7 @@ Material:
     - _Speed1: {r: 0, g: 0, b: 0, a: 0}
     - _Speed2: {r: 0, g: 0, b: 0, a: 0}
     - _Speed3: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &4774777875397730285
+--- !u!114 &5786893969221350719
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
