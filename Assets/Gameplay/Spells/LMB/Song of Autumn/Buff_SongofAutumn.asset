@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1f44b1ea52c7a946b3fa846af17a3f7, type: 3}
+  m_Name: Buff_SongofAutumn
+  m_EditorClassIdentifier: 
+  Name: 
+  Behaviour: 0
+  TickCooldown: 1
+  Duration: 1
+  Modifiers: []
+  Events:
+  - EventType: 6
+    Affect:
+      Type: 0
+      ApplyModifier:
+        Parameter: 1
+        ChangeAmount:
+          Type: 1
+          BaseValue: 0
+          ModifierPerStack: -5
+          EffectiveStacks: 100
+      CastSpell:
+        SpellStacks: 0
+        Spell: {fileID: 0}
+        Target: 0
+        StacksOverride: 0
+      ApplyBuff:
+        Target: 0
+        StacksBehaviour: 0
+        Buff: {fileID: 0}
+        StacksOverride: 0
+      SpawnObject:
+        Prefab: {fileID: 0}
+        CharacterNode: 0
+        AttachToTransform: 0
+        AutoDestroyAfterBuff: 0
+      Move:
+        RelativeTo: 0
+        Type: 0
+        Speed:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 0
+        MovementDuration:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 0
+        MaxDistanceFromOrigin:
+          Type: 0
+          BaseValue: 0
+          ModifierPerStack: 0
+          EffectiveStacks: 0
+        BreakOnDestination: 0

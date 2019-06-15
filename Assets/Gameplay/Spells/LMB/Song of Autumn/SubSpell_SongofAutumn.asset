@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ca5cafdfa5c75143b3321cc57d70bb9, type: 3}
-  m_Name: SubSpell_Skull_Proj
+  m_Name: SubSpell_SongofAutumn
   m_EditorClassIdentifier: 
   BloodCost:
     Type: 0
@@ -18,13 +18,13 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   AbortSpellIfAborted: 0
-  SpellShouldWaitUntilEnd: 0
+  SpellShouldWaitUntilEnd: 1
   CanBeAborted: 0
   MaxInstances:
     Type: 0
-    BaseValue: 10
-    ModifierPerStack: 0
-    EffectiveStacks: 1
+    BaseValue: 100
+    ModifierPerStack: 2
+    EffectiveStacks: 100
   PreCastDelay:
     Type: 0
     BaseValue: 0
@@ -32,7 +32,7 @@ MonoBehaviour:
     EffectiveStacks: 1
   FireDelay:
     Type: 0
-    BaseValue: 0
+    BaseValue: 0.1
     ModifierPerStack: 0
     EffectiveStacks: 1
   PostCastDelay:
@@ -41,22 +41,23 @@ MonoBehaviour:
     ModifierPerStack: 0
     EffectiveStacks: 1
   FireDuration:
-    Type: 0
-    BaseValue: 0
-    ModifierPerStack: 0
-    EffectiveStacks: 1
+    Type: 1
+    BaseValue: 0.5
+    ModifierPerStack: 0.5
+    EffectiveStacks: 100
   FireSubSpellEvents:
-  - Type: 5
+  - Type: 2
     Query:
-      NewTargetsQueryType: 1
-      Origin: 0
-      Area: {fileID: 0}
-      AffectsTeam: 2
+      NewTargetsQueryType: 4
+      Origin: 3
+      Area: {fileID: 11400000, guid: 1c66e5e95c7e7b046b0c6dd106f87736, type: 2}
+      AffectsTeam: 4
       ExcludeAlreadyAffected: 0
     TrackAffectedCharacters: 0
     SubSpellSource: 0
     SubSpellTarget: 0
-    FireSubSpell: {fileID: 11400000, guid: a5a432e45751f4745a1709ac56433ed5, type: 2}
-    ApplyBuffToTarget: {fileID: 0}
-  Projectile: {fileID: 11400000, guid: 4948532ce620a14418d1e0e2d5585c61, type: 2}
+    FireSubSpell: {fileID: 0}
+    ApplyBuffToTarget: {fileID: 11400000, guid: 98f9ae10cc4d19a4da3ce5f6109bfc37,
+      type: 2}
+  Projectile: {fileID: 0}
   Effect: {fileID: 0}
