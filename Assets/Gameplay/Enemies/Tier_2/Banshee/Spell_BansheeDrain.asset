@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1f04b1321f837841b81b2047786dccc, type: 3}
+  m_Name: Spell_BansheeDrain
+  m_EditorClassIdentifier: 
+  Name: Drain
+  Icon: {fileID: -5485510380186969285, guid: 27c9ef8b782be9643adf078c40c13582, type: 3}
+  Description: Drain a targeted enemy, dealing him 10 damage p/s and healing you back.
+    Allows you to cast other spells while you drain someone
+  ApplyBuffOnDismantle: {fileID: 11400000, guid: c2bf24e4004b1954e99e4ce13852e4fb,
+    type: 2}
+  LifeSteal:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  Cooldown:
+    Type: 0
+    BaseValue: 20
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  BloodCost:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  DefaultSlot: 2
+  DropItem: {fileID: 6059088751739097296, guid: d24928aed2d10f340aeee188f330f4b8,
+    type: 3}
+  MaxRange:
+    Type: 0
+    BaseValue: 10
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  MinRange:
+    Type: 0
+    BaseValue: 0
+    ModifierPerStack: 0
+    EffectiveStacks: 1
+  CheckRangeOnCast: 1
+  TargetType: 1
+  AffectsTeam: 2
+  RangeBehaviour: 0
+  ManualAbort: 1
+  MainSubSpells:
+  - {fileID: 11400000, guid: 62df66344f1b4f041b513b3ddad13142, type: 2}
