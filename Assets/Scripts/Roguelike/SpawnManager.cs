@@ -12,6 +12,7 @@ public class SpawnManager : MonoBehaviour
         public GameObject Point;
         public GameObject[] Enemies;
     }
+    public GameObject Wall;
     public bool IsActive = false;
     public bool IsVisited = false;
     public SpawnPoint[] SpawnPoints;
@@ -46,7 +47,7 @@ public class SpawnManager : MonoBehaviour
 
     private void BuildWall()
     {
-
+        Wall.SetActive(true);
     }
     private void Spawn()
     {
@@ -61,5 +62,12 @@ public class SpawnManager : MonoBehaviour
     private void OnEnemyDeath()
     {
         _needToKill -= 1;
+        if (_needToKill <= 0)
+            TurnOffWall();
+    }
+
+    private void TurnOffWall()
+    {
+        Wall.SetActive(false);
     }
 }
