@@ -4,6 +4,7 @@ using Spells;
 using UI;
 using UnityEngine;
 using UnityEngine.AI;
+using Utils.Debugger;
 
 namespace Actors
 {
@@ -48,7 +49,7 @@ namespace Actors
                 return;
             }
         
-            var target = GetTarget(slotState.Spell.TargetType);
+            var target = GetTargetOfType(slotState.Spell.TargetType);
             if (!target.IsValid)
             {
                 UIInvalidAction.Instance?.Show(UIInvalidAction.InvalidAction.InvalidTarget);
@@ -79,7 +80,7 @@ namespace Actors
             }
         }
 
-        private Target GetTarget(TargetType type)
+        private Target GetTargetOfType(TargetType type)
         {
             if(type == TargetType.None)
                 return Target.None;
@@ -101,6 +102,7 @@ namespace Actors
                 }
             }
 
+            // All other target types
             if (_cursorTarget.IsValid)
                 return new Target(_cursorTarget.Location);
             
@@ -137,6 +139,8 @@ namespace Actors
             var rmbUp = Input.GetMouseButtonUp(1);
             var ult = Input.GetButton(Common.Input.UltButton);
             var ultUp = Input.GetButtonUp(Common.Input.UltButton);
+            
+            Debugger.Default.DrawCircleSphere(_cursorTarget.Location, 1f, Color.cyan, 0.1f);
 
             // If anything is pressed and cursor has the location on ground (raycast succeeded)
             // then dynamic target is updated

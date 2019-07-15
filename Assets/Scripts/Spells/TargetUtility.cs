@@ -7,7 +7,7 @@ namespace Spells
 {
     public static class TargetUtility
     {
-        private static readonly Vector3 RaycastOffset = new Vector3(0, 1f, 0);
+        private static readonly Vector3 RaycastOffset = new Vector3(0, 10f, 0);
         private const float RaycastMaxDistance = 20f;
         
         public static Vector3 AboveGround(Vector3 position, float hoverHeight=0f)
