@@ -92,8 +92,8 @@ MonoBehaviour:
         Type: 2
         Speed:
           Type: 1
-          BaseValue: -10
-          ModifierPerStack: -2
+          BaseValue: -5
+          ModifierPerStack: -1
           EffectiveStacks: 100
         MovementDuration:
           Type: 0

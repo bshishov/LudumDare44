@@ -63,6 +63,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   Affects: 2
   FireSubSpellCondition: 4
-  DestroyCondition: 176
+  DestroyCondition: 240
   DestroyDelay: 0.1
   CollisionTarget: 3
