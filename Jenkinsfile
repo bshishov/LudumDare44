@@ -16,7 +16,7 @@ pipeline {
 			}
 			steps {
 				buildUnity3d(
-					projectPath: "${env.WORKSPACE}/GameClient", 
+					projectPath: env.WORKSPACE, 
 					buildArgs: "-buildTarget Win -buildWindowsPlayer \"${env.WORKSPACE}/builds/${env.PLATFORM}/${env.NAME}.exe\""
 				)
 				zipDirectory directory: "builds/${env.PLATFORM}/", file: "builds/${env.BUILD_FILENAME}"
@@ -29,7 +29,7 @@ pipeline {
 			}
 			steps {
 				buildUnity3d(
-					projectPath: "${env.WORKSPACE}/GameClient", 
+					projectPath: env.WORKSPACE, 
 					buildArgs: "-buildTarget Win64 -buildWindows64Player \"${env.WORKSPACE}/builds/${env.PLATFORM}/${env.NAME}.exe\""
 				)
 				zipDirectory directory: "builds/${env.PLATFORM}/", file: "builds/${env.BUILD_FILENAME}"
