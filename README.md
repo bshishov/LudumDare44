@@ -30,4 +30,4 @@ You can have lots of same abilities/in the stack, which increases their effectiv
 
 ## Screenshots
 
-![Lightning spell effect](https://media.giphy.com/media/xcSdSF2r8MC7aFBCeh/giphy.gif)
+![Lightning spell effect](https://media.giphy.com/media/nHiqJ9S7Lm9asD4KQx/giphy.gif)
